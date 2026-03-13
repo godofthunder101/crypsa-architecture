@@ -18,16 +18,22 @@ Core Idea
 CrypSA separates local simulation from canonical truth.
 
 Observer Simulation
+
         ↓
 Invariant Boundary Check
+
         ↓
 Canonical Event
+
         ↓
 Server Validation
+
         ↓
 Canonical Truth Updated
+
         ↓
 Observers Reconstruct World
+
 
 Only validated canonical events are allowed to modify shared reality.
 
