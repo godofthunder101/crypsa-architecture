@@ -144,5 +144,12 @@ validated events drive universe evolution
 
 This approach allows persistent digital universes to scale without requiring centralized continuous simulation.
 
+---
+
+##License
+CrypSA documentation is licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0).
+
+---
+
 
 ---
