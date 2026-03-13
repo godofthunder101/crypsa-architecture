@@ -18,28 +18,40 @@ The CrypSA Concept Chain
 At its core, CrypSA can be understood as a sequence of structural layers.
 
 Mint
+
   ↓
 Identity
+
   ↓
 Genome
+
   ↓
 Canonical Object
+
   ↓
 Canonical Invariants
+
   ↓
 Observer Reconstruction
+
   ↓
 Lens Interpretation
+
   ↓
 Local Simulation
+
   ↓
 Invariant Boundary
+
   ↓
 Canonical Event
+
   ↓
 Server Reconciliation
+
   ↓
 Canonical Truth
+
   ↓
 Universe State Transition
 
@@ -247,8 +259,10 @@ Universe State Transition
 When a canonical event is accepted, the universe transitions to a new canonical state.
 
 State S₀
+
   ↓
 Validated Event
+
   ↓
 State S₁
 
