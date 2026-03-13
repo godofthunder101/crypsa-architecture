@@ -18,18 +18,25 @@ High-Level Flow
 A CrypSA interaction follows this general path:
 
 Observer Action
+
       ↓
 Local Simulation
+
       ↓
 Invariant Detection
+
       ↓
 Canonical Event Generation
+
       ↓
 Event Submission
+
       ↓
 Server Reconciliation
+
       ↓
 Canonical History Update
+
       ↓
 Observer Reconstruction
 
