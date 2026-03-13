@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+title: "CrypSA — Cryptid Server Architecture"
+message: "If you use or reference CrypSA, please cite this work."
+type: software
+authors:
+  - family-names: Wells
+    given-names: Beau
+repository-code: "https://github.com/godofthunder101/CrypSA"
+abstract: >
+  CrypSA is a distributed architecture for persistent digital universes.
+  It separates local observer simulation from canonical event reconciliation,
+  allowing scalable shared worlds without centralized continuous simulation.
+license: "CC-BY-4.0"
+date-released: 2026
