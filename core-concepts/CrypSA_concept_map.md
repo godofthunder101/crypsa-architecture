@@ -20,39 +20,51 @@ At its core, CrypSA can be understood as a sequence of structural layers.
 Mint
 
   ↓
+
 Identity
 
   ↓
+
 Genome
 
   ↓
+
 Canonical Object
 
   ↓
+
 Canonical Invariants
 
   ↓
+
 Observer Reconstruction
 
   ↓
+
 Lens Interpretation
 
   ↓
+
 Local Simulation
 
   ↓
+
 Invariant Boundary
 
   ↓
+
 Canonical Event
 
   ↓
+
 Server Reconciliation
 
   ↓
+
 Canonical Truth
 
   ↓
+
 Universe State Transition
 
 Each layer builds upon the previous one to form a complete persistent universe architecture.
@@ -261,9 +273,11 @@ When a canonical event is accepted, the universe transitions to a new canonical 
 State S₀
 
   ↓
+
 Validated Event
 
   ↓
+
 State S₁
 
 The universe evolves through a sequence of validated state transitions.
