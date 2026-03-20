@@ -1,5 +1,3 @@
----
-
 CrypSA Object Model
 
 Purpose
