@@ -1,4 +1,3 @@
----
 # CrypSA Runtime Spec v0.1
 
 ## Purpose
