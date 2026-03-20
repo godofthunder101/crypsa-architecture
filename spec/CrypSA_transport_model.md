@@ -1,4 +1,3 @@
----
 # CrypSA Transport Model Spec v0.1
 
 This document defines how events and canonical updates are transmitted between observers and the canonical server.
