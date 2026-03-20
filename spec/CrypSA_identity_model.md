@@ -66,7 +66,7 @@ A mint event creates:
 
 ### Example
 
-```
+---
 
 event_type = mint_object
 payload = {
@@ -75,7 +75,7 @@ genome_id: mining_station_v1,
 initial_state: { ... }
 }
 
-```
+---
 
 ---
 
@@ -91,7 +91,7 @@ initial_state: { ... }
 
 Objects follow this lifecycle:
 
-```
+---
 
 non-existent
 → minted
@@ -99,7 +99,7 @@ non-existent
 → modified (via events)
 → possibly destroyed or archived
 
-```
+---
 
 ---
 
@@ -144,7 +144,7 @@ Genomes must be versioned.
 
 Example:
 
-```
+---
 
 mining_station_v1
 mining_station_v2
