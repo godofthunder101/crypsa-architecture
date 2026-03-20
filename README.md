@@ -237,6 +237,3 @@ CrypSA is an event-driven architecture where observers simulate the world locall
 
 
 ---
-
-
-
