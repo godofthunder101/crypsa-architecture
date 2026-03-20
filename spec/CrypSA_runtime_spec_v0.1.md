@@ -6,7 +6,6 @@
 This document defines the minimal runtime behavior of a CrypSA system.
 
 It specifies how:
-
 - local observer actions become candidate events  
 - candidate events are validated  
 - canonical truth is updated  
