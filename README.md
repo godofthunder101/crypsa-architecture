@@ -1,3 +1,5 @@
+> New here? See `TERMINOLOGY_PRIMER.md` for a quick translation of CrypSA terms into familiar concepts.
+
 # CrypSA - Cryptid Server Architecture
 
 CrypSA is an architecture for building persistent digital universes.
