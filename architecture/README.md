@@ -110,8 +110,6 @@ Definitions of key ideas like:
 
 Formal runtime behavior.
 
-```
-
 ../spec/
 
 ---
