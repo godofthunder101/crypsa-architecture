@@ -1,4 +1,8 @@
-> New here? See `TERMINOLOGY_PRIMER.md` for a quick translation of CrypSA terms into familiar concepts.
+New to CrypSA?
+
+Start here:
+- 📘 CRYPSA_IN_5_MINUTES.md
+- 📖 TERMINOLOGY_PRIMER.md
 
 # CrypSA - Cryptid Server Architecture
 
