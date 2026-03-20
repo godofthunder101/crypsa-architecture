@@ -113,7 +113,8 @@ If you want to go deeper:
 5. `core_concepts/CrypSA_Event_Model.md`  
 6. `core_concepts/CrypSA_Invariant_Model.md`  
 7. `architecture/CrypSA_Client_Observer_Model.md`  
-8. `architecture/CrypSA_Server_Responsibility_Model.md`  
+8. `architecture/CrypSA_Server_Responsibility_Model.md`
+9. `architecture/CrypSA_Client_Authority_and_Security.md`  
 
 For a high-level overview, see `ARCHITECTURE_OVERVIEW.md`.
 
