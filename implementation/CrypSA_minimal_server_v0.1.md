@@ -630,4 +630,4 @@ CrypSA Minimal Server v0.1 is the smallest standalone server that can prove:
 
 CrypSA Minimal Server v0.1 is a small standalone server designed to prove that observer-submitted candidate events can be validated, recorded as canonical history, and distributed back to clients as shared event-driven truth.
 
-```
+---
