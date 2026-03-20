@@ -1,4 +1,4 @@
-```
+---
 # CrypSA Runtime Spec v0.1
 
 ## Purpose
@@ -90,7 +90,7 @@ A player action does **not directly modify canonical truth**.
 
 Instead:
 
-```
+---
 
 Local Action
 → Candidate Event
@@ -99,7 +99,7 @@ Local Action
 → Canonical Log Update
 → Observer Reconciliation
 
-```
+---
 
 Only accepted events become canonical.
 
@@ -143,7 +143,7 @@ These must pass validation.
 
 Each candidate event must contain:
 
-```
+---
 
 event_id
 event_type
@@ -154,7 +154,7 @@ client_time
 branch_id
 precondition_refs
 
-```
+---
 
 ---
 
@@ -397,7 +397,7 @@ Accepted events are stored in an append-only log.
 
 Each event includes:
 
-```
+---
 
 canonical_event_id
 source_event_id
@@ -406,7 +406,7 @@ accepted_at
 branch_id
 validation_result = accepted
 
-```
+---
 
 Historical correction occurs via new events or branching.
 
@@ -457,11 +457,11 @@ Snapshots are first-class runtime features.
 
 ### 11.3 Reconstruction Rule
 
-```
+---
 
 Snapshot + Event Tail → Current State
 
-```
+---
 
 ---
 
@@ -522,7 +522,7 @@ Observer attempts to place `mining_station` on `tile_42`.
 
 ### 14.2 Candidate Event
 
-```
+---
 
 event_type = place_structure
 actor_id = player_A
@@ -531,7 +531,7 @@ payload = { structure_type: mining_station }
 precondition_refs = { tile_42_empty: true }
 branch_id = main
 
-```
+---
 
 ---
 
