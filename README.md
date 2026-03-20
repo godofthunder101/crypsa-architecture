@@ -6,9 +6,7 @@ CrypSA is an architecture for building persistent digital universes.
 
 Instead of synchronizing full world state between clients and servers, CrypSA synchronizes:
 
-> canonical events and invariant rules
-
-
+canonical events and invariant rules
 
 Observers reconstruct the universe locally, while the server validates and preserves shared truth.
 
@@ -27,15 +25,11 @@ Observers → Events → Validation → Canonical History → Reconstruction
 
 This changes the role of the server from:
 
-> simulation engine
-
-
+simulation engine
 
 to:
 
-> guardian of canonical truth
-
-
+guardian of canonical truth
 
 
 ---
@@ -85,7 +79,7 @@ This repository is organized into layers:
 
 ---
 
-🌌 Foundation
+Foundation
 
 Conceptual framing and purpose:
 
@@ -96,12 +90,12 @@ Universe model
 Comparison with traditional multiplayer systems
 
 
-📁 foundation/
+Folder: foundation/
 
 
 ---
 
-🧠 Core Concepts
+Core Concepts
 
 The fundamental rules of CrypSA:
 
@@ -114,12 +108,12 @@ Event Lifecycle
 Invariant Model
 
 
-📁 core_concepts/
+Folder: core_concepts/
 
 
 ---
 
-🏗 Architecture
+Architecture
 
 How the system operates:
 
@@ -130,12 +124,12 @@ Server responsibility model
 Object lifecycle walkthrough
 
 
-📁 architecture/
+Folder: architecture/
 
 
 ---
 
-🎮 Design
+Design
 
 How CrypSA can be used in games and systems:
 
@@ -144,44 +138,44 @@ Design principles
 Offline mode strategies
 
 
-📁 design/
+Folder: design/
 
 
 ---
 
-🧪 Implementation
+Implementation
 
 Practical entry points for developers:
 
 Quick start guide
 
 
-📁 implementation/
+Folder: implementation/
 
 
 ---
 
-📊 Diagrams
+Diagrams
 
 Visual explanations of the system:
 
-📁 diagrams/
+Folder: diagrams/
 
 
 ---
 
-📚 Atlas & Glossary
+Atlas & Glossary
 
 Navigation and terminology reference:
 
-📁 atlas/
+Folder: atlas/
 
 
 ---
 
 Getting Started
 
-If you're new to CrypSA, start here:
+If you're new to CrypSA, follow this order:
 
 1. foundation/CrypSA_Traditional_vs_CrypSA.md
 2. foundation/CrypSA_Universe_Model.md
@@ -194,7 +188,7 @@ If you're new to CrypSA, start here:
 
 For a high-level overview:
 
-👉 See ARCHITECTURE_OVERVIEW.md
+See ARCHITECTURE_OVERVIEW.md
 
 
 ---
@@ -230,9 +224,9 @@ This project is licensed under Creative Commons Attribution 4.0 (CC BY 4.0).
 
 Citation
 
-If you reference or build upon this work, please use the citation file:
+If you reference or build upon this work, please use:
 
-📄 CITATION.cff
+CITATION.cff
 
 
 ---
@@ -243,4 +237,6 @@ CrypSA is an event-driven architecture where observers simulate the world locall
 
 
 ---
+
+
 
