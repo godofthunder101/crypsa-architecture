@@ -222,11 +222,7 @@ Transport may provide:
 
 Reconstruction:
 
-```
-
 Snapshot + Event Stream → Current State
-
-```
 
 ---
 
