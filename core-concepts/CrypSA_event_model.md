@@ -1,6 +1,6 @@
 ---
 
-CrypSA Event Moel
+CrypSA Event Model
 
 Purpose
 
