@@ -334,6 +334,6 @@ It ensures:
 ## One Sentence Summary
 
 CrypSA Transport defines how candidate events and canonical updates move between observers and the server using an asynchronous, idempotent, and eventually consistent communication model.
-```
+---
 
 ---
