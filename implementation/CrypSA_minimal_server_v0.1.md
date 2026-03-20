@@ -1,4 +1,3 @@
----
 # CrypSA Minimal Server v0.1
 
 ## Purpose
