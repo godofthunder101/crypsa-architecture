@@ -260,5 +260,3 @@ If referencing this work, see `CITATION.cff`.
 
 CrypSA is an event-driven architecture where clients simulate locally, servers validate events, and shared reality is defined by a canonical history of those events.
 ---
----
-t’s the next thing that will make your repo feel like a real engineering artifact instead of just documentation.
