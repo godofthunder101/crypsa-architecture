@@ -1,12 +1,17 @@
 # CrypSA Specification
 
-This folder contains formal definitions of CrypSA’s runtime behavior.
+This folder contains implementation-facing specifications for CrypSA.
 
-These documents define how the system operates at an implementation level.
+These documents define how the system is expected to behave at runtime.
 
-Start here:
+## Reading Order
 
-- Event Model Spec
-- Validation Model
+1. `CrypSA_Event_Model_Spec.md`
+2. `CrypSA_Validation_Model.md`
+3. `CrypSA_Consistency_Model.md`
+4. `CrypSA_Replay_Model.md`
+5. `CrypSA_Snapshot_Model.md`
 
-More specs will be added as the system evolves.
+## Notes
+
+These specs are evolving and should be read alongside the conceptual documents in `architecture/`.
