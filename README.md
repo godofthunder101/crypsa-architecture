@@ -1,3 +1,6 @@
+## Specification
+The CrypSA runtime behaviour is formally defined in '/spec/CrypSA_runtime_spec_v0.1.md'
+
 New to CrypSA?
 
 Start here:
