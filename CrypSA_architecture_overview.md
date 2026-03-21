@@ -1,291 +1,218 @@
-CrypSA — Architecture Overview
+# CrypSA — Architecture Overview
 
-Purpose
+## Purpose
 
-This document provides a high-level overview of the CrypSA architecture.
+This document provides a high-level map of the CrypSA architecture.
 
-It is intended to give developers and readers a clear understanding of:
+It is intended to help readers understand:
 
-what CrypSA is
+- how the repository is structured  
+- how CrypSA is organized into layers  
+- how the major components relate to each other  
 
-how it is structured
+> This document maps the system.  
+> It does not fully explain how CrypSA works.
 
-how its core components fit together
+For conceptual understanding, see:
+- `CRYPSA_IN_5_MINUTES.md`
+- `TERMINOLOGY_PRIMER.md`
 
-
-For detailed explanations, follow the links into each section of the documentation.
-
-
----
-
-What CrypSA Is
-
-CrypSA (Cryptid Server Architecture) is a system for building persistent digital universes.
-
-Unlike traditional multiplayer systems that synchronize full world state, CrypSA synchronizes:
-
-> canonical events and invariant rules
-
-
-
-Observers reconstruct the universe locally, while the server validates and records canonical truth.
-
+For formal behavior, see:
+- `spec/`
 
 ---
 
-Core Idea
+## The CrypSA Stack
 
-Traditional multiplayer:
+CrypSA is organized into layered responsibilities.
 
-Clients ↔ Server → World State
-
-CrypSA:
-
-Observers → Events → Validation → Canonical History → Reconstruction
-
-The universe evolves through validated events, not centralized simulation.
-
+Each layer builds on the one below it.
 
 ---
 
-The CrypSA Stack
+### 🌌 1. Foundation Layer
 
-At a high level, CrypSA can be understood as four layers:
+Defines the **why** behind CrypSA.
 
-
----
-
-🌌 1. Foundation Layer
-
-Defines the conceptual model of CrypSA.
-
-What a “universe” is
-
-Why CrypSA exists
-
-How it differs from traditional multiplayer systems
-
+- motivation  
+- problem space  
+- comparison to traditional systems  
 
 📁 See:
 
-foundation/CrypSA_Origin_Statement.md
-
-foundation/CrypSA_Universe_Model.md
-
-foundation/CrypSA_Traditional_vs_CrypSA.md
-
-
+- `foundation/CrypSA_Origin_Statement.md`
+- `foundation/CrypSA_Universe_Model.md`
+- `foundation/CrypSA_Traditional_vs_CrypSA.md`
 
 ---
 
-🧠 2. Core Concepts Layer
+### 🧠 2. Core Concepts Layer
 
-Defines the fundamental rules of the system.
+Defines the **building blocks** of the system.
 
-These are the building blocks of all CrypSA implementations.
-
-Object Model — what exists
-
-Invariant Model — what is allowed
-
-Event Model — how change works
-
-Event Lifecycle — how events become canonical
-
+- what objects are  
+- how events work  
+- what invariants are  
+- how state evolves  
 
 📁 See:
 
-core_concepts/CrypSA_Object_Model.md
-
-core_concepts/CrypSA_Invariant_Model.md
-
-core_concepts/CrypSA_Event_Model.md
-
-core_concepts/CrypSA_Event_Lifecycle.md
-
-core_concepts/CrypSA_Mental_Model_One_Page.md
-
-
+- `core-concepts/CrypSA_Object_Model.md`
+- `core-concepts/CrypSA_Invariant_Model.md`
+- `core-concepts/CrypSA_Event_Model.md`
+- `core-concepts/CrypSA_Event_Lifecycle.md`
+- `core-concepts/CrypSA_Mental_Model_One_Page.md`
 
 ---
 
-🏗 3. Architecture Layer
+### 🏗 3. Architecture Layer
 
-Defines how the system operates at runtime.
+Defines how the system operates conceptually.
 
-Client / Observer Model — local simulation and reconstruction
-
-Server Model — validation, invariants, canonical history
-
-Object Lifecycle Walkthrough — end-to-end example
-
+- observer (client) responsibilities  
+- server responsibilities  
+- interaction between components  
 
 📁 See:
 
-architecture/CrypSA_Client_Observer_Model.md
-
-architecture/CrypSA_Server_Responsibility_Model.md
-
-architecture/CrypSA_Object_Lifecycle_Walkthrough.md
-
-
+- `architecture/CrypSA_Client_Observer_Model.md`
+- `architecture/CrypSA_Server_Responsibility_Model.md`
+- `architecture/CrypSA_Object_Lifecycle_Walkthrough.md`
 
 ---
 
-🎮 4. Design Layer
+### 📐 4. Specification Layer
 
-Defines how developers can use CrypSA in practice.
+Defines the **formal runtime behavior** of CrypSA.
 
-These are optional patterns and gameplay-facing decisions.
-
-Offline modes
-
-Design principles
-
-Player experience considerations
-
+This is where the system becomes technically implementable.
 
 📁 See:
 
-design/CrypSA_Design_Principles.md
+- `spec/`
 
-design/CrypSA_Offline_Mode_Simple.md
+Includes:
 
-
+- runtime model  
+- event model  
+- validation model  
+- consistency model  
+- replay model  
+- snapshot model  
+- identity model  
+- transport model  
 
 ---
 
-🧪 5. Implementation Layer
+### 🎮 5. Design Layer
 
-Provides practical guidance for building systems using CrypSA.
+Explores how CrypSA can be used in real systems.
 
-Quick start guides
-
-prototypes
-
-reference workflows
-
+- design principles  
+- gameplay considerations  
+- optional patterns  
 
 📁 See:
 
-implementation/CrypSA_Quick_Start_For_Engineers.md
-
-
-
----
-
-📊 Supporting Layers
-
-Diagrams
-
-Visual representations of the system.
-
-📁 diagrams/
-
+- `design/CrypSA_Design_Principles.md`
+- `design/CrypSA_Offline_Mode_Simple.md`
 
 ---
 
-Atlas & Glossary
+### 🧪 6. Implementation Layer
 
-Navigation and terminology reference.
+Provides guidance for building CrypSA systems.
 
-📁 atlas/
+- minimal server design  
+- prototype direction  
+- engineering entry points  
 
+📁 See:
 
----
-
-The CrypSA Model in One View
-
-CrypSA replaces state synchronization with event validation:
-
-Player Action
-→ Client Simulation
-→ Event Proposal
-→ Server Validation (Invariant Enforcement)
-→ Canonical Event Recording
-→ Broadcast
-→ Client Reconciliation
-
-Objects are not stored as mutable state.
-
-They are reconstructed from:
-
-identity + genome + canonical history
-
+- `implementation/CrypSA_Minimal_Server_v0.1.md`
+- `implementation/CrypSA_Quick_Start_For_Engineers.md`
 
 ---
 
-Key Principles
+### 📊 Supporting Layers
 
-The universe is defined by events, not state
+#### Diagrams
 
-The server protects canonical truth
+Visual representations of system behavior.
 
-Clients act as observers and simulators
-
-Invariants ensure consistency
-
-The system is deterministic and reconstructable
-
-
+📁 `diagrams/`
 
 ---
 
-How to Read This Repository
+#### Atlas & Glossary
 
-If you're new to CrypSA, follow this order:
+Terminology and navigation support.
 
-1. foundation/CrypSA_Traditional_vs_CrypSA.md
-2. foundation/CrypSA_Universe_Model.md
-3. core_concepts/CrypSA_Mental_Model_One_Page.md
-4. core_concepts/CrypSA_Object_Model.md
-5. core_concepts/CrypSA_Event_Model.md
-6. core_concepts/CrypSA_Invariant_Model.md
-7. architecture/CrypSA_Client_Observer_Model.md
-8. architecture/CrypSA_Server_Responsibility_Model.md
-
+📁 `atlas/`
 
 ---
 
-Summary
+## How to Navigate the Repository
 
-CrypSA is an architecture for persistent digital universes built on:
-
-canonical event history
-
-invariant validation
-
-observer-based simulation
-
-
-It replaces centralized world simulation with a system where:
-
-> truth is validated, recorded, and reconstructed
-
-
-
+Different readers should approach the repo differently.
 
 ---
 
-One Sentence Summary
+### New to CrypSA
 
-CrypSA is an event-driven architecture where observers simulate the world locally while a canonical server validates events and preserves the shared history of a persistent digital universe.
+1. `CRYPSA_IN_5_MINUTES.md`  
+2. `TERMINOLOGY_PRIMER.md`  
+3. `FAQ.md`  
 
+---
+
+### Understanding the Architecture
+
+1. `foundation/`  
+2. `core-concepts/`  
+3. `architecture/`  
 
 ---
 
-✅ What This Gives You
+### Understanding the System Behavior
 
-This file now:
-
-connects your entire repo together
-
-gives a clear mental model in 2–3 minutes
-
-directs people to the right documents
-
-makes your project feel professional and complete
-
-
+1. `spec/CrypSA_Runtime_Spec_v0.1.md`  
+2. `spec/README.md`  
 
 ---
+
+### Building with CrypSA
+
+1. `implementation/CrypSA_Minimal_Server_v0.1.md`  
+
+---
+
+## Relationship Between Layers
+
+CrypSA is best understood as a progression:
+
+Foundation → Concepts → Architecture → Spec → Implementation
+
+- Foundation explains **why**
+- Concepts define **what exists**
+- Architecture explains **how it fits together**
+- Spec defines **how it behaves**
+- Implementation shows **how to build it**
+
+---
+
+## Summary
+
+This document provides a structural overview of CrypSA.
+
+To understand the system in depth:
+
+- use conceptual docs for intuition  
+- use specs for exact behavior  
+- use implementation docs to build  
+
+---
+
+## One Sentence Summary
+
+The CrypSA architecture is organized into layered documentation that moves from conceptual foundations to formal specifications and implementation guidance.
