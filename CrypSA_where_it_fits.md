@@ -1,5 +1,7 @@
-# Where CrypSA Fits (and Where It Doesn't)
-
+This document explains when CrypSA should or should not be used.
+---
+Where CrypSA Fits (and Where It Doesn't)
+---
 CrypSA is not a universal replacement for all multiplayer architectures.
 
 It is designed for specific types of systems, and it introduces tradeoffs that make it better suited for some domains than others.
