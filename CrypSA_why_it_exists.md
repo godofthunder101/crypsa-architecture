@@ -1,6 +1,6 @@
----
+This document explains why CrypSA was created, not where it should be used.
 
-CrypSA — Why It Exists
+#CrypSA — Why It Exists
 
 Purpose
 
