@@ -1,5 +1,3 @@
----
-
 CrypSA — Architecture Overview
 
 Purpose
