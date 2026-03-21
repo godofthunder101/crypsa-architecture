@@ -7,7 +7,7 @@ It clarifies:
 - what has been defined  
 - what has been prototyped  
 - what has not yet been built  
-- what the next steps are  
+- what the immediate next steps are  
 
 ---
 
@@ -110,8 +110,6 @@ The following are **not yet implemented**:
 - cryptographic validation or trust systems  
 - branch merging or offline synchronization  
 
-These are future development areas.
-
 ---
 
 ## Current Prototype Limitations
@@ -158,7 +156,7 @@ This will introduce:
 - derived state updates  
 - multi-observer interaction  
 
-This step is critical because it moves CrypSA from:
+This step moves CrypSA from:
 
 > defined architecture → working system
 
@@ -176,55 +174,31 @@ The immediate priorities are:
 
 ---
 
-## What Success Looks Like (v0.1)
+## Future Direction
 
-CrypSA v0.1 is successful if:
+Longer-term evolution of CrypSA (scalability, security, advanced features) is described in:
 
-- multiple observers can connect to a server  
-- candidate events can be submitted and validated  
-- canonical events are recorded and distributed  
-- observers converge on the same state  
-- rejected events correctly trigger reconciliation  
-- replay produces consistent results  
-
-At this point, CrypSA becomes a proven runtime model.
-
----
-
-## Longer-Term Direction
-
-Future work may explore:
-
-- scalable partitioning and sharding  
-- advanced consistency strategies  
-- offline branches and merge systems  
-- cryptographic validation of events  
-- engine integrations (e.g. Godot, Unity)  
-- domain-specific implementations (games, simulations, virtual worlds)  
-
-These are not part of v0.1.
+👉 `ROADMAP.md`
 
 ---
 
 ## How to Approach This Repository
 
-If you are exploring CrypSA:
-
 ### To understand the idea
-- read `CRYPSA_IN_5_MINUTES.md`  
-- read `TERMINOLOGY_PRIMER.md`  
-- read `FAQ.md`  
+- `CRYPSA_IN_5_MINUTES.md`  
+- `TERMINOLOGY_PRIMER.md`  
+- `FAQ.md`  
 
 ---
 
 ### To understand the system
-- read `architecture/`  
-- read `spec/`  
+- `architecture/`  
+- `spec/`  
 
 ---
 
 ### To understand how to build it
-- read `implementation/CrypSA_Minimal_Server_v0.1.md`  
+- `implementation/CrypSA_Minimal_Server_v0.1.md`  
 
 ---
 
