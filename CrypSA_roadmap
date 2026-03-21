@@ -2,133 +2,100 @@
 
 This document outlines the planned evolution of the CrypSA architecture.
 
-It is intended to provide:
-
-- direction for development  
-- clarity for contributors  
-- transparency for reviewers and potential adopters  
-
-CrypSA is being developed iteratively, with each phase focused on validating a core part of the architecture.
+It describes how the system is expected to progress from a defined model to a practical runtime.
 
 ---
 
 ## Guiding Principle
 
-CrypSA is not being built top-down as a complete system.
+CrypSA is developed iteratively.
 
-It is being developed in layers:
+Each phase is designed to:
 
-1. define the model  
-2. validate the runtime  
-3. test real-world behavior  
-4. expand toward production  
-
-Each phase is designed to prove something specific before moving forward.
+- prove a specific part of the system  
+- expose limitations  
+- guide the next stage of development  
 
 ---
 
-## Phase 0 — Concept and Architecture (Complete)
+## Phase 1 — Runtime Definition
 
-**Goal:** Define the idea and make it understandable.
+**Goal:** Define a complete and reviewable system model.
 
-Completed:
+Focus:
 
-- core conceptual model (events, invariants, observers)  
-- architectural framing  
-- terminology system  
-- initial documentation structure  
-
-Outcome:
-
-CrypSA is understandable as a system.
-
----
-
-## Phase 1 — Runtime Definition (Current)
-
-**Goal:** Make CrypSA technically reviewable and implementable.
-
-In progress / completed:
-
-- runtime specification (v0.1)  
+- runtime specification  
 - event model  
 - validation model  
 - consistency model  
-- replay model  
-- snapshot model  
-- identity model  
-- transport model  
-- minimal server design  
+- replay and snapshot systems  
+- identity and transport definitions  
 
-Outcome:
+Success Criteria:
 
-CrypSA is defined as a system, not just a concept.
+- system is internally consistent  
+- behavior is clearly defined  
+- implementation is possible from specs  
 
 ---
 
-## Phase 2 — Minimal Runtime Implementation (Next)
+## Phase 2 — Minimal Runtime Implementation
 
-**Goal:** Prove the architecture works in practice.
+**Goal:** Prove that the architecture works in practice.
 
-Planned work:
+Focus:
 
 - build minimal independent server  
-- implement event validation pipeline  
+- implement validation pipeline  
 - implement canonical event log  
-- implement derived state layer  
+- implement derived state  
 - support multiple observers  
-- implement basic networking  
-- test event conflicts and rejection  
-- validate observer reconciliation  
+- basic networking  
 
-Success criteria:
+Success Criteria:
 
 - multiple clients can connect  
 - events are validated and recorded  
-- observers converge on the same state  
+- observers converge on shared state  
 - replay produces consistent results  
-
-Outcome:
-
-CrypSA becomes a working runtime model.
 
 ---
 
-## Phase 3 — Robustness and Real-World Testing
+## Phase 3 — Robustness and Edge Cases
 
-**Goal:** Identify practical limitations and edge cases.
+**Goal:** Understand real-world behavior.
 
-Planned work:
+Focus:
 
-- test latency and ordering edge cases  
-- improve reconciliation strategies  
-- refine snapshot behavior  
-- test reconnection scenarios  
-- evaluate performance under load  
-- explore failure modes (disconnects, partial state, etc.)  
+- latency and ordering issues  
+- reconciliation edge cases  
+- reconnect and recovery  
+- snapshot behavior under change  
+- failure scenarios  
 
-Outcome:
+Success Criteria:
 
-CrypSA is stress-tested and refined.
+- system remains stable under imperfect conditions  
+- edge cases are understood and documented  
 
 ---
 
 ## Phase 4 — Expanded Capabilities
 
-**Goal:** Extend CrypSA beyond the minimal runtime.
+**Goal:** Extend the system beyond the minimal runtime.
 
-Potential areas:
+Focus:
 
-- branch/timeline systems  
-- offline play and later reconciliation  
-- advanced conflict resolution  
+- branching timelines  
+- offline progression and later reconciliation  
 - richer invariant systems  
 - partial world reconstruction  
 - event compression and optimization  
 
-Outcome:
+Success Criteria:
 
-CrypSA supports more complex and flexible systems.
+- system supports more complex use cases  
+- extended features remain consistent with core model  
 
 ---
 
@@ -136,99 +103,81 @@ CrypSA supports more complex and flexible systems.
 
 **Goal:** Make CrypSA viable in adversarial environments.
 
-Planned exploration:
+Focus:
 
-- stronger validation boundaries  
-- server-side trust models  
-- event auditing and moderation tools  
-- anti-cheat strategies compatible with observer simulation  
-- optional cryptographic event signing  
+- validation boundaries  
+- moderation and auditing tools  
+- anti-cheat strategies  
+- optional cryptographic verification  
 
-Outcome:
+Success Criteria:
 
-CrypSA becomes viable for competitive or public environments.
+- system can operate in untrusted environments  
+- trust model is clearly defined  
 
 ---
 
 ## Phase 6 — Scalability and Distribution
 
-**Goal:** Support large-scale persistent worlds.
+**Goal:** Support large persistent systems.
 
-Planned exploration:
+Focus:
 
-- sharding and partitioning  
-- cross-region consistency  
+- partitioning and sharding  
 - distributed canonical logs  
-- federation between servers  
+- cross-region consistency  
 - scalable snapshot distribution  
 
-Outcome:
+Success Criteria:
 
-CrypSA can support large persistent systems.
+- system can scale beyond a single server  
+- performance characteristics are understood  
 
 ---
 
 ## Phase 7 — Engine Integration and Tooling
 
-**Goal:** Make CrypSA usable by developers.
+**Goal:** Make CrypSA usable in real projects.
 
-Planned work:
+Focus:
 
-- reference implementations (e.g. Godot, Unity)  
+- engine integrations (e.g. Godot, Unity)  
 - developer tooling  
 - debugging and replay tools  
-- event inspection and visualization  
-- simplified APIs for common use cases  
+- visualization and inspection systems  
 
-Outcome:
+Success Criteria:
 
-CrypSA becomes accessible to real projects.
+- developers can practically use CrypSA  
+- tooling reduces complexity of adoption  
 
 ---
 
 ## Open Questions
 
-CrypSA still needs to answer:
+CrypSA still needs to explore:
 
-- how far client authority can safely go  
-- how to balance responsiveness vs validation  
-- how to handle high-frequency simulation (e.g. combat)  
-- how to manage large-scale world partitioning  
-- how to integrate with existing engines cleanly  
+- limits of client-side simulation  
+- tradeoffs between responsiveness and validation  
+- handling of high-frequency interactions  
+- integration with existing engine architectures  
 
-These questions will be explored across multiple phases.
-
----
-
-## Contribution Opportunities
-
-CrypSA is still evolving.
-
-Areas where contributions would be valuable:
-
-- prototype implementations  
-- validation pipeline experiments  
-- replay system testing  
-- networking experiments  
-- documentation improvements  
-- diagram and visualization work  
+These questions will be addressed across multiple phases.
 
 ---
 
-## How to Think About This Roadmap
+## How to Read This Roadmap
 
-This roadmap is not rigid.
-
-It is a direction, not a strict schedule.
+This roadmap is directional, not fixed.
 
 The goal is to:
 
-- validate ideas early  
+- validate early  
 - adapt based on findings  
-- avoid over-engineering before proof  
+- avoid premature optimization  
 
 ---
 
 ## One Sentence Summary
 
-CrypSA is evolving from a defined architecture into a working runtime, with a roadmap focused on proving the model first and expanding toward robustness, security, scalability, and real-world usability.
+CrypSA evolves from a defined system into a working runtime through staged validation, expanding toward robustness, security, scalability, and real-world usability.
