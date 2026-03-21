@@ -1,6 +1,6 @@
 # CrypSA in 5 Minutes
 
-This is a quick, practical explanation of what CrypSA is and how it works.
+This is a quick mental model for understanding CrypSA.
 
 If you only read one document, read this.
 
@@ -12,13 +12,12 @@ CrypSA is a multiplayer architecture where:
 
 > The shared world is defined by accepted events, not continuously synchronized state.
 
-Instead of syncing everything all the time, CrypSA does this:
+Instead of synchronizing everything all the time:
 
-1. Clients (Observers) simulate locally
-2. They propose actions
-3. The server validates those actions
-4. Accepted actions become **canonical events**
-5. The world is reconstructed from those events
+- clients simulate locally  
+- actions are proposed as events  
+- the server validates those events  
+- accepted events define shared reality  
 
 ---
 
@@ -26,10 +25,10 @@ Instead of syncing everything all the time, CrypSA does this:
 
 Think of CrypSA like this:
 
-- The **server** decides what *actually happened*
-- The **clients** simulate what *they think is happening*
-- Only validated actions become part of shared reality
-- Everything else is just local prediction
+- The **server** decides what *actually happened*  
+- The **clients** simulate what *they think is happening*  
+- Only validated actions become part of shared reality  
+- Everything else is local prediction  
 
 ---
 
@@ -37,156 +36,118 @@ Think of CrypSA like this:
 
 CrypSA is easiest to understand as three layers:
 
+---
+
 ### 1. Observer (Client / Local Simulation)
 
-This is what the player controls.
+This is what the player directly interacts with.
 
-- Movement is local
-- Simulation is fast and responsive
-- The player can do things immediately
+- fast  
+- responsive  
+- immediate  
+
+The player can act freely.
 
 But:
-- Nothing here is automatically shared truth
+
+> nothing here is automatically shared truth
 
 ---
 
 ### 2. Invariant Boundary (Validation Layer)
 
-This is the checkpoint.
+This is the checkpoint between local simulation and shared reality.
 
-When something matters to the shared world:
-- it must cross this boundary
-- it must be validated
+When an action affects the shared world:
 
-Examples:
-- placing an object
-- destroying something
-- transferring items
+- it must cross this boundary  
+- it must be validated  
 
-If it fails validation → it never becomes real
+If it fails:
+
+> it never becomes real
 
 ---
 
 ### 3. Canonical World (Shared Reality)
 
-This is the real world.
+This is the true world.
 
-- Defined by accepted events
-- Stored as a history of events
-- Reconstructed through replay
+- defined by accepted events  
+- consistent for all observers  
+- reconstructed from history  
 
-If it’s not here:
-→ it didn’t happen
+If something is not part of canonical history:
 
----
-
-## A Simple Example
-
-### Step 1 — Local Action
-
-A player moves around.
-
-- This is **Observer-only**
-- It is not canonical
-- No server validation required
+> it did not happen
 
 ---
 
-### Step 2 — Propose an Action
+## What This Changes
 
-The player places a structure.
+Traditional systems:
 
-- This becomes a **Candidate**
-- It reaches the **Invariant Boundary**
+> the server simulates everything
 
----
+CrypSA:
 
-### Step 3 — Server Validation
-
-The server checks:
-- is the location valid?
-- does the player have resources?
-- does it obey the rules?
-
-If yes:
-→ it becomes a **Canonical Event**
-
-If no:
-→ it is rejected
-
----
-
-### Step 4 — Canonical Update
-
-The accepted event is added to history.
-
-All observers:
-- update their world
-- reconcile if needed
-
----
-
-### Step 5 — Replay
-
-The world state is derived by replaying events.
-
-There is no “final stored state” as the source of truth.
-
-The source of truth is:
-→ **the event history**
+> the server validates what matters
 
 ---
 
 ## Why This Matters
 
-CrypSA separates two things that are usually tangled together:
+CrypSA separates:
 
 ### Local Simulation
-- fast
-- responsive
-- not authoritative
+- fast  
+- flexible  
+- not authoritative  
 
 ### Shared Reality
-- validated
-- consistent
-- authoritative
+- validated  
+- consistent  
+- authoritative  
 
-This separation makes it easier to:
-- reason about multiplayer behavior
-- track history
-- debug systems
-- build persistent worlds
+This separation makes systems easier to:
+
+- reason about  
+- debug  
+- persist  
+- replay  
 
 ---
 
-## What CrypSA Is NOT
+## What CrypSA Is Not
 
 CrypSA is not:
 
-- a traditional “sync everything” multiplayer model
-- a full replacement for all multiplayer architectures
-- a magic solution to latency or cheating
+- a replacement for all multiplayer systems  
+- a solution for every type of game  
+- a way to eliminate latency  
 
 It is a different way of structuring:
-- validation
-- authority
-- and shared truth
+
+- authority  
+- validation  
+- and shared truth  
 
 ---
 
-## Where CrypSA Fits Best
+## Where It Fits
 
-CrypSA works best in systems where:
+CrypSA works best when:
 
-- history matters
-- persistence matters
-- actions are discrete and meaningful
+- actions are discrete  
+- history matters  
+- persistence matters  
 
 Examples:
-- building systems
-- crafting systems
-- economic systems
-- shared sandbox worlds
+
+- building systems  
+- crafting systems  
+- economic systems  
+- sandbox worlds  
 
 ---
 
@@ -194,37 +155,17 @@ Examples:
 
 CrypSA is not ideal for:
 
-- twitch shooters
-- high-frequency combat systems
-- physics-heavy PvP
-- strict real-time competitive games
-
----
-
-## How This Repo Helps
-
-This repository includes:
-
-- a **teaching prototype**
-- tools to explore:
-  - observer vs canonical state
-  - event submission
-  - validation and rejection
-  - event lineage and replay
-  - Mint (object definition system)
-
-The goal is not to be production-ready.
-
-The goal is to make the model:
-→ understandable
+- twitch shooters  
+- high-frequency combat  
+- physics-heavy PvP  
 
 ---
 
 ## If You Want More
 
-- Read `TERMINOLOGY_PRIMER.md` for definitions
-- Explore the teaching prototype
-- Then move on to the architecture docs
+- Read `TERMINOLOGY_PRIMER.md`  
+- Read `FAQ.md`  
+- See `CrypSA_WORKED_EXAMPLE.md` for a full step-by-step flow  
 
 ---
 
@@ -232,8 +173,6 @@ The goal is to make the model:
 
 CrypSA can be summarized as:
 
-> A system where clients simulate freely,  
+> Clients simulate freely,  
 > servers validate important actions,  
 > and accepted events define shared reality.
-
-Everything else builds on that.
