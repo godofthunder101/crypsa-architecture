@@ -8,6 +8,7 @@ local simulation → validation → canonical history → reconciliation
 
 ---
 
+```mermaid
 flowchart LR
 
 A[Player Action] --> B[Local Simulation]
@@ -27,6 +28,8 @@ I --> J[Observer Reconciliation]
 G --> J
 
 J --> K[Final Local State]
+
+````
 
 ---
 
