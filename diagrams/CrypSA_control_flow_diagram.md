@@ -148,8 +148,9 @@ Full Control Flow Diagram
                             │ from updated canonical truth         │
                             └──────────────────────────────────────┘
 
----
+
 ````
+---
 
 Step-by-Step Explanation
 
