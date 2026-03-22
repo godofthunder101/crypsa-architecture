@@ -21,6 +21,7 @@ These documents describe:
 - how canonical truth is defined  
 - how events shape the world  
 - how reconstruction replaces state synchronization  
+- how observers interpret reality through lenses  
 
 They are intended to:
 
@@ -38,6 +39,7 @@ By reading the architecture docs, you should understand:
 - why the server validates instead of simulating everything  
 - how canonical history defines shared reality  
 - how observers reconstruct the world  
+- how observers interpret canonical reality through lenses  
 - how CrypSA differs from traditional multiplayer systems  
 
 ---
@@ -52,11 +54,28 @@ If you are new to the architecture layer, start with:
 2. `CrypSA_Server_Responsibility_Model.md`  
    Explains what the server does and does not do.
 
-3. `CrypSA_Observer_Server_Contract.md` (if present)  
+3. `CrypSA_Lens_Model.md`  
+   Explains how observers interpret canonical reality.
+
+4. `CrypSA_Observer_Server_Contract.md` (if present)  
    Describes how observers and the server interact.
 
-4. `CrypSA_Event_Flow.md` (if present)  
+5. `CrypSA_Event_Flow.md` (if present)  
    Walks through how actions become canonical events.
+
+---
+
+## Key Architectural Ideas
+
+The architecture layer is built around a few core ideas:
+
+- **Observers simulate locally**
+- **The server validates instead of simulating everything**
+- **Canonical history defines shared reality**
+- **Reconstruction replaces state synchronization**
+- **Lenses interpret canonical reality into player experience**
+
+These ideas form the conceptual foundation of CrypSA.
 
 ---
 
@@ -89,7 +108,11 @@ Architecture → Spec → Implementation
 
 High-level philosophy and motivation.
 
+```
+
 ../foundation/
+
+```
 
 ---
 
@@ -102,7 +125,11 @@ Definitions of key ideas like:
 - observers  
 - identities  
 
+```
+
 ../core-concepts/
+
+```
 
 ---
 
@@ -110,7 +137,11 @@ Definitions of key ideas like:
 
 Formal runtime behavior.
 
+```
+
 ../spec/
+
+```
 
 ---
 
@@ -118,9 +149,11 @@ Formal runtime behavior.
 
 How CrypSA can be built and tested.
 
+```
+
 ../implementation/
 
----
+```
 
 ---
 
@@ -156,4 +189,4 @@ They should be read as a bridge between:
 
 ## One Sentence Summary
 
-The `architecture/` folder explains how CrypSA works conceptually—how observers, events, and the canonical server interact to define shared reality—without diving into full implementation details.
+The `architecture/` folder explains how CrypSA works conceptually—how observers, lenses, events, and the canonical server interact to define shared reality—without diving into full implementation details.
