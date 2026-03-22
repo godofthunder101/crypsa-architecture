@@ -51,7 +51,7 @@ This is the core runtime control loop of CrypSA.
 ---
 
 Full Control Flow Diagram
-
+````
 ┌───────────────────────────────────────────────┐
 │        1. OBSERVER RECONSTRUCTS WORLD         │
 │                                               │
@@ -147,7 +147,7 @@ Full Control Flow Diagram
                             │ from updated canonical truth         │
                             └──────────────────────────────────────┘
 
-
+````
 ---
 
 Step-by-Step Explanation
