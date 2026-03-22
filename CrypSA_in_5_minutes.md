@@ -21,14 +21,43 @@ Instead of synchronizing everything all the time:
 
 ---
 
+## 📊 Core Mental Model (Visual)
+
+```mermaid
+flowchart LR
+
+subgraph Observer
+A[Local Simulation]
+B[Predicted Actions]
+end
+
+subgraph Server
+C[Validation]
+D[Canonical Event Log]
+E[Derived State]
+end
+
+A --> B
+B --> C
+
+C -->|Accepted| D
+C -->|Rejected| A
+
+D --> E
+E --> A
+
+````
+
+---
+
 ## The Mental Model
 
 Think of CrypSA like this:
 
-- The **server** decides what *actually happened*  
-- The **clients** simulate what *they think is happening*  
-- Only validated actions become part of shared reality  
-- Everything else is local prediction  
+* The **server** decides what *actually happened*
+* The **clients** simulate what *they think is happening*
+* Only validated actions become part of shared reality
+* Everything else is local prediction
 
 ---
 
@@ -42,9 +71,9 @@ CrypSA is easiest to understand as three layers:
 
 This is what the player directly interacts with.
 
-- fast  
-- responsive  
-- immediate  
+* fast
+* responsive
+* immediate
 
 The player can act freely.
 
@@ -60,8 +89,8 @@ This is the checkpoint between local simulation and shared reality.
 
 When an action affects the shared world:
 
-- it must cross this boundary  
-- it must be validated  
+* it must cross this boundary
+* it must be validated
 
 If it fails:
 
@@ -73,9 +102,9 @@ If it fails:
 
 This is the true world.
 
-- defined by accepted events  
-- consistent for all observers  
-- reconstructed from history  
+* defined by accepted events
+* consistent for all observers
+* reconstructed from history
 
 If something is not part of canonical history:
 
@@ -100,21 +129,23 @@ CrypSA:
 CrypSA separates:
 
 ### Local Simulation
-- fast  
-- flexible  
-- not authoritative  
+
+* fast
+* flexible
+* not authoritative
 
 ### Shared Reality
-- validated  
-- consistent  
-- authoritative  
+
+* validated
+* consistent
+* authoritative
 
 This separation makes systems easier to:
 
-- reason about  
-- debug  
-- persist  
-- replay  
+* reason about
+* debug
+* persist
+* replay
 
 ---
 
@@ -122,15 +153,15 @@ This separation makes systems easier to:
 
 CrypSA is not:
 
-- a replacement for all multiplayer systems  
-- a solution for every type of game  
-- a way to eliminate latency  
+* a replacement for all multiplayer systems
+* a solution for every type of game
+* a way to eliminate latency
 
 It is a different way of structuring:
 
-- authority  
-- validation  
-- and shared truth  
+* authority
+* validation
+* and shared truth
 
 ---
 
@@ -138,16 +169,16 @@ It is a different way of structuring:
 
 CrypSA works best when:
 
-- actions are discrete  
-- history matters  
-- persistence matters  
+* actions are discrete
+* history matters
+* persistence matters
 
 Examples:
 
-- building systems  
-- crafting systems  
-- economic systems  
-- sandbox worlds  
+* building systems
+* crafting systems
+* economic systems
+* sandbox worlds
 
 ---
 
@@ -155,17 +186,17 @@ Examples:
 
 CrypSA is not ideal for:
 
-- twitch shooters  
-- high-frequency combat  
-- physics-heavy PvP  
+* twitch shooters
+* high-frequency combat
+* physics-heavy PvP
 
 ---
 
 ## If You Want More
 
-- Read `TERMINOLOGY_PRIMER.md`  
-- Read `FAQ.md`  
-- See `CrypSA_WORKED_EXAMPLE.md` for a full step-by-step flow  
+* Read `TERMINOLOGY_PRIMER.md`
+* Read `FAQ.md`
+* See `CrypSA_WORKED_EXAMPLE.md` for a full step-by-step flow
 
 ---
 
@@ -173,6 +204,6 @@ CrypSA is not ideal for:
 
 CrypSA can be summarized as:
 
-> Clients simulate freely,  
-> servers validate important actions,  
+> Clients simulate freely,
+> servers validate important actions,
 > and accepted events define shared reality.
