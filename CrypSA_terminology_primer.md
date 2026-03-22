@@ -1,28 +1,12 @@
 # CrypSA Terminology Primer
 
-CrypSA uses a small set of custom terms to describe its architecture.
+This document defines the key terms used in CrypSA.
 
-These terms were created to better express the model, but many of them map closely to existing concepts in multiplayer systems, backend architecture, and event-sourced systems.
+It is intended to:
 
-This document exists to:
-- clarify what each term means
-- map CrypSA terminology to familiar industry concepts
-- reduce friction for experienced developers
-
----
-
-## Core Mental Model (Quick Translation)
-
-If you are familiar with existing systems, CrypSA can be roughly understood as:
-
-- **Canonical Events** ≈ committed events in an event-sourced system  
-- **Invariant Boundary** ≈ server-authoritative validation boundary  
-- **Observer** ≈ client or simulation view  
-- **Mint / Genome** ≈ schema + prefab/config system  
-- **Event Lineage** ≈ event chain / causal history  
-
-CrypSA’s main idea is:
-> The shared world is defined by accepted events, not continuously synchronized state.
+- reduce ambiguity  
+- align understanding  
+- help experienced developers map CrypSA concepts to familiar patterns  
 
 ---
 
@@ -32,238 +16,250 @@ CrypSA’s main idea is:
 
 ### Observer
 
-**Definition:**
-An Observer is any process that simulates or views the world locally.
+An **observer** is a process (usually a client) that:
 
-**In practice:**
-- usually a client
-- may include tools, bots, or other systems
+- reconstructs canonical state  
+- simulates the world locally  
+- proposes candidate events  
+- reconciles with canonical truth  
 
-**Key idea:**
-Observers can:
-- simulate freely
-- make local predictions
-- propose actions
+An observer is not just a renderer.
 
-But they do **not define shared truth**.
-
-**Closest industry concepts:**
-- client
-- local simulation
-- prediction layer
+> It is a simulator and interpreter of the universe.
 
 ---
 
-### Canonical
+### Canonical Server
 
-**Definition:**
-Canonical refers to the shared, authoritative state of the world.
+The **canonical server** is responsible for:
 
-This state is not directly stored as "live state", but is derived from accepted events.
+- validating candidate events  
+- enforcing invariants  
+- recording accepted events  
+- defining shared reality  
 
-**Key idea:**
-Only server-accepted events become canonical.
+It does **not need to simulate the entire world**.
 
-**Closest industry concepts:**
-- authoritative state
-- committed state
-- source of truth
+> It protects truth, not experience.
+
+---
+
+### Canonical Truth
+
+**Canonical truth** is the authoritative definition of the world.
+
+It is derived from:
+
+- accepted canonical events  
+- canonical ordering  
+
+If something is not part of canonical history:
+
+> it did not happen
 
 ---
 
 ### Canonical Event
 
-**Definition:**
-A Canonical Event is an action that has been validated and accepted into the shared world history.
+A **canonical event** is a validated action that has been accepted by the server.
 
-**Key properties:**
-- immutable once accepted
-- part of the canonical event log
-- used to reconstruct world state
+It:
 
-**Closest industry concepts:**
-- committed event (event sourcing)
-- authoritative action
-- validated server command
+- changes the canonical state  
+- becomes part of the permanent event log  
+- is used to reconstruct the world  
 
 ---
 
-### Candidate (Event Candidate)
+### Candidate Event
 
-**Definition:**
-A Candidate is a proposed action that has not yet become canonical.
+A **candidate event** is a proposed action created by an observer.
 
-**In practice:**
-- created by an observer
-- waits at the invariant boundary
-- may be accepted or rejected
+It represents:
 
-**Closest industry concepts:**
-- client command
-- pending action
-- uncommitted event
+> intent, not reality  
+
+It must pass validation before becoming canonical.
 
 ---
 
-### Invariant Boundary
+### Invariants
 
-**Definition:**
-The Invariant Boundary is the point where actions must be validated before becoming part of shared truth.
+**Invariants** are rules that must always remain true in canonical state.
 
-**Key idea:**
-Anything crossing this boundary must:
-- obey rules
-- be validated
-- be accepted before affecting the canonical world
+Examples:
 
-**Closest industry concepts:**
-- server-authoritative validation layer
-- rule enforcement boundary
-- transaction validation point
+- a tile cannot contain two structures  
+- ownership must be consistent  
+- invalid transitions are not allowed  
+
+If an event violates an invariant:
+
+> it is rejected
 
 ---
 
-### Event Lineage
+### Derived State
 
-**Definition:**
-Event Lineage is the chain of events that defines how the current state was reached.
+**Derived state** is a materialized view of canonical history.
 
-In CrypSA, lineage is explicitly tracked and can branch when history is revisited.
+It exists to:
 
-**Key idea:**
-- state is derived from history
-- different historical paths can exist
-- lineage determines replay order
+- improve performance  
+- simplify queries  
 
-**Closest industry concepts:**
-- event chain
-- causal history
-- commit history (like Git, but for world state)
+It must always be:
+
+> reproducible from canonical events
 
 ---
 
 ### Replay
 
-**Definition:**
-Replay is the process of reconstructing canonical state by applying events in lineage order.
+**Replay** is the process of reconstructing state from canonical history.
 
-**Key idea:**
-The world is not stored as a final state — it is rebuilt from events.
+CrypSA systems rely on:
 
-**Closest industry concepts:**
-- event replay (event sourcing)
-- state reconstruction
-- deterministic rebuild
+- replay  
+- snapshots  
+
+to rebuild the world.
 
 ---
 
-## Mint System
+## Interpretation and Presentation
 
 ---
 
-### Mint
+### Lens
 
-**Definition:**
-Mint is the system used to define what kinds of objects can exist in the world.
+A **lens** is an interpretation layer.
 
-It acts as a registry of object definitions.
+It transforms canonical state into observer-specific experience.
 
-**Key idea:**
-- defines object behavior and rules
-- controls what can be created in the world
-- evolves over time
+A lens may:
 
-**Closest industry concepts:**
-- schema registry
-- prefab system
-- data-driven entity definitions
+- filter information (e.g. fog of war)  
+- determine what is visible  
+- shape gameplay context  
+- produce presentation-ready data  
 
----
+A lens:
 
-### Genome
+- does **not** define truth  
+- does **not** validate events  
+- does **not** mutate canonical state  
 
-**Definition:**
-A Genome is the full definition/configuration of an object type.
-
-This includes:
-- rules
-- allowed actions
-- state transitions
-- invariant constraints
-
-**Key idea:**
-A Genome describes what an object *is allowed to be and do*.
-
-**Closest industry concepts:**
-- prefab definition
-- JSON config
-- schema + ruleset
+> A lens answers: “What does this mean to this observer?”
 
 ---
 
-### Mint Catalog
+### Adapter
 
-**Definition:**
-The Mint Catalog is the collection of all available object definitions.
+An **adapter** is a translation layer.
 
-**Key idea:**
-- acts as a registry of available object types
-- can be edited to affect future objects
-- does not retroactively change existing canonical objects
+It prepares runtime and canonical data so that lenses and UI can consume it safely.
 
-**Closest industry concepts:**
-- definition database
-- asset registry
-- schema store
+An adapter may:
 
----
+- reshape data structures  
+- aggregate multiple sources  
+- normalize output formats  
+- build view models  
 
-## Important Notes
+An adapter:
 
----
+- does **not** interpret meaning  
+- does **not** validate events  
+- does **not** mutate canonical state  
 
-### CrypSA is Event-Driven, Not State-Driven
-
-Traditional systems:
-- synchronize state continuously
-
-CrypSA:
-- accepts events
-- derives state from those events
+> An adapter answers: “How do we structure this data so it can be used?”
 
 ---
 
-### Canonical ≠ Local
+### Adapter vs Lens (Key Distinction)
 
-Observers can:
-- move freely
-- simulate freely
-
-But:
-- only accepted events affect the shared world
+| Concept  | Role |
+|----------|------|
+| Adapter  | Translates and shapes data |
+| Lens     | Interprets and gives meaning |
 
 ---
 
-### This Terminology is Intentional
+Flow:
 
-CrypSA uses custom terms to:
-- separate concepts cleanly
-- avoid overloading existing terminology
-- describe systems that don’t map perfectly to one existing pattern
-
-However, these terms are always grounded in real system concepts, and can be translated as shown above.
+```text
+Canonical State → Adapter → Lens → UI
+````
 
 ---
 
-## Final Summary
-
-If you prefer familiar language:
-
-CrypSA is essentially:
-
-> An event-sourced, server-validated, client-simulated architecture  
-> where accepted events define shared reality, and state is reconstructed from history.
-
-The custom terminology exists to make that model easier to reason about — not to replace existing knowledge.
+## Runtime Concepts
 
 ---
+
+### Validation
+
+**Validation** is the process by which the server decides whether a candidate event is allowed.
+
+It includes:
+
+* schema checks
+* identity checks
+* precondition checks
+* invariant checks
+* rule checks
+
+Only valid events become canonical.
+
+---
+
+### Reconciliation
+
+**Reconciliation** is the process by which observers update local state to match canonical truth.
+
+This occurs when:
+
+* events are accepted
+* events are rejected
+* canonical state changes
+
+---
+
+### Branch
+
+A **branch** represents a timeline or sequence of canonical events.
+
+Branches allow:
+
+* exploration of alternate histories
+* replay from different points
+
+---
+
+### Snapshot
+
+A **snapshot** is a stored canonical state at a specific point in history.
+
+It allows:
+
+* faster reconstruction
+* late joining
+* debugging
+
+---
+
+## Summary
+
+CrypSA separates:
+
+* **truth** (canonical events and validation)
+* **structure** (adapters)
+* **interpretation** (lenses)
+* **experience** (UI and simulation)
+
+---
+
+## One Sentence Summary
+
+CrypSA defines a system where canonical events determine truth, adapters shape data, lenses interpret it, and observers experience and simulate the resulting world.
