@@ -1,218 +1,226 @@
-# CrypSA — Architecture Overview
+# CrypSA Architecture Overview
+
+This document provides a high-level map of the CrypSA system.
+
+It shows how the major components relate to each other without going into full detail.
+
+For detailed explanations, see the architecture and spec documents.
+
+---
 
 ## Purpose
 
-This document provides a high-level map of the CrypSA architecture.
+This document answers:
 
-It is intended to help readers understand:
+> What are the main parts of CrypSA, and how do they fit together?
 
-- how the repository is structured  
-- how CrypSA is organized into layers  
-- how the major components relate to each other  
+It is not intended to teach the full system.
 
-> This document maps the system.  
-> It does not fully explain how CrypSA works.
+It is intended to:
 
-For conceptual understanding, see:
-- `CRYPSA_IN_5_MINUTES.md`
-- `TERMINOLOGY_PRIMER.md`
-
-For formal behavior, see:
-- `spec/`
+- orient readers  
+- provide a system map  
+- show relationships between components  
 
 ---
 
-## The CrypSA Stack
+## High-Level View
 
-CrypSA is organized into layered responsibilities.
+CrypSA is built around four core layers:
 
-Each layer builds on the one below it.
-
----
-
-### 🌌 1. Foundation Layer
-
-Defines the **why** behind CrypSA.
-
-- motivation  
-- problem space  
-- comparison to traditional systems  
-
-📁 See:
-
-- `foundation/CrypSA_Origin_Statement.md`
-- `foundation/CrypSA_Universe_Model.md`
-- `foundation/CrypSA_Traditional_vs_CrypSA.md`
+1. Observers (clients)  
+2. Canonical server  
+3. Adapter layer (translation)  
+4. Lens layer (interpretation)  
 
 ---
 
-### 🧠 2. Core Concepts Layer
+## System Overview Diagram
 
-Defines the **building blocks** of the system.
+```mermaid
+flowchart LR
 
-- what objects are  
-- how events work  
-- what invariants are  
-- how state evolves  
+subgraph Observer
+A[Local Simulation]
+B[Predicted Actions]
+C[Observer State]
+end
 
-📁 See:
+subgraph Server
+D[Validation Pipeline]
+E[Canonical Event Log]
+F[Derived State]
+end
 
-- `core-concepts/CrypSA_Object_Model.md`
-- `core-concepts/CrypSA_Invariant_Model.md`
-- `core-concepts/CrypSA_Event_Model.md`
-- `core-concepts/CrypSA_Event_Lifecycle.md`
-- `core-concepts/CrypSA_Mental_Model_One_Page.md`
+subgraph Adapter Layer
+G[Adapters]
+end
 
----
+subgraph Lens Layer
+H[Lenses]
+end
 
-### 🏗 3. Architecture Layer
+subgraph Presentation
+I[UI / Player Experience]
+end
 
-Defines how the system operates conceptually.
+A --> B
+B --> D
 
-- observer (client) responsibilities  
-- server responsibilities  
-- interaction between components  
+D -->|Accepted| E
+D -->|Rejected| C
 
-📁 See:
+E --> F
+F --> G
+C --> G
 
-- `architecture/CrypSA_Client_Observer_Model.md`
-- `architecture/CrypSA_Server_Responsibility_Model.md`
-- `architecture/CrypSA_Object_Lifecycle_Walkthrough.md`
-
----
-
-### 📐 4. Specification Layer
-
-Defines the **formal runtime behavior** of CrypSA.
-
-This is where the system becomes technically implementable.
-
-📁 See:
-
-- `spec/`
-
-Includes:
-
-- runtime model  
-- event model  
-- validation model  
-- consistency model  
-- replay model  
-- snapshot model  
-- identity model  
-- transport model  
+G --> H
+H --> I
+````
 
 ---
 
-### 🎮 5. Design Layer
-
-Explores how CrypSA can be used in real systems.
-
-- design principles  
-- gameplay considerations  
-- optional patterns  
-
-📁 See:
-
-- `design/CrypSA_Design_Principles.md`
-- `design/CrypSA_Offline_Mode_Simple.md`
+## Core Components
 
 ---
 
-### 🧪 6. Implementation Layer
+### Observer (Client)
 
-Provides guidance for building CrypSA systems.
+Observers are responsible for:
 
-- minimal server design  
-- prototype direction  
-- engineering entry points  
+* reconstructing canonical state
+* simulating the world locally
+* proposing candidate events
+* shaping data through adapters
+* interpreting data through lenses
+* presenting the world
 
-📁 See:
-
-- `implementation/CrypSA_Minimal_Server_v0.1.md`
-- `implementation/CrypSA_Quick_Start_For_Engineers.md`
-
----
-
-### 📊 Supporting Layers
-
-#### Diagrams
-
-Visual representations of system behavior.
-
-📁 `diagrams/`
+Observers provide responsiveness and local experience.
 
 ---
 
-#### Atlas & Glossary
+### Canonical Server
 
-Terminology and navigation support.
+The canonical server is responsible for:
 
-📁 `atlas/`
+* validating candidate events
+* enforcing invariants
+* recording canonical events
+* defining shared truth
 
----
-
-## How to Navigate the Repository
-
-Different readers should approach the repo differently.
-
----
-
-### New to CrypSA
-
-1. `CRYPSA_IN_5_MINUTES.md`  
-2. `TERMINOLOGY_PRIMER.md`  
-3. `FAQ.md`  
+The server does not need to simulate the full world.
 
 ---
 
-### Understanding the Architecture
+### Canonical Event Log
 
-1. `foundation/`  
-2. `core-concepts/`  
-3. `architecture/`  
+The canonical event log is the source of truth.
 
----
-
-### Understanding the System Behavior
-
-1. `spec/CrypSA_Runtime_Spec_v0.1.md`  
-2. `spec/README.md`  
+* all accepted events are recorded
+* history defines reality
+* state is derived from events
 
 ---
 
-### Building with CrypSA
+### Derived Canonical State
 
-1. `implementation/CrypSA_Minimal_Server_v0.1.md`  
+Derived state is a materialized view of canonical history.
 
----
+It exists to:
 
-## Relationship Between Layers
+* improve performance
+* simplify queries
 
-CrypSA is best understood as a progression:
+It must always be:
 
-Foundation → Concepts → Architecture → Spec → Implementation
-
-- Foundation explains **why**
-- Concepts define **what exists**
-- Architecture explains **how it fits together**
-- Spec defines **how it behaves**
-- Implementation shows **how to build it**
+> reproducible from canonical events
 
 ---
 
-## Summary
+### Adapter Layer
 
-This document provides a structural overview of CrypSA.
+Adapters are responsible for:
 
-To understand the system in depth:
+* translating runtime and canonical data
+* shaping data for consumption
+* isolating system boundaries
 
-- use conceptual docs for intuition  
-- use specs for exact behavior  
-- use implementation docs to build  
+They sit between:
+
+* runtime state
+* lenses and UI
+
+Adapters do not define truth or interpretation.
+
+---
+
+### Lens Layer
+
+Lenses are responsible for:
+
+* interpreting canonical reality
+* applying visibility and gameplay meaning
+* producing observer-specific views
+
+Lenses transform structured data into player-facing experience.
+
+---
+
+### Presentation Layer
+
+The presentation layer includes:
+
+* UI
+* visuals
+* interaction
+
+It consumes lens outputs and presents them to the player.
+
+---
+
+## Key Flow
+
+At a high level:
+
+1. observers simulate locally
+2. actions become candidate events
+3. the server validates events
+4. accepted events enter canonical history
+5. canonical state is derived
+6. adapters shape data
+7. lenses interpret that data
+8. the UI presents the result
+9. observers reconcile with canonical truth
+
+---
+
+## Key Idea
+
+CrypSA separates:
+
+* truth (canonical events)
+* structure (adapters)
+* interpretation (lenses)
+* experience (UI and simulation)
+
+This separation allows the system to be:
+
+* flexible
+* debuggable
+* persistent
+* replayable
+
+---
+
+## Relationship to Other Documents
+
+* `architecture/` → explains each component
+* `spec/` → defines runtime behavior
+* `CrypSA_WORKED_EXAMPLE.md` → shows a full flow
+* `diagrams/` → visual explanations
 
 ---
 
 ## One Sentence Summary
 
-The CrypSA architecture is organized into layered documentation that moves from conceptual foundations to formal specifications and implementation guidance.
+CrypSA is structured as observers and a canonical server, with adapters shaping data and lenses interpreting it, allowing shared reality to emerge from validated event history.
