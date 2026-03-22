@@ -425,6 +425,7 @@ Summary
 
 CrypSA’s runtime control logic can be summarized as:
 
+````
 Reconstruct
    ↓
 Interpret
@@ -445,6 +446,7 @@ This loop is the control heartbeat of a CrypSA universe.
 
 
 ---
+````
 
 One Sentence Summary
 
