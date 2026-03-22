@@ -227,6 +227,33 @@ If prediction was incorrect:
 
 ---
 
+### Adapter and Lens Interpretation
+
+After reconciliation, the observer does not use raw runtime or canonical state directly for presentation.
+
+Instead:
+
+* canonical and observer state are first shaped through adapters
+* adapters produce structured, view-ready data
+* lenses then interpret that data into observer-specific meaning
+* the UI renders the result
+
+This ensures that:
+
+* UI and lenses do not depend on internal runtime structures
+* interpretation logic remains separate from canonical truth
+* different observers can interpret the same canonical state differently
+
+In simplified form:
+
+```text
+Canonical Update → Adapter → Lens → UI
+```
+
+This step is implicit in the prototype but is an important part of the CrypSA architecture.
+
+---
+
 ## Alternative Scenario — Conflict
 
 Two players attempt to place on tile_42.
