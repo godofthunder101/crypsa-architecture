@@ -1,4 +1,3 @@
----
 # CrypSA - Cryptid Server Architecture
 
 CrypSA is an event-driven architecture for building persistent digital worlds.
@@ -50,25 +49,53 @@ CrypSA:
 
 ---
 
+## 📊 How CrypSA Works (Visual Overview)
+
+```mermaid
+flowchart LR
+
+A[Player Action] --> B[Local Simulation]
+B --> C[Create Candidate Event]
+C --> D[Send to Server]
+
+D --> E[Validation Pipeline]
+
+E -->|Accepted| F[Canonical Log]
+E -->|Rejected| G[Rejection Result]
+
+F --> H[Derived State Update]
+H --> I[Broadcast]
+
+I --> J[Observer Reconciliation]
+G --> J
+
+````
+
+For more diagrams, see:
+
+👉 `diagrams/`
+
+---
+
 ## ⚙️ What CrypSA Enables
 
-- Persistent worlds independent of specific servers  
-- Deterministic world reconstruction  
-- Built-in replay and debugging via event history  
-- Flexible client-side simulation  
-- Strong invariant-based validation  
-- Potential for new gameplay models (branching timelines, observer-driven views)  
+* Persistent worlds independent of specific servers
+* Deterministic world reconstruction
+* Built-in replay and debugging via event history
+* Flexible client-side simulation
+* Strong invariant-based validation
+* Potential for new gameplay models (branching timelines, observer-driven views)
 
 ---
 
 ## 🧩 Key Concepts
 
-- **Minted Identities** — persistent object identities  
-- **Genomes** — versioned object definitions  
-- **Canonical Events** — source of world change  
-- **Invariants** — rules that must always hold  
-- **Observers** — clients that reconstruct and simulate  
-- **Lenses** — interpretation layers (view-dependent logic)  
+* **Minted Identities** — persistent object identities
+* **Genomes** — versioned object definitions
+* **Canonical Events** — source of world change
+* **Invariants** — rules that must always hold
+* **Observers** — clients that reconstruct and simulate
+* **Lenses** — interpretation layers (view-dependent logic)
 
 See `TERMINOLOGY_PRIMER.md` for detailed explanations.
 
@@ -80,11 +107,9 @@ See `TERMINOLOGY_PRIMER.md` for detailed explanations.
 
 Conceptual framing and motivation.
 
----
-
+```
 foundation/
-
----
+```
 
 ---
 
@@ -92,11 +117,9 @@ foundation/
 
 High-level system models.
 
----
-
+```
 core-concepts/
-
----
+```
 
 ---
 
@@ -104,11 +127,9 @@ core-concepts/
 
 How CrypSA operates conceptually.
 
----
-
+```
 architecture/
-
----
+```
 
 ---
 
@@ -116,21 +137,20 @@ architecture/
 
 Formal system definitions.
 
----
-
+```
 spec/
-
----
+```
 
 Includes:
-- runtime model  
-- event model  
-- validation model  
-- consistency model  
-- replay model  
-- snapshot model  
-- identity model  
-- transport model  
+
+* runtime model
+* event model
+* validation model
+* consistency model
+* replay model
+* snapshot model
+* identity model
+* transport model
 
 ---
 
@@ -138,11 +158,9 @@ Includes:
 
 Use cases, patterns, and applicability.
 
----
-
+```
 design/
-
----
+```
 
 ---
 
@@ -150,11 +168,9 @@ design/
 
 Practical guides and prototype direction.
 
----
-
+```
 implementation/
-
----
+```
 
 ---
 
@@ -162,11 +178,9 @@ implementation/
 
 Visual explanations of system behavior.
 
----
-
+```
 diagrams/
-
----
+```
 
 ---
 
@@ -174,11 +188,9 @@ diagrams/
 
 Glossary and navigation support.
 
----
-
+```
 atlas/
-
----
+```
 
 ---
 
@@ -186,39 +198,43 @@ atlas/
 
 CrypSA is currently:
 
-- a defined architecture with formal specifications  
-- supported by documentation and a teaching prototype  
-- not yet a production-ready system  
+* a defined architecture with formal specifications
+* supported by documentation and a teaching prototype
+* not yet a production-ready system
 
 Next major step:
 
-→ building a minimal independent server to validate the runtime model  
+→ building a minimal independent server to validate the runtime model
 
 See:
-`implementation/CrypSA_Project_Status.md` (if present)
+
+`implementation/CrypSA_Project_Status.md`
 
 ---
 
 ## 🧭 Recommended Reading Path
 
 ### New to CrypSA
-1. 5-minute overview  
-2. terminology primer  
-3. FAQ  
+
+1. 5-minute overview
+2. terminology primer
+3. FAQ
 
 ---
 
 ### Architecture understanding
-1. foundation docs  
-2. core concepts  
-3. architecture docs  
+
+1. foundation docs
+2. core concepts
+3. architecture docs
 
 ---
 
 ### Implementation understanding
-1. runtime spec  
-2. event + validation models  
-3. minimal server doc  
+
+1. runtime spec
+2. event + validation models
+3. minimal server doc
 
 ---
 
@@ -226,15 +242,15 @@ See:
 
 CrypSA v0.1 is best suited for:
 
-- persistent worlds  
-- simulation-heavy systems  
-- object-driven interactions  
+* persistent worlds
+* simulation-heavy systems
+* object-driven interactions
 
 It is not yet optimized for:
 
-- twitch shooters  
-- frame-perfect PvP  
-- heavy physics-based simulation  
+* twitch shooters
+* frame-perfect PvP
+* heavy physics-based simulation
 
 ---
 
@@ -259,4 +275,3 @@ If referencing this work, see `CITATION.cff`.
 ## One Sentence Summary
 
 CrypSA is an event-driven architecture where clients simulate locally, servers validate events, and shared reality is defined by a canonical history of those events.
----
