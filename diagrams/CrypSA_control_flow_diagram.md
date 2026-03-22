@@ -1,5 +1,3 @@
----
-
 CrypSA Control Flow Diagram
 
 Purpose
