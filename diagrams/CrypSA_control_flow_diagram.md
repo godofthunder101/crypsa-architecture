@@ -25,7 +25,7 @@ This document describes that decision flow.
 High-Level Control Flow
 
 At a high level, CrypSA runtime control follows this pattern:
-
+````
 Observer reconstructs world
         ↓
 Observer interprets world
@@ -44,6 +44,7 @@ Does action affect a canonical invariant?
                                    ↓
                           observers reconstruct
 
+````
 This is the core runtime control loop of CrypSA.
 
 
