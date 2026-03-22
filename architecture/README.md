@@ -21,7 +21,8 @@ These documents describe:
 - how canonical truth is defined  
 - how events shape the world  
 - how reconstruction replaces state synchronization  
-- how observers interpret reality through lenses  
+- how adapters shape data across boundaries  
+- how lenses interpret canonical reality into experience  
 
 They are intended to:
 
@@ -39,7 +40,8 @@ By reading the architecture docs, you should understand:
 - why the server validates instead of simulating everything  
 - how canonical history defines shared reality  
 - how observers reconstruct the world  
-- how observers interpret canonical reality through lenses  
+- how adapters protect boundaries between systems  
+- how lenses interpret canonical reality into observer experience  
 - how CrypSA differs from traditional multiplayer systems  
 
 ---
@@ -49,18 +51,21 @@ By reading the architecture docs, you should understand:
 If you are new to the architecture layer, start with:
 
 1. `CrypSA_Client_Observer_Model.md`  
-   Explains the role of observers and local simulation.
+   Explains the role of observers, local simulation, and reconciliation.
 
 2. `CrypSA_Server_Responsibility_Model.md`  
    Explains what the server does and does not do.
 
-3. `CrypSA_Lens_Model.md`  
+3. `CrypSA_Adapter_Model.md`  
+   Explains how data is translated between runtime, lenses, and UI.
+
+4. `CrypSA_Lens_Model.md`  
    Explains how observers interpret canonical reality.
 
-4. `CrypSA_Observer_Server_Contract.md` (if present)  
+5. `CrypSA_Observer_Server_Contract.md` *(if present)*  
    Describes how observers and the server interact.
 
-5. `CrypSA_Event_Flow.md` (if present)  
+6. `CrypSA_Event_Flow.md` *(if present)*  
    Walks through how actions become canonical events.
 
 ---
@@ -73,9 +78,32 @@ The architecture layer is built around a few core ideas:
 - **The server validates instead of simulating everything**
 - **Canonical history defines shared reality**
 - **Reconstruction replaces state synchronization**
+- **Adapters translate data across system boundaries**
 - **Lenses interpret canonical reality into player experience**
 
-These ideas form the conceptual foundation of CrypSA.
+These ideas form the conceptual backbone of CrypSA.
+
+---
+
+## System Layering (Conceptual)
+
+CrypSA can be understood as layered responsibilities:
+
+```text
+Canonical History / Derived State (Truth)
+        ↓
+Adapter Layer (Translation)
+        ↓
+Lens Layer (Interpretation)
+        ↓
+Observer Experience / UI (Presentation)
+````
+
+This separation ensures that:
+
+* truth remains consistent
+* interpretation remains flexible
+* presentation remains decoupled
 
 ---
 
@@ -85,20 +113,22 @@ The architecture documents are **conceptual**.
 
 They describe:
 
-- intent  
-- structure  
-- mental models  
+* intent
+* structure
+* mental models
 
 The `spec/` folder describes:
 
-- exact behavior  
-- validation rules  
-- ordering and consistency  
-- runtime requirements  
+* exact behavior
+* validation rules
+* ordering and consistency
+* runtime requirements
 
 A good way to read CrypSA is:
 
+```text
 Architecture → Spec → Implementation
+```
 
 ---
 
@@ -108,27 +138,23 @@ Architecture → Spec → Implementation
 
 High-level philosophy and motivation.
 
-```
-
+```text
 ../foundation/
-
 ```
 
 ---
 
 ### Core Concepts
 
-Definitions of key ideas like:
+Definitions of key ideas such as:
 
-- events  
-- invariants  
-- observers  
-- identities  
+* events
+* invariants
+* observers
+* identities
 
-```
-
+```text
 ../core-concepts/
-
 ```
 
 ---
@@ -137,10 +163,8 @@ Definitions of key ideas like:
 
 Formal runtime behavior.
 
-```
-
+```text
 ../spec/
-
 ```
 
 ---
@@ -149,10 +173,8 @@ Formal runtime behavior.
 
 How CrypSA can be built and tested.
 
-```
-
+```text
 ../implementation/
-
 ```
 
 ---
@@ -161,10 +183,10 @@ How CrypSA can be built and tested.
 
 This folder does **not** define:
 
-- exact event schemas  
-- validation pipelines  
-- network behavior  
-- replay guarantees  
+* exact event schemas
+* validation pipelines
+* network behavior
+* replay guarantees
 
 Those are defined in the `spec/` folder.
 
@@ -176,17 +198,17 @@ The architecture documents describe CrypSA at a high level.
 
 They are:
 
-- intentionally simplified  
-- focused on understanding  
-- not complete system definitions  
+* intentionally simplified
+* focused on understanding
+* not complete system definitions
 
 They should be read as a bridge between:
 
-- conceptual framing  
-- formal system specification  
+* conceptual framing
+* formal system specification
 
 ---
 
 ## One Sentence Summary
 
-The `architecture/` folder explains how CrypSA works conceptually—how observers, lenses, events, and the canonical server interact to define shared reality—without diving into full implementation details.
+The `architecture/` folder explains how CrypSA works conceptually—how observers, adapters, lenses, events, and the canonical server interact to define shared reality—without diving into full implementation details.
