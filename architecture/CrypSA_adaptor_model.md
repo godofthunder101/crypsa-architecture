@@ -53,6 +53,27 @@ Adapters prevent this by acting as **controlled translation boundaries**.
 
 ---
 
+## What the Teaching Prototype Confirmed
+
+The teaching prototype demonstrated that adapters are not optional structure.
+
+They are necessary to prevent:
+
+- lens-to-lens coupling  
+- UI/runtime entanglement  
+- controller sprawl  
+- interpretation logic leaking into data access  
+
+In practice:
+
+- adapters allowed multiple UI panels to coexist without shared assumptions  
+- adapters prevented lenses from depending on raw runtime internals  
+- adapters made it possible to refactor runtime structures without breaking UI or interpretation  
+
+This confirmed that adapters are a **practical architectural boundary**, not just a conceptual one.
+
+---
+
 ## What an Adapter Is
 
 An adapter is a **pure or near-pure translation layer** that:
@@ -152,7 +173,6 @@ Lenses decide what that input means for the observer.
 Adapters sit between:
 
 * runtime systems (canonical + observer state)
-  and
 * interpretation and presentation layers
 
 They form a **boundary layer** that protects both sides.
@@ -350,6 +370,7 @@ Adapters are critical because they:
 
 * prevent lens-to-lens coupling
 * prevent UI from depending on runtime internals
+* prevent controller sprawl
 * preserve architectural boundaries
 * make the system easier to reason about
 * allow independent evolution of runtime, lenses, and UI
