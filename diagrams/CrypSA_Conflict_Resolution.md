@@ -1,13 +1,15 @@
 # CrypSA Conflict Resolution
 
-This diagram shows how CrypSA resolves conflicting candidate events that target the same canonical conflict scope.
+## Purpose
+
+This diagram shows how CrypSA resolves conflicting candidate events that target the same **conflict scope**.
 
 Examples of conflict scope include:
 
-- the same tile
-- the same object
-- the same inventory slot
-- the same ownership target
+* the same tile
+* the same object
+* the same inventory slot
+* the same ownership target
 
 In CrypSA v0.1:
 
@@ -15,88 +17,75 @@ In CrypSA v0.1:
 
 ---
 
+## Diagram
+
 ```mermaid
 flowchart TD
 
 A[Observer A submits candidate event] --> C[Server identifies conflict scope]
 B[Observer B submits candidate event] --> C
 
-C --> D[Lock or atomically evaluate conflict scope]
+C --> D[Evaluate against consistent canonical context]
 
-D --> E[Validate Event A]
-D --> F[Validate Event B]
+D --> E[Validate next candidate event]
 
-E -->|Passes first| G[Accept Event A]
-E -->|Fails| R1[Reject Event A]
+E -->|Valid and first| G[Accept event]
+E -->|Invalid| R1[Reject event]
 
-F -->|Scope already changed| R2[Reject Event B: conflict_lost or precondition_failed]
-F -->|Passes first| H[Accept Event B]
-F -->|Fails| R3[Reject Event B]
+G --> I[Append to canonical event history]
+I --> J[Observers receive canonical update]
 
-G --> I[Append canonical event]
-H --> I
-
-I --> J[Update derived state]
-J --> K[Broadcast canonical update]
+J --> K[Observers reconcile]
 
 R1 --> L[Return rejection result]
-R2 --> L
-R3 --> L
-
-K --> M[Observers reconcile]
-L --> M
-
-````
+L --> K
+```
 
 ---
 
 ## How to Read This
 
-### 1. Two Conflicting Actions Arrive
+### 1. Conflicting Actions Arrive
 
-Two observers submit actions that affect the same conflict scope.
+Multiple observers submit actions affecting the same conflict scope.
 
 Examples:
 
-* both place on the same tile
-* both claim the same object
-* both consume the same unique resource
+* placing on the same tile
+* claiming the same object
+* consuming a unique resource
 
 ---
 
-### 2. The Server Evaluates the Scope Atomically
+### 2. Evaluation Uses Canonical Context
 
-The server must ensure that:
+The server evaluates events against a **consistent canonical context**.
 
-* conflicting events are not accepted simultaneously
-* validation happens against a consistent canonical view
+This ensures:
 
-This may be implemented with:
-
-* locking
-* atomic transactions
-* scope-based serialization
+* no simultaneous conflicting acceptance
+* validation is based on a stable view of truth
 
 ---
 
-### 3. One Event Wins
+### 3. One Event Is Accepted
 
 In v0.1:
 
-* the first valid accepted event wins
+* the first valid event within the scope is accepted
 * later conflicting events are rejected
 
 ---
 
-### 4. Rejection Happens for a Reason
+### 4. Rejection Has a Defined Cause
 
-The losing event may be rejected because:
+Rejected events may fail because:
 
 * the conflict was already resolved
-* its preconditions are no longer true
-* the canonical state changed before it could be accepted
+* preconditions are no longer valid
+* canonical state changed before validation
 
-Typical rejection results:
+Typical results include:
 
 * `conflict_lost`
 * `precondition_failed`
@@ -105,23 +94,23 @@ Typical rejection results:
 
 ### 5. Observers Reconcile
 
-Once the accepted canonical event is broadcast:
+After the canonical event is accepted:
 
-* the winning observer confirms its prediction
-* the losing observer removes or corrects its local prediction
+* observers receive the update
+* local predictions are confirmed or corrected
+* all observers converge to canonical truth
 
 ---
 
 ## Key Insight
 
-> Conflict resolution is not decided by local simulation.
-> It is decided by atomic validation against canonical truth.
+> Conflict resolution is determined by validation against canonical truth, not by local simulation.
 
 ---
 
 ## Relationship to Specs
 
-This diagram maps directly to:
+This diagram maps to:
 
 * `spec/CrypSA_Runtime_Spec_v0.1.md`
 * `spec/CrypSA_Validation_Model.md`
@@ -131,6 +120,4 @@ This diagram maps directly to:
 
 ## One Sentence Summary
 
-When multiple observers submit conflicting actions, the server resolves them atomically within the conflict scope, accepts one valid event, rejects the others, and all observers reconcile to the resulting canonical truth.
-Say “next” and I’ll do the **Snapshot + Replay** diagram.
-```
+When multiple observers submit conflicting actions, the server evaluates them against canonical truth, accepts one valid event within the conflict scope, rejects the others, and observers reconcile to the resulting canonical state.
