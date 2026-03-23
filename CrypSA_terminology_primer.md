@@ -1,265 +1,188 @@
 # CrypSA Terminology Primer
 
-This document defines the key terms used in CrypSA.
+This document defines the core terms used throughout CrypSA.
 
-It is intended to:
-
-- reduce ambiguity  
-- align understanding  
-- help experienced developers map CrypSA concepts to familiar patterns  
+If something feels unclear, check here first.
 
 ---
 
-## Core Concepts
+## Mental Model (Quick Anchor)
+
+A useful way to understand CrypSA is to think in terms of four responsibilities:
+
+- **Truth** — canonical events and validation  
+- **Translation** — adapters shaping runtime data  
+- **Interpretation** — lenses determining observer meaning  
+- **Experience** — UI and local simulation  
+
+The terms below map into these responsibilities.
 
 ---
 
-### Observer
-
-An **observer** is a process (usually a client) that:
-
-- reconstructs canonical state  
-- simulates the world locally  
-- proposes candidate events  
-- reconciles with canonical truth  
-
-An observer is not just a renderer.
-
-> It is a simulator and interpreter of the universe.
-
----
-
-### Canonical Server
-
-The **canonical server** is responsible for:
-
-- validating candidate events  
-- enforcing invariants  
-- recording accepted events  
-- defining shared reality  
-
-It does **not need to simulate the entire world**.
-
-> It protects truth, not experience.
-
----
-
-### Canonical Truth
-
-**Canonical truth** is the authoritative definition of the world.
-
-It is derived from:
-
-- accepted canonical events  
-- canonical ordering  
-
-If something is not part of canonical history:
-
-> it did not happen
-
----
+## Core Terms
 
 ### Canonical Event
 
-A **canonical event** is a validated action that has been accepted by the server.
+A canonical event is an event that has been:
 
-It:
+- validated by the server  
+- accepted into shared history  
+- assigned an order  
 
-- changes the canonical state  
-- becomes part of the permanent event log  
-- is used to reconstruct the world  
+Canonical events define **truth**.
 
 ---
 
 ### Candidate Event
 
-A **candidate event** is a proposed action created by an observer.
+A candidate event is:
 
-It represents:
+- proposed by an observer  
+- not yet validated  
+- subject to rejection  
 
-> intent, not reality  
-
-It must pass validation before becoming canonical.
+Candidate events are **attempts at truth**, not truth itself.
 
 ---
 
-### Invariants
+### Invariant
 
-**Invariants** are rules that must always remain true in canonical state.
+An invariant is a rule that must always hold.
 
 Examples:
 
-- a tile cannot contain two structures  
-- ownership must be consistent  
-- invalid transitions are not allowed  
+- a player cannot have negative resources  
+- two objects cannot occupy the same exclusive space  
 
-If an event violates an invariant:
-
-> it is rejected
-
----
-
-### Derived State
-
-**Derived state** is a materialized view of canonical history.
-
-It exists to:
-
-- improve performance  
-- simplify queries  
-
-It must always be:
-
-> reproducible from canonical events
-
----
-
-### Replay
-
-**Replay** is the process of reconstructing state from canonical history.
-
-CrypSA systems rely on:
-
-- replay  
-- snapshots  
-
-to rebuild the world.
-
----
-
-## Interpretation and Presentation
-
----
-
-### Lens
-
-A **lens** is an interpretation layer.
-
-It transforms canonical state into observer-specific experience.
-
-A lens may:
-
-- filter information (e.g. fog of war)  
-- determine what is visible  
-- shape gameplay context  
-- produce presentation-ready data  
-
-A lens:
-
-- does **not** define truth  
-- does **not** validate events  
-- does **not** mutate canonical state  
-
-> A lens answers: “What does this mean to this observer?”
-
----
-
-### Adapter
-
-An **adapter** is a translation layer.
-
-It prepares runtime and canonical data so that lenses and UI can consume it safely.
-
-An adapter may:
-
-- reshape data structures  
-- aggregate multiple sources  
-- normalize output formats  
-- build view models  
-
-An adapter:
-
-- does **not** interpret meaning  
-- does **not** validate events  
-- does **not** mutate canonical state  
-
-> An adapter answers: “How do we structure this data so it can be used?”
-
----
-
-### Adapter vs Lens (Key Distinction)
-
-| Concept  | Role |
-|----------|------|
-| Adapter  | Translates and shapes data |
-| Lens     | Interprets and gives meaning |
-
----
-
-Flow:
-
-```text
-Canonical State → Adapter → Lens → UI
-````
-
----
-
-## Runtime Concepts
+Invariants are enforced during validation and protect **truth**.
 
 ---
 
 ### Validation
 
-**Validation** is the process by which the server decides whether a candidate event is allowed.
+Validation is the process of checking a candidate event against invariants.
 
-It includes:
+If valid → it becomes canonical  
+If invalid → it is rejected  
 
-* schema checks
-* identity checks
-* precondition checks
-* invariant checks
-* rule checks
+Validation determines whether something becomes **truth**.
 
-Only valid events become canonical.
+---
+
+### Canonical History
+
+The canonical history is:
+
+- the ordered sequence of accepted events  
+- the authoritative record of what has happened  
+
+Everything else derives from this.
+
+---
+
+### Replay
+
+Replay is the process of:
+
+- taking canonical history  
+- rebuilding the current world state  
+
+Replay is how **truth becomes state**.
+
+---
+
+### Derived State
+
+Derived state is:
+
+- the current world state  
+- produced from replaying canonical events  
+
+It is not directly synchronized — it is reconstructed.
+
+---
+
+### Observer
+
+An observer is:
+
+- a client  
+- a local simulation of the world  
+
+Observers:
+
+- propose events  
+- simulate locally  
+- reconcile with canonical truth  
+
+Observers own the **experience layer**.
 
 ---
 
 ### Reconciliation
 
-**Reconciliation** is the process by which observers update local state to match canonical truth.
+Reconciliation is when:
 
-This occurs when:
+- an observer updates its local simulation  
+- to match canonical outcomes  
 
-* events are accepted
-* events are rejected
-* canonical state changes
-
----
-
-### Branch
-
-A **branch** represents a timeline or sequence of canonical events.
-
-Branches allow:
-
-* exploration of alternate histories
-* replay from different points
+This happens after events are accepted or rejected.
 
 ---
 
-### Snapshot
+### Adapter
 
-A **snapshot** is a stored canonical state at a specific point in history.
+An adapter reshapes data.
 
-It allows:
+It:
 
-* faster reconstruction
-* late joining
-* debugging
+- takes canonical and observer state  
+- produces structured outputs for interpretation or UI  
+
+Adapters belong to the **translation layer**.
+
+They do not define truth.
+
+---
+
+### Lens
+
+A lens interprets data.
+
+It determines:
+
+- what is visible  
+- what is interactable  
+- what matters to an observer  
+
+Lenses belong to the **interpretation layer**.
+
+They do not define truth or mutate state.
+
+---
+
+### UI / Experience
+
+The experience layer includes:
+
+- rendering  
+- input  
+- local feedback  
+- local simulation  
+
+This is what the player interacts with directly.
+
+It is responsive, but not authoritative.
 
 ---
 
 ## Summary
 
-CrypSA separates:
+CrypSA separates the system into four responsibilities:
 
-* **truth** (canonical events and validation)
-* **structure** (adapters)
-* **interpretation** (lenses)
-* **experience** (UI and simulation)
+- **truth** is defined by canonical events  
+- **translation** shapes data via adapters  
+- **interpretation** gives meaning via lenses  
+- **experience** presents the world to the observer  
 
----
-
-## One Sentence Summary
-
-CrypSA defines a system where canonical events determine truth, adapters shape data, lenses interpret it, and observers experience and simulate the resulting world.
+Understanding this separation makes the rest of CrypSA much easier to follow.
