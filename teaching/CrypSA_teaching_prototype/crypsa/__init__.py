@@ -1,0 +1,1 @@
+"""CrypSA teaching prototype package."""
