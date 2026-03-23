@@ -126,6 +126,29 @@ This is expected behavior.
 
 ---
 
+## How does CrypSA prevent client-side logic from breaking the system?
+
+CrypSA relies on strict separation of responsibilities:
+
+- the server defines truth  
+- adapters shape data  
+- lenses interpret meaning  
+- UI presents the result  
+
+In addition:
+
+- clients emit **typed requests** representing intent  
+- runtime/controller logic is the only place where state mutation occurs  
+- adapters prevent UI and lenses from accessing raw runtime structures  
+
+The teaching prototype confirmed that these boundaries are essential for:
+
+- preventing UI/runtime entanglement  
+- preventing lens-to-lens coupling  
+- preventing controller logic from spreading across the system  
+
+---
+
 ## Is CrypSA deterministic?
 
 Yes, at the canonical level.
@@ -202,6 +225,24 @@ It is a teaching tool designed to demonstrate:
 - validation  
 - canonical vs local state  
 
+It demonstrates the model, not runtime behavior.
+
+---
+
+## What is the difference between the prototype and the real system?
+
+The teaching prototype:
+
+- demonstrates the CrypSA model locally  
+- focuses on clarity and inspectability  
+- simplifies runtime constraints  
+
+The minimal server:
+
+- will test CrypSA as a runtime system  
+- introduces networking and multi-observer interaction  
+- validates behavior under real constraints  
+
 ---
 
 ## Can CrypSA scale?
@@ -230,7 +271,7 @@ Scaling depends on:
 
 CrypSA explores a different approach:
 
-> shared reality defined by history, not synchronized state
+> shared reality defined by history, not synchronized state  
 
 It aims to:
 
