@@ -6,14 +6,16 @@ Instead of synchronizing full world state, CrypSA synchronizes **canonical event
 
 Observers simulate the world locally, while a server validates events and preserves shared truth.
 
+For documentation precedence and folder roles, see `DOCS_STRUCTURE.md`.
+
 ---
 
 ## 🚀 Start Here
 
 If you're new to CrypSA:
 
-1. 📘 `CRYPSA_IN_5_MINUTES.md` — quick overview  
-2. 📖 `TERMINOLOGY_PRIMER.md` — understand the vocabulary  
+1. 📘 `CrypSA_In_5_Minutes.md` — quick overview  
+2. 📖 `CrypSA_Terminology_Primer.md` — understand the vocabulary  
 3. ❓ `FAQ.md` — common questions and concerns  
 
 ---
@@ -60,7 +62,7 @@ CrypSA is easiest to understand as four responsibilities:
 
 These responsibilities are explored in more detail in:
 
-- `CRYPSA_IN_5_MINUTES.md`
+- `CrypSA_In_5_Minutes.md`
 - `architecture/`
 
 ---
@@ -112,18 +114,20 @@ For more diagrams, see:
 * **Observers** — clients that reconstruct and simulate
 * **Lenses** — interpretation layers (view-dependent logic)
 
-See `TERMINOLOGY_PRIMER.md` for detailed explanations.
+See `CrypSA_Terminology_Primer.md` for detailed explanations.
 
 ---
 
 ## 📁 Repository Structure
 
-### Foundation
+### Exploratory Foundation
 
 Conceptual framing and motivation.
 
-```
-foundation/
+Exploratory background only. For the current model, prefer `CrypSA_In_5_Minutes.md`, `architecture/`, and `spec/`.
+
+``` 
+exploratory/foundation/
 ```
 
 ---
@@ -132,8 +136,10 @@ foundation/
 
 High-level system models.
 
+Exploratory models and earlier explanatory documents. Do not treat this folder as the current source of truth.
+
 ```
-core-concepts/
+exploratory/core_concepts/
 ```
 
 ---
@@ -141,6 +147,8 @@ core-concepts/
 ### Architecture
 
 How CrypSA operates conceptually.
+
+This is an authoritative system-explanation layer.
 
 ```
 architecture/
@@ -183,6 +191,8 @@ design/
 
 Practical guides and prototype direction.
 
+This folder describes implementation strategy and project direction. For system behavior, prefer `spec/`.
+
 ```
 implementation/
 ```
@@ -206,6 +216,8 @@ Includes:
 ### Diagrams
 
 Visual explanations of system behavior.
+
+Supporting material only. For authoritative behavior, prefer `spec/`.
 
 ```
 diagrams/
@@ -247,6 +259,10 @@ CrypSA includes a completed teaching prototype located in:
 
 `teaching/crypsa_teaching_prototype/`
 
+For authoritative prototype status, see:
+
+`teaching/crypsa_teaching_prototype/STATUS.md`
+
 This prototype is intended to:
 
 * demonstrate the CrypSA model in a live, inspectable system
@@ -274,8 +290,8 @@ Future CrypSA work (such as a minimal server/runtime) will be developed as separ
 
 Start with the core mental model:
 
-1. `CRYPSA_IN_5_MINUTES.md`
-2. `TERMINOLOGY_PRIMER.md`
+1. `CrypSA_In_5_Minutes.md`
+2. `CrypSA_Terminology_Primer.md`
 3. `FAQ.md`
 
 ---
