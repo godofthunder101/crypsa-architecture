@@ -8,15 +8,15 @@ These modules do not redefine the core model. They present it.
 
 Use this document when you want to know which UI file is responsible for which part of the teaching experience.
 
-If you want a guided tutorial for following the code across files, start with `codebase_walkthrough.md` in the project root first, then use this file as the UI-specific reference.
+If you want a guided tutorial for following the code across files, start with `Codebase_Walkthrough.md` in the project root first, then use this file as the UI-specific reference.
 
 If you want the current artifact status and maintenance posture before reading UI internals, read `../STATUS.md` in the project root.
 
-If you are validating interactive changes after reading the code, use `manual_regression_checklist.md` in the project root.
+If you are validating interactive changes after reading the code, use `Manual_Regression_Checklist.md` in the project root.
 
 If you are lost in the UI layer, use this file to answer one question first: "am I looking at layout, translated data, or controller intent?"
 
-If your question becomes "what would the full CrypSA runtime or deployment architecture do here?", step out of the UI layer and read `../prototype_vs_current_crypsa_model.md` before going into `../repo/`. These UI files teach the model; they do not try to mirror the full architecture.
+If your question becomes "what would the full CrypSA runtime or deployment architecture do here?", step out of the UI layer and read `../Prototype_vs_Current_CrypSA_Model.md` before going into `../repo/`. These UI files teach the model; they do not try to mirror the full architecture.
 
 ## Folder Role
 

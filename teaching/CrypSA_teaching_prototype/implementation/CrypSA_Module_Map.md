@@ -1,5 +1,9 @@
 # CrypSA Teaching Prototype - Module Map
 
+> Scope note: This document describes the teaching prototype implementation.
+>
+> It does not define the full CrypSA architecture. For prototype status, refer to `../STATUS.md`.
+
 ## Purpose
 
 This document maps the main modules of the CrypSA teaching prototype to the architectural layers they belong to.

@@ -1,5 +1,9 @@
 # CrypSA Teaching Prototype - Layer Model
 
+> Scope note: This document describes the teaching prototype implementation.
+>
+> It does not define the full CrypSA architecture. For prototype status, refer to `../STATUS.md`.
+
 ## Purpose
 
 This document defines the architectural layers of the CrypSA teaching prototype.

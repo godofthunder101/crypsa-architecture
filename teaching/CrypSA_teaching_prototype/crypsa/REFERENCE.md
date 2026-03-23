@@ -10,15 +10,15 @@ It answers one main question:
 
 Use this document when you want the architecture explained in prose before reading the code.
 
-If you want a guided tutorial for following the code across files, start with `codebase_walkthrough.md` in the project root first, then return here for package-level reference detail.
+If you want a guided tutorial for following the code across files, start with `Codebase_Walkthrough.md` in the project root first, then return here for package-level reference detail.
 
 If you want the current artifact status and maintenance posture before diving into runtime details, read `../STATUS.md` in the project root.
 
-If you want the quickest repeatable smoke test after changing runtime/UI behavior, use `manual_regression_checklist.md` in the project root.
+If you want the quickest repeatable smoke test after changing runtime/UI behavior, use `Manual_Regression_Checklist.md` in the project root.
 
 If you are lost while reading the runtime, come back to this file after each major source file. It is meant to be a map, not a one-time introduction.
 
-If your question turns into "how would this work across a real deployed CrypSA runtime?", leave this package and read `../prototype_vs_current_crypsa_model.md`, then the newer `../repo/` material. This package teaches the runtime loop, not the full deployment shape.
+If your question turns into "how would this work across a real deployed CrypSA runtime?", leave this package and read `../Prototype_vs_Current_CrypSA_Model.md`, then the newer `../repo/` material. This package teaches the runtime loop, not the full deployment shape.
 
 ## Folder Role
 
@@ -487,7 +487,7 @@ These values describe submissions that are not canonical yet, plus the identifie
 
 These values are for learning and inspection, not for defining truth.
 
-These state groups are also the easiest bridge into `runtime_schema.md`, because the saved schema mirrors them closely.
+These state groups are also the easiest bridge into `Runtime_Schema.md`, because the saved schema mirrors them closely.
 
 ## Important CrypSA Ideas In This Package
 
@@ -558,7 +558,7 @@ If you only need one runtime concept, use this shortcut:
 - button/click intent question -> `crypsa_action_requests.py`
 - request-routing question -> `request_dispatch.py`
 - runtime-state load/save question -> `runtime_persistence.py`
-- scope-boundary question -> `../prototype_vs_current_crypsa_model.md`
+- scope-boundary question -> `../Prototype_vs_Current_CrypSA_Model.md`
 
 ## Beginner Notes
 

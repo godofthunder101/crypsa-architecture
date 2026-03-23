@@ -36,9 +36,9 @@ The goal of this section is to:
 
 If you are new to CrypSA, start with:
 
-- `CRYPSA_IN_5_MINUTES.md`  
+- `CrypSA_In_5_Minutes.md`  
 - `spec/`  
-- `CrypSA_WORKED_EXAMPLE.md`  
+- `CrypSA_Worked_Example.md`  
 
 Then return here later.
 

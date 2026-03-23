@@ -1,5 +1,9 @@
 # CrypSA Refactor Guardrails
 
+> Scope note: This document describes guardrails for the teaching prototype implementation.
+>
+> It does not define the full CrypSA architecture. For prototype status, refer to `../STATUS.md`.
+
 ## Purpose
 
 This document defines the architectural guardrails for future refactoring of the CrypSA teaching prototype.

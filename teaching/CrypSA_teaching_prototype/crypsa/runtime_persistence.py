@@ -107,7 +107,7 @@ def save_runtime_store(path: Path, store: RuntimeStore, *, catalog_version: int)
     """Persist a runtime store into the current on-disk teaching schema."""
 
     # Keep save layout parallel with load layout so the saved file remains easy
-    # to compare against runtime_schema.md and the RuntimeStore state groups.
+    # to compare against Runtime_Schema.md and the RuntimeStore state groups.
     data = {
         "observer": {
             "local_x": store.observer.local_x,

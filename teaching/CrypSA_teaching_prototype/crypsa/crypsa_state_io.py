@@ -22,6 +22,6 @@ def save_runtime_state(path: Path, data: dict[str, object]) -> None:
 
     # The runtime owns schema meaning. This module only serializes the exact
     # structure it is given so state I/O stays easy to audit. If save/load
-    # behavior feels confusing, read runtime_schema.md first and then return to
+    # behavior feels confusing, read Runtime_Schema.md first and then return to
     # this file; this module is intentionally the boring boundary.
     path.write_text(json.dumps(data, indent=2), encoding="utf-8")

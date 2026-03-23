@@ -4,9 +4,16 @@
 
 This folder contains the minimal CrypSA teaching prototype.
 
-If you want the fastest guided entrypoint into the project, start with `start_here.md`.
+This folder is authoritative for the teaching system itself, but it does not define the full CrypSA runtime architecture.
 
-If you want the current artifact status and intended maintenance policy, read `STATUS.md`.
+For the authoritative adapter and observer-model docs, see:
+
+- `../../architecture/CrypSA_Adaptor_Model.md`
+- `../../architecture/CrypSA_Client_Observer_Model.md`
+
+If you want the fastest guided entrypoint into the project, start with `Start_Here.md`.
+
+If you want the authoritative artifact status and intended maintenance policy, read `STATUS.md`.
 
 If you want the implementation-facing architecture anchor, start with:
 

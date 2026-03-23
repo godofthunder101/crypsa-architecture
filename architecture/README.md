@@ -4,6 +4,12 @@ This section explains how CrypSA works as a system.
 
 It focuses on structure and relationships, not step-by-step flow.
 
+This folder is part of the authoritative system-explanation layer for CrypSA.
+
+Other documents in the repository should not redefine the concepts described here.
+
+For exact runtime behavior, pair it with `../spec/`.
+
 ---
 
 ## Core Idea
@@ -143,7 +149,7 @@ Separating responsibilities allows:
 
 ## Where to Go Next
 
-* `CrypSA_architecture_overview.md` — system map
+* `../CrypSA_Architecture_Overview.md` — system map
 * `CrypSA_Event_Model.md` — event structure
 * `CrypSA_Validation_Model.md` — invariant enforcement
 * `CrypSA_Replay_Model.md` — state reconstruction
