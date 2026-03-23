@@ -17,7 +17,7 @@ CrypSA is currently:
 
 - a defined architecture  
 - supported by structured documentation  
-- backed by a teaching prototype  
+- backed by a completed teaching prototype  
 - not yet a production runtime  
 
 The project has moved beyond a conceptual idea and now includes:
@@ -25,6 +25,19 @@ The project has moved beyond a conceptual idea and now includes:
 - formal specifications  
 - a defined runtime model  
 - a clear implementation direction  
+
+---
+
+## Core Model (Mental Frame)
+
+CrypSA separates responsibilities into four layers:
+
+- **Truth** — canonical events and validation  
+- **Translation** — adapters shaping runtime data  
+- **Interpretation** — lenses determining observer meaning  
+- **Experience** — UI and local simulation  
+
+The current repository demonstrates this model conceptually and through the teaching prototype.
 
 ---
 
@@ -69,16 +82,29 @@ These documents define how CrypSA is expected to function as a system.
 
 ### 3. Teaching Prototype
 
-A local prototype exists to demonstrate:
+A local teaching prototype exists in:
 
-- event flow  
-- validation concepts  
-- canonical vs local state  
-- observer-driven simulation  
+`teaching/crypsa_teaching_prototype/`
 
-This prototype is intentionally simple and is designed as a learning tool.
+It demonstrates:
 
-It does **not** represent a full CrypSA runtime.
+- canonical event flow  
+- validation and invariant boundaries  
+- canonical vs observer-local state  
+- replay-derived state  
+- event lineage and branching  
+- adapter and lens separation in practice  
+
+Status:
+
+- complete for its intended purpose  
+- stable and internally consistent  
+- frozen except for bug fixes and documentation updates  
+
+Important:
+
+> This prototype demonstrates the CrypSA model locally.  
+> It is not a runtime or network proof.
 
 ---
 
@@ -112,7 +138,7 @@ The following are **not yet implemented**:
 
 ---
 
-## Current Prototype Limitations
+## Teaching Prototype Limitations
 
 The teaching prototype:
 
@@ -120,11 +146,11 @@ The teaching prototype:
 - does not use real networking  
 - simplifies validation and conflict handling  
 - does not represent real latency or concurrency  
-- focuses on clarity over correctness under load  
+- focuses on clarity over production correctness  
 
 It is intended to:
 
-> demonstrate the model, not prove scalability
+> demonstrate the model, not prove runtime behavior
 
 ---
 
@@ -137,7 +163,7 @@ CrypSA is currently focused on proving:
 3. that observers can reconstruct shared state from event history  
 4. that reconciliation between local prediction and canonical truth is manageable  
 
-The goal is to validate the architecture, not optimize it yet.
+The goal is to validate the architecture, not optimize it.
 
 ---
 
@@ -158,7 +184,7 @@ This will introduce:
 
 This step moves CrypSA from:
 
-> defined architecture → working system
+> defined architecture → working runtime system
 
 ---
 
@@ -197,6 +223,11 @@ Longer-term evolution of CrypSA (scalability, security, advanced features) is de
 
 ---
 
+### To understand the model in practice
+- `teaching/crypsa_teaching_prototype/`  
+
+---
+
 ### To understand how to build it
 - `implementation/CrypSA_Minimal_Server_v0.1.md`  
 
@@ -204,4 +235,4 @@ Longer-term evolution of CrypSA (scalability, security, advanced features) is de
 
 ## One Sentence Summary
 
-CrypSA is currently a defined and specified architecture with a teaching prototype, moving toward its first real implementation via a minimal independent server.
+CrypSA is a defined architecture with formal specifications and a completed teaching prototype, now moving toward its first real runtime implementation via a minimal independent server.
