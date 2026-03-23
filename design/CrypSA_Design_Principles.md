@@ -1,279 +1,239 @@
----
+# CrypSA Design Principles
 
-CrypSA Design Principles
+## Purpose
 
-Purpose
+This document outlines the design principles that guide CrypSA.
 
-This document outlines the design principles that guide the CrypSA architecture.
+CrypSA is not just a networking pattern. It is an architectural approach for building persistent digital universes around canonical truth, local observer simulation, and explicit reconstruction.
 
-CrypSA is not only a technical model but also a philosophy for building persistent digital universes that remain consistent, scalable, and flexible.
-
-These principles describe how systems should be designed when building on top of CrypSA.
-
+These principles describe how systems built on CrypSA should be designed.
 
 ---
 
-Principle 1 — Canonical Truth Is Sacred
+## Foundational Principles
 
-The canonical universe must always remain internally consistent.
+### 1. Canonical Truth Is Authoritative
 
-No system component — including clients, servers, or tools — should be allowed to violate canonical invariants.
+Canonical truth must remain internally consistent.
+
+No component, including clients, tools, or supporting systems, may bypass canonical validation or violate invariants.
 
 CrypSA assumes:
 
-canonical truth is authoritative
+* canonical truth is authoritative
+* invariants define what must remain true
+* validation protects the shared universe
 
-invariants define structural reality
-
-validation protects the universe
-
-
-This principle ensures that the shared universe remains trustworthy.
-
+This principle is the foundation of the architecture.
 
 ---
 
-Principle 2 — Simulate Locally Whenever Possible
+### 2. The Server Protects Truth, Not Experience
 
-Not every action requires server validation.
+CrypSA separates responsibilities into:
 
-CrypSA encourages:
+* **Truth** — canonical events and validation
+* **Translation** — adapters shaping data
+* **Interpretation** — lenses defining meaning
+* **Experience** — UI and local simulation
 
-local prediction
+The server operates in the truth layer.
 
-local simulation
-
-observer-relative effects
-
-
-Server validation should only occur when canonical truth may change.
-
-This dramatically reduces server load while maintaining correctness.
-
+It determines what becomes canonical. It does not need to own local feel, presentation, or full observer simulation.
 
 ---
 
-Principle 3 — Protect the Invariant Boundary
+### 3. Simulate Locally Whenever Canonical Truth Is Not at Stake
 
-The invariant boundary separates:
+Observers should simulate locally whenever doing so does not directly change shared truth.
 
-Local experience
-from
-Canonical reality
+This includes:
 
-Maintaining a clear invariant boundary is essential.
+* prediction
+* temporary local effects
+* presentation-driven behavior
+* observer-relative simulation
 
-If the boundary becomes unclear or porous, systems risk:
+Server validation is required when canonical truth may change.
 
-desynchronization
-
-exploits
-
-unstable world state
-
-
-Every interaction should clearly answer:
-
-Does this affect canonical truth?
-
+This preserves responsiveness without weakening shared consistency.
 
 ---
 
-Principle 4 — Validate Only What Matters
+### 4. Protect the Invariant Boundary
 
-Validation should be targeted and meaningful, not exhaustive.
+The invariant boundary separates observer-local behavior from canonical world change.
 
-CrypSA systems should avoid constantly verifying every object or action.
+Every meaningful interaction should answer a simple question:
 
-Instead:
+> Does this action affect canonical truth?
 
-detect anomalies
+If yes, it must cross the invariant boundary and be validated before becoming canonical.
 
-investigate when invariants are threatened
+A clear invariant boundary is essential for:
 
-prioritize high-impact objects
-
-
-This makes large persistent worlds computationally feasible.
-
-
----
-
-Principle 5 — Use Contextual Validation
-
-Events should be validated using contextual information when appropriate.
-
-Instead of treating every action as isolated, CrypSA allows systems to evaluate:
-
-recent event history
-
-object provenance
-
-contextual trails
-
-
-This enables powerful validation strategies such as:
-
-event chain verification
-
-contextual event validation
-
-anomaly detection
-
-
+* consistency
+* security
+* reconciliation
+* architectural clarity
 
 ---
 
-Principle 6 — Preserve Object Provenance
+### 5. Favor Canonical Events Over Mutable State Synchronization
 
-Objects should carry a traceable history of how they came to exist.
+CrypSA systems should prefer validated canonical events as the basis of shared truth.
 
-Provenance allows systems to:
+Rather than constantly synchronizing mutable world state, observers should reconstruct from canonical history and related canonical definitions.
 
-detect duplicates
-
-detect impossible transitions
-
-investigate anomalies
-
-track historical ownership
-
-
-Provenance strengthens the integrity of the universe.
-
+This keeps truth explicit, inspectable, and durable.
 
 ---
 
-Principle 7 — Defer Investigation When Possible
+### 6. Favor Reconstruction Over Hidden Authority
 
-CrypSA encourages deferring expensive investigations when immediate validation is not required.
+Observers should be able to reconstruct relevant canonical reality from:
 
-Instead of blocking gameplay, systems can:
+* identity
+* genome or structural definition
+* canonical event history
+* invariant-relevant state
 
-quarantine suspicious objects
-
-flag anomalies
-
-schedule background investigation
-
-
-This maintains smooth player experience while preserving integrity.
-
+This makes world evolution understandable and debuggable, and reduces dependence on opaque centralized simulation.
 
 ---
 
-Principle 8 — Hide Infrastructure Behind Gameplay
+### 7. Keep the Canonical Layer Minimal
 
-Infrastructure mechanisms should be integrated into the game world whenever possible.
-
-For example:
-
-powerful items may require attunement time
-
-resources may take time to stabilize
-
-transferred objects may require synchronization periods
-
-
-These mechanics can naturally mask system validation delays while enhancing immersion.
-
-
----
-
-Principle 9 — Favor Reconstruction Over Synchronization
-
-CrypSA systems should prefer reconstructing world state rather than constantly synchronizing mutable state.
-
-Observers should rebuild their local universe using:
-
-Identity
-+ Genome
-+ Invariant State
-+ Event History
-
-This approach improves scalability and reduces network complexity.
-
-
----
-
-Principle 10 — Design Universes, Not Just Servers
-
-CrypSA is intended as infrastructure for persistent digital worlds.
-
-Developers should think in terms of:
-
-universe rules
-
-canonical truth
-
-invariant systems
-
-observer frames
-
-
-Rather than focusing only on traditional server-client relationships.
-
-
----
-
-Principle 11 — Encourage Multiple Interpretations
-
-CrypSA allows multiple experiences to exist on top of the same canonical universe.
-
-Different systems may apply different lenses:
-
-gameplay lenses
-
-economic lenses
-
-discovery lenses
-
-visualization lenses
-
-
-This enables multiple applications to coexist within the same universe.
-
-
----
-
-Principle 12 — Keep the Canonical Layer Minimal
-
-Canonical truth should contain only what must remain consistent.
+Canonical truth should contain only what must remain globally consistent.
 
 It should avoid storing:
 
-temporary simulation data
+* temporary simulation state
+* observer-specific interpretation
+* presentation details
+* transient local effects
 
-observer-specific information
-
-presentation details
-
-
-The canonical layer should remain compact and durable.
-
+The canonical layer should remain compact, durable, and focused on truth.
 
 ---
 
-Summary of the Principles
+### 8. Separate Truth, Translation, Interpretation, and Experience
 
-The CrypSA philosophy can be summarized as:
+CrypSA depends on explicit architectural boundaries.
 
-Protect canonical truth
-Simulate locally
-Validate only when necessary
-Preserve structural integrity
-Hide infrastructure behind gameplay
+Systems should not collapse these layers together.
 
-These principles allow CrypSA to support persistent universes that remain scalable, consistent, and flexible.
+In particular:
 
+* adapters must not become validators
+* lenses must not become truth sources
+* UI must not become runtime authority
+* observer experience must not redefine canonical reality
 
----
-
-One Sentence Summary
-
-CrypSA design principles prioritize protecting canonical truth while allowing observers to simulate locally and interpret the universe flexibly without compromising structural integrity.
-
+This separation keeps the architecture understandable and prevents controller sprawl.
 
 ---
 
+### 9. Preserve Object Identity and Provenance
 
+Canonical objects should retain stable identity across their lifecycle, while canonical history records how they changed over time.
+
+This allows systems to reason about:
+
+* ownership
+* transitions
+* lineage
+* anomaly investigation
+* object persistence
+
+CrypSA systems should preserve enough provenance to explain how canonical reality came to be.
+
+---
+
+### 10. Support Multiple Interpretations of the Same Truth
+
+A single canonical universe may support multiple observer experiences.
+
+Different systems may apply different lenses and experience layers to the same underlying truth.
+
+This allows:
+
+* different gameplay views
+* different tooling views
+* different visibility rules
+* different observer contexts
+
+Interpretation may vary. Canonical truth must not.
+
+---
+
+### 11. Design Universes, Not Just Servers
+
+CrypSA should be designed as infrastructure for persistent universes, not merely as a conventional multiplayer backend.
+
+This means thinking in terms of:
+
+* canonical truth
+* invariants
+* object lifecycle
+* event history
+* observer reconstruction
+
+rather than only request/response flows or centralized simulation loops.
+
+---
+
+## Optional Design Strategies
+
+The following are useful strategies in some CrypSA systems, but they are not universal requirements.
+
+### Context-Aware Validation
+
+Some systems may validate events using surrounding canonical context, provenance, or recent event history rather than only isolated checks.
+
+This can support stronger anomaly detection and richer rule enforcement.
+
+---
+
+### Deferred Investigation
+
+Some systems may defer expensive investigation when immediate rejection is not required, provided canonical truth remains protected.
+
+This can help balance responsiveness and operational cost.
+
+---
+
+### Gameplay-Integrated Infrastructure
+
+Some applications may hide infrastructure delays or validation pacing behind diegetic gameplay concepts, such as attunement, stabilization, or synchronization periods.
+
+This is an application design strategy, not a core architectural requirement.
+
+---
+
+### Risk-Based Validation Depth
+
+Some systems may validate high-impact actions more deeply than low-impact actions, as long as canonical truth remains properly protected.
+
+This is a scaling strategy, not permission to weaken invariants.
+
+---
+
+## Summary
+
+CrypSA design is guided by a small set of core ideas:
+
+* protect canonical truth
+* simulate locally where possible
+* keep the invariant boundary explicit
+* reconstruct from canonical history
+* keep the canonical layer minimal
+* preserve separation between truth, translation, interpretation, and experience
+
+These principles allow CrypSA to support persistent universes that remain consistent, flexible, and understandable.
+
+---
+
+## One Sentence Summary
+
+CrypSA is designed around protecting canonical truth while allowing observers to simulate, interpret, and experience the universe locally through explicit architectural boundaries.
