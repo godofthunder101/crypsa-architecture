@@ -1,226 +1,190 @@
 # CrypSA Architecture Overview
 
-This document provides a high-level map of the CrypSA system.
+This document provides a high-level map of how CrypSA is structured.
 
-It shows how the major components relate to each other without going into full detail.
+It is intentionally focused on system structure rather than step-by-step flow.
 
-For detailed explanations, see the architecture and spec documents.
+For a worked example, see:
 
----
-
-## Purpose
-
-This document answers:
-
-> What are the main parts of CrypSA, and how do they fit together?
-
-It is not intended to teach the full system.
-
-It is intended to:
-
-- orient readers  
-- provide a system map  
-- show relationships between components  
+- `CrypSA_WORKED_EXAMPLE.md`
 
 ---
 
 ## High-Level View
 
-CrypSA is built around four core layers:
+CrypSA is best understood as four core responsibilities:
 
-1. Observers (clients)  
-2. Canonical server  
-3. Adapter layer (translation)  
-4. Lens layer (interpretation)  
+- **Truth** — canonical events and validation  
+- **Translation** — adapters shaping runtime data  
+- **Interpretation** — lenses determining observer meaning  
+- **Experience** — UI and local simulation  
 
----
+These responsibilities are implemented across different parts of the system:
 
-## System Overview Diagram
-
-```mermaid
-flowchart LR
-
-subgraph Observer
-A[Local Simulation]
-B[Predicted Actions]
-C[Observer State]
-end
-
-subgraph Server
-D[Validation Pipeline]
-E[Canonical Event Log]
-F[Derived State]
-end
-
-subgraph Adapter Layer
-G[Adapters]
-end
-
-subgraph Lens Layer
-H[Lenses]
-end
-
-subgraph Presentation
-I[UI / Player Experience]
-end
-
-A --> B
-B --> D
-
-D -->|Accepted| E
-D -->|Rejected| C
-
-E --> F
-F --> G
-C --> G
-
-G --> H
-H --> I
-````
+- observers (clients)
+- canonical server
+- adapter layer
+- lens layer
+- UI / observer experience
 
 ---
 
 ## Core Components
 
----
+### Observers (Clients)
 
-### Observer (Client)
+Observers:
 
-Observers are responsible for:
+- simulate the world locally  
+- generate candidate events  
+- render the world to the player  
+- reconcile with canonical updates  
 
-* reconstructing canonical state
-* simulating the world locally
-* proposing candidate events
-* shaping data through adapters
-* interpreting data through lenses
-* presenting the world
-
-Observers provide responsiveness and local experience.
+They are responsible for the **experience layer** and parts of interpretation.
 
 ---
 
 ### Canonical Server
 
-The canonical server is responsible for:
+The server:
 
-* validating candidate events
-* enforcing invariants
-* recording canonical events
-* defining shared truth
+- receives candidate events  
+- validates them against invariants  
+- accepts or rejects them  
+- assigns canonical order  
 
-The server does not need to simulate the full world.
-
----
-
-### Canonical Event Log
-
-The canonical event log is the source of truth.
-
-* all accepted events are recorded
-* history defines reality
-* state is derived from events
-
----
-
-### Derived Canonical State
-
-Derived state is a materialized view of canonical history.
-
-It exists to:
-
-* improve performance
-* simplify queries
-
-It must always be:
-
-> reproducible from canonical events
+The server defines **truth**.
 
 ---
 
 ### Adapter Layer
 
-Adapters are responsible for:
+Adapters:
 
-* translating runtime and canonical data
-* shaping data for consumption
-* isolating system boundaries
+- reshape canonical and observer state  
+- combine runtime data into structured forms  
+- prepare data for interpretation and UI  
 
-They sit between:
+Adapters are the **translation layer**.
 
-* runtime state
-* lenses and UI
-
-Adapters do not define truth or interpretation.
+They do not define truth.
 
 ---
 
 ### Lens Layer
 
-Lenses are responsible for:
+Lenses:
 
-* interpreting canonical reality
-* applying visibility and gameplay meaning
-* producing observer-specific views
+- interpret adapted data  
+- determine what an observer sees  
+- define interaction meaning  
 
-Lenses transform structured data into player-facing experience.
+Lenses are the **interpretation layer**.
 
----
-
-### Presentation Layer
-
-The presentation layer includes:
-
-* UI
-* visuals
-* interaction
-
-It consumes lens outputs and presents them to the player.
+They do not define truth or mutate runtime state.
 
 ---
 
-## Key Flow
+### UI / Observer Experience
 
-At a high level:
+The UI layer:
 
-1. observers simulate locally
-2. actions become candidate events
-3. the server validates events
-4. accepted events enter canonical history
-5. canonical state is derived
-6. adapters shape data
-7. lenses interpret that data
-8. the UI presents the result
-9. observers reconcile with canonical truth
+- renders the world  
+- handles input  
+- provides immediate feedback  
+- drives local simulation  
+
+This is the **experience layer**.
 
 ---
 
-## Key Idea
+## Architectural Separation
+
+The key idea in CrypSA is that these responsibilities remain separate:
+
+| Responsibility | Layer |
+|------|--------|
+| Truth | Canonical events + validation |
+| Translation | Adapters |
+| Interpretation | Lenses |
+| Experience | UI / local simulation |
+
+This separation prevents:
+
+- UI logic leaking into runtime truth  
+- validation becoming entangled with presentation  
+- interpretation being confused with data shaping  
+
+---
+
+## Why This Structure Exists
+
+Traditional architectures often combine:
+
+- simulation
+- validation
+- rendering
+
+into tightly coupled systems.
+
+CrypSA separates them to:
+
+- improve clarity  
+- enable deterministic replay  
+- support multiple observer views  
+- allow independent evolution of layers  
+
+---
+
+## Data Flow (Simplified)
+
+```mermaid
+flowchart LR
+
+A[Canonical Events] --> B[Derived State]
+B --> C[Adapters]
+C --> D[Lenses]
+D --> E[UI / Experience]
+````
+
+---
+
+## Intent Flow (Simplified)
+
+```mermaid
+flowchart LR
+
+A[User Action] --> B[Candidate Event]
+B --> C[Validation]
+C -->|Accepted| D[Canonical Events]
+C -->|Rejected| E[Rejection]
+```
+
+---
+
+## Important Distinction
 
 CrypSA separates:
 
-* truth (canonical events)
-* structure (adapters)
-* interpretation (lenses)
-* experience (UI and simulation)
+* **what is true**
+  from
+* **how it is seen**
 
-This separation allows the system to be:
+Truth lives in canonical history.
 
-* flexible
-* debuggable
-* persistent
-* replayable
+Everything else derives from it.
 
 ---
 
-## Relationship to Other Documents
+## Summary
 
-* `architecture/` → explains each component
-* `spec/` → defines runtime behavior
-* `CrypSA_WORKED_EXAMPLE.md` → shows a full flow
-* `diagrams/` → visual explanations
+CrypSA is structured around a clear separation of responsibilities:
 
----
+* canonical events define truth
+* adapters translate data
+* lenses interpret meaning
+* observers experience and simulate the world
 
-## One Sentence Summary
-
-CrypSA is structured as observers and a canonical server, with adapters shaping data and lenses interpreting it, allowing shared reality to emerge from validated event history.
+This separation is what makes the system predictable, debuggable, and extensible.
+👉 `TERMINOLOGY_PRIMER.md` (very small but important alignment tweak)
+```
