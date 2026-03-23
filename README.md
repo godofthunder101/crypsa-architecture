@@ -174,6 +174,20 @@ implementation/
 
 ---
 
+### Teaching
+
+Educational materials and example implementations.
+
+```
+teaching/
+```
+
+Includes:
+
+* `crypsa_teaching_prototype/` — completed teaching prototype
+
+---
+
 ### Diagrams
 
 Visual explanations of system behavior.
@@ -209,6 +223,33 @@ Next major step:
 See:
 
 `implementation/CrypSA_Project_Status.md`
+
+---
+
+### 🧪 Teaching Prototype
+
+CrypSA includes a completed teaching prototype located in:
+
+`teaching/crypsa_teaching_prototype/`
+
+This prototype is intended to:
+
+* demonstrate the CrypSA model in a live, inspectable system
+* show how canonical events, validation, replay, and observers interact
+* support learning and experimentation
+
+It is **not**:
+
+* a production runtime
+* a distributed server implementation
+* a scalability or networking proof
+
+Status:
+
+* Complete for its intended purpose
+* Frozen except for bug fixes and documentation updates
+
+Future CrypSA work (such as a minimal server/runtime) will be developed as separate programs rather than extending this prototype indefinitely.
 
 ---
 
