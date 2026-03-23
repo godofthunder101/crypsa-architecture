@@ -1,383 +1,202 @@
----
+# CrypSA Glossary
 
-CrypSA Glossary
+## Purpose
 
-Purpose
+This glossary defines the core terminology used throughout the CrypSA architecture.
 
-The CrypSA Glossary defines the core terminology used throughout the CrypSA architecture documentation.
+These terms represent the **canonical vocabulary** of the system.
 
-Because CrypSA introduces several concepts that differ from traditional multiplayer architectures, consistent terminology is important for clear communication between developers, researchers, and implementers.
-
-The terms defined here represent the canonical vocabulary of the CrypSA architecture.
-
+Definitions here should align with the architecture, spec, and implementation layers.
 
 ---
 
-Core Architectural Terms
+## Core Terms
 
-CrypSA
+### CrypSA
 
 CrypSA (Cryptid Server Architecture) is a distributed architecture for persistent digital universes.
 
-Instead of synchronizing full world simulation state, CrypSA synchronizes canonical invariants and validated event history, allowing observers to reconstruct the universe locally.
-
+It synchronizes **validated canonical events** rather than full world state, allowing observers to reconstruct the universe locally.
 
 ---
 
-Universe
+### Universe
 
-A Universe is the persistent canonical structure governed by the CrypSA architecture.
+A Universe is the persistent system governed by CrypSA.
 
 It consists of:
 
-minted identities
-
-deterministic genomes
-
-canonical invariant state
-
-canonical event history
-
-
-Observers experience the universe through local reconstruction.
-
+* canonical identities
+* deterministic genomes
+* invariant constraints
+* canonical event history
 
 ---
 
-Observer
+### Observer
 
 An Observer is any system that reconstructs and experiences the universe.
 
-Observers may include:
+Examples include:
 
-player clients
+* player clients
+* simulation nodes
+* tools or analytics systems
 
-simulation nodes
-
-analytics systems
-
-automated agents
-
-
-Observers simulate locally while respecting canonical invariants.
-
+Observers simulate locally while respecting canonical truth.
 
 ---
 
-Observer Frame
+## Structural Concepts
 
-An Observer Frame is the local context through which an observer experiences the universe.
+### Canonical Object
 
-It includes:
+A Canonical Object is an entity defined by:
 
-local simulation
+* identity
+* genome
+* invariant-relevant state
+* event history
 
-lens interpretation
-
-temporary phenomena
-
-observer-relative state
-
-
-Observer frames may differ between observers while still referencing the same canonical universe.
-
+It can be reconstructed deterministically from canonical data.
 
 ---
 
-Structural Concepts
+### Identity
 
-Canonical Object
-
-A Canonical Object is a structural entity that exists within the universe.
-
-Canonical objects are defined by:
-
-identity
-
-genome
-
-invariant state
-
-event history
-
-
-These properties allow deterministic reconstruction.
-
+An Identity is a unique, immutable identifier for a canonical object.
 
 ---
 
-Identity
+### Genome
 
-An Identity is the immutable identifier assigned to a canonical object.
-
-Identities ensure that observers refer to the same structural entity even when interpreted differently.
-
+A Genome defines the deterministic structure and rules for a canonical object.
 
 ---
 
-Genome
+### Mint
 
-A Genome is the deterministic rule set that defines how a canonical object behaves and how its structure can be reconstructed.
+The Mint is responsible for issuing identities and genomes.
 
-Genomes may include:
+It ensures:
 
-generative parameters
-
-behavioral rules
-
-structural relationships
-
-
+* identity uniqueness
+* deterministic structure
+* reproducibility
 
 ---
 
-Mint
+## Truth Layer
 
-The Mint is the system responsible for issuing canonical identities and genomes.
+### Canonical Truth
 
-It defines the structural existence of entities within the universe.
-
-The Mint guarantees:
-
-identity uniqueness
-
-deterministic generation
-
-structural reproducibility
-
-
-
----
-
-Canonical Truth
-
-Canonical Truth
-
-Canonical Truth represents the shared structural reality of the universe.
+Canonical Truth is the shared reality of the universe.
 
 It consists of:
 
-canonical objects
+* canonical event history
+* invariant constraints
+* identity and genome definitions
 
-invariant state
-
-canonical event history
-
-
-Observers reconstruct their experience using this information.
-
+It is protected by server validation.
 
 ---
 
-Invariant
+### Canonical Event
 
-An Invariant is a property of the universe that must remain globally consistent across observers.
-
-Examples may include:
-
-world structures
-
-resource thresholds
-
-discovery states
-
-historical milestones
-
-
-Actions that affect invariants must be validated.
-
+A Canonical Event is a validated change to canonical truth.
 
 ---
 
-Invariant Boundary
+### Event History
 
-The Invariant Boundary separates observer-local simulation from canonical world changes.
+Event History is the ordered record of canonical events.
 
-Interactions that cross this boundary generate canonical events.
-
-
----
-
-Event System
-
-Canonical Event
-
-A Canonical Event represents a validated change to shared world truth.
-
-Canonical events are appended to the universe’s event history after validation.
-
+It defines how the universe evolves over time.
 
 ---
 
-Event History
+### Invariant
 
-The Event History is the chronological record of canonical events that have occurred in the universe.
-
-Event history allows:
-
-deterministic reconstruction
-
-temporal replay
-
-historical analysis
-
-
+An Invariant is a rule that must always remain true in canonical reality.
 
 ---
 
-Event Reconciliation
+### Invariant Boundary
 
-Event Reconciliation is the process by which the server validates canonical events and updates invariant state.
-
-The reconciliation system ensures that canonical truth remains consistent.
-
+The Invariant Boundary is where proposed actions are validated before becoming canonical.
 
 ---
 
-Interpretation System
+## Observer Concepts
 
-Lens
+### Local Simulation
 
-A Lens is a modular interpretation layer that determines how canonical objects are perceived and interacted with by observers.
+Local Simulation is simulation performed by observers.
 
-Lenses may modify:
+Examples:
 
-visible properties
+* movement
+* physics
+* gameplay mechanics
 
-gameplay interactions
-
-system behaviors
-
-informational visibility
-
-
+It is not authoritative.
 
 ---
 
-Lens Stack
+### Observer Convergence
 
-A Lens Stack is a layered combination of lenses applied to an observer frame.
-
-Example lens stack:
-
-Observer Frame
-   ↓
-Gameplay Lens
-   ↓
-Economy Lens
-   ↓
-Discovery Lens
-   ↓
-Canonical Object
-
+Observer Convergence is the process by which observers align with canonical truth after updates.
 
 ---
 
-Simulation Concepts
+## Translation Layer
 
-Local Simulation
+### Adapter
 
-Local Simulation refers to simulation performed by observers within their own observer frame.
-
-Examples include:
-
-physics prediction
-
-visual effects
-
-temporary interactions
-
-gameplay mechanics
-
-
-Local simulation may vary between observers.
-
+An Adapter reshapes data between system layers without changing meaning.
 
 ---
 
-Observer Convergence
+## Interpretation Layer
 
-Observer Convergence refers to the process by which observers eventually align with canonical truth after receiving validated events.
+### Lens
 
-
----
-
-Validation Concepts
-
-Contextual Event Validation
-
-Contextual Event Validation is a CrypSA validation approach where events are verified using surrounding context rather than immediate full-state verification.
-
-This may include examining:
-
-recent event trails
-
-invariant changes
-
-structural balance
-
-
+A Lens interprets canonical or translated data into observer-specific meaning.
 
 ---
 
-Event Trail
+### Lens Stack
 
-An Event Trail is the contextual chain of related actions surrounding a canonical event.
-
-Event trails may be used for anomaly detection or delayed validation.
-
+A Lens Stack is a composition of lenses applied to produce interpretation.
 
 ---
 
-Quarantine State
+## Experience Layer
 
-A Quarantine State is a provisional state applied to objects or events that require further validation.
+### Experience
 
-During quarantine:
+The Experience layer includes:
 
-the object may appear usable
+* UI
+* input handling
+* feedback systems
 
-the system may perform background verification
-
-anomalies may be investigated without disrupting observers
-
-
+It represents how the observer interacts with the universe.
 
 ---
 
-System Philosophy
+## Summary
 
-Structural Reality
+CrypSA separates responsibilities into:
 
-Structural Reality refers to the canonical universe defined by identities, genomes, invariants, and event history.
+* **Truth** — canonical events and validation
+* **Translation** — adapters
+* **Interpretation** — lenses
+* **Experience** — UI and simulation
 
+This separation allows:
 
----
-
-Experiential Reality
-
-Experiential Reality refers to the observer’s interpreted experience of the universe through lenses and local simulation.
-
-
----
-
-Summary
-
-CrypSA separates the universe into two interacting layers:
-
-Structural Reality
-
-and
-
-Observer Experience
-
-The Mint defines what exists.
-Canonical events define how the universe changes.
-Lenses define how the universe is experienced.
-
-Observers reconstruct reality locally while the system protects canonical truth.
-
-
----
-
-
+* deterministic reconstruction
+* flexible observer behavior
+* consistent shared reality
