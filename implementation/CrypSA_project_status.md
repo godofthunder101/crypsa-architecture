@@ -150,7 +150,7 @@ The teaching prototype:
 
 It is intended to:
 
-> demonstrate the model, not prove runtime behavior
+> demonstrate the model, not prove runtime behavior  
 
 ---
 
@@ -173,6 +173,10 @@ The next major milestone is:
 
 ## CrypSA Minimal Server v0.1
 
+The teaching prototype demonstrates the CrypSA model.
+
+The minimal server will test CrypSA as a runtime system.
+
 This will introduce:
 
 - an independent server process  
@@ -184,7 +188,19 @@ This will introduce:
 
 This step moves CrypSA from:
 
-> defined architecture → working runtime system
+> defined architecture → working runtime system  
+
+---
+
+### Key Distinction
+
+- The **teaching prototype** exists to make the model understandable  
+- The **minimal server** exists to test whether the model holds under real runtime conditions  
+
+This separation is intentional:
+
+- the prototype prioritizes clarity  
+- the server will prioritize correctness under real constraints  
 
 ---
 
