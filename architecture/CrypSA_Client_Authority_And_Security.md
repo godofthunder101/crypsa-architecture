@@ -1,14 +1,17 @@
 # Client Authority and Security in CrypSA
 
-CrypSA gives more simulation freedom to clients (Observers) than traditional multiplayer architectures.
+## Purpose
+
+CrypSA allows clients (Observers) significantly more simulation freedom than traditional multiplayer architectures.
 
 This is intentional.
 
 This document explains:
-- why CrypSA allows this
-- what risks it introduces
-- how those risks are managed
-- how this differs from traditional server-authoritative models
+
+* why CrypSA allows this
+* what risks it introduces
+* how those risks are controlled
+* how this differs from traditional server-authoritative models
 
 ---
 
@@ -16,69 +19,85 @@ This document explains:
 
 Traditional multiplayer systems assume:
 
-> Clients are untrusted → server must simulate everything
+> Clients are untrusted → the server must simulate everything
 
 CrypSA assumes:
 
-> Clients can simulate freely → but only validated events become shared truth
+> Clients may simulate freely → but only validated events become shared truth
 
 This shifts the problem from:
-- preventing all invalid behavior
+
+* preventing all invalid behavior
 
 to:
-- controlling what becomes canonical
+
+* controlling what becomes canonical
 
 ---
 
-## What Clients Can Do
+## Clients and Simulation
 
-In CrypSA, clients (Observers) can:
+In CrypSA, clients (Observers) may:
 
-- simulate movement locally
-- explore hypothetical actions
-- queue potential changes
-- operate without immediate server confirmation
+* simulate actions locally
+* explore hypothetical outcomes
+* queue potential changes
+* operate without immediate server confirmation
 
 This improves:
-- responsiveness
-- flexibility
-- user experience
-- offline or delayed interaction models
+
+* responsiveness
+* flexibility
+* offline and delayed interaction models
 
 However:
 
-> None of this becomes real until it is validated.
+> Local simulation has no authority over shared reality.
+
+Only validated events affect the shared world.
 
 ---
 
 ## The Invariant Boundary
 
-The key control point in CrypSA is the **Invariant Boundary**.
+The control point in CrypSA is the **invariant boundary**.
 
-Any action that affects the shared world must:
+Any action that affects shared reality must:
 
 1. be proposed as a candidate
-2. be validated by the server
+2. be validated against invariant rules
 3. be accepted before becoming canonical
 
 If validation fails:
-→ the action is rejected  
-→ it never becomes part of shared reality  
+
+* the action is rejected
+* it never becomes part of shared reality
 
 ---
 
-## What the Server Controls
+## Server Responsibility
 
-The server does **not** need to simulate everything.
+CrypSA separates responsibilities into:
 
-But it **must**:
+* **Truth** → canonical events and validation
+* **Translation** → adapters
+* **Interpretation** → lenses
+* **Experience** → UI and local simulation
 
-- validate invariant rules
-- enforce world constraints
-- decide which events become canonical
-- maintain the canonical event history
+The server operates strictly in the **truth layer**.
 
-This means:
+It must:
+
+* validate invariant rules
+* enforce world constraints
+* decide which events become canonical
+* maintain canonical event history
+
+It does not:
+
+* simulate the entire world
+* interpret meaning
+* manage client experience
 
 > The server controls truth, not simulation.
 
@@ -86,25 +105,27 @@ This means:
 
 ## Security Model
 
-CrypSA’s security model is based on:
+CrypSA’s security model is based on controlling canonicalization rather than restricting simulation.
 
 ### 1. Validation
 
 Before an event is accepted:
-- rules are checked
-- invariants are enforced
-- invalid actions are rejected
+
+* invariant rules are checked
+* domain constraints are enforced
+* invalid actions are rejected
 
 ---
 
 ### 2. Canonical Gatekeeping
 
 Only accepted events:
-- affect the shared world
-- are visible to other observers
-- become part of history
 
-Everything else is discarded.
+* affect the shared world
+* are visible to other observers
+* become part of canonical history
+
+All other actions are discarded.
 
 ---
 
@@ -112,66 +133,70 @@ Everything else is discarded.
 
 Because CrypSA is event-driven:
 
-- all accepted actions are recorded
-- history is inspectable
-- past states can be reconstructed
+* all accepted actions are recorded
+* history is inspectable
+* past states can be reconstructed
 
 This enables:
-- debugging
-- moderation
-- anomaly detection
+
+* debugging
+* moderation
+* anomaly detection
 
 ---
 
 ### 4. Post-Validation Analysis
 
-CrypSA allows for additional layers such as:
+Additional security layers may operate on canonical history:
 
-- anomaly detection
-- behavioral analysis
-- statistical validation
-- rule-based moderation systems
+* anomaly detection
+* behavioral analysis
+* statistical validation
+* rule-based moderation
 
-These can operate on:
-- event history
-- patterns over time
-- cross-observer comparisons
+These systems analyze:
+
+* event patterns over time
+* cross-observer behavior
+* deviations from expected norms
 
 ---
 
-## Alternative Security Strategies
+## Security Strategies
 
-CrypSA does not enforce a single security approach.
-
-Instead, it allows multiple strategies depending on the application:
+CrypSA supports multiple validation strategies depending on system needs:
 
 ### Strict Validation
-- server checks every invariant in detail
-- closer to traditional authoritative systems
+
+* detailed invariant enforcement
+* closer to traditional authoritative systems
 
 ---
 
 ### Lightweight Validation + Monitoring
-- server validates basic rules
-- deeper issues are caught through analysis
+
+* minimal validation at acceptance
+* deeper issues detected post hoc
 
 ---
 
 ### Trust-Weighted Systems
-- different observers may have different trust levels
-- validation rules can vary accordingly
+
+* different observers have different trust levels
+* validation strictness may vary
 
 ---
 
 ### Hybrid Simulation Validation
-- server re-simulates critical actions only
-- not the entire world
+
+* server re-simulates critical actions only
+* avoids full world simulation
 
 ---
 
 ## Important Clarification
 
-CrypSA does **not** assume clients are trustworthy.
+CrypSA does not assume clients are trustworthy.
 
 It assumes:
 
@@ -181,69 +206,68 @@ It assumes:
 
 ## Tradeoffs
 
-CrypSA introduces tradeoffs:
-
 ### Advantages
 
-- more responsive client experience  
-- reduced server simulation load  
-- strong audit and replay capabilities  
-- flexible system design  
-- support for persistent worlds  
+* responsive client experience
+* reduced server simulation load
+* strong audit and replay capabilities
+* flexible architecture
+* support for persistent worlds
 
 ---
 
 ### Challenges
 
-- requires careful validation design  
-- introduces new attack surfaces  
-- depends on strong invariant definitions  
-- may not suit highly competitive real-time games  
+* requires careful invariant design
+* introduces new attack surfaces
+* depends on strong validation rules
+* not ideal for high-frequency competitive systems
 
 ---
 
-## Where This Model Works Best
+## Suitable Use Cases
 
-CrypSA’s approach is strongest in systems where:
+CrypSA works best where:
 
-- actions are discrete and meaningful  
-- history matters  
-- persistence is important  
-- auditability is valuable  
+* actions are discrete and meaningful
+* history matters
+* persistence is important
+* auditability is valuable
 
 Examples:
-- sandbox worlds  
-- building systems  
-- crafting/economy systems  
-- shared simulation environments  
+
+* sandbox worlds
+* building systems
+* crafting and economies
+* shared simulation environments
 
 ---
 
-## Where It Is Less Suitable
+## Less Suitable Use Cases
 
 CrypSA is less suited for:
 
-- twitch shooters  
-- high-frequency combat  
-- physics-heavy PvP  
-- strict real-time competitive environments  
+* twitch shooters
+* high-frequency combat systems
+* physics-heavy PvP
+* strict real-time competitive environments
 
 ---
 
-## Final Summary
+## Summary
 
 CrypSA does not remove server authority.
-
 It redefines it.
 
-> The server does not control everything that happens.  
+> The server does not control everything that happens.
 > It controls what is allowed to become real.
 
 Security in CrypSA comes from:
-- validation  
-- controlled canonicalization  
-- and inspectable history  
 
-—not from preventing all client-side behavior.
+* validation
+* controlled canonicalization
+* and inspectable history
 
----
+—not from restricting client-side behavior.
+* cross-check this against the **Runtime Spec v0.1** to ensure terminology is perfectly aligned, or
+* move on to the next document.
