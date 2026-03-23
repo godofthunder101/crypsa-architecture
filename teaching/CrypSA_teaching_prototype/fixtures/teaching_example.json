@@ -1,0 +1,58 @@
+{
+  "kind_preferences": {
+    "main_1": ["Archive", "Gateway", "Relay"],
+    "main_2": ["Gateway", "Relay", "Archive"],
+    "main_3": ["Relay", "Archive", "Gateway"],
+    "fork_1": ["Hut", "NPC", "Relay", "Archive"],
+    "fork_2": ["Beacon", "NPC", "Hut", "Relay", "Gateway"]
+  },
+  "steps": [
+    {
+      "step_id": "main_1",
+      "branch_source": "main",
+      "parent_step_id": null,
+      "tile": [1, 1],
+      "event_type": "mint_object",
+      "action_name": "mint"
+    },
+    {
+      "step_id": "main_2",
+      "branch_source": "main_1",
+      "parent_step_id": "main_1",
+      "tile": [8, 1],
+      "event_type": "mint_object",
+      "action_name": "mint"
+    },
+    {
+      "step_id": "main_3",
+      "branch_source": "main_2",
+      "parent_step_id": "main_2",
+      "tile": [4, 4],
+      "event_type": "build_object",
+      "action_name": "build"
+    },
+    {
+      "step_id": "fork_1",
+      "branch_source": "fork:main_1",
+      "parent_step_id": "main_1",
+      "tile": [1, 8],
+      "event_type": "build_object",
+      "action_name": "build"
+    },
+    {
+      "step_id": "fork_2",
+      "branch_source": "fork_1",
+      "parent_step_id": "fork_1",
+      "tile": [2, 8],
+      "event_type": "build_object",
+      "action_name": "build"
+    }
+  ],
+  "final_state": {
+    "selected_branch": "main",
+    "selected_head_step_id": "main_3",
+    "observer_position": [4, 6],
+    "observer_facing": "north",
+    "build_selection_step_id": "fork_2"
+  }
+}
