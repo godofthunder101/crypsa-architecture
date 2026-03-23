@@ -5,7 +5,11 @@ This document answers common questions about CrypSA.
 It focuses on clarifying behavior, tradeoffs, and concerns — not teaching the system.
 
 For a quick explanation, see:
-- `CRYPSA_IN_5_MINUTES.md`
+- `CrypSA_In_5_Minutes.md`
+
+For the authoritative adapter and observer-model docs, see:
+- `architecture/CrypSA_Adaptor_Model.md`
+- `architecture/CrypSA_Client_Observer_Model.md`
 
 ---
 
@@ -283,8 +287,8 @@ It aims to:
 
 ## Where should I start?
 
-1. `CRYPSA_IN_5_MINUTES.md`  
-2. `TERMINOLOGY_PRIMER.md`  
+1. `CrypSA_In_5_Minutes.md`  
+2. `CrypSA_Terminology_Primer.md`  
 3. `CrypSA_WORKED_EXAMPLE.md`  
 
 ---
