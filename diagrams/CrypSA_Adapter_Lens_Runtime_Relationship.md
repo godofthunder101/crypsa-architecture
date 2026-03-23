@@ -16,25 +16,25 @@ This diagram shows how CrypSA separates:
 ```mermaid
 flowchart LR
 
-subgraph Truth_Layer["Truth Layer"]
-    A["Canonical Event History"]
-    B["Derived Canonical State"]
+subgraph "Truth Layer"
+    A[Canonical Event History]
+    B[Derived Canonical State]
 end
 
-subgraph Observer_Local_State["Observer Local State"]
-    C["Observer State"]
+subgraph "Observer Local State"
+    C[Observer State]
 end
 
-subgraph Translation_Layer["Translation Layer"]
-    D["Adapters"]
+subgraph "Translation Layer"
+    D[Adapters]
 end
 
-subgraph Interpretation_Layer["Interpretation Layer"]
-    E["Lenses"]
+subgraph "Interpretation Layer"
+    E[Lenses]
 end
 
-subgraph Experience_Layer["Experience Layer"]
-    F["UI / Observer Experience"]
+subgraph "Experience Layer"
+    F[UI / Observer Experience]
 end
 
 A --> B
@@ -119,7 +119,7 @@ The experience layer includes:
 * interaction handling
 * local feedback
 
-This is what the observer actually experiences.
+This is what the observer experiences.
 
 ---
 
@@ -149,10 +149,12 @@ This separation allows CrypSA systems to remain:
 * flexible
 * easier to evolve over time
 
-Each layer can change without collapsing into the others.
+Each layer can evolve independently without breaking the others.
 
 ---
 
 ## One Sentence Summary
 
 CrypSA separates canonical truth, translation, interpretation, and experience into distinct layers so the system remains clear, modular, and extensible.
+* standardize all diagrams across the repo (so they follow the same rules), or
+* move into **spec/** where things get more precise and critical for implementation 👍
