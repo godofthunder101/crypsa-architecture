@@ -1,11 +1,13 @@
 # CrypSA Adapter, Lens, and Runtime Relationship
 
+## Purpose
+
 This diagram shows how CrypSA separates:
 
-- canonical truth  
-- data shaping  
-- interpretation  
-- presentation  
+* **truth**
+* **translation**
+* **interpretation**
+* **experience**
 
 ---
 
@@ -14,24 +16,24 @@ This diagram shows how CrypSA separates:
 ```mermaid
 flowchart LR
 
-subgraph Runtime
-A[Canonical Event Log]
+subgraph Truth Layer
+A[Canonical Event History]
 B[Derived Canonical State]
 end
 
-subgraph Observer
+subgraph Observer (Local State)
 C[Observer State]
 end
 
-subgraph Adapter Layer
+subgraph Translation Layer
 D[Adapters]
 end
 
-subgraph Lens Layer
+subgraph Interpretation Layer
 E[Lenses]
 end
 
-subgraph Presentation
+subgraph Experience Layer
 F[UI / Observer Experience]
 end
 
@@ -41,68 +43,68 @@ C --> D
 
 D --> E
 E --> F
-````
+```
 
 ---
 
 ## How to Read This
 
-### Runtime (Truth Layer)
+### Truth Layer
 
-The runtime defines what is real:
+The truth layer defines what is real.
 
-* canonical event log is the source of truth
-* derived canonical state is a materialized view
+* canonical event history is the source of truth
+* derived state is a convenience for access and computation
 
 ---
 
 ### Observer State
 
-The observer maintains local state such as:
+Observers maintain local state such as:
 
-* simulation state
-* prediction state
-* selection/context
+* simulation
+* prediction
+* context
 
-This state is combined with canonical state for interpretation.
+This state is not authoritative.
 
 ---
 
-### Adapter Layer (Translation)
+### Translation Layer (Adapters)
 
-Adapters prepare data for use:
+Adapters:
 
-* reshape canonical state
-* combine observer and canonical data
-* produce structured outputs
+* reshape canonical and observer data
+* prepare structured inputs
+* isolate internal state
 
 Adapters answer:
 
-> “How should this data be structured for use?”
+> “How should this data be structured?”
 
 ---
 
-### Lens Layer (Interpretation)
+### Interpretation Layer (Lenses)
 
-Lenses interpret adapted data:
+Lenses:
 
-* determine visibility
-* define gameplay meaning
-* produce observer-specific views
+* interpret translated data
+* determine visibility and interaction
+* produce observer-specific meaning
 
 Lenses answer:
 
-> “What does this data mean for this observer?”
+> “What does this mean for this observer?”
 
 ---
 
-### Presentation (Experience Layer)
+### Experience Layer
 
-The UI renders the result:
+The experience layer:
 
-* visuals
-* interaction
-* feedback
+* renders the world
+* handles interaction
+* provides feedback
 
 This is what the player experiences.
 
@@ -110,31 +112,32 @@ This is what the player experiences.
 
 ## Key Insight
 
-> Truth, structure, interpretation, and presentation are separate responsibilities.
+> Truth, translation, interpretation, and experience are separate responsibilities.
 
 ---
 
 ## Simplified Flow
 
 ```text
-Canonical Events → Derived State → Adapter → Lens → UI
+Canonical Events → Derived State → Adapter → Lens → Experience
 ```
 
 ---
 
 ## Why This Matters
 
-This separation allows CrypSA systems to be:
+This separation enables:
 
-* flexible
-* debuggable
-* replayable
-* modular
-
-Each layer can evolve independently without breaking the others.
+* modular systems
+* flexible client behavior
+* clear debugging
+* replayability
+* independent evolution of layers
 
 ---
 
 ## One Sentence Summary
 
-CrypSA separates canonical truth, data translation, interpretation, and presentation into distinct layers so that the system remains clear, modular, and extensible.
+CrypSA separates canonical truth, data translation, interpretation, and experience into distinct layers so the system remains clear, modular, and extensible.
+
+You’ve now eliminated almost all structural risk 👍
