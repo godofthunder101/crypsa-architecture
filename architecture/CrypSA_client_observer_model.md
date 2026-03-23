@@ -29,6 +29,46 @@ Observers:
 
 ---
 
+## What the Teaching Prototype Confirmed
+
+The teaching prototype demonstrated that explicit separation between:
+
+- adapters (translation)  
+- lenses (interpretation)  
+- requests (intent)  
+
+is critical for maintaining a clean observer architecture.
+
+In practice, this separation prevented:
+
+- UI modules from directly mutating runtime state  
+- lenses from depending on each other’s internal structures  
+- runtime/controller logic from spreading into UI layers  
+- request handling from becoming implicit or ad hoc  
+
+Typed requests ensured that:
+
+- all observer actions are explicit  
+- intent is clearly defined before execution  
+- runtime/controller remains the single source of mutation  
+
+Adapters ensured that:
+
+- runtime data is shaped before interpretation  
+- UI and lenses do not depend on internal runtime structures  
+- multiple views and tools can coexist without coupling  
+
+Together, these patterns act as **architectural safeguards**, not just implementation details.
+
+They protect the separation between:
+
+- truth  
+- translation  
+- interpretation  
+- experience  
+
+---
+
 ## Observer-Side Flow
 
 A CrypSA observer typically operates in this order:
@@ -38,6 +78,9 @@ A CrypSA observer typically operates in this order:
 3. use adapters to shape runtime data  
 4. use lenses to interpret that data  
 5. present the world to the player  
+6. emit typed requests based on user intent  
+7. runtime/controller executes those requests  
+8. reconcile with canonical truth  
 
 This is the observer-side counterpart to canonical validation on the server.
 
@@ -326,9 +369,9 @@ At minimum, a CrypSA client must:
 2. simulate the world locally  
 3. shape runtime data through adapters  
 4. interpret that data through lenses  
-5. propose candidate events  
-6. reconcile with canonical truth  
-7. present the world to the player  
+5. present the world to the player  
+6. emit typed requests  
+7. reconcile with canonical truth  
 
 ---
 
@@ -351,7 +394,7 @@ At minimum, a CrypSA client must:
 
 ## Summary
 
-In CrypSA architecture, observers reconstruct canonical reality, simulate the universe locally, shape runtime data through adapters, interpret that data through lenses, and present the result to the player.
+In CrypSA architecture, observers reconstruct canonical reality, simulate the universe locally, shape runtime data through adapters, interpret that data through lenses, emit structured requests, and present the result to the player.
 
 The server validates candidate events and records the canonical evolution of the universe.
 
