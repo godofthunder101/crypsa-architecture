@@ -1,207 +1,167 @@
----
+# CrypSA Architecture Atlas
 
-CrypSA Architecture Atlas
-
-Purpose
+## Purpose
 
 The CrypSA Architecture Atlas provides a structured overview of the CrypSA conceptual model and documentation corpus.
 
-CrypSA is a layered architecture describing how persistent digital universes can be constructed using deterministic structure, canonical events, and observer-relative simulation.
+It acts as a **navigation layer**, helping readers understand:
 
-The Atlas serves as a navigation guide for understanding the architecture and how its components relate to each other.
+* how the system is structured
+* how components relate
+* where to find authoritative definitions
 
-
----
-
-Architecture Overview
-
-CrypSA separates a universe into two major domains:
-
-Structural Reality
-
-and
-
-Observer Experience
-
-Structural reality defines the canonical truth of the universe, while observer experience determines how that truth is perceived and interacted with.
-
-Observer Experience
-        ↓
-Lens Interpretation
-        ↓
-Local Simulation
-        ↓
-Invariant Boundary
-        ↓
-Canonical Event System
-        ↓
-Canonical Truth
-
-This separation allows observers to simulate locally while the server maintains shared truth.
-
+This document does not redefine concepts.
+It organizes them.
 
 ---
 
-Core Components
+## Core Idea
 
-CrypSA consists of several primary architectural components.
+CrypSA describes how persistent digital universes can be built using:
 
-The Mint
+* canonical events
+* invariant validation
+* observer-side simulation
 
-The Mint issues immutable identities and deterministic genomes for canonical entities.
+Rather than synchronizing world state, CrypSA synchronizes:
 
-It defines what objects exist within the universe.
-
-Canonical Objects
-
-Canonical objects are structural entities defined by:
-
-identity
-
-genome
-
-invariant state
-
-event history
-
-
-These properties allow deterministic reconstruction of objects across observers.
-
-Canonical Events
-
-Canonical events represent meaningful transitions in shared world truth.
-
-They are validated by the server and appended to the universe’s event history.
-
-Invariants
-
-Invariants represent properties of the universe that must remain globally consistent.
-
-Observers may simulate locally but cannot violate invariants.
-
-Lenses
-
-Lenses interpret canonical objects to produce gameplay or experiential meaning.
-
-Different lens stacks may expose different interactions with the same canonical structure.
-
+> validated canonical events
 
 ---
 
-Observer Model
+## Architectural Model
 
-Observers reconstruct the universe locally using canonical references.
+CrypSA separates responsibilities into four layers:
 
-Observers may simulate:
+* **Truth** — canonical events and validation
+* **Translation** — adapters shaping data
+* **Interpretation** — lenses defining meaning
+* **Experience** — UI and local simulation
 
-physics
-
-environmental effects
-
-gameplay mechanics
-
-temporary phenomena
-
-
-Local simulation is valid as long as canonical invariants remain intact.
-
+These layers describe how the system is structured.
 
 ---
 
-Event Reconciliation
+## System Overview
 
-Interactions that affect canonical invariants generate events.
+At a high level:
 
-These events are validated by the server and incorporated into canonical history.
-
-Observers then reconstruct affected objects.
-
-
----
-
-Documentation Map
-
-The CrypSA documentation corpus is organized into several areas.
-
-Foundational Documents
-
-Origin Statement
-Foundational Paper
-
-Core Architecture
-
-Mint Model
-Invariant Model
-Event Reconciliation Model
-Observer Simulation Model
-Lens Interpretation Model
-
-System Diagrams
-
-System Stack Diagram
-Data Flow Diagram
-Control Flow Diagram
-State Transition Diagram
-
-Implementation Concepts
-
-Contextual Event Validation
-Event Queue Investigation
-Dynamic Validation Systems
-
-Design Philosophy
-
-CrypSA Design Principles
-
+* the **server** operates in the truth layer
+* the **observer** operates across translation, interpretation, and experience
+* canonical events define shared reality
+* observers reconstruct and simulate locally
 
 ---
 
-Relationship Between Documents
+## Core Concepts
 
-The foundational paper introduces the CrypSA architecture at a conceptual level.
+The following concepts are defined in dedicated documents:
 
-The Atlas organizes the deeper documentation that describes the system in detail.
+### Mint
 
-Individual documents expand specific architectural components.
+Defines valid object structure and identity.
 
+### Canonical Events
+
+Define how the universe changes.
+
+### Invariants
+
+Define what must always remain true.
+
+### Canonical Objects
+
+Defined by identity, genome, and event history.
+
+### Observers
+
+Reconstruct and simulate the world locally.
+
+### Adapters
+
+Translate data between layers.
+
+### Lenses
+
+Interpret canonical reality into observer experience.
+
+---
+
+## System Behavior
+
+The system operates as:
+
+* observers propose candidate events
+* the server validates them
+* accepted events become canonical
+* observers reconstruct updated reality
+
+For detailed behavior, see `../spec/`.
 
 ---
 
-Evolution of the Architecture
+## Documentation Structure
 
-CrypSA is an evolving conceptual architecture.
+CrypSA documentation is organized into:
 
-New documents may expand the model to explore:
+### Architecture (`architecture/`)
 
-implementation strategies
+Defines system structure and responsibilities.
 
-validation systems
+### Specification (`spec/`)
 
-simulation models
+Defines runtime behavior and rules.
 
-economic systems
+### Implementation (`implementation/`)
 
-artifact provenance
+Describes how to build CrypSA systems.
 
-world persistence
+### Teaching (`teaching/`)
 
+Demonstrates concepts through examples and prototypes.
 
-The Atlas will continue to grow as the architecture develops.
+### Exploratory (`exploratory/`)
 
+Contains non-authoritative or experimental ideas.
+
+---
+
+## Relationship Between Documents
+
+* Architecture defines structure
+* Spec defines behavior
+* Implementation defines how to build
+* Teaching demonstrates the system
+* Exploratory extends ideas
+
+Each concept should be defined authoritatively in only one place.
 
 ---
 
-Summary
+## Evolution
 
-CrypSA is a distributed architecture that enables persistent digital universes by separating structural truth from observer simulation.
+CrypSA is an evolving architecture.
 
-The Mint defines what exists.
+Future work may expand:
 
-Canonical events define how the universe changes.
+* validation strategies
+* simulation models
+* persistence techniques
+* tooling and debugging systems
 
-Lenses define how the universe is experienced.
-
-Observers reconstruct the world locally while servers preserve canonical truth.
-
+The Atlas will evolve to reflect these changes.
 
 ---
+
+## Summary
+
+CrypSA enables persistent digital universes by separating:
+
+* canonical truth
+* observer simulation
+* interpretation
+* experience
+
+The server protects truth.
+Observers simulate and interpret locally.
+Canonical events define the shared universe.
