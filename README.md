@@ -270,27 +270,46 @@ Future CrypSA work (such as a minimal server/runtime) will be developed as separ
 
 ## 🧭 Recommended Reading Path
 
-### New to CrypSA
+### 1. Understand the Idea
 
-1. 5-minute overview
-2. terminology primer
-3. FAQ
+Start with the core mental model:
 
----
-
-### Architecture understanding
-
-1. foundation docs
-2. core concepts
-3. architecture docs
+1. `CRYPSA_IN_5_MINUTES.md`
+2. `TERMINOLOGY_PRIMER.md`
+3. `FAQ.md`
 
 ---
 
-### Implementation understanding
+### 2. See a Concrete Example
 
-1. runtime spec
-2. event + validation models
-3. minimal server doc
+Before diving into architecture:
+
+4. `CrypSA_WORKED_EXAMPLE.md`
+
+---
+
+### 3. Understand the Architecture
+
+Now explore system structure:
+
+5. `architecture/`
+6. `spec/`
+
+---
+
+### 4. See the Model in Practice
+
+Explore the teaching implementation:
+
+7. `teaching/crypsa_teaching_prototype/`
+
+---
+
+### 5. Move Toward Implementation
+
+Finally, see how a real system would be built:
+
+8. `implementation/CrypSA_Minimal_Server_v0.1.md`
 
 ---
 
