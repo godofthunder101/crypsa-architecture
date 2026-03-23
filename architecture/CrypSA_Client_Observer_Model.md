@@ -1,9 +1,3 @@
-# Updated Version (Refined + Tightened)
-
-Here is a cleaned, repo-aligned version:
-
----
-
 # CrypSA Client / Observer Responsibility Model
 
 ## Purpose
