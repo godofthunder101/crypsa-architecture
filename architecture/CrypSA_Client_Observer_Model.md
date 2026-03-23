@@ -1,110 +1,89 @@
+# Updated Version (Refined + Tightened)
+
+Here is a cleaned, repo-aligned version:
+
+---
+
 # CrypSA Client / Observer Responsibility Model
 
 ## Purpose
 
 This document defines the role of the client (observer) in a CrypSA system.
 
-In CrypSA architecture, observers are responsible for reconstructing canonical reality, simulating the world locally, shaping runtime data through adapters, interpreting that data through lenses, and presenting the result to the player.
+Observers are responsible for reconstructing canonical reality, simulating the world locally, translating runtime data through adapters, interpreting that data through lenses, and presenting the result to the player.
 
 The server protects canonical truth.
-
-This separation allows the universe to exist as shared canonical history rather than as a centralized simulation.
 
 ---
 
 ## Core Principle
 
-In CrypSA, the client is not merely a passive renderer.
+In CrypSA, the client is not a passive renderer.
 
-Instead, the client acts as an observer-simulator of the universe.
+It is an **observer-simulator** of the universe.
 
 Observers:
 
-- reconstruct canonical state locally  
-- simulate world behavior locally  
-- shape runtime data through adapters  
-- interpret canonical reality through lenses  
-- propose candidate events to the server  
-- reconcile their simulation with canonical truth  
+* reconstruct canonical state locally
+* simulate world behavior locally
+* translate data through adapters
+* interpret data through lenses
+* propose candidate events
+* reconcile with canonical truth
 
 ---
 
-## What the Teaching Prototype Confirmed
+## Architectural Position
 
-The teaching prototype demonstrated that explicit separation between:
+CrypSA separates responsibilities into:
 
-- adapters (translation)  
-- lenses (interpretation)  
-- requests (intent)  
+* **Truth** → canonical events and validation
+* **Translation** → adapters
+* **Interpretation** → lenses
+* **Experience** → UI and local simulation
 
-is critical for maintaining a clean observer architecture.
+Observers operate across:
 
-In practice, this separation prevented:
+* translation
+* interpretation
+* experience
 
-- UI modules from directly mutating runtime state  
-- lenses from depending on each other’s internal structures  
-- runtime/controller logic from spreading into UI layers  
-- request handling from becoming implicit or ad hoc  
-
-Typed requests ensured that:
-
-- all observer actions are explicit  
-- intent is clearly defined before execution  
-- runtime/controller remains the single source of mutation  
-
-Adapters ensured that:
-
-- runtime data is shaped before interpretation  
-- UI and lenses do not depend on internal runtime structures  
-- multiple views and tools can coexist without coupling  
-
-Together, these patterns act as **architectural safeguards**, not just implementation details.
-
-They protect the separation between:
-
-- truth  
-- translation  
-- interpretation  
-- experience  
+They do not control truth.
 
 ---
 
 ## Observer-Side Flow
 
-A CrypSA observer typically operates in this order:
+A CrypSA observer operates in the following sequence:
 
-1. reconstruct canonical state  
-2. run local simulation  
-3. use adapters to shape runtime data  
-4. use lenses to interpret that data  
-5. present the world to the player  
-6. emit typed requests based on user intent  
-7. runtime/controller executes those requests  
-8. reconcile with canonical truth  
+1. reconstruct canonical state
+2. simulate the world locally
+3. translate data through adapters
+4. interpret data through lenses
+5. present the world to the player
+6. emit typed requests based on intent
+7. execute requests locally (prediction)
+8. reconcile with canonical truth
 
-This is the observer-side counterpart to canonical validation on the server.
+This mirrors server-side validation on the truth layer.
 
 ---
 
 ## Observer Responsibilities
 
-The CrypSA client performs several key roles.
-
----
-
 ### 1. Canonical State Reconstruction
 
 Observers reconstruct the world from canonical history.
 
-Examples include reconstructing:
+Examples:
 
-- object creation and existence  
-- ownership  
-- structure placement  
-- inventory contents  
-- upgrade levels  
+* object existence
+* ownership
+* structure placement
+* inventory contents
+* progression state
 
-This gives the observer a local view of canonical reality.
+This provides a local representation of canonical reality.
 
 ---
 
@@ -112,298 +91,254 @@ This gives the observer a local view of canonical reality.
 
 Observers simulate the world locally using canonical state as a foundation.
 
-Examples of simulation include:
+Examples:
 
-- player movement  
-- physics interactions  
-- combat mechanics  
-- resource harvesting  
-- AI behavior  
-- environmental interactions  
+* movement
+* physics
+* combat
+* AI behavior
+* environmental interaction
 
-This allows gameplay to remain responsive without requiring constant server computation.
+This enables responsiveness without server-side simulation.
 
 ---
 
-### 3. Adapter-Based Data Shaping
+### 3. Translation (Adapters)
 
-Observers use adapters to shape runtime and canonical data into forms that can be safely consumed by lenses, UI, and tools.
+Observers use adapters to shape runtime and canonical data into stable, consumable forms.
 
-Examples include:
+Adapters:
 
-- building a world grid view from canonical occupancy  
-- preparing timeline rows from canonical event history  
-- combining observer context with canonical state into interaction-ready structures  
-- shaping teaching/debug overlays  
+* reshape data
+* preserve meaning
+* isolate internal structures
 
-Adapters help prevent:
+Examples:
 
-- lenses from digging into raw runtime structures directly  
-- UI modules from depending on internal runtime details  
-- interpretation layers from becoming tightly coupled to each other  
+* world grid models
+* timeline/event views
+* interaction-ready structures
+* debug/inspection outputs
 
 Adapters do not define truth or interpretation.
 
-They prepare data for use across boundaries.
-
 ---
 
-### 4. Lens-Based Interpretation
+### 4. Interpretation (Lenses)
 
-Observers interpret canonical reality through lenses.
+Observers interpret data through lenses.
 
-A lens transforms shaped runtime data into observer-specific meaning.
+Lenses assign meaning to translated data.
 
-Examples include:
+Examples:
 
-- visibility filtering  
-- interactable object determination  
-- player-specific overlays  
-- presentation-oriented world interpretation  
-- debug/inspection views  
+* visibility filtering
+* interactable objects
+* player-specific context
+* presentation-layer meaning
 
-Lenses allow different observers or tools to interpret the same canonical reality differently without changing canonical truth.
+Different observers may apply different lenses to the same canonical reality.
 
 ---
 
 ### 5. Event Proposal
 
-When a player performs an action, the client generates a candidate event.
+Observers generate candidate events from player intent.
 
 Examples:
 
-- craft item  
-- upgrade weapon  
-- trade object  
-- place structure  
-- destroy structure  
+* crafting
+* trading
+* placement
+* destruction
+* upgrades
 
-The client proposes this event to the server for validation.
+These are sent to the server for validation.
 
-The event is not considered canonical until the server accepts it.
+They are not canonical until accepted.
 
 ---
 
 ### 6. Reconciliation
 
-The client must reconcile its local simulation with canonical truth.
+Observers reconcile local simulation with canonical truth.
 
 Reconciliation occurs when:
 
-- the server accepts an event  
-- the server rejects an event  
-- another player creates a canonical event  
-- history branches or corrections occur  
+* events are accepted
+* events are rejected
+* new canonical events arrive
+* corrections occur
 
-The client updates its local simulation to remain consistent with canonical history.
-
-Adapters and lenses may then re-run on the updated canonical state.
+The client adjusts its simulation to remain consistent.
 
 ---
 
 ### 7. Prediction and Responsiveness
 
-Clients may predict outcomes to keep gameplay responsive.
+Observers may predict outcomes to maintain responsiveness.
 
-For example:
+Examples:
 
-- predicting movement  
-- predicting ability usage  
-- predicting combat interactions  
+* movement prediction
+* ability usage
+* interaction timing
 
-If predictions differ from canonical results, reconciliation corrects the simulation.
+Prediction is always secondary to canonical truth.
 
 ---
 
 ## Client State vs Canonical Truth
 
-The client maintains a local world interpretation, but this interpretation is not authoritative.
+The client maintains a local interpretation of the world.
 
-The authoritative state of the universe is determined by:
+This is not authoritative.
 
-- canonical event history  
-- invariant enforcement by the server  
+Canonical truth is defined by:
 
-Observers adjust their simulations whenever canonical truth changes.
+* validated events
+* server-enforced invariants
+
+Observers must adjust whenever canonical truth changes.
 
 ---
 
 ## Client Data Layers
 
-Observers may maintain several types of local data.
+Observers may maintain multiple layers of data:
 
----
+### Canonical State
 
-### 1. Canonical Object State
+Derived from event history.
 
-Derived from canonical history.
+### Local Simulation State
 
-Examples:
+Runtime-only simulation data.
 
-- item ownership  
-- item upgrade levels  
-- structure states  
-- inventory contents  
+### Adapter-Shaped Data
 
----
+Structured, translation-layer outputs.
 
-### 2. Local Simulation State
+### Lens-Interpreted Data
 
-Examples:
+Meaningful, observer-specific views.
 
-- player positions  
-- physics states  
-- AI states  
-- combat states  
+### Presentation Data
 
----
-
-### 3. Adapter-Shaped Data
-
-Examples:
-
-- world grid models  
-- history/timeline rows  
-- action-ready view models  
-- teaching/debug summaries  
-
-These are structured forms of runtime and canonical data prepared for other layers.
-
----
-
-### 4. Lens-Interpreted State
-
-Examples:
-
-- visible objects  
-- interactable objects  
-- player-specific contextual data  
-- presentation-oriented world views  
-
----
-
-### 5. Presentation Data
-
-Examples:
-
-- animations  
-- visual effects  
-- UI overlays  
-- audio cues  
+UI, visuals, audio, and effects.
 
 ---
 
 ## Client Autonomy
 
-Observers can operate with significant autonomy.
+Observers operate with high autonomy:
 
-Because observers simulate locally, they can:
+* continue during latency
+* simulate independently
+* predict outcomes
 
-- continue rendering the world during latency  
-- predict outcomes  
-- maintain fluid gameplay  
-
-Canonical reconciliation ensures that all observers eventually converge on the same truth.
+Canonical reconciliation ensures eventual consistency.
 
 ---
 
 ## Client Limitations
 
-Despite their autonomy, observers cannot alter canonical truth directly.
+Observers cannot:
 
-The client cannot:
+* create canonical truth directly
+* bypass invariant validation
+* alter shared state without server approval
 
-- create canonical objects without server validation  
-- modify ownership arbitrarily  
-- violate universe invariants  
-- bypass canonical validation rules  
-
-All canonical changes must pass through the server.
+All canonical changes pass through validation.
 
 ---
 
-## Observer Synchronization
+## Synchronization
 
-Observers maintain synchronization through canonical updates.
+Observers synchronize through canonical updates:
 
-Synchronization mechanisms may include:
+* event streams
+* polling or broadcast
+* reconciliation cycles
+* snapshot updates
 
-- event broadcast  
-- event streams  
-- periodic reconciliation  
-- snapshot updates  
+On update:
 
-Observers update their local simulations whenever new canonical events appear.
-
-After canonical updates arrive:
-
-- canonical state may be rebuilt  
-- adapters may reshape new data  
-- lenses may reinterpret the result  
-- presentation may update accordingly  
+* canonical state is updated
+* adapters reshape data
+* lenses reinterpret
+* presentation updates
 
 ---
 
-## Failure Scenarios
+## Failure and Recovery
 
 If a client disconnects:
 
-- the canonical universe continues to exist  
-- the observer simply stops simulating  
+* canonical history continues
 
-When the observer reconnects:
+On reconnect:
 
-- canonical history can be replayed  
-- local world state can be reconstructed  
-- adapters and lenses can rebuild the observer’s view  
-
-This allows the universe to remain persistent even if observers come and go.
+* history is replayed
+* state is reconstructed
+* adapters and lenses rebuild the view
 
 ---
 
-## Minimal Client Responsibilities
+## Minimal Responsibilities
 
-At minimum, a CrypSA client must:
+A CrypSA client must:
 
-1. reconstruct canonical event history into local canonical state  
-2. simulate the world locally  
-3. shape runtime data through adapters  
-4. interpret that data through lenses  
-5. present the world to the player  
-6. emit typed requests  
-7. reconcile with canonical truth  
+1. reconstruct canonical state
+2. simulate locally
+3. translate data (adapters)
+4. interpret data (lenses)
+5. present the world
+6. emit typed requests
+7. reconcile with canonical truth
 
 ---
 
 ## Server vs Client Responsibilities
 
-| Responsibility | Client | Server |
-|---|---|---|
-| Canonical state reconstruction | Yes | Yes |
-| Local simulation | Yes | Not required |
-| Adapter-based data shaping | Yes | Not required |
-| Lens-based interpretation | Yes | Not required |
-| Event proposal | Yes | No |
-| Event validation | No | Yes |
-| Invariant enforcement | No | Yes |
-| Canonical event recording | No | Yes |
-| Local rendering | Yes | No |
-| Canonical truth authority | No | Yes |
+| Responsibility           | Client | Server       |
+| ------------------------ | ------ | ------------ |
+| Canonical reconstruction | Yes    | Yes          |
+| Local simulation         | Yes    | Not required |
+| Translation (adapters)   | Yes    | Not required |
+| Interpretation (lenses)  | Yes    | Not required |
+| Event proposal           | Yes    | No           |
+| Event validation         | No     | Yes          |
+| Invariant enforcement    | No     | Yes          |
+| Canonical recording      | No     | Yes          |
+| Rendering                | Yes    | No           |
+| Truth authority          | No     | Yes          |
 
 ---
 
 ## Summary
 
-In CrypSA architecture, observers reconstruct canonical reality, simulate the universe locally, shape runtime data through adapters, interpret that data through lenses, emit structured requests, and present the result to the player.
+Observers reconstruct canonical reality, simulate the world locally, translate and interpret data, and present the experience to the player.
 
-The server validates candidate events and records the canonical evolution of the universe.
+The server validates events and maintains canonical history.
 
-Together, this separation allows the universe to exist as a shared event-driven history rather than a centralized simulation.
+Together, this enables a shared universe defined by event history rather than centralized simulation.
 
 ---
 
 ## Key Idea
 
-A CrypSA client is not merely a game client.
+A CrypSA client is not a renderer.
 
-It is an observer that reconstructs, simulates, shapes, interprets, and experiences a canonical universe.
+It is an observer that reconstructs, simulates, translates, interprets, and experiences a canonical universe.
+
+---
+
+# Final Notes
+
+This doc is already one of your **core pillars**. The update mainly:
+
+* reduces repetition
+* aligns explicitly with the four-layer model
+* tightens language
+* reinforces boundaries without overexplaining
