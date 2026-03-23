@@ -49,6 +49,22 @@ CrypSA:
 
 ---
 
+## 🧠 Mental Model
+
+CrypSA is easiest to understand as four responsibilities:
+
+- **Truth** — canonical events and validation  
+- **Translation** — adapters shaping runtime data  
+- **Interpretation** — lenses determining observer meaning  
+- **Experience** — UI and local simulation  
+
+These responsibilities are explored in more detail in:
+
+- `CRYPSA_IN_5_MINUTES.md`
+- `architecture/`
+
+---
+
 ## 📊 How CrypSA Works (Visual Overview)
 
 ```mermaid
@@ -68,7 +84,6 @@ H --> I[Broadcast]
 
 I --> J[Observer Reconciliation]
 G --> J
-
 ````
 
 For more diagrams, see:
