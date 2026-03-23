@@ -26,26 +26,29 @@ Instead of synchronizing everything all the time:
 ```mermaid
 flowchart LR
 
-subgraph Observer
-A[Local Simulation]
-B[Predicted Actions]
+subgraph Truth
+A[Canonical Events]
+B[Derived Canonical State]
 end
 
-subgraph Server
-C[Validation]
-D[Canonical Event Log]
-E[Derived State]
+subgraph Translation
+C[Adapters]
+end
+
+subgraph Interpretation
+D[Lenses]
+end
+
+subgraph Experience
+E[UI / Observer Experience]
+F[Local Simulation]
 end
 
 A --> B
 B --> C
-
-C -->|Accepted| D
-C -->|Rejected| A
-
+C --> D
 D --> E
-E --> A
-
+E --> F
 ````
 
 ---
@@ -59,52 +62,28 @@ Think of CrypSA like this:
 * Only validated actions become part of shared reality
 * Everything else is local prediction
 
----
-
-## The Three Layers
-
-CrypSA is easiest to understand as three layers:
+But the system becomes much clearer if you think of it as **four separate responsibilities**.
 
 ---
 
-### 1. Observer (Client / Local Simulation)
+## The Four Responsibilities
 
-This is what the player directly interacts with.
-
-* fast
-* responsive
-* immediate
-
-The player can act freely.
-
-But:
-
-> nothing here is automatically shared truth
+CrypSA is easiest to understand as four layers:
 
 ---
 
-### 2. Invariant Boundary (Validation Layer)
+### 1. Truth
 
-This is the checkpoint between local simulation and shared reality.
+This is the canonical layer.
 
-When an action affects the shared world:
+It includes:
 
-* it must cross this boundary
-* it must be validated
+* accepted canonical events
+* validation
+* canonical ordering
+* derived canonical state
 
-If it fails:
-
-> it never becomes real
-
----
-
-### 3. Canonical World (Shared Reality)
-
-This is the true world.
-
-* defined by accepted events
-* consistent for all observers
-* reconstructed from history
+This is the part of the system that defines what is real.
 
 If something is not part of canonical history:
 
@@ -112,40 +91,100 @@ If something is not part of canonical history:
 
 ---
 
+### 2. Translation
+
+This is the adapter layer.
+
+Adapters take canonical and observer-side data and reshape it into forms that other layers can consume safely.
+
+They do things like:
+
+* combine runtime and observer state
+* normalize structures
+* build view-ready or lens-ready data
+
+Adapters do **not** define truth.
+
+They answer:
+
+> “How should this data be structured so it can be used?”
+
+---
+
+### 3. Interpretation
+
+This is the lens layer.
+
+Lenses interpret translated data into observer-specific meaning.
+
+They may determine:
+
+* what is visible
+* what is interactable
+* what matters to this observer
+* what should appear in a teaching/debug view
+
+Lenses do **not** define truth either.
+
+They answer:
+
+> “What does this mean for this observer?”
+
+---
+
+### 4. Experience
+
+This is what the player directly interacts with.
+
+It includes:
+
+* UI
+* rendering
+* local feedback
+* local simulation and prediction
+
+This layer is:
+
+* fast
+* responsive
+* immediate
+
+But:
+
+> nothing here is automatically shared truth
+
+---
+
 ## What This Changes
 
-Traditional systems:
+Traditional multiplayer systems often combine too many responsibilities together:
 
-> the server simulates everything
+* server simulates
+* client displays
+* state is synchronized constantly
 
-CrypSA:
+CrypSA separates them more clearly:
 
-> the server validates what matters
+* **truth** is canonical
+* **translation** is adapter-driven
+* **interpretation** is lens-driven
+* **experience** is local and responsive
 
 ---
 
 ## Why This Matters
 
-CrypSA separates:
-
-### Local Simulation
-
-* fast
-* flexible
-* not authoritative
-
-### Shared Reality
-
-* validated
-* consistent
-* authoritative
-
-This separation makes systems easier to:
+This separation makes the system easier to:
 
 * reason about
 * debug
 * persist
 * replay
+* evolve without collapsing boundaries
+
+The teaching prototype made this especially clear:
+
+> truth, translation, interpretation, and experience work better when kept separate
 
 ---
 
@@ -161,6 +200,7 @@ It is a different way of structuring:
 
 * authority
 * validation
+* interpretation
 * and shared truth
 
 ---
@@ -197,6 +237,7 @@ CrypSA is not ideal for:
 * Read `TERMINOLOGY_PRIMER.md`
 * Read `FAQ.md`
 * See `CrypSA_WORKED_EXAMPLE.md` for a full step-by-step flow
+* See `CrypSA_architecture_overview.md` for the system map
 
 ---
 
@@ -204,6 +245,7 @@ CrypSA is not ideal for:
 
 CrypSA can be summarized as:
 
-> Clients simulate freely,
-> servers validate important actions,
-> and accepted events define shared reality.
+> canonical events define truth,
+> adapters shape data,
+> lenses interpret meaning,
+> and observers experience and simulate the resulting world.
