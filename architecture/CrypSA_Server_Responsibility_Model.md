@@ -1,312 +1,233 @@
----
+# CrypSA Server Responsibility Model
 
-CrypSA Server Responsibility Model
+## Purpose
 
-Purpose
+This document defines the role of the server in a CrypSA system.
 
-This document describes the role of the server in a CrypSA system.
-
-Traditional multiplayer architectures centralize simulation and maintain a large mutable world-state database. In contrast, CrypSA separates observer simulation from canonical truth.
-
-The CrypSA server is responsible for protecting the integrity of the shared universe by validating events, enforcing invariants, and maintaining canonical history.
-
+The server is responsible for protecting **canonical truth** by validating events, enforcing invariants, and maintaining canonical history.
 
 ---
 
-Core Principle
+## Core Principle
 
-In CrypSA, the server is not primarily a simulation engine.
+In CrypSA:
 
-Instead, the server acts as:
+> The server does not simulate the world.
+> It controls what becomes real.
 
-a canonical validator
+The server acts as:
 
-an invariant enforcer
+* a canonical validator
+* an invariant enforcer
+* a canonical event recorder
 
-a history recorder
-
-
-Observers simulate the world locally, while the server ensures that all accepted events are consistent with the rules that define the universe.
-
-
----
-
-Traditional Multiplayer Server Model
-
-In a traditional architecture, the server typically:
-
-runs the full game simulation
-
-calculates physics
-
-manages AI
-
-stores the entire mutable world state
-
-synchronizes state updates to clients
-
-
-This places the server at the center of all world computation.
-
-If the server disappears, the world usually disappears with it.
-
+Observers simulate the world locally.
+The server ensures all accepted events are valid.
 
 ---
 
-CrypSA Server Model
+## Architectural Position
 
-CrypSA shifts most simulation responsibilities to observers.
+CrypSA separates responsibilities into:
 
-The server instead protects the canonical truth of the universe.
+* **Truth** → canonical events and validation
+* **Translation** → adapters
+* **Interpretation** → lenses
+* **Experience** → UI and local simulation
 
-The server does this through three primary responsibilities.
+The server operates strictly in the **truth layer**.
 
+It does not:
 
----
-
-1. Event Validation
-
-When a player performs an action, the client proposes a candidate event.
-
-Examples include:
-
-crafting an item
-
-upgrading equipment
-
-transferring ownership
-
-building a structure
-
-
-The server validates whether the event is allowed according to the rules of the universe.
-
-Validation checks may include:
-
-object existence
-
-player authority
-
-ownership constraints
-
-rule compliance
-
-resource requirements
-
-
-Only valid events become canonical.
-
+* simulate gameplay
+* interpret meaning
+* manage presentation
 
 ---
 
-2. Invariant Enforcement
+## The Server Model
 
-The CrypSA server enforces the invariants that define the universe.
+CrypSA replaces centralized simulation with **canonical event validation**.
 
-An invariant is a rule that must always remain true.
+Instead of computing the entire world, the server:
 
-Examples include:
+1. receives candidate events
+2. validates them
+3. accepts or rejects them
+4. appends accepted events to canonical history
 
-an object cannot exist in two places simultaneously
-
-unique items cannot be duplicated
-
-a player cannot transfer an item they do not own
-
-structures cannot be placed on restricted terrain
-
-
-The server acts as the invariant boundary between proposed actions and canonical truth.
-
-If a proposed event violates an invariant, the event is rejected.
-
+This is the minimal loop.
 
 ---
 
-3. Canonical Event Recording
+## Core Responsibilities
 
-Accepted events become part of the universe's canonical history.
+### 1. Event Acceptance
 
-This history may include events such as:
-
-object minting
-
-object upgrades
-
-ownership transfers
-
-world construction
-
-resource extraction
-
-
-The canonical event history defines how the universe evolves over time.
-
-Observers reconstruct the shared world by interpreting this history.
-
-
----
-
-Canonical Data vs Traditional Databases
-
-CrypSA does not require the server to store the world primarily as a mutable state database.
-
-Instead, the core persistent data of the universe consists of:
-
-object identities
-
-genome definitions
-
-canonical event history
-
-invariant state
-
-optional derived canonical snapshots
-
-
-The event history acts as the fundamental record of world evolution.
-
-Derived state can be generated from this history when needed.
-
-
----
-
-Optional Supporting Systems
-
-While not required for the conceptual core of CrypSA, production systems may include additional infrastructure.
-
-Examples include:
-
-Auditing Systems
-
-Tracking suspicious or anomalous behavior.
+The server receives **candidate events** from observers.
 
 Examples:
 
-suspicious event patterns
+* crafting
+* upgrading
+* transferring
+* building
 
-potential cheating attempts
-
-rule violations
-
-
-
----
-
-Security Systems
-
-Detecting and preventing malicious activity.
-
-Examples:
-
-exploit detection
-
-anomaly monitoring
-
-rate limiting
-
-
+Each event represents **intent**, not truth.
 
 ---
 
-Performance Optimizations
+### 2. Validation and Invariant Enforcement
 
-Derived state or caching layers that improve performance.
+The server validates events against:
 
-Examples:
+* object existence
+* ownership rules
+* invariant constraints
+* rule compliance
+* resource requirements
 
-current canonical state snapshots
+Invariants define what must always be true.
 
-query acceleration indexes
+If an event violates invariants:
 
-object lookup tables
-
-
-
----
-
-Analytics and Telemetry
-
-Optional systems for monitoring world activity.
-
-Examples:
-
-event frequency
-
-player behavior patterns
-
-server load
-
-
+→ it is rejected
+→ it never becomes canonical
 
 ---
 
-Minimal CrypSA Server Responsibilities
+### 3. Canonical Event Recording
 
-At its most minimal form, a CrypSA server must:
+Accepted events are appended to canonical history.
 
-1. receive proposed events
+This history defines:
 
+* object creation
+* state changes
+* ownership changes
+* world evolution
 
-2. validate events against invariants
-
-
-3. accept or reject events
-
-
-4. record canonical event history
-
-
-5. distribute canonical updates to observers
-
-
-
-This is sufficient to maintain a shared canonical universe.
-
+Canonical history is the source of truth.
 
 ---
 
-What the Server Does NOT Need to Do
+## Canonical Data Model
 
-Unlike traditional architectures, the CrypSA server does not necessarily need to:
+The server’s persistent data consists of:
 
-simulate the entire world continuously
+* object identities
+* genome definitions (from the Mint)
+* canonical event history
+* invariant-relevant state
+* optional snapshots
 
-maintain large mutable world-state databases
-
-compute all gameplay logic
-
-render or predict gameplay outcomes
-
-
-Observers can handle most simulation locally.
-
-The server's role is to protect the consistency and validity of the shared universe.
-
+The system is **event-first**, not state-first.
 
 ---
 
-Summary
+## Minimal Runtime Flow (v0.1)
 
-The CrypSA server acts as the guardian of canonical truth.
+The minimal server loop is:
 
-Its primary responsibilities are:
+1. receive request
+2. parse into typed intent
+3. validate against canonical context
+4. accept or reject
+5. append event if accepted
+6. return result
 
-validating proposed actions
-
-enforcing invariants
-
-recording canonical events
-
-
-Observers simulate the world locally, while the server ensures that all accepted changes remain consistent with the rules of the universe.
-
+This is sufficient to maintain shared truth.
 
 ---
 
-Key Idea
+## What the Server Does NOT Do
 
-The CrypSA server is best understood not as a traditional game server, but as the canonical authority that protects the integrity of a shared event-driven universe.
+The server does not need to:
 
+* simulate the full world
+* run physics or AI continuously
+* maintain large mutable world-state models
+* render or predict gameplay
+
+Observers handle simulation and experience.
 
 ---
+
+## Optional Supporting Systems
+
+Production systems may include:
+
+### Auditing
+
+* anomaly detection
+* suspicious behavior tracking
+
+### Security
+
+* exploit detection
+* rate limiting
+
+### Performance
+
+* snapshots
+* caching
+* indexing
+
+### Analytics
+
+* telemetry
+* behavior analysis
+
+These are optional and do not define the core model.
+
+---
+
+## Minimal Responsibilities
+
+At minimum, a CrypSA server must:
+
+1. receive candidate events
+2. validate them
+3. enforce invariants
+4. accept or reject
+5. record canonical history
+6. expose canonical updates
+
+---
+
+## Server vs Client Responsibilities
+
+| Responsibility           | Client | Server       |
+| ------------------------ | ------ | ------------ |
+| Canonical reconstruction | Yes    | Yes          |
+| Local simulation         | Yes    | Not required |
+| Translation (adapters)   | Yes    | Not required |
+| Interpretation (lenses)  | Yes    | Not required |
+| Event proposal           | Yes    | No           |
+| Event validation         | No     | Yes          |
+| Invariant enforcement    | No     | Yes          |
+| Canonical recording      | No     | Yes          |
+| Rendering                | Yes    | No           |
+| Truth authority          | No     | Yes          |
+
+---
+
+## Summary
+
+The CrypSA server is the **guardian of canonical truth**.
+
+It:
+
+* validates events
+* enforces invariants
+* records canonical history
+
+Observers simulate and interpret the world locally.
+
+---
+
+## Key Idea
+
+The CrypSA server is not a simulation engine.
+
+It is a **canonical event acceptance system** that determines what is allowed to become real.
