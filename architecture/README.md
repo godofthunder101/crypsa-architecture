@@ -1,14 +1,16 @@
 # CrypSA Architecture
 
+## Purpose
+
 This section explains how CrypSA works as a system.
 
-It focuses on structure and relationships, not step-by-step flow.
+It focuses on **structure and relationships**, not step-by-step execution.
 
-This folder is part of the authoritative system-explanation layer for CrypSA.
+This folder is part of the **authoritative architecture layer**.
 
-Other documents in the repository should not redefine the concepts described here.
+Other documents should not redefine the concepts described here.
 
-For exact runtime behavior, pair it with `../spec/`.
+For exact runtime behavior, see `../spec/`.
 
 ---
 
@@ -16,23 +18,25 @@ For exact runtime behavior, pair it with `../spec/`.
 
 CrypSA separates multiplayer systems into:
 
-- canonical truth (events and invariants)  
-- observer simulation (local reconstruction and prediction)  
+* **canonical truth** (events and invariants)
+* **observer simulation** (local reconstruction and prediction)
 
-Rather than synchronizing full world state, CrypSA synchronizes **validated events**.
+Rather than synchronizing full world state, CrypSA synchronizes:
+
+> **validated canonical events**
 
 ---
 
 ## Four Responsibilities (Mental Model)
 
-A useful way to understand the architecture is through four responsibilities:
+CrypSA can be understood through four responsibilities:
 
-- **Truth** — canonical events and validation  
-- **Translation** — adapters shaping runtime data  
-- **Interpretation** — lenses determining observer meaning  
-- **Experience** — UI and local simulation  
+* **Truth** — canonical events and validation
+* **Translation** — adapters shaping runtime data
+* **Interpretation** — lenses determining meaning
+* **Experience** — UI and local simulation
 
-These responsibilities map across the architecture described below.
+These responsibilities define the architecture.
 
 ---
 
@@ -40,11 +44,13 @@ These responsibilities map across the architecture described below.
 
 ### Event-Based Truth
 
-The system is driven by events, not state.
+The system is event-driven:
 
-- actions → candidate events  
-- validation → canonical events  
-- canonical events → shared reality  
+* actions → candidate events
+* validation → canonical events
+* canonical events → shared reality
+
+Canonical events define what is true.
 
 ---
 
@@ -52,37 +58,39 @@ The system is driven by events, not state.
 
 Observers:
 
-- simulate the world locally  
-- respond immediately to input  
-- reconcile when canonical updates arrive  
+* reconstruct canonical state
+* simulate the world locally
+* respond immediately to input
+* reconcile when canonical updates arrive
 
-This provides responsive experience while preserving shared truth.
+This provides responsiveness without sacrificing consistency.
 
 ---
 
 ### Validation as Authority
 
-The server enforces invariants.
+The server operates in the **truth layer**.
 
-It decides:
+It:
 
-- what is allowed  
-- what becomes canonical  
+* validates candidate events
+* enforces invariants
+* determines what becomes canonical
 
-This is the core of the **truth layer**.
+> The server controls truth, not simulation.
 
 ---
 
 ### Replay as State
 
-World state is not stored directly.
+World state is not the primary source of truth.
 
-It is:
+Instead:
 
-- derived from canonical history  
-- reconstructed via replay  
+* canonical history is authoritative
+* state is derived from that history
 
-This keeps truth explicit and debuggable.
+Replay enables reconstruction, debugging, and verification.
 
 ---
 
@@ -90,9 +98,9 @@ This keeps truth explicit and debuggable.
 
 Adapters:
 
-- reshape canonical and observer data  
-- prepare structured outputs  
-- isolate raw runtime state from interpretation  
+* reshape canonical and runtime data
+* prepare structured outputs
+* isolate internal state from interpretation
 
 They belong to the **translation layer**.
 
@@ -102,23 +110,23 @@ They belong to the **translation layer**.
 
 Lenses:
 
-- interpret adapted data  
-- define visibility and interaction  
-- shape observer-specific meaning  
+* interpret translated data
+* determine visibility and interaction
+* produce observer-specific meaning
 
 They belong to the **interpretation layer**.
 
 ---
 
-### UI / Experience Layer
+### Experience Layer
 
-The UI:
+The experience layer:
 
-- renders the world  
-- handles input  
-- provides local feedback  
+* renders the world
+* handles input
+* provides feedback
 
-This is the **experience layer**.
+This is where players interact with the system.
 
 ---
 
@@ -131,17 +139,17 @@ A[Canonical Events] --> B[Derived State]
 B --> C[Adapters]
 C --> D[Lenses]
 D --> E[UI / Experience]
-````
+```
 
 ---
 
 ## Why This Architecture Exists
 
-Separating responsibilities allows:
+Separating responsibilities enables:
 
 * deterministic reconstruction
-* flexible client behavior
-* clean debugging via event history
+* responsive local simulation
+* clear debugging via event history
 * multiple observer perspectives
 * independent evolution of layers
 
@@ -149,7 +157,7 @@ Separating responsibilities allows:
 
 ## Where to Go Next
 
-* `../CrypSA_Architecture_Overview.md` — system map
+* `../CrypSA_Architecture_Overview.md` — system overview
 * `CrypSA_Event_Model.md` — event structure
 * `CrypSA_Validation_Model.md` — invariant enforcement
 * `CrypSA_Replay_Model.md` — state reconstruction
