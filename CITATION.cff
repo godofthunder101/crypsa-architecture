@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Wells"
+  given-names: "Beau"
+title: "crypsa-architecture"
+version: 0.1.0
+date-released: 2026-03-19
+url: "https://github.com/godofthunder101/crypsa-architecture"
+license: "CC-BY-4.0"
