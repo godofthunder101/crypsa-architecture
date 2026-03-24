@@ -35,7 +35,7 @@ D -->|Accepted| E[Canonical Event History]
 E --> F[Object Reconstruction]
 F --> G[Observer Experience]
 G --> B
-```
+````
 
 ---
 
@@ -68,7 +68,7 @@ This provides responsiveness without requiring centralized simulation.
 
 The invariant boundary determines:
 
-> Does this interaction affect canonical truth?
+> Does this interaction affect canonical event history?
 
 * No → remains local
 * Yes → becomes a candidate event
@@ -89,7 +89,7 @@ Accepted events are appended to canonical event history.
 
 ### Canonical Event History
 
-Canonical event history defines shared truth.
+Canonical event history defines shared reality.
 
 Examples:
 
@@ -101,7 +101,7 @@ Examples:
 This history is:
 
 * ordered
-* append-only (conceptually)
+* append-only
 * authoritative
 
 ---
@@ -111,7 +111,7 @@ This history is:
 Observers reconstruct objects using:
 
 ```text
-identity + genome + canonical event history → derived state
+identity + genome + canonical event history → derived canonical state
 ```
 
 Objects are defined by their history, not stored mutable state.
@@ -125,9 +125,9 @@ Observers continuously:
 * reconstruct
 * simulate
 * interact
-* validate (when needed)
+* submit candidate events for validation when crossing the invariant boundary
 
-This creates a loop between local simulation and canonical truth.
+This creates a loop between local simulation and canonical event history.
 
 ---
 
