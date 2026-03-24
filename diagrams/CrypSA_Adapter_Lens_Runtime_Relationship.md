@@ -156,5 +156,3 @@ Each layer can evolve independently without breaking the others.
 ## One Sentence Summary
 
 CrypSA separates canonical truth, translation, interpretation, and experience into distinct layers so the system remains clear, modular, and extensible.
-* standardize all diagrams across the repo (so they follow the same rules), or
-* move into **spec/** where things get more precise and critical for implementation 👍
