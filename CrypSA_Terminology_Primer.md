@@ -10,10 +10,10 @@ If something feels unclear, check here first.
 
 A useful way to understand CrypSA is to think in terms of four responsibilities:
 
-- **Truth** — canonical events and validation  
-- **Translation** — adapters shaping runtime data  
-- **Interpretation** — lenses determining observer meaning  
-- **Experience** — UI and local simulation  
+* **Truth** — canonical events and validation
+* **Translation** — adapters shaping runtime data
+* **Interpretation** — lenses determining observer meaning
+* **Experience** — UI and local interaction
 
 The terms below map into these responsibilities.
 
@@ -25,9 +25,10 @@ The terms below map into these responsibilities.
 
 A canonical event is an event that has been:
 
-- validated by the server  
-- accepted into shared history  
-- assigned an order  
+* validated by the server
+* accepted into canonical event history
+* assigned canonical order (`server_sequence`)
+* made immutable
 
 Canonical events define **truth**.
 
@@ -37,9 +38,9 @@ Canonical events define **truth**.
 
 A candidate event is:
 
-- proposed by an observer  
-- not yet validated  
-- subject to rejection  
+* proposed by an observer
+* not yet validated
+* subject to rejection
 
 Candidate events are **attempts at truth**, not truth itself.
 
@@ -51,8 +52,8 @@ An invariant is a rule that must always hold.
 
 Examples:
 
-- a player cannot have negative resources  
-- two objects cannot occupy the same exclusive space  
+* a player cannot have negative resources
+* two objects cannot occupy the same exclusive space
 
 Invariants are enforced during validation and protect **truth**.
 
@@ -60,21 +61,29 @@ Invariants are enforced during validation and protect **truth**.
 
 ### Validation
 
-Validation is the process of checking a candidate event against invariants.
+Validation is the process of evaluating a candidate event before it becomes canonical.
 
-If valid → it becomes canonical  
-If invalid → it is rejected  
+It includes:
+
+* schema validation
+* identity validation
+* precondition checks
+* invariant validation
+* rule validation
+
+If valid → it becomes canonical
+If invalid → it is rejected
 
 Validation determines whether something becomes **truth**.
 
 ---
 
-### Canonical History
+### Canonical Event History
 
-The canonical history is:
+The canonical event history is:
 
-- the ordered sequence of accepted events  
-- the authoritative record of what has happened  
+* the ordered sequence of accepted canonical events
+* the authoritative record of what has happened
 
 Everything else derives from this.
 
@@ -84,8 +93,9 @@ Everything else derives from this.
 
 Replay is the process of:
 
-- taking canonical history  
-- rebuilding the current world state  
+* taking canonical event history
+* applying events in canonical order
+* rebuilding derived state deterministically
 
 Replay is how **truth becomes state**.
 
@@ -95,10 +105,14 @@ Replay is how **truth becomes state**.
 
 Derived state is:
 
-- the current world state  
-- produced from replaying canonical events  
+* the current world state
+* produced from replaying canonical event history
 
-It is not directly synchronized — it is reconstructed.
+It is:
+
+* not authoritative
+* not stored as truth
+* always reconstructable
 
 ---
 
@@ -106,27 +120,27 @@ It is not directly synchronized — it is reconstructed.
 
 An observer is:
 
-- a client  
-- a local simulation of the world  
+* a client
+* a local simulation of the world
 
 Observers:
 
-- propose events  
-- simulate locally  
-- reconcile with canonical truth  
+* simulate locally
+* propose candidate events
+* reconcile with canonical truth
 
-Observers own the **experience layer**.
+Observers contribute to the **experience layer**.
 
 ---
 
-### Reconciliation
+### Observer Reconciliation
 
-Reconciliation is when:
+Observer reconciliation is when:
 
-- an observer updates its local simulation  
-- to match canonical outcomes  
+* an observer updates its local simulation
+* to match canonical outcomes
 
-This happens after events are accepted or rejected.
+This occurs after events are accepted or rejected.
 
 ---
 
@@ -136,8 +150,8 @@ An adapter reshapes data.
 
 It:
 
-- takes canonical and observer state  
-- produces structured outputs for interpretation or UI  
+* takes canonical and observer-derived state
+* produces structured outputs for interpretation or UI
 
 Adapters belong to the **translation layer**.
 
@@ -151,9 +165,9 @@ A lens interprets data.
 
 It determines:
 
-- what is visible  
-- what is interactable  
-- what matters to an observer  
+* what is visible
+* what is interactable
+* what matters to an observer
 
 Lenses belong to the **interpretation layer**.
 
@@ -165,10 +179,9 @@ They do not define truth or mutate state.
 
 The experience layer includes:
 
-- rendering  
-- input  
-- local feedback  
-- local simulation  
+* rendering
+* input
+* local feedback
 
 This is what the player interacts with directly.
 
@@ -180,9 +193,9 @@ It is responsive, but not authoritative.
 
 CrypSA separates the system into four responsibilities:
 
-- **truth** is defined by canonical events  
-- **translation** shapes data via adapters  
-- **interpretation** gives meaning via lenses  
-- **experience** presents the world to the observer  
+* **truth** is defined by canonical event history
+* **translation** shapes data via adapters
+* **interpretation** gives meaning via lenses
+* **experience** presents the world to the observer
 
 Understanding this separation makes the rest of CrypSA much easier to follow.
