@@ -20,7 +20,7 @@ If you want to follow the code as a system, use this walkthrough.
 If you want the architecture-protection rules for future changes, read `implementation/CrypSA_Refactor_Guardrails.md`.
 For the authoritative adapter and observer-model docs, see `../../architecture/CrypSA_Adaptor_Model.md` and `../../architecture/CrypSA_Client_Observer_Model.md`.
 
-If you reach a question that sounds more like full CrypSA architecture or deployment than prototype behavior, pause here and read `Prototype_vs_Current_CrypSA_Model.md` before jumping into `repo/`.
+If you reach a question that sounds more like full CrypSA architecture or deployment than prototype behavior, pause here and read `Prototype_vs_Current_CrypSA_Model.md` before jumping into the core documentation (`../architecture/` and `../spec/`)
 
 ## The Core Mental Model
 
@@ -616,7 +616,7 @@ Use the docs like this:
 - `summary.txt`: current handoff state
 - `Codebase_Walkthrough.md`: guided reading tutorial
 - `implementation/CrypSA_Refactor_Guardrails.md`: architecture-protection rules for future refactors
-- `Prototype_vs_Current_CrypSA_Model.md`: scope boundary between this teaching prototype and the broader CrypSA model in `repo/`
+- `Prototype_vs_Current_CrypSA_Model.md`: scope boundary between this teaching prototype and the broader CrypSA model defined in the architecture and specification (`../architecture/` and `../spec/`)
 - `Runtime_Schema.md`: runtime save-file shape
 - `Mint_Editor_Usage.md`: how to use the Mint editor as a user
 - `Manual_Regression_Checklist.md`: repeatable smoke test for Tk flows and Mint save/reload paths
@@ -653,4 +653,3 @@ For this project, the best first flow is still:
 5. trace the matching code path
 
 That one loop exposes almost the entire architecture.
-
