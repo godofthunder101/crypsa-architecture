@@ -12,10 +12,10 @@ CrypSA was designed to address structural limitations in traditional multiplayer
 
 The goal of CrypSA is to provide a model that allows digital universes to remain:
 
-* structurally consistent
-* scalable
-* persistent
-* reconstructable
+* structurally consistent  
+* scalable  
+* persistent  
+* reconstructable  
 
 without requiring centralized continuous simulation.
 
@@ -26,21 +26,23 @@ without requiring centralized continuous simulation.
 Most multiplayer systems follow a server-authoritative architecture.
 
 ```
+
 Players
-   ↓
+↓
 Clients
-   ↓
-Game Server
-   ↓
+↓
+Server
+↓
 Game Database
+
 ```
 
 In this model:
 
-* the server simulates the world
-* clients send inputs
-* the server resolves interactions
-* the server distributes state updates
+* the server simulates the world  
+* clients send inputs  
+* the server resolves interactions  
+* the server distributes state updates  
 
 This model works well for many games, but it has structural limitations when worlds become large, persistent, and complex.
 
@@ -56,10 +58,10 @@ Centralized simulation introduces several problems as worlds grow.
 
 The server must continuously simulate:
 
-* physics
-* AI
-* world interactions
-* object state
+* physics  
+* AI  
+* world interactions  
+* object state  
 
 As the number of players and objects increases, server workload grows dramatically.
 
@@ -71,9 +73,9 @@ Large worlds require constant synchronization of mutable state across many clien
 
 This leads to:
 
-* network congestion
-* synchronization errors
-* complicated reconciliation logic
+* network congestion  
+* synchronization errors  
+* complicated reconciliation logic  
 
 ---
 
@@ -83,13 +85,13 @@ When the server infrastructure shuts down, the world disappears.
 
 More precisely:
 
-> the canonical truth of the world is lost
+> the canonical event history of the world is lost  
 
 Persistent worlds are therefore tied to:
 
-* specific server clusters
-* specific implementations
-* specific engine architectures
+* specific server clusters  
+* specific implementations  
+* specific engine architectures  
 
 This limits the long-term persistence of digital worlds.
 
@@ -115,13 +117,13 @@ CrypSA introduces a different architectural model.
 
 Instead of synchronizing full world simulation, CrypSA synchronizes:
 
-* canonical identities
-* canonical invariants
-* canonical event history
+* canonical identities  
+* canonical invariants  
+* canonical event history  
 
 Observers reconstruct the world locally via replay.
 
-Servers focus only on protecting canonical truth.
+Servers focus only on protecting canonical event history.
 
 ---
 
@@ -129,13 +131,13 @@ Servers focus only on protecting canonical truth.
 
 CrypSA separates two things that are normally intertwined:
 
-**Observer Experience**
-vs
-**Canonical Reality**
+**Observer Experience**  
+vs  
+**Canonical Reality (defined by canonical event history)**  
 
 Observers simulate locally.
 
-Canonical truth evolves only through validated events.
+Canonical event history evolves only through validated events.
 
 This dramatically reduces the need for continuous centralized simulation.
 
@@ -147,7 +149,7 @@ The central concept of CrypSA is the invariant boundary.
 
 Every interaction asks a single question:
 
-> Does this interaction affect canonical truth?
+> Does this interaction affect canonical event history?
 
 If the answer is no, the interaction remains local.
 
@@ -160,11 +162,13 @@ If the answer is yes, the interaction becomes a candidate event.
 Instead of continuously mutating world state, CrypSA evolves the universe through validated events.
 
 ```
+
 Canonical Event History
-      ↓
+↓
 Validated Event
-      ↓
+↓
 Canonical Event History (extended)
+
 ```
 
 Derived state evolves as a result of replay.
@@ -177,10 +181,10 @@ Because CrypSA records canonical structure rather than full simulation state, a 
 
 The world becomes defined by:
 
-* identities
-* genomes
-* invariants
-* canonical event history
+* identities  
+* genomes  
+* invariants  
+* canonical event history  
 
 These components allow the universe to be reconstructed through replay, even if the underlying infrastructure changes.
 
@@ -200,7 +204,7 @@ CrypSA proposes an architecture that makes this possible.
 
 CrypSA exists because traditional multiplayer architectures struggle to support large persistent digital universes.
 
-By separating local simulation from canonical truth and evolving the universe through validated events, CrypSA provides a scalable and durable model for shared digital worlds.
+By separating local simulation from canonical event history and evolving the universe through validated events, CrypSA provides a scalable and durable model for shared digital worlds.
 
 ---
 
