@@ -7,7 +7,7 @@ This diagram shows how runtime decisions are made in a CrypSA system.
 The system continuously decides:
 
 * does this remain local?
-* does this affect canonical truth?
+* does this affect canonical event history?
 * should the server validate it?
 * should observers reconstruct?
 
@@ -32,10 +32,12 @@ Invariant Boundary Check
                   ↓
            Accepted?
             ├── No → Reject / Correct
-            └── Yes → Append to Canonical History
+            └── Yes → Assign server_sequence
+                          ↓
+                   Append to Canonical Event History
                           ↓
                    Observers Reconstruct
-```
+````
 
 ---
 
@@ -69,7 +71,7 @@ Invariant Boundary Check
         ↓
 
 6. INVARIANT BOUNDARY CHECK
-   Does this affect canonical truth?
+   Does this affect canonical event history?
 
         ├── NO → REMAIN LOCAL
         │       - UI updates
@@ -84,9 +86,9 @@ Invariant Boundary Check
                         ↓
                 ACCEPTED?
                   ├── NO → REJECT / CORRECT
-                  └── YES → APPEND TO CANONICAL HISTORY
+                  └── YES → ASSIGN server_sequence
                                       ↓
-                          9. CANONICAL TRUTH UPDATED
+                          9. APPEND TO CANONICAL EVENT HISTORY
                                       ↓
                           10. OBSERVERS RECONSTRUCT
 ```
@@ -97,7 +99,7 @@ Invariant Boundary Check
 
 ### Reconstruction
 
-Observers rebuild the world from canonical history.
+Observers rebuild the world from canonical event history.
 
 ---
 
@@ -123,7 +125,7 @@ Local systems produce immediate results.
 
 The key decision:
 
-> Does this affect canonical truth?
+> Does this affect canonical event history?
 
 ---
 
@@ -141,8 +143,8 @@ If yes:
 
 Accepted events:
 
-* are appended to canonical history
-* define new shared truth
+* are appended to canonical event history
+* define new shared state
 
 ---
 
@@ -152,13 +154,13 @@ Observers:
 
 * receive updates
 * rebuild affected state
-* converge to canonical truth
+* converge to canonical event history
 
 ---
 
 ## Key Insight
 
-> The invariant boundary determines whether an action remains local or becomes part of shared reality.
+> The invariant boundary determines whether an action remains local or becomes part of canonical event history.
 
 ---
 
@@ -173,7 +175,7 @@ Player → Server Simulation → Client Update
 CrypSA:
 
 ```text
-Observer → Invariant Boundary → Validation → Canonical Truth → Reconstruction
+Observer → Invariant Boundary → Validation → Canonical Event History → Reconstruction
 ```
 
 ---
@@ -188,11 +190,11 @@ CrypSA runtime flow:
 * simulate
 * check invariant boundary
 * validate if needed
-* update canonical truth
+* update canonical event history
 * reconstruct again
 
 ---
 
 ## One Sentence Summary
 
-CrypSA control flow is driven by the invariant boundary, which determines whether actions remain local or become validated canonical events that update shared truth and trigger observer reconstruction.
+CrypSA control flow is driven by the invariant boundary, which determines whether actions remain local or become validated canonical events that update canonical event history and trigger observer reconstruction.
