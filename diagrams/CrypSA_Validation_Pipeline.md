@@ -1,39 +1,41 @@
 # CrypSA Validation Pipeline
 
-This diagram shows how the canonical server evaluates a candidate event before it can become part of canonical history.
+## Purpose
 
-It represents the layered validation model used to decide whether an event is:
+This diagram shows how the server evaluates a candidate event before it becomes part of canonical history.
 
-- accepted
-- rejected
+It represents the layered validation model used to determine whether an event is:
+
+* accepted
+* rejected
 
 ---
+
+## Diagram
 
 ```mermaid
 flowchart TD
 
 A[Candidate Event] --> B[Schema Validation]
 
-B -->|Fail| R1[Reject: invalid_schema]
+B -->|Fail| R1[Reject invalid_schema]
 B -->|Pass| C[Identity Validation]
 
-C -->|Fail| R2[Reject: invalid_identity]
+C -->|Fail| R2[Reject invalid_identity]
 C -->|Pass| D[Precondition Validation]
 
-D -->|Fail| R3[Reject: precondition_failed]
+D -->|Fail| R3[Reject precondition_failed]
 D -->|Pass| E[Invariant Validation]
 
-E -->|Fail| R4[Reject: invariant_violation]
+E -->|Fail| R4[Reject invariant_violation]
 E -->|Pass| F[Rule Validation]
 
-F -->|Fail| R5[Reject: rule_violation]
+F -->|Fail| R5[Reject rule_violation]
 F -->|Pass| G[Accept Event]
 
-G --> H[Append to Canonical Log]
-H --> I[Update Derived State]
-I --> J[Broadcast Canonical Update]
-
-````
+G --> H[Append to Canonical Event History]
+H --> I[Observers Receive Canonical Update]
+```
 
 ---
 
@@ -41,61 +43,61 @@ I --> J[Broadcast Canonical Update]
 
 ### 1. Schema Validation
 
-The server checks that the candidate event is well-formed.
+The server checks that the event is well-formed.
 
 Examples:
 
 * required fields exist
-* payload shape is valid
-* field types are correct
+* payload structure is valid
+* data types are correct
 
 ---
 
 ### 2. Identity Validation
 
-The server checks that referenced identities are valid.
+The server verifies referenced identities.
 
 Examples:
 
 * actor exists
-* target object exists
-* branch reference is valid
+* target exists
+* references are valid
 
 ---
 
 ### 3. Precondition Validation
 
-The server checks that the client’s assumptions are still true.
+The server checks that assumptions still hold.
 
 Examples:
 
 * tile is still empty
-* actor still owns the object
+* ownership is unchanged
 * required resources still exist
 
 ---
 
 ### 4. Invariant Validation
 
-The server checks that canonical rules would remain true if the event were accepted.
+The server ensures canonical truth would remain valid.
 
 Examples:
 
-* no duplicate ownership
-* no impossible placement
-* no invalid state transition
+* no invariant violations
+* no invalid transitions
+* no impossible states
 
 ---
 
 ### 5. Rule Validation
 
-The server checks event-specific rules.
+The server applies event-specific rules.
 
 Examples:
 
-* structure type is allowed here
-* upgrade path is valid
-* resource cost is correct
+* placement rules
+* upgrade constraints
+* cost validation
 
 ---
 
@@ -106,9 +108,19 @@ Examples:
 
 ---
 
+## Relationship to Architecture
+
+This diagram reflects the **truth layer**:
+
+* validation
+* invariant enforcement
+* canonical event acceptance
+
+---
+
 ## Relationship to Specs
 
-This diagram maps directly to:
+This diagram maps to:
 
 * `spec/CrypSA_Validation_Model.md`
 * `spec/CrypSA_Runtime_Spec_v0.1.md`
@@ -117,4 +129,4 @@ This diagram maps directly to:
 
 ## One Sentence Summary
 
-A candidate event must pass schema, identity, precondition, invariant, and rule validation before it can become part of canonical history.
+A candidate event must pass schema, identity, precondition, invariant, and rule validation before it is accepted and recorded in canonical event history.
