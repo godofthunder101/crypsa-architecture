@@ -1,3 +1,11 @@
+> Scope note: This document reflects the teaching prototype implementation at the time it was completed.
+>
+> It may not match the current CrypSA specification.
+>
+> The prototype is preserved as a teaching artifact and is not updated to reflect ongoing architectural changes.
+>
+> For current system behavior, refer to `../../spec/`.
+
 # CrypSA Teaching Prototype - Data Flow Diagram
 
 > Scope note: This document describes the teaching prototype implementation.
