@@ -42,7 +42,7 @@ B --> D
 C --> D
 D --> E
 E --> F
-```
+````
 
 ---
 
@@ -52,10 +52,10 @@ E --> F
 
 The truth layer defines what is real.
 
-* **Canonical event history** is the source of truth
+* **Canonical event history** defines what is true
 * **Derived canonical state** is a convenience for access, reconstruction, and computation
 
-Derived state is useful, but it is not more authoritative than canonical history.
+Derived canonical state is useful, but it is not more authoritative than canonical event history.
 
 ---
 
@@ -106,7 +106,7 @@ Lenses answer:
 
 > “What does this mean for this observer?”
 
-They do not define canonical truth.
+They do not define truth.
 
 ---
 
@@ -134,7 +134,7 @@ This separation is one of the core architectural boundaries in CrypSA.
 ## Simplified Flow
 
 ```text
-Canonical Events → Derived State → Adapters → Lenses → Experience
+Canonical Event History → Derived Canonical State → Adapters → Lenses → Experience
 ```
 
 ---
@@ -155,4 +155,4 @@ Each layer can evolve independently without breaking the others.
 
 ## One Sentence Summary
 
-CrypSA separates canonical truth, translation, interpretation, and experience into distinct layers so the system remains clear, modular, and extensible.
+CrypSA separates truth, translation, interpretation, and experience into distinct layers so the system remains clear, modular, and extensible.
