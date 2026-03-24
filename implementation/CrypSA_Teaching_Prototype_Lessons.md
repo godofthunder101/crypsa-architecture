@@ -2,7 +2,10 @@
 
 > Scope note: This document records lessons learned from the prototype.
 >
-> It does not define current CrypSA behavior. For system behavior, refer to `../spec/`.
+> It does not define current CrypSA behavior.
+> For system behavior, refer to `../spec/`.
+
+---
 
 ## Purpose
 
@@ -10,9 +13,9 @@ This document captures what the CrypSA teaching prototype demonstrated in practi
 
 It exists to:
 
-- record architectural lessons learned  
-- reinforce design decisions  
-- clarify which ideas proved useful beyond theory  
+* record architectural lessons learned
+* reinforce design decisions
+* clarify which ideas proved necessary beyond theory
 
 This is not a design document.
 
@@ -22,7 +25,7 @@ It is a reflection on what worked.
 
 ## Summary
 
-The teaching prototype confirmed that several core CrypSA design ideas are not just conceptual — they are practical and necessary for maintaining a clean, understandable system.
+The teaching prototype confirmed that several core CrypSA design decisions are not just conceptual — they are practical and necessary for maintaining a clean, understandable system.
 
 ---
 
@@ -32,40 +35,40 @@ Separating the runtime into clear modules was essential.
 
 Key boundaries include:
 
-- validation  
-- canonical apply  
-- reconciliation  
-- replay  
-- request dispatch  
-- controller orchestration  
+* validation
+* canonical event application
+* observer reconciliation
+* replay
+* request dispatch
+* runtime coordination
 
 Without these separations:
 
-- logic became harder to trace  
-- responsibilities blurred  
-- the controller became overloaded  
+* logic became harder to trace
+* responsibilities blurred
+* central control logic became overloaded
 
 With them:
 
-- behavior became easier to reason about  
-- changes stayed localized  
-- the system became explainable  
+* behavior became easier to reason about
+* changes stayed localized
+* the system remained explainable
 
 ---
 
 ## 2. Replay Must Be a Separate Layer
 
-Treating replay as its own layer (separate from event graph mechanics) improved clarity significantly.
+Treating replay as its own layer (separate from canonical event history handling) improved clarity significantly.
 
 This separation allowed:
 
-- canonical history to remain explicit  
-- state reconstruction to be predictable  
-- debugging to focus on event history instead of hidden state  
+* canonical event history to remain explicit
+* state reconstruction to be predictable
+* debugging to focus on event history rather than hidden state
 
 It also made it clear that:
 
-> state is derived, not stored  
+> state is derived, not stored
 
 ---
 
@@ -73,21 +76,21 @@ It also made it clear that:
 
 The combination of:
 
-- adapters (translation boundary)  
-- typed requests (intent boundary)  
+* adapters (translation boundary)
+* typed requests (intent boundary)
 
 proved to be one of the most important structural decisions.
 
 Together, they prevented:
 
-- UI from mutating runtime state directly  
-- lenses from depending on raw runtime structures  
-- interpretation logic from spreading across layers  
-- controller logic from leaking into presentation  
+* UI from mutating runtime state directly
+* lenses from depending on raw runtime structures
+* interpretation logic from spreading across layers
+* control logic from leaking into presentation
 
 This confirmed that:
 
-> data shaping and intent handling must be explicit and separated  
+> data shaping and intent handling must be explicit and separated
 
 ---
 
@@ -95,37 +98,37 @@ This confirmed that:
 
 Moving the teaching example into:
 
-- `fixtures/teaching_example.json`  
+* `fixtures/teaching_example.json`
 
 provided several benefits:
 
-- clean separation between content and behavior  
-- reproducible scenarios  
-- easier iteration and testing  
-- clearer mental model for users  
+* clean separation between content and behavior
+* reproducible scenarios
+* easier iteration and testing
+* clearer mental model for users
 
 This made the system easier to:
 
-- demonstrate  
-- debug  
-- extend  
+* demonstrate
+* debug
+* extend
 
 ---
 
 ## 5. Implementation-Layer Documentation Is Valuable
 
-Adding implementation-focused docs (module maps, data flow diagrams, guardrails) was highly beneficial.
+Adding implementation-focused documentation (module maps, data flow diagrams, guardrails) was highly beneficial.
 
-These docs:
+These documents:
 
-- reduced cognitive load  
-- made the architecture easier to navigate  
-- preserved intent across refactors  
-- helped maintain consistency  
+* reduced cognitive load
+* made the architecture easier to navigate
+* preserved intent across refactors
+* helped maintain consistency
 
 This confirmed that:
 
-> architecture documentation should exist alongside code, not only above it  
+> architecture documentation should exist alongside implementation, not only above it
 
 ---
 
@@ -135,22 +138,22 @@ A focused test suite (non-UI, architecture-oriented) proved to be highly valuabl
 
 Tests covering:
 
-- validation  
-- canonical apply  
-- replay  
-- reconciliation  
-- request dispatch  
-- adapter outputs  
+* validation
+* canonical event application
+* replay
+* observer reconciliation
+* request dispatch
+* adapter outputs
 
 helped:
 
-- prevent regressions  
-- protect boundaries  
-- verify assumptions  
+* prevent regressions
+* protect boundaries
+* verify assumptions
 
 This reinforced that:
 
-> tests should protect architecture, not just behavior  
+> tests should protect architecture, not just behavior
 
 ---
 
@@ -160,9 +163,9 @@ The teaching prototype is not just an example.
 
 It demonstrates that:
 
-- the CrypSA model can be implemented cleanly  
-- the separation of responsibilities is practical  
-- the architecture remains understandable when boundaries are respected  
+* the CrypSA model can be implemented cleanly
+* the separation of responsibilities is practical
+* the architecture remains understandable when boundaries are respected
 
 ---
 
@@ -170,10 +173,10 @@ It demonstrates that:
 
 The prototype does not prove:
 
-- networking correctness  
-- distributed synchronization  
-- performance at scale  
-- security or adversarial resilience  
+* networking correctness
+* distributed synchronization
+* performance at scale
+* security or adversarial resilience
 
 Those require a real runtime system.
 
@@ -183,14 +186,14 @@ Those require a real runtime system.
 
 The next phase of CrypSA is:
 
-- building a minimal server/runtime  
+* building a minimal server/runtime
 
 This will test whether the same architectural principles hold under:
 
-- real networking  
-- multiple observers  
-- concurrent event submission  
-- runtime constraints  
+* real networking
+* multiple observers
+* concurrent event submission
+* runtime constraints
 
 ---
 
