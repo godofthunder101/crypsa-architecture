@@ -48,7 +48,7 @@ A --> B
 B --> C
 C --> D
 D --> E
-```
+````
 
 ---
 
@@ -56,7 +56,7 @@ D --> E
 
 Think of CrypSA like this:
 
-* The **server** decides what becomes canonical truth
+* The server validates what becomes canonical
 * Observers simulate what they think is happening
 * Only validated actions become part of shared reality
 * Everything else is local prediction
@@ -243,7 +243,7 @@ In CrypSA:
 
 * Read `CrypSA_Terminology_Primer.md`
 * Read `FAQ.md`
-* See `CrypSA_WORKED_EXAMPLE.md` for a full step-by-step flow
+* See `CrypSA_Worked_Example.md` for a full step-by-step flow
 * See `CrypSA_Architecture_Overview.md` for the system map
 
 ---
