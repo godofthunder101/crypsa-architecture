@@ -2,7 +2,7 @@
 
 This document outlines the planned evolution of the CrypSA architecture.
 
-It describes how the system is expected to progress from a defined model to a practical runtime.
+It describes how the system progresses from a defined model to a practical runtime.
 
 ---
 
@@ -12,9 +12,9 @@ CrypSA is developed iteratively.
 
 Each phase is designed to:
 
-- prove a specific part of the system  
-- expose limitations  
-- guide the next stage of development  
+* prove a specific part of the system
+* expose limitations
+* guide the next stage of development
 
 ---
 
@@ -24,40 +24,44 @@ Each phase is designed to:
 
 Focus:
 
-- runtime specification  
-- event model  
-- validation model  
-- consistency model  
-- replay and snapshot systems  
-- identity and transport definitions  
+* runtime specification
+* event model
+* validation model
+* consistency model
+* replay and snapshot systems
+* identity and transport definitions
 
 Success Criteria:
 
-- system is internally consistent  
-- behavior is clearly defined  
-- implementation is possible from specs  
+* system is internally consistent
+* behavior is clearly defined
+* implementation is possible from specs
 
 ---
 
 ## Phase 2 — Minimal Runtime Implementation
 
+(**CrypSA Minimal Server v0.1**)
+
 **Goal:** Prove that the architecture works in practice.
 
 Focus:
 
-- build minimal independent server  
-- implement validation pipeline  
-- implement canonical event log  
-- implement derived state  
-- support multiple observers  
-- basic networking  
+* build minimal independent server
+* implement validation pipeline
+* implement canonical event history
+* implement replay system
+* implement derived canonical state (via replay)
+* support multiple observers
+* basic networking
 
 Success Criteria:
 
-- multiple clients can connect  
-- events are validated and recorded  
-- observers converge on shared state  
-- replay produces consistent results  
+* multiple clients can connect
+* events are validated and recorded
+* canonical event history drives all state
+* observers converge on shared state
+* replay produces consistent results
 
 ---
 
@@ -67,16 +71,16 @@ Success Criteria:
 
 Focus:
 
-- latency and ordering issues  
-- reconciliation edge cases  
-- reconnect and recovery  
-- snapshot behavior under change  
-- failure scenarios  
+* latency and ordering issues
+* reconciliation edge cases
+* reconnect and recovery
+* snapshot behavior under change
+* failure scenarios
 
 Success Criteria:
 
-- system remains stable under imperfect conditions  
-- edge cases are understood and documented  
+* system remains stable under imperfect conditions
+* edge cases are understood and documented
 
 ---
 
@@ -86,16 +90,16 @@ Success Criteria:
 
 Focus:
 
-- branching timelines  
-- offline progression and later reconciliation  
-- richer invariant systems  
-- partial world reconstruction  
-- event compression and optimization  
+* branching timelines (advanced / future capability)
+* offline progression and later reconciliation
+* richer invariant systems
+* partial world reconstruction
+* event compression and optimization
 
 Success Criteria:
 
-- system supports more complex use cases  
-- extended features remain consistent with core model  
+* system supports more complex use cases
+* extended features remain consistent with core model
 
 ---
 
@@ -105,15 +109,15 @@ Success Criteria:
 
 Focus:
 
-- validation boundaries  
-- moderation and auditing tools  
-- anti-cheat strategies  
-- optional cryptographic verification  
+* validation boundaries
+* moderation and auditing tools
+* anti-cheat strategies
+* optional cryptographic verification
 
 Success Criteria:
 
-- system can operate in untrusted environments  
-- trust model is clearly defined  
+* system can operate in untrusted environments
+* trust model is clearly defined
 
 ---
 
@@ -123,15 +127,15 @@ Success Criteria:
 
 Focus:
 
-- partitioning and sharding  
-- distributed canonical logs  
-- cross-region consistency  
-- scalable snapshot distribution  
+* partitioning and sharding
+* distributed canonical event history
+* cross-region canonical consistency
+* scalable snapshot distribution
 
 Success Criteria:
 
-- system can scale beyond a single server  
-- performance characteristics are understood  
+* system can scale beyond a single server
+* performance characteristics are understood
 
 ---
 
@@ -141,15 +145,15 @@ Success Criteria:
 
 Focus:
 
-- engine integrations (e.g. Godot, Unity)  
-- developer tooling  
-- debugging and replay tools  
-- visualization and inspection systems  
+* engine integrations (e.g. Godot, Unity)
+* developer tooling
+* debugging and replay tools
+* visualization and inspection systems
 
 Success Criteria:
 
-- developers can practically use CrypSA  
-- tooling reduces complexity of adoption  
+* developers can practically use CrypSA
+* tooling reduces complexity of adoption
 
 ---
 
@@ -157,10 +161,10 @@ Success Criteria:
 
 CrypSA still needs to explore:
 
-- limits of client-side simulation  
-- tradeoffs between responsiveness and validation  
-- handling of high-frequency interactions  
-- integration with existing engine architectures  
+* limits of client-side simulation
+* tradeoffs between responsiveness and validation
+* handling of high-frequency interactions
+* integration with existing engine architectures
 
 These questions will be addressed across multiple phases.
 
@@ -172,9 +176,9 @@ This roadmap is directional, not fixed.
 
 The goal is to:
 
-- validate early  
-- adapt based on findings  
-- avoid premature optimization  
+* validate early
+* adapt based on findings
+* avoid premature optimization
 
 ---
 
