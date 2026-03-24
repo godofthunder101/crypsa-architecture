@@ -16,7 +16,7 @@ If you are validating interactive changes after reading the code, use `Manual_Re
 
 If you are lost in the UI layer, use this file to answer one question first: "am I looking at layout, translated data, or controller intent?"
 
-If your question becomes "what would the full CrypSA runtime or deployment architecture do here?", step out of the UI layer and read `../Prototype_vs_Current_CrypSA_Model.md` before going into `../repo/`. These UI files teach the model; they do not try to mirror the full architecture.
+If your question becomes "what would the full CrypSA runtime or deployment architecture do here?", step out of the UI layer and read `../Prototype_vs_Current_CrypSA_Model.md` before going into the core documentation (`../architecture/` and `../spec/`). These UI files teach the model; they do not try to mirror the full architecture.
 
 ## Folder Role
 
