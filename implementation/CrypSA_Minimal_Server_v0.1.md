@@ -1,7 +1,6 @@
 # CrypSA Minimal Server v0.1
 
 > Scope note: This document describes implementation strategy for a minimal server proof step.
->
 > For authoritative runtime behavior, refer to `../spec/`.
 
 ---
@@ -64,7 +63,8 @@ Observer Action
 → Candidate Event Submission
 → Server Validation
 → Accept or Reject
-→ Canonical Event History Append
+→ Assign server_sequence
+→ Append to Canonical Event History
 → Derived State Update
 → Observer Notification
 → Observer Reconciliation
@@ -148,12 +148,12 @@ Recommended: WebSocket
 ### Canonical Event History
 
 * append accepted events
-* assign sequence
+* assign `server_sequence`
 * act as source of truth
 
 ---
 
-### Derived State Cache
+### Derived Canonical State Cache
 
 * materialized view of state
 * updated by applying accepted events
@@ -283,7 +283,7 @@ For v0.1:
 Minimal approach:
 
 * append-only event file
-* in-memory derived state
+* in-memory derived canonical state
 * periodic snapshot files
 
 ---
@@ -321,7 +321,7 @@ This server proves:
 
 * observers do not define truth
 * events must be validated
-* canonical history defines reality
+* canonical event history defines reality
 * observers reconstruct from history
 
 ---
@@ -329,3 +329,5 @@ This server proves:
 ## One Sentence Summary
 
 CrypSA Minimal Server v0.1 proves that validated candidate events can be recorded as canonical event history and distributed to observers as shared truth.
+
+👉 **Event Schema v0.1 (code-level, no ambiguity)**
