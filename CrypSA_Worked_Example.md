@@ -8,10 +8,10 @@ This document walks through a complete runtime example of CrypSA.
 
 It shows how:
 
-- a local action becomes a candidate event  
-- the server validates that event  
-- canonical history is updated  
-- observers reconcile their local state  
+* a local action becomes a candidate event
+* the server validates that event
+* canonical event history is updated
+* observers reconcile their local state
 
 This example focuses on clarity and uses a simple scenario.
 
@@ -28,18 +28,16 @@ C --> D[Send to Server]
 
 D --> E[Validation Pipeline]
 
-E -->|Accepted| F[Canonical Log]
+E -->|Accepted| F[Canonical Event History]
 E -->|Rejected| G[Rejection Result]
 
-F --> H[Derived State Update]
-H --> I[Broadcast]
+F --> H[Replay]
+H --> I[Derived Canonical State]
+I --> J[Broadcast]
 
-I --> J[Observer Reconciliation]
-G --> J
-
-````
-
-This diagram represents the full flow described below.
+J --> K[Observer Reconciliation]
+G --> K
+```
 
 ---
 
@@ -51,7 +49,7 @@ A player places a mining station on an empty tile.
 
 ## Initial Canonical State
 
-Derived state (server + observers agree):
+Derived canonical state (via replay):
 
 * tile_42 → empty
 * player_A → resources = 100
@@ -123,48 +121,23 @@ State at this moment:
 
 The server processes the event.
 
----
-
 ### 4.1 Schema Validation
 
-* required fields present
-* payload structure valid
-
 ✅ pass
-
----
 
 ### 4.2 Identity Validation
 
-* player_A exists
-* tile_42 exists
-
 ✅ pass
-
----
 
 ### 4.3 Precondition Validation
 
-* tile_42 is still empty
-* player_A has ≥ 50 resources
-
 ✅ pass
-
----
 
 ### 4.4 Invariant Validation
 
-* no overlapping structure
-* placement rules satisfied
-
 ✅ pass
 
----
-
 ### 4.5 Rule Validation
-
-* mining_station allowed on tile
-* cost is valid
 
 ✅ pass
 
@@ -182,18 +155,20 @@ server_sequence = 1203
 accepted_at = timestamp
 ```
 
-The event is appended to the canonical log.
+The event is appended to canonical event history.
 
 ---
 
-## Phase 6 — Canonical State Update
+## Phase 6 — Replay and Derived State
 
-Derived state updates:
+Replay applies the canonical event.
+
+Derived canonical state updates:
 
 * tile_42 → mining_station
 * player_A resources → 50
 
-Canonical state now reflects the change.
+Derived state now reflects the change.
 
 ---
 
@@ -203,7 +178,7 @@ The server sends the canonical event to all observers.
 
 ---
 
-## Phase 8 — Reconciliation (Observers)
+## Phase 8 — Observer Reconciliation
 
 Each observer compares:
 
@@ -214,16 +189,12 @@ Each observer compares:
 
 ### Case A — Prediction Matches
 
-If prediction was correct:
-
 * no visible change
 * pending marker cleared
 
 ---
 
 ### Case B — Prediction Differs
-
-If prediction was incorrect:
 
 * local state is corrected
 * invalid objects removed
@@ -233,28 +204,16 @@ If prediction was incorrect:
 
 ### Adapter and Lens Interpretation
 
-After reconciliation, the observer does not use raw runtime or canonical state directly for presentation.
+After reconciliation:
 
-Instead:
-
-* canonical and observer state are first shaped through adapters
-* adapters produce structured, view-ready data
-* lenses then interpret that data into observer-specific meaning
-* the UI renders the result
-
-This ensures that:
-
-* UI and lenses do not depend on internal runtime structures
-* interpretation logic remains separate from canonical truth
-* different observers can interpret the same canonical state differently
-
-In simplified form:
+* canonical and observer state are shaped through adapters
+* adapters produce structured data
+* lenses interpret that data
+* UI renders the result
 
 ```text
 Canonical Update → Adapter → Lens → UI
 ```
-
-This step is implicit in the prototype but is an important part of the CrypSA architecture.
 
 ---
 
@@ -262,22 +221,11 @@ This step is implicit in the prototype but is an important part of the CrypSA ar
 
 Two players attempt to place on tile_42.
 
----
-
-### Events Submitted
-
-* evt_A (player_A)
-* evt_B (player_B)
-
----
-
 ### Server Behavior
 
 * validates both
 * accepts first valid event
 * rejects second
-
----
 
 ### Rejection Result
 
@@ -285,8 +233,6 @@ Two players attempt to place on tile_42.
 result = rejected
 reason = precondition_failed
 ```
-
----
 
 ### Observer Reconciliation
 
@@ -301,7 +247,7 @@ Rejected client:
 
 * actions are proposals, not guarantees
 * validation determines reality
-* canonical history is the source of truth
+* canonical event history is the source of truth
 * observers may temporarily diverge
 * reconciliation restores consistency
 
@@ -321,4 +267,4 @@ This example corresponds directly to:
 
 ## One Sentence Summary
 
-A local action becomes a candidate event, the server validates it, accepted events define canonical history, and observers reconcile their local simulation to that shared truth.
+A local action becomes a candidate event, the server validates it, accepted events define canonical event history, and observers reconcile their local simulation to that shared truth.
