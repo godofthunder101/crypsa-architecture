@@ -1,11 +1,12 @@
 # CrypSA Validation Model v0.1
 
-This document defines how CrypSA validates proposed actions before they become part of canonical world history.
+This document defines how CrypSA validates proposed actions before they become part of canonical event history.
 
 Validation is the mechanism that:
-- protects shared truth
-- enforces rules (invariants)
-- determines what becomes canonical
+
+* protects shared truth
+* enforces invariants
+* determines what becomes canonical
 
 ---
 
@@ -15,7 +16,7 @@ In CrypSA:
 
 > Clients may simulate freely, but only validated events become real.
 
-Validation is applied at the **Invariant Boundary**, where proposed actions transition from local simulation to shared reality.
+Validation occurs at the **Invariant Boundary**, where proposed actions transition from local simulation to canonical event history.
 
 ---
 
@@ -24,172 +25,197 @@ Validation is applied at the **Invariant Boundary**, where proposed actions tran
 The validation pipeline follows this sequence:
 
 1. **Observer Action**
-   - A client performs a local action (simulation only)
+   Local simulation only
 
 2. **Candidate Creation**
-   - The action is packaged as an event candidate
+   Action becomes a candidate event
 
 3. **Submission**
-   - The candidate is sent to the server
+   Event is sent to the server
 
 4. **Validation**
-   - The server evaluates the candidate against rules and context
+   Server evaluates the event
 
 5. **Decision**
-   - Accepted → becomes a canonical event  
-   - Rejected → discarded (or optionally logged)
+
+   * accepted → becomes canonical
+   * rejected → discarded
 
 6. **Canonical Update**
-   - Accepted events are appended to canonical history
+   Accepted events are appended to canonical event history
 
-7. **Reconciliation**
-   - Observers update their local state based on canonical changes
-
----
-
-## Validation Layers
-
-Validation is not a single check. It is a layered process.
+7. **Observer Reconciliation**
+   Observers update local state based on canonical events
 
 ---
 
-### Layer 1 — Structural Validation
+## Validation Pipeline
+
+Validation is a layered, ordered process.
+
+---
+
+### 1. Schema Validation
 
 Ensures the event is well-formed.
 
-Checks may include:
-- valid schema
-- required fields present
-- valid object references
-- valid event type
+Checks include:
 
-**Purpose:**
-Reject malformed or invalid data early.
+* required fields present
+* valid structure
+* correct data types
 
 ---
 
-### Layer 2 — Invariant Validation
+### 2. Identity Validation
 
-Ensures the event does not violate core rules.
+Ensures referenced identities are valid.
 
-Examples:
-- object cannot exist in two places at once
-- required resources must be available
-- placement must be valid
-- state transitions must be allowed
+Checks include:
 
-**Purpose:**
-Protect logical consistency of the world.
+* actor exists
+* target objects exist
+* identities are valid at event time
 
 ---
 
-### Layer 3 — Contextual Validation
+### 3. Precondition Validation
 
-Evaluates the event against its surrounding context.
+Ensures client assumptions are still true.
 
-Examples:
-- proximity requirements (e.g., must be near a beacon)
-- environmental constraints
-- relationships between objects
-- dependencies on other events
+Checks include:
 
-**Purpose:**
-Ensure the event makes sense within the world context.
+* expected state matches canonical state
+* required resources exist
+* required conditions hold
 
 ---
 
-### Layer 4 — Simulation Validation (Optional)
+### 4. Invariant Validation
 
-Re-simulates or verifies the action outcome.
+Ensures canonical rules are not violated.
 
 Examples:
-- movement plausibility
-- interaction results
-- physics constraints (if required)
 
-**Purpose:**
-Catch cases where a client submits an outcome without valid cause.
-
-**Note:**
-This layer is optional and can be applied selectively.
+* no duplicate ownership
+* valid placement
+* valid state transitions
 
 ---
 
-### Layer 5 — Anomaly / Pattern Validation (Optional)
+### 5. Rule Validation
 
-Analyzes patterns over time rather than single events.
+Ensures event-specific rules are satisfied.
 
 Examples:
-- impossible frequency of actions
-- statistical anomalies
-- suspicious behavior patterns
 
-**Purpose:**
-Detect cheating or exploitation that is not visible in single events.
+* upgrade paths
+* allowed interactions
+* resource costs
+
+---
+
+### 6. Optional Validation Layers
+
+These are not required for v0.1 runtime behavior.
+
+---
+
+#### Simulation Validation (Optional)
+
+* verifies plausibility of proposed outcome
+* does not define canonical outcome
+* may re-simulate critical actions
+
+---
+
+#### Pattern / Anomaly Validation (Optional)
+
+* evaluates behavior over time
+* detects suspicious or invalid patterns
+* does not directly determine canonical acceptance
+
+---
+
+## Validation Requirements
+
+Validation must be:
+
+* deterministic
+* atomic within conflict scope
+* based on canonical event history and derived state
 
 ---
 
 ## Validation Outcomes
 
-Each candidate results in one of the following:
+Each candidate results in:
+
+---
 
 ### Accepted
-- Event is valid
-- Added to canonical history
-- Becomes part of shared reality
+
+* event is valid
+* appended to canonical event history
+* becomes part of shared reality
 
 ---
 
 ### Rejected
-- Event violates rules or constraints
-- Does not affect canonical state
+
+* event violates rules
+* no canonical change
 
 Optional:
-- rejection reason may be returned
-- rejection may be logged for analysis
+
+* rejection reason returned
+* rejection logged
 
 ---
 
-### Flagged (Optional)
+## Rejection Codes (Recommended)
 
-- Event is accepted but marked for review
-- May trigger monitoring or moderation systems
+* `invalid_schema`
+* `invalid_identity`
+* `precondition_failed`
+* `invariant_violation`
+* `rule_violation`
+* `conflict_lost`
 
 ---
 
 ## Invariant Design
 
-Invariants are the foundation of validation.
+Invariants define:
 
-They define:
-- what is allowed
-- what must always be true
-
-Strong invariant design is critical for:
-- security
-- consistency
-- correctness
+* what must always be true
+* what cannot be violated
 
 Examples:
-- "An object must have exactly one location"
-- "An item cannot be duplicated without a defined rule"
-- "State transitions must follow defined paths"
+
+* an object has one location
+* ownership is unique
+* transitions follow valid paths
+
+Strong invariant design ensures:
+
+* consistency
+* correctness
+* security
 
 ---
 
 ## Validation Scope
 
-Not all actions require the same level of validation.
+Only actions that affect canonical truth are validated.
 
-CrypSA allows selective validation:
+Examples:
 
-| Action Type            | Validation Level            |
-|-----------------------|-----------------------------|
-| Local movement        | None (observer-only)        |
-| UI interaction        | Minimal                    |
-| Object placement      | Invariant + contextual     |
-| Item transfer         | Invariant + contextual     |
-| Critical interactions | Full validation stack      |
+| Action Type      | Validation      |
+| ---------------- | --------------- |
+| Local simulation | Not validated   |
+| UI interaction   | Not validated   |
+| Canonical events | Fully validated |
 
 ---
 
@@ -197,20 +223,9 @@ CrypSA allows selective validation:
 
 CrypSA reduces server load by:
 
-- avoiding full world simulation
-- validating only boundary-crossing actions
-- applying deeper validation selectively
-
-However:
-
-- validation cost depends on invariant complexity
-- contextual checks may require data access
-- simulation validation can be expensive
-
-Design should balance:
-- correctness
-- performance
-- risk tolerance
+* avoiding full simulation
+* validating only boundary-crossing actions
+* applying deeper validation selectively
 
 ---
 
@@ -220,44 +235,41 @@ CrypSA does not trust client simulation.
 
 It trusts:
 
-> the validation process that decides what becomes canonical.
+> the validation process that determines canonical event history
 
 Clients may propose any action, but:
 
-- invalid actions are rejected
-- only accepted events affect the world
+* invalid actions are rejected
+* only accepted events affect the world
 
 ---
 
 ## Failure Modes
 
-Validation systems must handle:
+Validation must handle:
 
-- duplicate submissions
-- delayed submissions
-- conflicting actions
-- partial context availability
-- inconsistent client state
+* duplicate submissions
+* delayed submissions
+* conflicting actions
+* incomplete context
 
-Handling strategies may include:
-- idempotency checks
-- ordering rules
-- conflict resolution policies
+Strategies include:
+
+* idempotency checks
+* conflict resolution
+* ordering rules
 
 ---
 
-## Relationship to Canonical History
+## Relationship to Canonical Event History
 
-Validation determines what enters canonical history.
+Validation determines what enters canonical event history.
 
 Once accepted:
 
-- events are immutable
-- history becomes the source of truth
-- world state is derived through replay
-
-Validation therefore directly defines:
-> the integrity of the universe
+* events are immutable
+* history is append-only
+* state is derived via replay
 
 ---
 
@@ -265,14 +277,12 @@ Validation therefore directly defines:
 
 CrypSA validation is:
 
-- layered
-- rule-driven
-- selective
-- authoritative at the boundary
+* layered
+* deterministic
+* rule-driven
+* authoritative at the invariant boundary
 
-It ensures that:
+It ensures:
 
-> Clients can act freely,  
-> but only valid actions become part of reality.
-
----
+> clients may act freely,
+> but only valid actions become part of canonical event history
