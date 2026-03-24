@@ -14,10 +14,10 @@ They transform canonical reality into observer-specific experience without alter
 
 In CrypSA:
 
-> Canonical history defines what is real
-> Lenses define how that reality is interpreted
+> Canonical event history defines what is real  
+> Lenses define how that reality is interpreted  
 
-Lenses do not create or modify canonical truth.
+Lenses do not create or modify canonical event history.  
 They interpret it.
 
 ---
@@ -26,18 +26,18 @@ They interpret it.
 
 CrypSA separates responsibilities into:
 
-* **Truth** → canonical events and validation
-* **Translation** → adapters
-* **Interpretation** → lenses
-* **Experience** → UI and local simulation
+* **Truth** → canonical events and validation  
+* **Translation** → adapters  
+* **Interpretation** → lenses  
+* **Experience** → UI and local simulation  
 
 Lenses sit strictly in the **interpretation layer**.
 
 They:
 
-* consume translated or canonical-derived data
-* produce observer-specific meaning
-* do not influence truth or validation
+* consume translated or canonical-derived data  
+* produce observer-specific meaning  
+* do not influence truth or validation  
 
 ---
 
@@ -45,15 +45,15 @@ They:
 
 CrypSA separates:
 
-* **what happened**
-* **how it is experienced**
+* **what happened**  
+* **how it is experienced**  
 
 This allows:
 
-* different observers to see different views
-* gameplay context to shape interpretation
-* visibility and access rules to apply locally
-* presentation to vary without affecting truth
+* different observers to see different views  
+* gameplay context to shape interpretation  
+* visibility and access rules to apply locally  
+* presentation to vary without affecting truth  
 
 Lenses make this separation explicit.
 
@@ -65,10 +65,10 @@ A lens is an interpretation layer that transforms input data into observer-usabl
 
 It may:
 
-* filter information
-* derive gameplay-relevant state
-* determine visibility and interaction
-* shape presentation-ready structures
+* filter information  
+* derive gameplay-relevant state  
+* determine visibility and interaction  
+* shape presentation-ready structures  
 
 ---
 
@@ -76,11 +76,11 @@ It may:
 
 A lens is not:
 
-* a source of canonical truth
-* a validation system
-* a way to bypass invariants
-* a controller or execution system
-* a mutation of canonical history
+* a source of canonical event history  
+* a validation system  
+* a way to bypass invariants  
+* a controller or execution system  
+* a mutation of canonical event history  
 
 > Lenses interpret reality. They do not define it.
 
@@ -90,12 +90,12 @@ A lens is not:
 
 A lens may consume:
 
-* canonical event history
-* derived canonical state
-* adapter-shaped data
-* observer identity
-* local simulation context
-* gameplay or visibility rules
+* canonical event history  
+* derived canonical state  
+* adapter-shaped data  
+* observer identity  
+* local simulation context  
+* gameplay or visibility rules  
 
 ---
 
@@ -105,11 +105,11 @@ A lens produces interpreted, observer-specific data.
 
 Examples:
 
-* visible world state
-* interactable objects
-* gameplay overlays
-* UI-ready structures
-* debugging views
+* visible world state  
+* interactable objects  
+* gameplay overlays  
+* UI-ready structures  
+* debugging views  
 
 ---
 
@@ -117,8 +117,8 @@ Examples:
 
 In v0.1, lenses are **observer-side only**.
 
-* the server produces canonical truth
-* observers interpret that truth locally
+* the server produces canonical event history  
+* observers interpret that history locally  
 
 ---
 
@@ -126,38 +126,38 @@ In v0.1, lenses are **observer-side only**.
 
 Observers:
 
-* reconstruct canonical history
-* simulate locally
-* interpret through lenses
+* reconstruct canonical event history  
+* simulate locally  
+* interpret through lenses  
 
 A CrypSA observer is:
 
-> canonical reconstruction + local simulation + lens-based interpretation
+> canonical reconstruction + local simulation + lens-based interpretation  
 
 ---
 
-## Lens and Canonical Truth
+## Lens and Canonical Event History
 
 Lenses must never be mistaken for truth.
 
 Examples:
 
-* a hidden object still exists canonically
-* an interactable object is not necessarily valid to interact with
-* a highlighted action may still fail validation
+* a hidden object still exists canonically  
+* an interactable object is not necessarily valid to interact with  
+* a highlighted action may still fail validation  
 
-> Lenses shape interpretation
-> Validation defines reality
+> Lenses shape interpretation  
+> Validation defines reality  
 
 ---
 
 ## Lens and Reconciliation
 
-When canonical truth changes:
+When canonical event history changes:
 
-* observers reconstruct state
-* lenses re-run interpretation
-* the local experience updates
+* observers reconstruct state  
+* lenses re-run interpretation  
+* the local experience updates  
 
 Lenses do not perform reconciliation, but they respond to it.
 
@@ -167,9 +167,9 @@ Lenses do not perform reconciliation, but they respond to it.
 
 Lenses should be:
 
-* consistent
-* understandable
-* reproducible where needed
+* consistent  
+* understandable  
+* reproducible where needed  
 
 Gameplay-critical lenses should behave predictably.
 
@@ -209,7 +209,7 @@ At minimum:
 
 ```text
 Canonical State + Observer Context → Interpreted View
-```
+````
 
 ---
 
@@ -234,7 +234,7 @@ Different lenses:
 
 * sees ownership and event provenance
 
-Canonical truth remains unchanged.
+Canonical event history remains unchanged.
 
 ---
 
@@ -267,10 +267,10 @@ They do not:
 
 * define truth
 * validate actions
-* alter canonical history
+* alter canonical event history
 
 ---
 
 ## One Sentence Summary
 
-A CrypSA lens interprets canonical reality into observer-specific meaning without changing what is true.
+A CrypSA lens interprets canonical reality into observer-specific meaning without changing what is defined by canonical event history.
