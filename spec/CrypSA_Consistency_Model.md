@@ -1,21 +1,22 @@
 # CrypSA Consistency Model v0.1
 
-This document defines how CrypSA maintains consistency across observers, the server, and canonical history.
+This document defines how CrypSA maintains consistency across observers, the server, and canonical event history.
 
 Consistency determines:
-- how events are ordered
-- how conflicts are resolved
-- how multiple observers converge on the same reality
+
+* how events are ordered
+* how conflicts are resolved
+* how observers converge on shared truth
 
 ---
 
 ## Core Principle
 
-CrypSA does not require global state synchronization.
+CrypSA does not rely on global state synchronization.
 
 Instead:
 
-> Consistency is achieved through canonical event agreement and replay.
+> Consistency is achieved through agreement on canonical event history and deterministic replay.
 
 Observers may temporarily diverge, but must eventually converge on the same canonical history.
 
@@ -23,82 +24,78 @@ Observers may temporarily diverge, but must eventually converge on the same cano
 
 ## Consistency Goals
 
-CrypSA aims to provide:
+CrypSA provides:
 
-- **Canonical Consistency**  
+* **Canonical Consistency**
   All observers agree on accepted canonical events
 
-- **Replay Consistency**  
-  Given the same event history, all observers derive the same state
+* **Replay Consistency**
+  Given the same canonical event history, all observers derive the same state
 
-- **Eventual Convergence**  
+* **Eventual Convergence**
   Temporary divergence is allowed, but must resolve
 
 CrypSA does **not guarantee**:
 
-- full real-time synchronization  
-- global total ordering across all events  
-- immediate consistency across all observers  
+* immediate consistency across observers
+* perfectly synchronized real-time state
+* zero divergence
 
 ---
 
 ## Consistency Model
 
-CrypSA follows a hybrid consistency approach:
+CrypSA uses a hybrid consistency model:
 
 ### 1. Event-Level Authority
 
-- The server is authoritative over which events are accepted
-- Only canonical events define shared truth
+* The server is authoritative over event acceptance
+* Only accepted events enter canonical event history
+* Canonical event history defines shared truth
 
 ---
 
 ### 2. Observer-Level Flexibility
 
-- Observers simulate locally
-- Observers may temporarily diverge
-- Observers reconcile when canonical events are received
+* Observers simulate locally
+* Observers may temporarily diverge
+* Observers reconcile when canonical updates are received
 
 ---
 
 ### 3. Eventual Convergence
 
-- All observers converge once canonical history is aligned
-- Divergence is temporary and expected
+* All observers converge once canonical history is aligned
+* Divergence is temporary and expected
 
 ---
 
 ## Ordering Model
 
-CrypSA does not enforce a single global ordering.
+### Canonical Ordering
 
-Instead, ordering is defined through:
+Canonical event history is strictly ordered by:
 
----
+* `server_sequence`
 
-### Lineage Ordering
+This ordering is:
 
-- Each event references a `lineage_parent`
-- Defines replay sequence for a chain of events
-
----
-
-### Scoped Sequencing
-
-Events may be ordered within a defined scope:
-
-- per object
-- per region
-- per shard
-
-Implementation may choose the scope.
+* authoritative
+* global within the server
+* used for replay and reconstruction
 
 ---
 
-### Causal Relationships
+### Scoped Reasoning (Optional)
 
-- `causal_references` link related events
-- Provide context but do not enforce ordering
+Implementations may reason about events within scopes such as:
+
+* per object
+* per region
+
+However:
+
+> canonical ordering remains defined by server sequence
 
 ---
 
@@ -106,41 +103,44 @@ Implementation may choose the scope.
 
 Conflicts occur when:
 
-- multiple events target the same object or resource
-- events cannot both satisfy invariants
+* multiple candidate events target the same object or resource
+* events cannot both satisfy invariants
 
 ---
 
 ### Conflict Resolution
 
-CrypSA resolves conflicts through validation:
+The server resolves conflicts during validation:
 
-- server evaluates candidates
-- only one valid outcome is accepted
-- rejected events do not enter canonical history
+* events are evaluated atomically within conflict scope
+* only one valid outcome is accepted
+* rejected events do not enter canonical event history
 
 ---
 
 ### Deterministic Resolution
 
-Where possible:
+Given:
 
-- conflict outcomes should be deterministic
-- consistent rules should produce consistent results
+* the same canonical event history
+* the same candidate event
+* the same validation rules
+
+The result must be:
+
+> identical (accept or reject)
 
 ---
 
-## Consistency Levels by Action
+## Consistency by Action Type
 
-Different actions require different consistency guarantees:
+| Action Type      | Consistency Requirement |
+| ---------------- | ----------------------- |
+| Local simulation | Observer-only           |
+| UI interaction   | Minimal                 |
+| Canonical events | Strong (validated)      |
 
-| Action Type            | Consistency Model              |
-|-----------------------|--------------------------------|
-| Local movement        | None (observer-only)           |
-| UI interaction        | Minimal                        |
-| Object placement      | Strong within scope            |
-| Item transfer         | Strong within scope            |
-| Critical actions      | Strict validation required     |
+All canonical events require validation.
 
 ---
 
@@ -148,15 +148,17 @@ Different actions require different consistency guarantees:
 
 CrypSA may partition the world into independent scopes:
 
-- regions
-- zones
-- object groups
+* regions
+* zones
+* object groups
 
 Within a partition:
-- stronger consistency can be enforced
+
+* stronger consistency can be enforced
 
 Across partitions:
-- consistency may be eventual
+
+* consistency may be eventual
 
 ---
 
@@ -164,75 +166,87 @@ Across partitions:
 
 When events span partitions:
 
-- coordination may be required
-- validation may involve multiple scopes
-- temporary inconsistency may occur
+* coordination may be required
+* validation may involve multiple scopes
+* temporary inconsistency may occur
 
-Strategies may include:
+Possible strategies include:
 
-- coordination protocols
-- staged validation
-- compensating events
+* coordination protocols
+* staged validation
+* compensating events
 
 ---
 
-## Reconciliation
+## Observer Reconciliation
 
 Observers reconcile when:
 
-- canonical events differ from local state
-- rejected events invalidate local assumptions
+* canonical events differ from local prediction
+* rejected events invalidate assumptions
 
 Reconciliation may involve:
 
-- correcting local state
-- re-running simulation
-- discarding invalid predictions
+* correcting local state
+* re-running simulation
+* discarding invalid predictions
 
 ---
 
 ## Snapshot Consistency
 
-Snapshots represent derived state at a point in history.
+Snapshots represent derived state at a specific canonical sequence.
 
 To remain consistent:
 
-- snapshots must correspond to a specific event position
-- replay from snapshot must produce the same result as full replay
+* snapshots must correspond to a specific `server_sequence`
+* replaying events after the snapshot must produce the same result as full replay
+
+---
+
+## Idempotency Requirement
+
+The system must ensure:
+
+* duplicate candidate events do not produce duplicate canonical events
+
+Each `event_id` must be processed exactly once.
 
 ---
 
 ## Failure Modes
 
-Consistency systems must handle:
+The system must handle:
 
-- delayed events
-- out-of-order events
-- missing events
-- conflicting submissions
-- partial history
+* delayed events
+* out-of-order delivery
+* missing events
+* conflicting submissions
+* partial history
+
+Consistency must still converge under these conditions.
 
 ---
 
 ## Tradeoffs
 
-CrypSA’s consistency model prioritizes:
+CrypSA prioritizes:
 
 ### Advantages
 
-- flexibility in client simulation  
-- reduced need for full synchronization  
-- scalable partitioning  
-- strong auditability  
+* flexible observer simulation
+* reduced synchronization overhead
+* scalable partitioning
+* strong auditability
 
 ---
 
 ### Costs
 
-- temporary divergence  
-- more complex validation design  
-- reconciliation overhead  
-- complexity in cross-partition coordination  
+* temporary divergence
+* validation complexity
+* reconciliation overhead
+* cross-partition complexity
 
 ---
 
@@ -240,12 +254,10 @@ CrypSA’s consistency model prioritizes:
 
 CrypSA consistency is:
 
-- event-driven  
-- server-validated  
-- eventually convergent  
-- scoped rather than globally strict  
+* event-driven
+* server-validated
+* globally ordered (by canonical sequence)
+* eventually convergent
 
-> Observers may disagree temporarily,  
-> but canonical history ensures they eventually agree.
-
----
+> Observers may disagree temporarily,
+> but canonical event history ensures they eventually agree.
