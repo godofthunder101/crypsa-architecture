@@ -285,7 +285,7 @@ It aims to:
 
 1. `CrypSA_In_5_Minutes.md`
 2. `CrypSA_Terminology_Primer.md`
-3. `CrypSA_WORKED_EXAMPLE.md`
+3. `CrypSA_Worked_Example.md`
 
 ---
 
