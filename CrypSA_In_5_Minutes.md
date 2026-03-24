@@ -14,10 +14,10 @@ CrypSA is a multiplayer architecture where:
 
 Instead of synchronizing everything all the time:
 
-* clients simulate locally
-* actions are proposed as events
-* the server validates those events
-* accepted events define shared reality
+* clients simulate locally  
+* actions are proposed as events  
+* the server validates those events  
+* accepted events are appended to canonical event history  
 
 ---
 
@@ -26,7 +26,7 @@ Instead of synchronizing everything all the time:
 ```mermaid
 flowchart LR
 
-subgraph Truth
+subgraph Truth Layer
 A[Canonical Event History]
 B[Derived Canonical State]
 end
@@ -56,9 +56,9 @@ D --> E
 
 Think of CrypSA like this:
 
-* The server validates what becomes canonical
+* The server validates and determines what becomes part of canonical event history
 * Observers simulate what they think is happening
-* Only validated actions become part of shared reality
+* Only validated actions become part of canonical event history
 * Everything else is local prediction
 
 But the system becomes much clearer if you think of it as **four separate responsibilities**.
@@ -150,7 +150,7 @@ This layer is:
 
 But:
 
-> nothing here is automatically shared truth
+> nothing here is automatically part of canonical event history
 
 ---
 
@@ -164,10 +164,10 @@ Traditional multiplayer systems often combine too many responsibilities together
 
 CrypSA separates them more clearly:
 
-* **truth** is canonical
-* **translation** is adapter-driven
-* **interpretation** is lens-driven
-* **experience** is local and responsive
+* **truth is defined by canonical event history**
+* **translation is adapter-driven**
+* **interpretation is lens-driven**
+* **experience is local and responsive**
 
 ---
 
@@ -200,7 +200,7 @@ It is a different way of structuring:
 * authority
 * validation
 * interpretation
-* and shared truth
+* and shared reality derived from canonical event history
 
 ---
 
@@ -255,4 +255,4 @@ CrypSA can be summarized as:
 > canonical event history defines truth,
 > adapters shape data,
 > lenses interpret meaning,
-> and observers simulate and experience the resulting world
+> and observers simulate locally and reconstruct the resulting world
