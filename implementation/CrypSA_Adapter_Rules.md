@@ -4,18 +4,25 @@
 >
 > For authoritative system behavior, refer to `../spec/` and `../architecture/`.
 
+---
+
 ## Purpose
 
 This document defines practical engineering rules for adapters in CrypSA.
 
-Adapters are an important boundary layer in the teaching prototype and future implementations.
+Adapters are part of the **translation layer** and exist to shape runtime and canonical data for consumption by:
+
+* lenses
+* UI modules
+* tools
+* debugging systems
 
 These rules exist to prevent adapters from becoming:
 
-- hidden controllers  
-- validation layers  
-- mutation layers  
-- tightly coupled runtime dependencies  
+* hidden controllers
+* validation layers
+* mutation layers
+* tightly coupled runtime dependencies
 
 The goal is to keep adapters:
 
@@ -23,21 +30,40 @@ The goal is to keep adapters:
 
 ---
 
+## Architectural Context
+
+CrypSA separates responsibilities into:
+
+* **Truth** — validation and canonical event history
+* **Translation** — adapters
+* **Interpretation** — lenses
+* **Experience** — UI and local simulation
+
+Adapters belong strictly to the **translation layer**.
+
+They must not cross into:
+
+* truth (validation or canonical mutation)
+* interpretation (lens logic)
+* experience (UI control or simulation behavior)
+
+---
+
 ## Core Principle
 
 In CrypSA:
 
-> adapters translate data  
+> adapters translate data
 > they do not define truth
 
 Adapters prepare runtime and canonical data for:
 
-- lenses  
-- UI modules  
-- tooling  
-- debugging views  
+* lenses
+* UI modules
+* tooling
+* debugging views
 
-They are not part of canonical authority.
+They are not part of canonical authority or server decision-making.
 
 ---
 
@@ -45,43 +71,46 @@ They are not part of canonical authority.
 
 Adapters may:
 
-- reshape data  
-- aggregate inputs  
-- normalize structures  
-- build view-ready models  
+* reshape data
+* aggregate inputs
+* normalize structures
+* build view-ready models
 
 Adapters must not:
 
-- decide whether something is valid  
-- decide whether an event should be accepted  
-- decide what canonical truth is  
+* decide whether something is valid
+* decide whether an event should be accepted
+* decide what canonical truth is
 
 Truth belongs to:
 
-- canonical history  
-- validation  
-- invariant enforcement  
-- server-side runtime logic  
+* canonical event history
+* validation
+* invariant enforcement
+* server-side logic
 
 ---
 
-## Rule 2 — Adapters Do Not Mutate Canonical State
+## Rule 2 — Adapters Do Not Mutate Canonical or Runtime State
 
 Adapters are read-only.
 
 Adapters must not:
 
-- append canonical events  
-- modify derived canonical state  
-- alter object ownership  
-- change branch history  
-- write directly to persistent runtime state  
+* append canonical events
+* modify derived state
+* alter identity or ownership
+* write to runtime state
 
-If canonical state must change, that belongs to:
+Derived state is:
 
-- runtime actions  
-- validation/apply logic  
-- replay/reconstruction systems  
+> a read-only result of canonical event history reconstruction
+
+Any change to canonical truth belongs to:
+
+* validation logic
+* event application
+* reconstruction systems
 
 ---
 
@@ -91,16 +120,15 @@ Adapters must never enforce canonical rules.
 
 They must not decide:
 
-- whether placement is legal  
-- whether ownership is allowed  
-- whether resources are sufficient  
-- whether a state transition is valid  
+* whether placement is legal
+* whether ownership is allowed
+* whether resources are sufficient
+* whether a state transition is valid
 
 Those belong to:
 
-- validation logic  
-- canonical runtime rules  
-- invariant checks  
+* validation logic
+* invariant checks
 
 Adapters may display rule-related information, but they do not enforce it.
 
@@ -112,168 +140,166 @@ A good adapter should do one job only.
 
 Good examples:
 
-- build timeline rows from canonical events  
-- build render grid data from occupancy + observer selection  
-- build teaching overlay data from pending/canonical comparison  
+* build timeline rows from canonical event history
+* build render grid data from occupancy + observer selection
+* build teaching overlay data from pending vs canonical comparison
 
 Bad examples:
 
-- world + history + teaching + validation + UI adapter  
-- one adapter that knows everything about the prototype  
+* one adapter handling world logic, validation, UI, and control flow
 
-If an adapter is hard to explain in one sentence, it is probably too broad.
+If an adapter is hard to explain in one sentence, it is too broad.
 
 ---
 
-## Rule 5 — Adapters Should Not Depend on Unrelated Lens Internals
+## Rule 5 — Adapters Depend on Data, Not Interpretation
 
-Adapters should prepare data for lenses.
+Adapters prepare data for lenses.
 
-They should not:
+They must not:
 
-- depend on the private output shape of unrelated lenses  
-- reach into other lens modules directly  
-- chain lens-specific assumptions across the system  
-
-This keeps lenses independent and prevents lens-to-lens coupling.
+* depend on lens outputs
+* rely on interpretation-specific structures
+* chain interpretation logic across modules
 
 Preferred pattern:
 
 ```text
-Runtime State → Adapter → Lens
-````
+Runtime Data → Adapter → Lens
+```
 
 Not:
 
 ```text
-Runtime State → Adapter A → Lens A → Adapter B → Lens B
+Runtime Data → Adapter → Lens → Adapter → Lens
 ```
 
-Adapters should depend on runtime inputs, not on the internal behavior of other interpretation layers.
+Adapters depend on **data**, not **interpretation outputs**.
 
 ---
 
-## Rule 6 — Adapters Output Lens-Ready or UI-Ready Data Only
+## Rule 6 — Adapters Output Consumer-Ready Data
 
-Adapters should produce outputs that are clearly intended for a consumer.
+Adapters should produce outputs clearly intended for a consumer.
 
 Examples:
 
-* lens-ready world view data
+* lens-ready world data
 * UI-ready timeline rows
 * debug-ready inspection models
 
 Adapters should not output:
 
-* half-runtime / half-UI mixed blobs
-* ambiguous anonymous structures with unclear ownership
-* data that still requires unrelated modules to dig through internal state
+* ambiguous mixed structures
+* data that requires deep inspection by other systems
 
-A good adapter output should answer:
+A good adapter answers:
 
 > who is this data for?
 
 ---
 
-## Rule 7 — Adapters Should Prefer Stable Output Shapes
+## Rule 7 — Adapters Prefer Stable Output Shapes
 
-Adapters should aim to produce consistent, predictable structures.
+Adapters should produce:
 
-This reduces:
+* consistent structures
+* clearly named fields
+* predictable formats
 
-* UI breakage
-* lens coupling
-* fragile refactors
-
-Good adapter outputs are:
-
-* named clearly
-* scoped clearly
-* structurally stable
-
-Where useful, adapters should produce:
+Prefer:
 
 * dataclasses
 * typed dictionaries
 * explicit view models
 
-rather than loosely shaped anonymous dicts.
+Over:
+
+* loosely structured anonymous data
 
 ---
 
-## Rule 8 — Adapters Should Not Trigger Side Effects
+## Rule 8 — Adapters Must Not Trigger Side Effects
 
-Adapters should not:
+Adapters must not:
 
-* save files
-* fire UI actions
 * dispatch events
-* mutate selection
-* open modals
+* mutate UI state
+* save data
 * perform retries
+* control workflows
 
-They are translation layers, not workflow managers.
-
-If an adapter causes side effects, it is probably not just an adapter anymore.
+They are translation layers, not behavior layers.
 
 ---
 
-## Rule 9 — Adapters Should Be Easy to Test
+## Rule 9 — Adapters Must Be Pure and Testable
 
-A good adapter should be simple to test with:
-
-* input state
-* output model
-
-Preferred form:
+Adapters should follow:
 
 ```text
-input data → deterministic transformed output
+input → deterministic output
 ```
 
-This makes adapters:
+They should be easy to test with:
 
-* easier to trust
-* easier to refactor
-* easier to keep clean over time
+* known input
+* expected output
+
+This makes them:
+
+* reliable
+* easy to refactor
+* easy to reason about
 
 ---
 
-## Rule 10 — Adapters May Aggregate, But Should Not Become Controllers
+## Rule 10 — Adapters May Aggregate, But Must Not Control
 
-Adapters are allowed to combine multiple sources.
-
-For example:
+Adapters may combine inputs such as:
 
 * canonical state + observer state
-* branch selection + event history
-* occupancy + pending prediction state
+* event history + selection
+* prediction + canonical data
 
-But aggregation is not the same as control.
+But must not:
 
-An adapter becomes dangerous when it starts to:
+* coordinate system behavior
+* manage application flow
+* act as controllers
 
-* choose system behavior
-* coordinate unrelated subsystems
-* own application flow
-
-If that happens, logic should move back into runtime actions or controllers.
+Aggregation is allowed. Control is not.
 
 ---
 
-## Rule 11 — Adapters Should Make Boundaries Clearer, Not Blurrier
+## Rule 11 — Adapters Must Not Depend on Transport or Async Behavior
 
-The purpose of an adapter is to reduce coupling.
+Adapters must not:
 
-If an adapter makes the system harder to understand, it is failing its job.
+* depend on networking logic
+* handle retries or timeouts
+* depend on async sequencing
+* assume ordering guarantees
 
-A good adapter should make it easier to answer:
+Transport and timing belong to:
+
+* networking systems
+* runtime coordination
+* server/client communication layers
+
+---
+
+## Rule 12 — Adapters Must Clarify Boundaries
+
+A good adapter makes it easier to understand the system.
+
+It should clarify:
 
 * where truth lives
-* where interpretation lives
-* where presentation lives
+* where interpretation happens
+* where presentation happens
 
-Adapters should sharpen boundaries, not absorb them.
+If an adapter makes the system harder to reason about, it is incorrectly designed.
 
 ---
 
@@ -283,13 +309,13 @@ Before creating or modifying an adapter, ask:
 
 * Does this adapter only translate or shape data?
 * Does it avoid mutating runtime or canonical state?
-* Does it avoid validation or invariant logic?
+* Does it avoid validation logic?
 * Is its scope narrow and explainable?
-* Is its output clearly meant for a lens, UI, or tool?
-* Does it avoid depending on unrelated lens internals?
-* Can it be tested with simple input/output checks?
+* Is its output clearly meant for a lens or UI?
+* Does it avoid depending on interpretation internals?
+* Is it deterministic and easy to test?
 
-If any answer is “no”, the adapter probably needs to be redesigned.
+If any answer is “no”, redesign the adapter.
 
 ---
 
@@ -336,13 +362,19 @@ This is bad because it mixes:
 
 Runtime owns truth and behavior.
 
+---
+
 ### Adapters vs Validation
 
 Validation decides what is allowed.
 
+---
+
 ### Adapters vs Lenses
 
 Lenses interpret meaning from adapted data.
+
+---
 
 ### Adapters vs UI
 
@@ -358,9 +390,9 @@ They should:
 
 * be narrow
 * be read-only
-* avoid validation logic
+* avoid validation
 * avoid side effects
-* prepare clean outputs for lenses and UI
+* produce clean outputs
 
 If adapters stay boring, the architecture stays healthy.
 
@@ -368,4 +400,4 @@ If adapters stay boring, the architecture stays healthy.
 
 ## One Sentence Summary
 
-A good CrypSA adapter is a narrow, read-only translation layer that prepares runtime and canonical data for lenses or UI without mutating truth, enforcing rules, or becoming a hidden controller.
+A CrypSA adapter is a narrow, read-only translation layer that prepares data for lenses or UI without mutating truth, enforcing rules, or becoming a hidden controller.
