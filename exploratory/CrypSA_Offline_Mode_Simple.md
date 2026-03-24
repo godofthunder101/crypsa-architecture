@@ -4,7 +4,7 @@
 
 This document describes a simple offline mode model for CrypSA systems.
 
-It explores how clients can simulate the universe locally while disconnected from the canonical server.
+It explores how clients can simulate the universe locally while disconnected from the server.
 
 This is an **exploratory design**, not a required architectural component.
 
@@ -15,11 +15,11 @@ This is an **exploratory design**, not a required architectural component.
 CrypSA separates:
 
 * local simulation
-* canonical truth
+* canonical event history
 
 Clients may simulate freely while offline, but:
 
-> canonical truth exists only on the server
+> canonical event history exists only on the server
 
 ---
 
@@ -27,15 +27,15 @@ Clients may simulate freely while offline, but:
 
 In the simple offline model:
 
-* offline activity occurs in a **local branch**
-* the branch exists only on the client
-* it is not merged into canonical history
+* offline activity occurs in **client-local simulation state**
+* this state exists only on the client
+* it is not merged into canonical event history
 
 When reconnecting:
 
-* the client discards or archives the branch
-* canonical history is reloaded
-* simulation resumes from canonical truth
+* the client discards or archives its local state
+* canonical event history is reloaded
+* simulation resumes from canonical state
 
 ---
 
@@ -52,21 +52,22 @@ When disconnected, the client may simulate:
 These actions:
 
 * exist only in local simulation
-* do not affect canonical truth
+* do not affect canonical event history
 
 ---
 
-## Local Branch Concept
+## Client-Local Event History
 
-Offline play creates a **local branch of the universe**.
+Offline play may maintain a **client-local event history**.
 
-This branch:
+This history:
 
-* is derived from canonical state
-* maintains its own local event history
+* is derived from canonical state at the time of disconnection
+* records local simulated actions
 * is not shared with other observers
+* does not become canonical
 
-It behaves like a temporary single-player universe.
+It behaves like a temporary single-player simulation timeline.
 
 ---
 
@@ -74,12 +75,12 @@ It behaves like a temporary single-player universe.
 
 When reconnecting:
 
-1. the client requests canonical updates
-2. canonical history is received
-3. the client reconstructs canonical state
-4. the local branch is discarded or archived
+1. the client requests canonical updates  
+2. canonical event history is received  
+3. the client reconstructs canonical state via replay  
+4. local simulation state is discarded or archived  
 
-The observer resumes from canonical truth.
+The observer resumes from canonical event history.
 
 ---
 
@@ -89,27 +90,27 @@ The invariant boundary still applies.
 
 When connected:
 
-* actions that affect canonical truth must be validated
+* actions that affect canonical event history must be validated  
 
 When offline:
 
-* no actions cross the invariant boundary
-* all activity remains local
+* no actions cross the invariant boundary  
+* all activity remains local  
 
 ---
 
-## Why Offline Branches Are Not Merged
+## Why Offline State Is Not Merged
 
-Merging offline branches into canonical history introduces complexity:
+Merging offline activity into canonical event history introduces complexity:
 
-* conflicting state changes
-* ownership conflicts
-* resource duplication
-* invariant violations
+* conflicting state changes  
+* ownership conflicts  
+* resource duplication  
+* invariant violations  
 
 The simple model avoids these issues by:
 
-> not merging offline branches at all
+> not merging offline activity at all
 
 ---
 
@@ -119,9 +120,9 @@ Some implementations may include a **local mint mirror**.
 
 This allows the client to:
 
-* understand object structure
-* simulate object creation
-* reconstruct canonical data
+* understand object structure  
+* simulate object creation  
+* reconstruct canonical data  
 
 This is a practical approach, not a required architectural component.
 
@@ -129,14 +130,14 @@ This is a practical approach, not a required architectural component.
 
 ## Optional Features
 
-Offline branches may support:
+Offline simulation may support:
 
-* experimentation
-* strategy testing
-* sandbox play
-* personal progression
+* experimentation  
+* strategy testing  
+* sandbox play  
+* personal progression  
 
-These remain separate from canonical truth.
+These remain separate from canonical event history.
 
 ---
 
@@ -146,15 +147,15 @@ CrypSA does not require a single offline strategy.
 
 Other approaches may include:
 
-### Mergeable Offline Branches
+### Mergeable Offline State (Advanced)
 
-Offline changes may later merge into canonical history.
+Offline changes may later be submitted to the server.
 
 This requires:
 
-* conflict resolution
-* invariant conflict handling
-* duplication prevention
+* conflict resolution  
+* invariant conflict handling  
+* duplication prevention  
 
 ---
 
@@ -162,26 +163,26 @@ This requires:
 
 Offline play occurs in independent worlds:
 
-* sandbox environments
-* creative modes
-* private instances
+* sandbox environments  
+* creative modes  
+* private instances  
 
 ---
 
 ### Event Buffering
 
-Clients store events while offline and submit them later.
+Clients store candidate events while offline and submit them later.
 
 The server:
 
-* validates events
-* accepts or rejects them
+* validates events  
+* accepts or rejects them  
 
 ---
 
 ## Key Insight
 
-> Offline simulation is allowed because canonical truth is protected by validation.
+> Offline simulation is allowed because canonical event history is protected by validation.
 
 ---
 
@@ -189,10 +190,10 @@ The server:
 
 In the simple offline model:
 
-* clients simulate locally while disconnected
-* offline activity exists in a local branch
-* canonical truth remains server-controlled
-* no merging occurs
+* clients simulate locally while disconnected  
+* offline activity exists only in client-local simulation  
+* canonical event history remains server-controlled  
+* no merging occurs  
 
 This keeps the system simple while preserving CrypSA’s core guarantees.
 
@@ -200,4 +201,4 @@ This keeps the system simple while preserving CrypSA’s core guarantees.
 
 ## One Sentence Summary
 
-CrypSA Simple Offline Mode allows local simulation in a temporary client-only branch while canonical truth remains exclusively controlled by the server and offline activity is never merged into shared history.
+CrypSA Simple Offline Mode allows client-local simulation while canonical event history remains exclusively controlled by the server, and offline activity is never merged into shared history.
