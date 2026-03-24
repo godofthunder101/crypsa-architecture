@@ -14,7 +14,7 @@
 
 This document describes a conceptual lifecycle of how candidate events may become canonical in a CrypSA system.
 
-It illustrates how observer actions can propagate through validation and update shared reality.
+It illustrates how observer actions can propagate through validation and update shared reality defined by canonical event history.
 
 This is a **conceptual model**, not an authoritative runtime specification.
 
@@ -22,7 +22,7 @@ This is a **conceptual model**, not an authoritative runtime specification.
 
 ## Core Principle
 
-In CrypSA, actions do not directly change canonical truth.
+In CrypSA, actions do not directly change canonical event history.
 
 Instead:
 
@@ -31,9 +31,10 @@ Observer Action
 → Local Simulation
 → Candidate Event
 → Validation
+→ Assign server_sequence
 → Canonical Event History Update
 → Observer Reconciliation
-```
+````
 
 Only accepted events affect shared reality.
 
@@ -55,6 +56,8 @@ Invariant Boundary Check
              Validation
          ├── Reject
          └── Accept
+                ↓
+        Assign server_sequence
                 ↓
   Canonical Event History Update
                 ↓
@@ -97,7 +100,7 @@ This keeps the experience responsive.
 
 The system determines:
 
-> Does this affect canonical truth?
+> Does this affect canonical event history?
 
 * No → remains local
 * Yes → becomes a candidate event
@@ -106,7 +109,7 @@ The system determines:
 
 ### 4. Candidate Event
 
-If canonical truth is affected:
+If canonical event history is affected:
 
 * a candidate event is created
 * it represents a proposed change
@@ -148,8 +151,8 @@ The event is:
 
 If accepted:
 
+* the server assigns `server_sequence`
 * the event is appended to canonical event history
-* canonical truth is updated
 
 ---
 
@@ -159,7 +162,7 @@ Observers receive updates and:
 
 * confirm or correct local simulation
 * rebuild affected objects
-* align with canonical truth
+* align with canonical event history
 
 ---
 
@@ -207,8 +210,8 @@ The server checks:
 
 **Accepted**
 
-* event recorded
-* canonical state updated
+* event recorded in canonical event history
+* derived state updated
 * observers confirm
 
 **Rejected**
@@ -225,7 +228,7 @@ Observers may temporarily diverge locally.
 After canonical updates:
 
 * all observers reconstruct deterministically
-* shared reality converges
+* shared reality (derived from canonical event history) converges
 
 ---
 
@@ -260,12 +263,12 @@ A minimal lifecycle requires:
 CrypSA systems:
 
 * simulate locally
-* validate only when needed
-* update canonical history through accepted events
+* validate when crossing the invariant boundary
+* update canonical event history through accepted events
 * reconstruct shared reality deterministically
 
 ---
 
 ## One Sentence Summary
 
-CrypSA models world evolution as a lifecycle where local actions become candidate events, validated events update canonical history, and observers reconcile to shared truth.
+CrypSA models world evolution as a lifecycle where local actions become candidate events, validated events update canonical event history, and observers reconcile to that shared history.
