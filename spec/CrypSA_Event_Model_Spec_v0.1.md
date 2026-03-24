@@ -4,8 +4,8 @@ This document defines the structure, behavior, and lifecycle of events in CrypSA
 
 Events are the foundation of the system.
 
-> Canonical events define shared reality.  
-> State is derived by replaying those events.
+> Canonical events define shared reality.
+> State is derived by replaying canonical event history.
 
 ---
 
@@ -13,31 +13,31 @@ Events are the foundation of the system.
 
 CrypSA is event-driven.
 
-- The world is not the source of truth  
-- The **event history is the source of truth**  
-- World state is a projection of that history  
+* The world is not the source of truth
+* **Canonical event history is the source of truth**
+* World state is derived from that history
 
 ---
 
 ## Event Types
 
-CrypSA distinguishes between two primary event types:
+CrypSA defines two primary event types:
 
 ### 1. Candidate Events
 
-- Created by observers (clients)
-- Represent proposed actions
-- Not yet part of shared reality
-- Subject to validation
+* created by observers
+* represent proposed actions
+* not part of shared reality
+* subject to validation
 
 ---
 
 ### 2. Canonical Events
 
-- Accepted by the server
-- Immutable
-- Part of canonical history
-- Used for replay and reconstruction
+* accepted by the server
+* immutable
+* part of canonical event history
+* used for replay and reconstruction
 
 ---
 
@@ -46,67 +46,205 @@ CrypSA distinguishes between two primary event types:
 Every event follows this lifecycle:
 
 1. **Creation**
-   - Observer creates a candidate event
+   Observer creates a candidate event
 
 2. **Submission**
-   - Event is sent to the server
+   Event is sent to the server
 
 3. **Validation**
-   - Server evaluates the event
+   Server evaluates the event
 
 4. **Decision**
-   - Accepted → becomes canonical  
-   - Rejected → discarded  
+
+   * accepted → becomes canonical
+   * rejected → discarded
 
 5. **Canonicalization**
-   - Event is assigned canonical metadata
-   - Added to canonical history
+
+   * canonical metadata assigned
+   * appended to canonical event history
 
 6. **Propagation**
-   - Observers receive the canonical event
+   Observers receive the canonical event
 
 7. **Replay**
-   - Observers update state via replay
+   Observers update state via replay
 
 ---
 
 ## Event Structure
 
-A CrypSA event contains the following fields:
+CrypSA events consist of two layers:
 
-### Required Fields
+* candidate event fields
+* canonical metadata (added on acceptance)
+
+---
+
+### Candidate Event Fields
 
 #### `event_id`
-- Unique identifier
-- Must be globally unique (e.g., UUID)
+
+* unique identifier for the candidate event
+* used for idempotency
+* must be unique per submission
 
 ---
 
 #### `event_type`
-- Defines the action type
-- Examples:
-  - `place_object`
-  - `destroy_object`
-  - `transfer_item`
+
+* defines the action type
+* examples:
+
+  * `place_object`
+  * `destroy_object`
+  * `transfer_item`
 
 ---
 
-#### `issuer_id`
-- The observer or system that created the event
+#### `actor_id`
+
+* the entity performing the action
 
 ---
 
 #### `target_ids`
-- Objects affected by the event
-- May be empty or multiple
+
+* objects affected by the event
+* may be empty or multiple
 
 ---
 
 #### `payload`
-- Event-specific data
-- Example:
-  ```json
-  {
-    "position": [10, 5],
-    "object_kind": "house"
-  }
+
+* event-specific data
+* must be deterministic
+* must contain all data required for replay
+
+Example:
+
+```json
+{
+  "position": [10, 5],
+  "object_kind": "house"
+}
+```
+
+---
+
+#### `precondition_refs`
+
+* expected state conditions at time of submission
+* used for validation
+
+Example:
+
+```json
+{
+  "tile_42_empty": true
+}
+```
+
+---
+
+#### `client_time` (optional)
+
+* timestamp from observer
+* informational only
+* must not be used for ordering
+
+---
+
+## Canonical Metadata (Server-Assigned)
+
+When an event is accepted, the server assigns:
+
+---
+
+#### `canonical_event_id`
+
+* unique identifier for the canonical event
+
+---
+
+#### `server_sequence`
+
+* authoritative ordering index
+* defines replay order
+
+---
+
+#### `accepted_at`
+
+* server timestamp of acceptance
+
+---
+
+## Canonical Event Guarantees
+
+Canonical events must satisfy:
+
+* **immutability**
+  once accepted, events cannot change
+
+* **append-only history**
+  canonical event history is never rewritten
+
+* **deterministic replay**
+  same history → same state
+
+---
+
+## Idempotency Requirement
+
+The system must ensure:
+
+* duplicate `event_id` submissions
+* do not create duplicate canonical events
+
+Each candidate event must be processed exactly once.
+
+---
+
+## Replay Requirement
+
+State must be derived by:
+
+* applying canonical events in `server_sequence` order
+
+Replay must be:
+
+* deterministic
+* consistent across all observers
+
+---
+
+## Payload Constraints
+
+Event payloads must:
+
+* be deterministic
+* avoid hidden dependencies
+* not rely on external mutable state
+
+This ensures:
+
+> replay produces identical results across observers
+
+---
+
+## Summary
+
+CrypSA events:
+
+* represent all canonical changes
+* are validated before acceptance
+* are stored in canonical event history
+* define shared reality
+* are replayed to reconstruct state
+
+---
+
+## One Sentence Summary
+
+CrypSA uses validated, immutable canonical events as the source of truth, and all world state is derived by replaying those events in server-defined order.
