@@ -2,11 +2,11 @@
 
 ## Purpose
 
-This diagram shows how a local observer action becomes canonical truth in CrypSA.
+This diagram shows how a local observer action becomes part of canonical event history in CrypSA.
 
 It represents the runtime loop:
 
-> local simulation → validation → canonical history → observer reconciliation
+> local simulation → validation → canonical event history → observer reconciliation
 
 ---
 
@@ -21,14 +21,14 @@ C --> D[Send to Server]
 
 D --> E[Validation and Invariant Enforcement]
 
-E -->|Accepted| F[Append to Canonical Event History]
+E -->|Accepted| F[Assign server_sequence and Append to Canonical Event History]
 E -->|Rejected| G[Return Rejection Result]
 
 F --> H[Observers Receive Canonical Update]
 H --> J[Observer Reconciliation]
 G --> J
 J --> K[Updated Local State]
-```
+````
 
 ---
 
@@ -42,7 +42,7 @@ J --> K[Updated Local State]
 
 At this point:
 
-> the result is **not yet canonical**
+> the result is **not yet part of canonical event history**
 
 ---
 
@@ -63,8 +63,8 @@ Result:
 
 If accepted:
 
-* the event is appended to canonical history
-* canonical truth is updated
+* the server assigns `server_sequence`
+* the event is appended to canonical event history
 * observers are notified
 
 ---
@@ -73,7 +73,7 @@ If accepted:
 
 Observers:
 
-* compare local prediction with canonical truth
+* compare local prediction with canonical event history
 * correct or confirm local state
 * continue simulation
 
@@ -82,7 +82,7 @@ Observers:
 ## Key Insight
 
 > Actions do not directly change reality.
-> Validated canonical events define reality.
+> Validated canonical events define canonical event history.
 
 ---
 
@@ -111,4 +111,4 @@ This diagram maps to:
 
 ## One Sentence Summary
 
-A player action becomes a candidate event, the server validates it against canonical truth, accepted events are recorded in canonical history, and all observers reconcile to that shared reality.
+A player action becomes a candidate event, the server validates it against canonical event history, accepted events are recorded in canonical event history, and all observers reconcile to that shared history.
