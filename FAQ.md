@@ -5,11 +5,13 @@ This document answers common questions about CrypSA.
 It focuses on clarifying behavior, tradeoffs, and concerns — not teaching the system.
 
 For a quick explanation, see:
-- `CrypSA_In_5_Minutes.md`
+
+* `CrypSA_In_5_Minutes.md`
 
 For the authoritative adapter and observer-model docs, see:
-- `architecture/CrypSA_Adaptor_Model.md`
-- `architecture/CrypSA_Client_Observer_Model.md`
+
+* `architecture/CrypSA_Adaptor_Model.md`
+* `architecture/CrypSA_Client_Observer_Model.md`
 
 ---
 
@@ -17,10 +19,10 @@ For the authoritative adapter and observer-model docs, see:
 
 CrypSA is an event-driven architecture where:
 
-- clients simulate locally  
-- actions are proposed as events  
-- the server validates those events  
-- accepted events define shared reality  
+* clients simulate locally
+* actions are proposed as events
+* the server validates those events
+* accepted events define shared reality
 
 ---
 
@@ -32,8 +34,8 @@ The server does not simulate everything.
 
 Instead, it is authoritative over:
 
-- which events are accepted  
-- what becomes canonical history  
+* which events are accepted
+* what becomes canonical event history
 
 ---
 
@@ -43,8 +45,8 @@ No.
 
 Clients can propose events, but:
 
-- all canonical changes must be validated  
-- invalid or conflicting events are rejected  
+* all canonical changes must be validated
+* invalid or conflicting events are rejected
 
 Clients have freedom to simulate, not authority to define truth.
 
@@ -54,14 +56,14 @@ Clients have freedom to simulate, not authority to define truth.
 
 CrypSA separates:
 
-- simulation (client-side)  
-- truth (server-side)  
+* simulation (client-side)
+* truth (server-side)
 
 This allows:
 
-- responsiveness  
-- flexibility  
-- reduced synchronization overhead  
+* responsiveness
+* flexibility
+* reduced synchronization overhead
 
 The server still controls what is real.
 
@@ -73,9 +75,9 @@ It is similar, but not identical.
 
 CrypSA:
 
-- is designed for interactive simulations  
-- includes invariant validation as a core system  
-- explicitly models observers and reconstruction  
+* is designed for interactive simulations
+* includes invariant validation as a core system
+* explicitly models observers and reconstruction
 
 ---
 
@@ -85,9 +87,9 @@ No.
 
 CrypSA requires a canonical server to:
 
-- validate events  
-- enforce invariants  
-- maintain shared history  
+* validate events
+* enforce invariants
+* maintain canonical event history
 
 ---
 
@@ -95,11 +97,11 @@ CrypSA requires a canonical server to:
 
 The server:
 
-- receives candidate events  
-- validates them  
-- enforces invariants  
-- records accepted events  
-- distributes canonical updates  
+* receives candidate events
+* validates them
+* enforces invariants
+* records accepted events
+* distributes canonical updates
 
 It does not need to simulate the entire world continuously.
 
@@ -111,9 +113,9 @@ Both actions may be submitted.
 
 The server:
 
-- validates both  
-- accepts one  
-- rejects the other  
+* validates both
+* accepts one
+* rejects the other
 
 The rejected observer reconciles to canonical state.
 
@@ -123,8 +125,8 @@ The rejected observer reconciles to canonical state.
 
 If a client predicts incorrectly:
 
-- the server rejects the event  
-- the observer corrects its local state  
+* the server rejects the event
+* the observer corrects its local state
 
 This is expected behavior.
 
@@ -134,22 +136,16 @@ This is expected behavior.
 
 CrypSA relies on strict separation of responsibilities:
 
-- the server defines truth  
-- adapters shape data  
-- lenses interpret meaning  
-- UI presents the result  
+* the server defines truth
+* adapters shape data
+* lenses interpret meaning
+* UI presents the result
 
 In addition:
 
-- clients emit **typed requests** representing intent  
-- runtime/controller logic is the only place where state mutation occurs  
-- adapters prevent UI and lenses from accessing raw runtime structures  
-
-The teaching prototype confirmed that these boundaries are essential for:
-
-- preventing UI/runtime entanglement  
-- preventing lens-to-lens coupling  
-- preventing controller logic from spreading across the system  
+* clients emit **typed requests** representing intent
+* canonical changes occur only through validated events
+* adapters prevent UI and lenses from accessing raw runtime structures
 
 ---
 
@@ -159,21 +155,21 @@ Yes, at the canonical level.
 
 Given the same:
 
-- event history  
-- rules  
-- definitions  
+* canonical event history
+* rules
+* definitions
 
-All observers must derive the same state.
+All observers must derive the same state via replay.
 
 ---
 
-## Is canonical state stored or reconstructed?
+## Does CrypSA store world state?
 
-Both.
+Not as truth.
 
-- canonical truth = event history  
-- derived state = materialized view  
-- snapshots = reconstruction checkpoints  
+* canonical truth = canonical event history
+* derived state = reconstructed via replay
+* snapshots = reconstruction checkpoints
 
 ---
 
@@ -181,11 +177,11 @@ Both.
 
 Snapshots are stored derived state used to:
 
-- speed up loading  
-- reduce replay cost  
-- support recovery  
+* speed up loading
+* reduce replay cost
+* support recovery
 
-They do not replace event history.
+They do not replace canonical event history.
 
 ---
 
@@ -195,15 +191,15 @@ Yes, with tradeoffs.
 
 Works best for:
 
-- persistent worlds  
-- simulation systems  
-- object-driven interactions  
+* persistent worlds
+* simulation systems
+* object-driven interactions
 
 Less suited for:
 
-- twitch combat  
-- frame-perfect PvP  
-- heavy physics systems  
+* twitch combat
+* frame-perfect PvP
+* heavy physics systems
 
 ---
 
@@ -211,9 +207,9 @@ Less suited for:
 
 CrypSA is:
 
-- a defined architecture  
-- supported by specifications  
-- backed by a teaching prototype  
+* a defined architecture
+* supported by specifications
+* backed by a teaching prototype
 
 It is not yet a production system.
 
@@ -225,9 +221,9 @@ No.
 
 It is a teaching tool designed to demonstrate:
 
-- event flow  
-- validation  
-- canonical vs local state  
+* event flow
+* validation
+* canonical vs local state
 
 It demonstrates the model, not runtime behavior.
 
@@ -237,15 +233,15 @@ It demonstrates the model, not runtime behavior.
 
 The teaching prototype:
 
-- demonstrates the CrypSA model locally  
-- focuses on clarity and inspectability  
-- simplifies runtime constraints  
+* demonstrates the CrypSA model locally
+* focuses on clarity and inspectability
+* simplifies runtime constraints
 
 The minimal server:
 
-- will test CrypSA as a runtime system  
-- introduces networking and multi-observer interaction  
-- validates behavior under real constraints  
+* will test CrypSA as a runtime system
+* introduces networking and multi-observer interaction
+* validates behavior under real constraints
 
 ---
 
@@ -255,19 +251,19 @@ Potentially, but not yet proven.
 
 Scaling depends on:
 
-- validation performance  
-- event distribution  
-- snapshot systems  
+* validation performance
+* event distribution
+* snapshot systems
 
 ---
 
 ## What are the biggest risks?
 
-- validation complexity  
-- reconciliation challenges  
-- performance under load  
-- networking edge cases  
-- lack of production testing  
+* validation complexity
+* reconciliation challenges
+* performance under load
+* networking edge cases
+* lack of production testing
 
 ---
 
@@ -275,24 +271,24 @@ Scaling depends on:
 
 CrypSA explores a different approach:
 
-> shared reality defined by history, not synchronized state  
+> shared reality defined by history, not synchronized state
 
 It aims to:
 
-- enable persistent systems  
-- improve auditability  
-- simplify some multiplayer problems  
+* enable persistent systems
+* improve auditability
+* simplify some multiplayer problems
 
 ---
 
 ## Where should I start?
 
-1. `CrypSA_In_5_Minutes.md`  
-2. `CrypSA_Terminology_Primer.md`  
-3. `CrypSA_WORKED_EXAMPLE.md`  
+1. `CrypSA_In_5_Minutes.md`
+2. `CrypSA_Terminology_Primer.md`
+3. `CrypSA_WORKED_EXAMPLE.md`
 
 ---
 
 ## One Sentence Summary
 
-CrypSA is a system where clients simulate locally, servers validate events, and shared reality is defined by canonical history.
+CrypSA is a system where clients simulate locally, servers validate events, and shared reality is defined by canonical event history.
