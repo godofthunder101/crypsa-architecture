@@ -1,301 +1,233 @@
----
-
-CrypSA Invariant Model
+# CrypSA Invariant Model
 
 > Exploratory note: This document reflects conceptual exploration and early modeling.
 >
-> For the current CrypSA model, refer to `../../CrypSA_In_5_Minutes.md`, `../../architecture/`, and `../../spec/`.
+> For the current CrypSA model, refer to:
+>
+> * `../../CrypSA_In_5_MinUTES.md`
+> * `../../architecture/`
+> * `../../spec/`
 
-Purpose
+---
+
+## Purpose
 
 This document describes the role of invariants in a CrypSA system.
 
-Invariants define the rules that must always remain true within the canonical universe. The CrypSA server enforces these invariants when validating proposed events.
+Invariants define rules that must remain true within canonical truth. The server enforces these rules when validating candidate events.
 
-The invariant system ensures that the shared universe remains structurally consistent regardless of how many clients interact with it.
-
+This document provides a conceptual view of invariants, not a formal specification.
 
 ---
 
-Core Principle
+## Core Principle
 
-An invariant is a rule that must always remain true in canonical history.
+An invariant is a rule that must always remain true in canonical truth.
 
 Examples:
 
-an object cannot exist in two locations simultaneously
+* an object cannot exist in two locations simultaneously
+* an item cannot be owned by multiple actors at the same time
+* a structure cannot occupy an invalid location
+* an upgrade cannot be applied to a non-existent item
 
-an item cannot be owned by two players at the same time
+If a proposed event would violate an invariant:
 
-a structure cannot occupy an invalid location
+> the event is rejected
 
-an upgrade cannot be applied to a non-existent item
-
-
-If a proposed event would violate an invariant, the server rejects the event.
-
-Invariants therefore form the foundation of canonical validation.
-
+Invariants are a key part of canonical validation.
 
 ---
 
-Why Invariants Exist
+## Why Invariants Exist
 
 Invariants protect the structural integrity of the universe.
 
-Without invariants, the system could produce contradictions such as:
+Without invariants, systems could produce:
 
-duplicated unique items
+* duplicated unique objects
+* impossible states
+* invalid geometry
+* inconsistent ownership
 
-impossible object states
-
-invalid world geometry
-
-inconsistent ownership chains
-
-
-By enforcing invariants, CrypSA ensures that the canonical universe remains logically consistent.
-
+By enforcing invariants, CrypSA ensures canonical truth remains logically consistent.
 
 ---
 
-Where Invariants Are Enforced
+## Where Invariants Are Enforced
 
-In CrypSA, invariants are enforced at the server validation stage.
+Invariants are enforced during server validation.
 
-This occurs during the event lifecycle:
+Conceptually:
 
-Player Action
-→ Client Simulation
-→ Candidate Event Proposal
-→ Server Validation (Invariant Enforcement)
-→ Canonical Event Recording
-→ Client Reconciliation
+```text
+Observer Action
+→ Local Simulation
+→ Candidate Event
+→ Validation (Invariant Enforcement)
+→ Append to Canonical Event History
+→ Observer Reconciliation
+```
 
-The invariant boundary separates local simulation freedom from canonical authority.
+The invariant boundary separates:
 
+* local simulation freedom
+* canonical authority
 
 ---
 
-Categories of Invariants
+## Categories of Invariants
 
-Different types of invariants protect different aspects of the universe.
+### Identity Invariants
 
-Identity Invariants
-
-These ensure that objects maintain consistent identities.
+Ensure identity consistency.
 
 Examples:
 
-an object identity must be unique
-
-objects cannot spontaneously duplicate
-
-destroyed objects cannot reappear without a valid event
-
-
+* identities are unique
+* objects cannot duplicate
+* destroyed objects cannot reappear without a valid event
 
 ---
 
-Ownership Invariants
+### Ownership Invariants
 
-These ensure that ownership transitions remain valid.
+Ensure valid ownership transitions.
 
 Examples:
 
-an item must have exactly one owner
-
-an actor cannot transfer an item they do not own
-
-ownership transfers must follow valid transitions
-
-
+* objects have a valid owner
+* ownership cannot be transferred without authority
+* transitions follow allowed rules
 
 ---
 
-Spatial Invariants
+### Spatial Invariants
 
-These protect the physical structure of the world.
+Protect world structure.
 
 Examples:
 
-structures cannot overlap illegally
-
-structures cannot be placed on restricted tiles
-
-objects cannot exist in impossible coordinates
-
-
+* objects cannot overlap illegally
+* placement rules are enforced
+* coordinates must be valid
 
 ---
 
-State Transition Invariants
+### State Transition Invariants
 
-These protect valid object evolution.
+Ensure valid evolution of objects.
 
 Examples:
 
-an upgrade cannot occur before an item exists
-
-a structure cannot be destroyed before it is built
-
-a resource cannot be consumed before it is obtained
-
-
+* an object must exist before being modified
+* invalid transitions are disallowed
+* order of operations is preserved
 
 ---
 
-Resource Invariants
+### Resource Invariants
 
-These ensure resource accounting remains valid.
+Ensure valid resource accounting.
 
 Examples:
 
-resources cannot be spent if they do not exist
-
-crafting must consume the correct materials
-
-resource balances cannot become negative
-
-
+* resources cannot go negative
+* costs must be paid
+* balances must remain valid
 
 ---
 
-Relationship to the Mint
+## Relationship to the Mint
 
-The mint defines the structural rules of objects.
+The mint defines the structural possibilities of objects.
 
-Invariants enforce those rules during runtime.
-
-For example:
-
-The mint may define:
-
-Sword
-  → valid upgrades
-  → durability range
-  → ownership model
-
-The invariant system ensures that events affecting swords follow those rules.
-
-
----
-
-Client vs Server Responsibility
-
-Clients may perform local checks for user experience purposes.
-
-Examples:
-
-preventing obviously invalid actions
-
-showing placement restrictions
-
-validating UI inputs
-
-
-However, these checks are not authoritative.
-
-Only the server performs canonical invariant enforcement.
-
-
----
-
-Invariant Violations
-
-When an invariant violation is detected:
-
-1. the server rejects the event
-
-
-2. canonical history remains unchanged
-
-
-3. the client reconciles its local simulation
-
-
+Invariants enforce which changes are allowed at runtime.
 
 Example:
 
-A client attempts to place a structure on a restricted tile.
+The mint may define:
 
-Client Simulation → Structure appears locally
-Server Validation → Invariant violated
-Server Response → Event rejected
-Client Reconciliation → Structure disappears
+* valid upgrades
+* durability range
+* ownership model
 
-The canonical universe never enters an invalid state.
-
+Invariants ensure that events affecting those objects follow valid rules.
 
 ---
 
-Deterministic Universe Evolution
+## Client vs Server Responsibility
 
-Because all canonical events pass invariant validation, the universe evolves in a deterministic and consistent manner.
+Clients may perform local checks for user experience.
 
-Observers can reconstruct the universe from canonical history with confidence that:
+Examples:
 
-all events are valid
+* preventing obvious invalid actions
+* showing placement previews
+* validating UI inputs
 
-no structural contradictions exist
+These checks are not authoritative.
 
-the universe remains logically consistent
-
-
-
----
-
-Minimal Invariant System
-
-At minimum, a CrypSA system must enforce invariants that protect:
-
-identity uniqueness
-
-object existence
-
-valid state transitions
-
-ownership consistency
-
-spatial constraints
-
-
-Additional invariants may be defined depending on the game.
-
+Only the server enforces invariants for canonical truth.
 
 ---
 
-Flexibility for Developers
+## Invariant Violations
 
-CrypSA defines how invariants are enforced, but not which invariants must exist.
+When an invariant violation occurs:
 
-Game developers are free to define invariants appropriate to their universe.
+1. the event is rejected
+2. canonical event history is unchanged
+3. the observer reconciles local simulation
 
-For example:
+Example:
 
-A strategy game may emphasize spatial invariants.
-
-An RPG may emphasize ownership and item evolution.
-
-A sandbox game may emphasize construction constraints.
-
-
----
-
-Summary
-
-Invariants are the rules that must always remain true within the canonical universe.
-
-The CrypSA server enforces these invariants during event validation to ensure that the shared universe remains logically consistent.
-
-Clients may simulate freely, but canonical reality only changes when events pass invariant enforcement.
-
+* a structure is placed locally
+* validation fails
+* the structure is removed during reconciliation
 
 ---
 
-One Sentence Summary
+## Deterministic Evolution
 
-CrypSA invariants define the structural rules of the universe and are enforced by the server to ensure that all canonical events preserve logical consistency.
+Because all accepted events satisfy invariants:
 
+* canonical history remains consistent
+* reconstruction is reliable
+* contradictions do not occur
 
 ---
+
+## Minimal Invariant System
+
+A minimal CrypSA system must enforce invariants for:
+
+* identity
+* existence
+* state transitions
+* ownership
+* spatial rules
+
+Additional invariants depend on the application.
+
+---
+
+## Flexibility for Developers
+
+CrypSA defines how invariants are enforced, not which invariants must exist.
+
+Different systems emphasize different invariant sets.
+
+---
+
+## Summary
+
+Invariants define the rules that must remain true in canonical truth.
+
+The server enforces these rules during validation, ensuring that all accepted events preserve consistency.
+
+---
+
+## One Sentence Summary
+
+CrypSA invariants define the rules of canonical truth and are enforced during validation to ensure that all accepted events maintain a consistent universe.
