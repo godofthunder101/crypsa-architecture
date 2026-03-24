@@ -25,10 +25,10 @@ If you're new to CrypSA:
 If you want to understand how CrypSA actually works:
 
 1. `spec/CrypSA_Runtime_Spec_v0.1.md`
-2. `spec/README.md` (spec reading order)
+2. `spec/CrypSA_Spec_Index.md` (spec reading order)
 3. `implementation/CrypSA_Minimal_Server_v0.1.md`
 
-These define the runtime behavior and how the system can be implemented.
+These define the runtime behavior (spec) and how the system can be implemented (implementation).
 
 ---
 
@@ -93,7 +93,7 @@ I --> J[Broadcast]
 
 J --> K[Observer Reconciliation]
 G --> K
-```
+````
 
 For more diagrams, see:
 
@@ -303,7 +303,7 @@ Future CrypSA work (such as a minimal server/runtime) will be developed as separ
 
 ### 2. See a Concrete Example
 
-4. `CrypSA_WORKED_EXAMPLE.md`
+4. `CrypSA_Worked_Example.md`
 
 ---
 
