@@ -23,7 +23,7 @@ It is intended as a **simplified conceptual overview**, not a full description o
 CrypSA separates:
 
 * local observer experience
-* canonical shared truth
+* canonical event history
 
 Observers simulate the world locally, but only validated events can change the shared universe.
 
@@ -37,7 +37,7 @@ Validation
 Canonical Event History Updated
       ↓
 Observers Reconstruct
-```
+````
 
 ---
 
@@ -90,7 +90,7 @@ It describes:
 
 ### 4. Invariants
 
-Invariants are rules that must remain true in canonical truth.
+Invariants are rules that must remain true in canonical event history.
 
 Examples:
 
@@ -102,7 +102,7 @@ Examples:
 
 ### 5. Events
 
-Events represent proposed changes to canonical truth.
+Events represent proposed changes to canonical event history.
 
 Examples:
 
@@ -118,7 +118,7 @@ Events must be validated before becoming canonical.
 
 The invariant boundary determines:
 
-> Does this interaction affect canonical truth?
+> Does this interaction affect canonical event history?
 
 * No → remains local
 * Yes → becomes a candidate event
@@ -134,7 +134,7 @@ When an event crosses the boundary:
 
 Result:
 
-* accepted → canonical history updated
+* accepted → canonical event history updated
 * rejected → local simulation corrected
 
 ---
@@ -154,7 +154,7 @@ Sₙ → Event → Sₙ₊₁
 Observers rebuild the world from canonical data:
 
 ```text
-Identity + Genome + Event History → World State
+Identity + Genome + Canonical Event History → World State
 ```
 
 This allows consistent shared reality.
@@ -169,7 +169,7 @@ Reconstruct
 → Interact
 → Boundary Check
 → Validate
-→ Update History
+→ Update Canonical Event History
 → Reconstruct
 ```
 
@@ -196,17 +196,19 @@ Instead:
 
 * observers simulate locally
 * only meaningful changes are validated
-* canonical history records evolution
+* canonical event history records evolution
 * reconstruction ensures consistency
 
 ---
 
 ## Key Insight
 
-> CrypSA allows local freedom while protecting shared truth through validation.
+> CrypSA allows local freedom while protecting shared reality through validation of canonical event history.
 
 ---
 
 ## One Sentence Summary
 
-CrypSA is an architecture where observers simulate locally, but only validated events that respect invariant rules are allowed to change the shared canonical universe.
+CrypSA is an architecture where observers simulate locally, but only validated events that respect invariant rules are allowed to become part of canonical event history and shape the shared universe.
+and we start building the system.
+```
