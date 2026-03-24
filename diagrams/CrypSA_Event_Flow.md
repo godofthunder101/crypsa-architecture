@@ -1,12 +1,16 @@
 # CrypSA Event Flow
 
-This diagram shows how a local player action becomes canonical truth in CrypSA.
+## Purpose
 
-It represents the full runtime loop from:
+This diagram shows how a local observer action becomes canonical truth in CrypSA.
 
-local simulation → validation → canonical history → reconciliation
+It represents the runtime loop:
+
+> local simulation → validation → canonical history → observer reconciliation
 
 ---
+
+## Diagram
 
 ```mermaid
 flowchart LR
@@ -15,21 +19,19 @@ A[Player Action] --> B[Local Simulation]
 B --> C[Create Candidate Event]
 C --> D[Send to Server]
 
-D --> E[Validation Pipeline]
+D --> E[Validation (Invariant Enforcement)]
 
-E -->|Accepted| F[Append to Canonical Log]
+E -->|Accepted| F[Append to Canonical Event History]
 E -->|Rejected| G[Return Rejection Result]
 
-F --> H[Update Derived State]
-H --> I[Broadcast Canonical Event]
+F --> H[Observers Receive Canonical Update]
 
-I --> J[Observer Reconciliation]
+H --> J[Observer Reconciliation]
 
 G --> J
 
-J --> K[Final Local State]
-
-````
+J --> K[Updated Local State]
+```
 
 ---
 
@@ -43,18 +45,20 @@ J --> K[Final Local State]
 
 At this point:
 
-> the change is **not yet canonical**
+> the result is **not yet canonical**
 
 ---
 
 ### 2. Validation Phase
 
 * the event is sent to the server
-* the validation pipeline decides:
+* the server validates it against invariants
 
-→ accept
-or
-→ reject
+Result:
+
+* accepted
+  or
+* rejected
 
 ---
 
@@ -62,8 +66,8 @@ or
 
 If accepted:
 
-* event is recorded in canonical history
-* derived state is updated
+* the event is appended to canonical history
+* canonical truth is updated
 * observers are notified
 
 ---
@@ -72,29 +76,42 @@ If accepted:
 
 Observers:
 
-* compare local prediction vs canonical truth
-* correct if needed
+* compare local prediction with canonical truth
+* correct or confirm local state
+* continue simulation
 
 ---
 
 ## Key Insight
 
 > Actions do not directly change reality.
-> Validated events define reality.
+> Validated canonical events define reality.
+
+---
+
+## Relationship to Architecture
+
+This diagram reflects:
+
+* **Truth** → validation and canonical events
+* **Experience** → local simulation
+* **Reconciliation** → convergence of observers
+
+Adapters and lenses operate within the observer before and after this flow.
 
 ---
 
 ## Relationship to Specs
 
-This diagram maps directly to:
+This diagram maps to:
 
-* Runtime Spec → overall flow
-* Event Model → candidate event creation
-* Validation Model → decision process
-* Consistency Model → reconciliation
+* Runtime Spec — overall flow
+* Event Model — candidate event creation
+* Validation Model — invariant enforcement
+* Consistency Model — reconciliation
 
 ---
 
 ## One Sentence Summary
 
-A player action becomes a candidate event, the server validates it, accepted events define canonical history, and all observers reconcile to that shared truth.
+A player action becomes a candidate event, the server validates it against canonical truth, accepted events are recorded in canonical history, and all observers reconcile to that shared reality.
