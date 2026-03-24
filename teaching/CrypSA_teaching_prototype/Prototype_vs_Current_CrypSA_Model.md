@@ -10,7 +10,7 @@ Use it when you want to answer:
 - what it simplifies on purpose
 - what belongs in the broader CrypSA architecture and spec docs instead
 
-This is a teaching crosswalk, not a replacement for `repo/`.
+This is a teaching crosswalk, not a replacement for the current architecture and specification.
 
 ## Short Version
 
