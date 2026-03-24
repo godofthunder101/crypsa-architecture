@@ -53,6 +53,34 @@ then:
 
 ---
 
+## Ownership of Runtime Concepts
+
+The `spec/` folder is the **single source of truth for runtime definitions**.
+
+This includes:
+
+* event structure
+* validation behavior
+* canonical event handling
+* ordering (`server_sequence`)
+* consistency and reconciliation rules
+* replay and derived state behavior
+* snapshot and identity behavior
+* transport expectations
+
+Other folders must:
+
+* reference these definitions
+* explain or illustrate them
+
+They must **not redefine or override them**.
+
+If a runtime concept appears in multiple places:
+
+> the definition in `spec/` is authoritative
+
+---
+
 ## Recommended Reading Order
 
 If you are reading the specs for the first time, use this order:
