@@ -4,11 +4,11 @@ This document defines how events and canonical updates are transmitted between o
 
 It specifies:
 
-- how candidate events are submitted  
-- how canonical updates are delivered  
-- delivery guarantees  
-- ordering expectations  
-- retry and idempotency behavior  
+* how candidate events are submitted
+* how canonical updates are delivered
+* delivery guarantees
+* ordering expectations
+* retry and idempotency behavior
 
 This is a minimal transport model for CrypSA v0.1.
 
@@ -22,9 +22,9 @@ CrypSA transport is designed around:
 
 The system prioritizes:
 
-- correctness  
-- eventual consistency  
-- idempotent communication  
+* correctness
+* eventual consistency
+* idempotent communication
 
 over strict real-time guarantees.
 
@@ -34,17 +34,17 @@ over strict real-time guarantees.
 
 ### Observer → Server
 
-- submits candidate events  
-- may retry submissions  
-- does not control ordering  
+* submits candidate events
+* may retry submissions
+* does not control ordering
 
 ---
 
 ### Server → Observer
 
-- delivers canonical events  
-- delivers validation outcomes  
-- informs observers of accepted/rejected proposals  
+* delivers canonical events
+* delivers validation outcomes
+* informs observers of accepted/rejected proposals
 
 ---
 
@@ -52,11 +52,11 @@ over strict real-time guarantees.
 
 CrypSA v0.1 assumes:
 
-- asynchronous communication  
-- unreliable networks  
-- variable latency  
-- possible message duplication  
-- possible message reordering  
+* asynchronous communication
+* unreliable networks
+* variable latency
+* possible message duplication
+* possible message reordering
 
 The system must remain correct under these conditions.
 
@@ -70,9 +70,9 @@ Observers submit candidate events to the server.
 
 ### Requirements
 
-- each event must include a unique `event_id`  
-- submissions must be retry-safe  
-- duplicate submissions must not cause duplicate canonical events  
+* each event must include a unique `event_id`
+* submissions must be retry-safe
+* duplicate submissions must not cause duplicate canonical events
 
 ---
 
@@ -82,8 +82,8 @@ The server must treat `event_id` as idempotent.
 
 If the same event is submitted multiple times:
 
-- it must be processed once  
-- duplicates must be ignored or mapped to the same result  
+* it must be processed once
+* duplicates must be ignored or mapped to the same result
 
 ---
 
@@ -91,8 +91,8 @@ If the same event is submitted multiple times:
 
 Each submission results in:
 
-- **accepted** → becomes canonical  
-- **rejected** → no canonical change  
+* **accepted** → becomes canonical
+* **rejected** → no canonical change
 
 The observer must be informed of the outcome.
 
@@ -102,14 +102,14 @@ The observer must be informed of the outcome.
 
 The server should provide:
 
-- acknowledgment of receipt (optional in v0.1)  
-- final validation outcome (required)  
+* acknowledgment of receipt (optional in v0.1)
+* final validation outcome (required)
 
 Observers must track:
 
-- pending submissions  
-- accepted events  
-- rejected events  
+* pending submissions
+* accepted events
+* rejected events
 
 ---
 
@@ -123,19 +123,23 @@ The server distributes accepted canonical events to observers.
 
 Canonical events must be:
 
-- eventually delivered to all relevant observers  
-- applied in canonical order within scope  
+* eventually delivered to all relevant observers
+* complete and consistent with canonical event history
 
 ---
 
 ### Ordering Guarantee
 
-CrypSA v0.1 requires:
+Transport does not guarantee ordering.
 
-- correct ordering within conflict scope  
-- eventual ordering consistency across observers  
+Canonical ordering is defined by:
 
-Global total ordering is not required.
+* `server_sequence` assigned by the server
+
+Observers must:
+
+* reorder events as needed
+* apply events strictly in `server_sequence` order
 
 ---
 
@@ -145,15 +149,15 @@ Observers receive a stream of canonical events.
 
 This stream may:
 
-- arrive delayed  
-- arrive out of order  
-- contain duplicates  
+* arrive delayed
+* arrive out of order
+* contain duplicates
 
 Observers must:
 
-- reorder events when necessary  
-- discard duplicates  
-- apply events deterministically  
+* reorder events using `server_sequence`
+* discard duplicates
+* apply events deterministically
 
 ---
 
@@ -163,8 +167,8 @@ Observers must align received events with their local replay state.
 
 If gaps are detected:
 
-- request missing events  
-- pause dependent replay if necessary  
+* request missing events
+* ensure replay does not proceed with incomplete canonical history
 
 ---
 
@@ -172,16 +176,16 @@ If gaps are detected:
 
 Observers may retry event submission when:
 
-- no response received  
-- timeout occurs  
-- connection interrupted  
+* no response received
+* timeout occurs
+* connection interrupted
 
 ---
 
 ### Requirements
 
-- retries must reuse the same `event_id`  
-- server must handle duplicates safely  
+* retries must reuse the same `event_id`
+* server must handle duplicates safely
 
 ---
 
@@ -189,13 +193,13 @@ Observers may retry event submission when:
 
 When an observer disconnects:
 
-- local simulation may continue  
-- no canonical updates are received  
+* local simulation may continue
+* no canonical updates are received
 
 Upon reconnection:
 
-- observer must fetch canonical updates  
-- reconcile local state with canonical truth  
+* observer must fetch canonical updates
+* reconcile local state with canonical truth
 
 ---
 
@@ -207,9 +211,9 @@ Observers must support resynchronization.
 
 ### Minimum Mechanism
 
-- request canonical events since last known position  
-- optionally load snapshot  
-- replay event tail  
+* request canonical events since last known `server_sequence`
+* optionally load snapshot
+* replay event tail
 
 ---
 
@@ -217,12 +221,12 @@ Observers must support resynchronization.
 
 Transport may provide:
 
-- snapshot delivery  
-- event tail delivery  
+* snapshot delivery
+* event tail delivery
 
 Reconstruction:
 
-Snapshot + Event Stream → Current State
+> Snapshot + Event Stream → Current State
 
 ---
 
@@ -230,9 +234,9 @@ Snapshot + Event Stream → Current State
 
 CrypSA v0.1 does not define:
 
-- backpressure mechanisms  
-- rate limiting  
-- prioritization strategies  
+* backpressure mechanisms
+* rate limiting
+* prioritization strategies
 
 These are implementation-defined.
 
@@ -242,11 +246,11 @@ These are implementation-defined.
 
 Transport must tolerate:
 
-- packet loss  
-- duplicated messages  
-- delayed delivery  
-- out-of-order delivery  
-- temporary disconnections  
+* packet loss
+* duplicated messages
+* delayed delivery
+* out-of-order delivery
+* temporary disconnections
 
 ---
 
@@ -254,9 +258,9 @@ Transport must tolerate:
 
 Transport layer must ensure:
 
-- events cannot be spoofed or altered in transit  
-- observer identity is authenticated  
-- server authority is trusted  
+* events cannot be spoofed or altered in transit
+* observer identity is authenticated
+* server authority is trusted
 
 v0.1 does not mandate specific cryptographic protocols.
 
@@ -266,16 +270,16 @@ v0.1 does not mandate specific cryptographic protocols.
 
 Transport performance depends on:
 
-- event frequency  
-- payload size  
-- snapshot size  
-- network conditions  
+* event frequency
+* payload size
+* snapshot size
+* network conditions
 
 Optimization strategies include:
 
-- batching events  
-- compressing payloads  
-- prioritizing critical updates  
+* batching events
+* compressing payloads
+* prioritizing critical updates
 
 ---
 
@@ -283,19 +287,19 @@ Optimization strategies include:
 
 ### Advantages
 
-- resilient to unreliable networks  
-- simple retry model  
-- supports eventual consistency  
-- decouples simulation from transport  
+* resilient to unreliable networks
+* simple retry model
+* supports eventual consistency
+* decouples simulation from transport
 
 ---
 
 ### Costs
 
-- increased reconciliation complexity  
-- delayed consistency under latency  
-- need for idempotent handling  
-- possible temporary divergence  
+* increased reconciliation complexity
+* delayed consistency under latency
+* need for idempotent handling
+* possible temporary divergence
 
 ---
 
@@ -303,14 +307,14 @@ Optimization strategies include:
 
 Transport is responsible for:
 
-- moving candidate events to validation  
-- delivering canonical events to observers  
+* moving candidate events to validation
+* delivering canonical events to observers
 
 It does not:
 
-- validate events  
-- define canonical truth  
-- simulate world state  
+* validate events
+* define canonical truth
+* simulate world state
 
 ---
 
@@ -318,22 +322,19 @@ It does not:
 
 CrypSA transport is:
 
-- asynchronous  
-- idempotent  
-- eventually consistent  
-- resilient to network imperfections  
+* asynchronous
+* idempotent
+* eventually consistent
+* resilient to network imperfections
 
 It ensures:
 
-> candidate events reach the server,  
-> canonical events reach observers,  
-> and all participants converge on shared history.
+> candidate events reach the server,
+> canonical events reach observers,
+> and all participants converge on shared history
 
 ---
 
 ## One Sentence Summary
 
 CrypSA Transport defines how candidate events and canonical updates move between observers and the server using an asynchronous, idempotent, and eventually consistent communication model.
----
-
----
