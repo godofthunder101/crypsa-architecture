@@ -34,7 +34,7 @@ subgraph "Translation Layer"
 end
 
 subgraph "Invariant Boundary"
-    E[Candidate Events (Invariant Boundary)]
+    E["Candidate Events (Invariant Boundary)"]
 end
 
 subgraph "Truth Layer"
