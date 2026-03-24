@@ -216,7 +216,7 @@ teaching/
 
 Includes:
 
-* `crypsa_teaching_prototype/` — completed teaching prototype
+* `CrypSA_teaching_prototype/` — completed teaching prototype
 
 ---
 
@@ -264,11 +264,11 @@ See:
 
 CrypSA includes a completed teaching prototype located in:
 
-`teaching/crypsa_teaching_prototype/`
+`teaching/CrypSA_teaching_prototype/`
 
 For authoritative prototype status, see:
 
-`teaching/crypsa_teaching_prototype/STATUS.md`
+`teaching/CrypSA_teaching_prototype/STATUS.md`
 
 This prototype is intended to:
 
@@ -316,7 +316,7 @@ Future CrypSA work (such as a minimal server/runtime) will be developed as separ
 
 ### 4. See the Model in Practice
 
-7. `teaching/crypsa_teaching_prototype/`
+7. `teaching/CrypSA_teaching_prototype/`
 
 ---
 
