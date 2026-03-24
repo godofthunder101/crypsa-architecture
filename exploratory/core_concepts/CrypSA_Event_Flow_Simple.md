@@ -25,9 +25,9 @@ Observer Action
 → Local Simulation
 → Candidate Event
 → Validation
-→ Canonical Event History
+→ Canonical Event History Updated
 → Observer Reconstruction
-```
+````
 
 ---
 
@@ -42,7 +42,7 @@ Candidate Event
       ↓
 Validation
    ├── Reject → Local Correction
-   └── Accept → Canonical Event History Updated
+   └── Accept → Assign server_sequence → Canonical Event History Updated
                          ↓
                Observer Reconstruction
 ```
@@ -69,7 +69,7 @@ The action is simulated locally:
 
 ### Candidate Event
 
-If the action affects canonical truth:
+If the action affects canonical event history:
 
 * a candidate event is created
 * it represents a proposed change
@@ -96,8 +96,8 @@ Result:
 
 If accepted:
 
+* the server assigns `server_sequence`
 * the event is appended to canonical event history
-* shared truth is updated
 
 ---
 
@@ -107,7 +107,7 @@ Observers:
 
 * receive canonical updates
 * rebuild affected state
-* align with shared truth
+* align with canonical event history
 
 ---
 
@@ -130,4 +130,4 @@ It provides a simplified view of the same concepts.
 
 ## One Sentence Summary
 
-CrypSA models interaction flow as a progression from local simulation to validated canonical events, followed by deterministic reconstruction of shared reality.
+CrypSA models interaction flow as a progression from local simulation to validated canonical events, followed by deterministic reconstruction of shared reality derived from canonical event history.
