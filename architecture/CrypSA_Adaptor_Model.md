@@ -100,7 +100,7 @@ Example:
 * Adapter → outputs `{ health: 25 }`
 * Lens → interprets that as “critical condition”
 
-Adapters are neutral.
+Adapters are neutral.  
 Lenses are interpretive.
 
 ---
@@ -109,19 +109,19 @@ Lenses are interpretive.
 
 Adapters should follow these rules:
 
-* **No logic creep**
+* **No logic creep**  
   No conditionals that encode gameplay or meaning
 
-* **No mutation of source data**
+* **No mutation of source data**  
   They do not change canonical or runtime state
 
-* **Single responsibility**
+* **Single responsibility**  
   Each adapter serves one transformation purpose
 
-* **Explicit inputs and outputs**
+* **Explicit inputs and outputs**  
   No hidden dependencies or implicit state
 
-* **Replaceable**
+* **Replaceable**  
   Adapters can be swapped without affecting truth or interpretation
 
 ---
@@ -196,5 +196,3 @@ They do not:
 ## One Sentence Summary
 
 Adapters convert data between systems without changing its meaning, ensuring that truth, interpretation, and experience remain cleanly separated.
-* align this doc against `TERMINOLOGY_PRIMER.md` for wording consistency, or
-* move on to the next document and continue tightening the repo.
