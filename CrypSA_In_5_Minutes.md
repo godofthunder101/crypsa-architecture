@@ -48,7 +48,7 @@ A --> B
 B --> C
 C --> D
 D --> E
-````
+```
 
 ---
 
@@ -56,10 +56,10 @@ D --> E
 
 Think of CrypSA like this:
 
-* The server validates and determines what becomes part of canonical event history
-* Observers simulate what they think is happening
-* Only validated actions become part of canonical event history
-* Everything else is local prediction
+* The server validates and determines what becomes part of canonical event history  
+* Observers simulate what they think is happening  
+* Only validated actions become part of canonical event history  
+* Everything else is local prediction  
 
 But the system becomes much clearer if you think of it as **four separate responsibilities**.
 
@@ -77,16 +77,16 @@ This is the canonical layer.
 
 It includes:
 
-* canonical event history
-* validation
-* canonical ordering (`server_sequence`)
-* derived canonical state via replay
+* canonical event history  
+* validation  
+* canonical ordering (`server_sequence`)  
+* derived canonical state via replay  
 
 This is the part of the system that defines what is real.
 
 If something is not part of canonical event history:
 
-> it did not happen
+> it did not happen  
 
 ---
 
@@ -98,9 +98,9 @@ Adapters take canonical and observer-side data and reshape it into forms that ot
 
 They do things like:
 
-* combine canonical and observer state
-* normalize structures
-* build view-ready or lens-ready data
+* combine canonical and observer state  
+* normalize structures  
+* build view-ready or lens-ready data  
 
 Adapters do **not** define truth.
 
@@ -118,10 +118,10 @@ Lenses interpret translated data into observer-specific meaning.
 
 They may determine:
 
-* what is visible
-* what is interactable
-* what matters to this observer
-* what should appear in a teaching/debug view
+* what is visible  
+* what is interactable  
+* what matters to this observer  
+* what should appear in a teaching/debug view  
 
 Lenses do **not** define truth either.
 
@@ -137,20 +137,20 @@ This is what the player directly interacts with.
 
 It includes:
 
-* UI
-* rendering
-* local feedback
-* local simulation and prediction
+* UI  
+* rendering  
+* local feedback  
+* local simulation and prediction  
 
 This layer is:
 
-* fast
-* responsive
-* immediate
+* fast  
+* responsive  
+* immediate  
 
 But:
 
-> nothing here is automatically part of canonical event history
+> nothing here is automatically part of canonical event history  
 
 ---
 
@@ -158,16 +158,16 @@ But:
 
 Traditional multiplayer systems often combine too many responsibilities together:
 
-* server simulates
-* client displays
-* state is synchronized constantly
+* server simulates  
+* client displays  
+* state is synchronized constantly  
 
 CrypSA separates them more clearly:
 
-* **truth is defined by canonical event history**
-* **translation is adapter-driven**
-* **interpretation is lens-driven**
-* **experience is local and responsive**
+* **truth is defined by canonical event history**  
+* **translation is adapter-driven**  
+* **interpretation is lens-driven**  
+* **experience is local and responsive**  
 
 ---
 
@@ -175,15 +175,15 @@ CrypSA separates them more clearly:
 
 This separation makes the system easier to:
 
-* reason about
-* debug
-* persist
-* replay
-* evolve without collapsing boundaries
+* reason about  
+* debug  
+* persist  
+* replay  
+* evolve without collapsing boundaries  
 
 The teaching prototype made this especially clear:
 
-> truth, translation, interpretation, and experience work better when kept separate
+> truth, translation, interpretation, and experience work better when kept separate  
 
 ---
 
@@ -191,16 +191,16 @@ The teaching prototype made this especially clear:
 
 CrypSA is not:
 
-* a replacement for all multiplayer systems
-* a solution for every type of game
-* a way to eliminate latency
+* a replacement for all multiplayer systems  
+* a solution for every type of game  
+* a way to eliminate latency  
 
 It is a different way of structuring:
 
-* authority
-* validation
-* interpretation
-* and shared reality derived from canonical event history
+* authority  
+* validation  
+* interpretation  
+* and shared reality derived from canonical event history  
 
 ---
 
@@ -208,16 +208,16 @@ It is a different way of structuring:
 
 CrypSA works best when:
 
-* actions are discrete
-* history matters
-* persistence matters
+* actions are discrete  
+* history matters  
+* persistence matters  
 
 Examples:
 
-* building systems
-* crafting systems
-* economic systems
-* sandbox worlds
+* building systems  
+* crafting systems  
+* economic systems  
+* sandbox worlds  
 
 ---
 
@@ -225,9 +225,9 @@ Examples:
 
 CrypSA is not ideal for:
 
-* twitch shooters
-* high-frequency combat
-* physics-heavy PvP
+* twitch shooters  
+* high-frequency combat  
+* physics-heavy PvP  
 
 ---
 
@@ -235,24 +235,4 @@ CrypSA is not ideal for:
 
 In CrypSA:
 
-> state is not stored as truth — it is derived from canonical event history via replay
-
----
-
-## If You Want More
-
-* Read `CrypSA_Terminology_Primer.md`
-* Read `FAQ.md`
-* See `CrypSA_Worked_Example.md` for a full step-by-step flow
-* See `CrypSA_Architecture_Overview.md` for the system map
-
----
-
-## Final Summary
-
-CrypSA can be summarized as:
-
-> canonical event history defines truth,
-> adapters shape data,
-> lenses interpret meaning,
-> and observers simulate locally and reconstruct the resulting world
+> state is not stored as truth — it is derived from canonical event history via replay  
