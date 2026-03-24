@@ -4,7 +4,7 @@
 
 This document defines the role of the server in a CrypSA system.
 
-The server is responsible for protecting **canonical truth** by validating events, enforcing invariants, and maintaining canonical history.
+The server is responsible for protecting the integrity of **canonical event history** by validating events, enforcing invariants, and maintaining that history.
 
 ---
 
@@ -17,7 +17,7 @@ In CrypSA:
 
 The server acts as:
 
-* a canonical validator
+* an event validator
 * an invariant enforcer
 * a canonical event recorder
 
@@ -54,7 +54,7 @@ Instead of computing the entire world, the server:
 1. receives candidate events
 2. validates them
 3. accepts or rejects them
-4. appends accepted events to canonical history
+4. appends accepted events to canonical event history
 
 This is the minimal loop.
 
@@ -98,7 +98,7 @@ If an event violates invariants:
 
 ### 3. Canonical Event Recording
 
-Accepted events are appended to canonical history.
+Accepted events are appended to canonical event history.
 
 This history defines:
 
@@ -107,7 +107,7 @@ This history defines:
 * ownership changes
 * world evolution
 
-Canonical history is the source of truth.
+Canonical event history is the source of truth.
 
 ---
 
@@ -136,7 +136,7 @@ The minimal server loop is:
 5. append event if accepted
 6. return result
 
-This is sufficient to maintain shared truth.
+This is sufficient to maintain shared reality.
 
 ---
 
@@ -190,7 +190,7 @@ At minimum, a CrypSA server must:
 2. validate them
 3. enforce invariants
 4. accept or reject
-5. record canonical history
+5. record canonical event history
 6. expose canonical updates
 
 ---
@@ -214,13 +214,13 @@ At minimum, a CrypSA server must:
 
 ## Summary
 
-The CrypSA server is the **guardian of canonical truth**.
+The CrypSA server is the **guardian of canonical event history**.
 
 It:
 
 * validates events
 * enforces invariants
-* records canonical history
+* records canonical events
 
 Observers simulate and interpret the world locally.
 
