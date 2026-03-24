@@ -28,7 +28,7 @@ flowchart LR
 
 subgraph Truth
 A[Canonical Event History]
-B[Derived Canonical State (via Replay)]
+B[Derived Canonical State]
 end
 
 subgraph Translation
@@ -40,7 +40,7 @@ D[Lenses]
 end
 
 subgraph Experience
-E[UI / Observer Experience]
+E[UI and Observer Experience]
 F[Local Simulation]
 end
 
@@ -80,7 +80,7 @@ It includes:
 * canonical event history
 * validation
 * canonical ordering (`server_sequence`)
-* derived canonical state (via replay)
+* derived canonical state via replay
 
 This is the part of the system that defines what is real.
 
