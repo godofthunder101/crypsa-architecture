@@ -31,7 +31,7 @@ Rather than synchronizing full world state, CrypSA synchronizes:
 
 CrypSA can be understood through four responsibilities:
 
-* **Truth** — canonical events and validation
+* **Truth** — canonical event history and validation
 * **Translation** — adapters shaping runtime data
 * **Interpretation** — lenses determining meaning
 * **Experience** — UI and local simulation
@@ -48,7 +48,7 @@ The system is event-driven:
 
 * actions → candidate events
 * validation → canonical events
-* canonical events → shared reality
+* canonical events → canonical event history
 
 Canonical event history defines what is true.
 
@@ -58,7 +58,7 @@ Canonical event history defines what is true.
 
 Observers:
 
-* reconstruct canonical state
+* reconstruct derived canonical state
 * simulate the world locally
 * respond immediately to input
 * reconcile when canonical updates arrive
@@ -88,7 +88,7 @@ World state is not the primary source of truth.
 Instead:
 
 * canonical event history is authoritative
-* state is derived from that history
+* derived state is reconstructed from that history
 
 Replay enables reconstruction, debugging, and verification.
 
@@ -135,7 +135,7 @@ This is where players interact with the system.
 ```mermaid
 flowchart LR
 
-A[Canonical Events] --> B[Derived State]
+A[Canonical Event History] --> B[Derived Canonical State]
 B --> C[Adapters]
 C --> D[Lenses]
 D --> E[UI / Experience]
