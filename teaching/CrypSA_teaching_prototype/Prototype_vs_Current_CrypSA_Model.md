@@ -110,7 +110,7 @@ That is still faithful to the model, just smaller.
 
 ## Intentionally Out Of Scope
 
-The following topics belong primarily to `repo/`, not this teaching app:
+The following topics belong primarily to the current CrypSA architecture and specification, not this teaching app:
 
 - full transport architecture
 - snapshot recovery and late join behavior
