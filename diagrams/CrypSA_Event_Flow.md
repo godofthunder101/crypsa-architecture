@@ -19,17 +19,14 @@ A[Player Action] --> B[Local Simulation]
 B --> C[Create Candidate Event]
 C --> D[Send to Server]
 
-D --> E[Validation (Invariant Enforcement)]
+D --> E[Validation and Invariant Enforcement]
 
 E -->|Accepted| F[Append to Canonical Event History]
 E -->|Rejected| G[Return Rejection Result]
 
 F --> H[Observers Receive Canonical Update]
-
 H --> J[Observer Reconciliation]
-
 G --> J
-
 J --> K[Updated Local State]
 ```
 
