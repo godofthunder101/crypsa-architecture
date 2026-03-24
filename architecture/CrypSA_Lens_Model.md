@@ -6,7 +6,7 @@ This document defines the role of **lenses** in CrypSA.
 
 Lenses are responsible for **interpretation**.
 
-They transform canonical reality into observer-specific experience without altering truth.
+They transform data derived from canonical event history into observer-specific experience without altering truth.
 
 ---
 
@@ -26,7 +26,7 @@ They interpret it.
 
 CrypSA separates responsibilities into:
 
-* **Truth** → canonical events and validation  
+* **Truth** → canonical event history and validation  
 * **Translation** → adapters  
 * **Interpretation** → lenses  
 * **Experience** → UI and local simulation  
@@ -215,7 +215,7 @@ Canonical State + Observer Context → Interpreted View
 
 ## Example
 
-Canonical reality:
+Canonical data:
 
 * tile_42 contains mining_station
 * player_A owns it
@@ -249,7 +249,7 @@ A lens must not:
 
 * validate events
 * enforce invariants
-* write canonical state
+* write to canonical event history
 
 ---
 
@@ -259,7 +259,7 @@ Lenses are the **interpretation layer** of CrypSA.
 
 They:
 
-* transform canonical reality into observer-specific meaning
+* transform canonical data into observer-specific meaning
 * enable flexible, contextual experiences
 * preserve separation between truth and experience
 
@@ -273,4 +273,4 @@ They do not:
 
 ## One Sentence Summary
 
-A CrypSA lens interprets canonical reality into observer-specific meaning without changing what is defined by canonical event history.
+A CrypSA lens interprets canonical data into observer-specific meaning without changing what is defined by canonical event history.
