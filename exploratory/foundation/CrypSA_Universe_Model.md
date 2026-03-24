@@ -28,20 +28,12 @@ This is a conceptual model, not an authoritative system definition.
 ```mermaid
 flowchart TD
 
-A[Observers]
-B[Local Simulation]
-C[Invariant Boundary]
-D[Validation]
-E[Canonical Event History]
-F[Object Reconstruction]
-G[Observer Experience]
-
-A --> B
-B --> C
-C -->|Candidate Event| D
-D -->|Accepted| E
-E --> F
-F --> G
+A[Observers] --> B[Local Simulation]
+B --> C[Invariant Boundary]
+C -->|Candidate Event| D[Validation]
+D -->|Accepted| E[Canonical Event History]
+E --> F[Object Reconstruction]
+F --> G[Observer Experience]
 G --> B
 ```
 
@@ -135,7 +127,7 @@ Observers continuously:
 * interact
 * validate (when needed)
 
-This creates a continuous loop between local simulation and canonical truth.
+This creates a loop between local simulation and canonical truth.
 
 ---
 
