@@ -63,7 +63,7 @@ Result:
 
 If accepted:
 
-* the server assigns `server_sequence`
+* the server assigns `server_sequence` (authoritative ordering)
 * the event is appended to canonical event history
 * observers are notified
 
@@ -73,7 +73,7 @@ If accepted:
 
 Observers:
 
-* compare local prediction with canonical event history
+* compare local prediction with updates from canonical event history
 * correct or confirm local state
 * continue simulation
 
@@ -82,7 +82,7 @@ Observers:
 ## Key Insight
 
 > Actions do not directly change reality.
-> Validated canonical events define canonical event history.
+> Validated events become canonical events within canonical event history.
 
 ---
 
