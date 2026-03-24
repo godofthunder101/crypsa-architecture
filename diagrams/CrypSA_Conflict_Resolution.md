@@ -25,21 +25,22 @@ flowchart TD
 A[Observer A submits candidate event] --> C[Server identifies conflict scope]
 B[Observer B submits candidate event] --> C
 
-C --> D[Evaluate against consistent canonical context]
+C --> D[Evaluate against canonical event history]
 
 D --> E[Validate next candidate event]
 
 E -->|Valid and first| G[Accept event]
 E -->|Invalid| R1[Reject event]
 
-G --> I[Append to canonical event history]
+G --> H[Assign server_sequence]
+H --> I[Append to canonical event history]
 I --> J[Observers receive canonical update]
 
 J --> K[Observers reconcile]
 
 R1 --> L[Return rejection result]
 L --> K
-```
+````
 
 ---
 
@@ -57,14 +58,14 @@ Examples:
 
 ---
 
-### 2. Evaluation Uses Canonical Context
+### 2. Evaluation Uses Canonical Event History
 
-The server evaluates events against a **consistent canonical context**.
+The server evaluates events against canonical event history at validation time.
 
 This ensures:
 
 * no simultaneous conflicting acceptance
-* validation is based on a stable view of truth
+* validation is based on a stable and ordered history
 
 ---
 
@@ -73,6 +74,7 @@ This ensures:
 In v0.1:
 
 * the first valid event within the scope is accepted
+* the server assigns `server_sequence`
 * later conflicting events are rejected
 
 ---
@@ -83,7 +85,7 @@ Rejected events may fail because:
 
 * the conflict was already resolved
 * preconditions are no longer valid
-* canonical state changed before validation
+* canonical event history changed before validation
 
 Typical results include:
 
@@ -98,13 +100,13 @@ After the canonical event is accepted:
 
 * observers receive the update
 * local predictions are confirmed or corrected
-* all observers converge to canonical truth
+* all observers converge to canonical event history
 
 ---
 
 ## Key Insight
 
-> Conflict resolution is determined by validation against canonical truth, not by local simulation.
+> Conflict resolution is determined by validation against canonical event history, not by local simulation.
 
 ---
 
@@ -120,4 +122,4 @@ This diagram maps to:
 
 ## One Sentence Summary
 
-When multiple observers submit conflicting actions, the server evaluates them against canonical truth, accepts one valid event within the conflict scope, rejects the others, and observers reconcile to the resulting canonical state.
+When multiple observers submit conflicting actions, the server evaluates them against canonical event history, assigns ordering via `server_sequence`, accepts one valid event within the conflict scope, rejects the others, and observers reconcile to the resulting canonical state.
