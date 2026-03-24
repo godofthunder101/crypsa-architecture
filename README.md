@@ -2,9 +2,9 @@
 
 CrypSA is an event-driven architecture for building persistent digital worlds.
 
-Instead of synchronizing full world state, CrypSA synchronizes **canonical event history and invariant rules**.
+Instead of synchronizing full world state, CrypSA synchronizes **validated canonical events under invariant rules**.
 
-Observers simulate the world locally, while a server validates events and preserves shared truth.
+Observers simulate the world locally, while a server validates events and preserves canonical event history.
 
 For documentation precedence and folder roles, see `DOCS_STRUCTURE.md`.
 
@@ -14,9 +14,9 @@ For documentation precedence and folder roles, see `DOCS_STRUCTURE.md`.
 
 If you're new to CrypSA:
 
-1. 📘 `CrypSA_In_5_Minutes.md` — quick overview
-2. 📖 `CrypSA_Terminology_Primer.md` — understand the vocabulary
-3. ❓ `FAQ.md` — common questions and concerns
+1. 📘 `CrypSA_In_5_Minutes.md` — quick overview  
+2. 📖 `CrypSA_Terminology_Primer.md` — understand the vocabulary  
+3. ❓ `FAQ.md` — common questions and concerns  
 
 ---
 
@@ -24,9 +24,9 @@ If you're new to CrypSA:
 
 If you want to understand how CrypSA actually works:
 
-1. `spec/CrypSA_Runtime_Spec_v0.1.md`
-2. `spec/CrypSA_Spec_Index.md` (spec reading order)
-3. `implementation/CrypSA_Minimal_Server_v0.1.md`
+1. `spec/CrypSA_Runtime_Spec_v0.1.md`  
+2. `spec/CrypSA_Spec_Index.md` (spec reading order)  
+3. `implementation/CrypSA_Minimal_Server_v0.1.md`  
 
 These define the runtime behavior (spec) and how the system can be implemented (implementation).
 
@@ -36,24 +36,24 @@ These define the runtime behavior (spec) and how the system can be implemented (
 
 Traditional multiplayer systems:
 
-* server simulates the world
-* clients receive state updates
+* server simulates the world  
+* clients receive state updates  
 
 CrypSA:
 
-* clients (observers) simulate locally
-* actions become candidate events
-* server validates events
-* accepted events form canonical event history
-* world state is reconstructed via replay
+* clients (observers) simulate locally  
+* actions become candidate events  
+* server validates events  
+* accepted events are appended to canonical event history  
+* derived canonical state is reconstructed via replay  
 
 > The system moves from synchronizing state → to agreeing on events.
 
 In CrypSA:
 
-> state is not stored as truth — it is derived from canonical event history via replay
+> state is not stored as truth — it is derived from canonical event history via replay  
 
-> canonical events are immutable once accepted
+> canonical event history is append-only  
 
 ---
 
@@ -61,15 +61,15 @@ In CrypSA:
 
 CrypSA is easiest to understand as four responsibilities:
 
-* **Truth** — canonical events and validation
-* **Translation** — adapters shaping runtime data
-* **Interpretation** — lenses determining observer meaning
-* **Experience** — UI and local interaction
+* **Truth** — canonical events and validation  
+* **Translation** — adapters shaping runtime data  
+* **Interpretation** — lenses determining observer meaning  
+* **Experience** — UI and local interaction  
 
 These responsibilities are explored in more detail in:
 
-* `CrypSA_In_5_Minutes.md`
-* `architecture/`
+* `CrypSA_In_5_Minutes.md`  
+* `architecture/`  
 
 ---
 
@@ -108,7 +108,7 @@ For more diagrams, see:
 * Built-in replay and debugging via event history
 * Flexible client-side simulation
 * Strong invariant-based validation
-* Potential for new gameplay models (branching timelines, observer-driven views)
+* Potential for new gameplay models (observer-driven views, replay-based systems)
 
 ---
 
