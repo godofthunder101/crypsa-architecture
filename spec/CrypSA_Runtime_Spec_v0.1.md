@@ -1,4 +1,4 @@
-# CrypSA Runtime Spec v0.1
+# 📄 CrypSA Runtime Spec v0.1
 
 ## Purpose
 
@@ -84,19 +84,28 @@ The server does **not**:
 
 ---
 
-### 2.3 Canonical Truth Store
+### 2.3 Persistence Model
 
-The persistent runtime store containing:
+The server persists canonical event history as the source of truth.
 
-* canonical event history
-* object identity registry
-* genome references
-* derived state (materialized view)
+Supporting runtime structures may include:
+
 * snapshots
+* indexes
+* object identity registries
+* genome references
+* derived state (materialized views)
 
-Canonical truth is defined by:
+These structures exist to enable:
 
-> canonical event history, not derived state
+* efficient replay
+* fast lookup
+* reconstruction
+* recovery
+
+They do **not define canonical truth**.
+
+> Canonical truth is defined solely by canonical event history.
 
 ---
 
@@ -348,6 +357,7 @@ Derived state is:
 
 * a materialized view of canonical event history
 * not independently authoritative
+* replaceable through replay
 
 ---
 
