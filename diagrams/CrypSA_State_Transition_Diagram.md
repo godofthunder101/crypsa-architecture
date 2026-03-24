@@ -22,13 +22,14 @@ C[Candidate Event]
 D[Validation and Invariant Enforcement]
 R[Event Rejected]
 E[Event Accepted]
+O[Assign server_sequence]
 S1[Canonical State S_n+1]
 
 S0 --> A
 A --> B
 
 B -->|No invariant change| A
-B -->|Affects canonical truth| C
+B -->|Affects canonical event history| C
 
 C --> D
 
@@ -36,10 +37,11 @@ D -->|Rejected| R
 R --> A
 
 D -->|Accepted| E
-E --> S1
+E --> O
+O --> S1
 
 S1 --> A
-```
+````
 
 ---
 
@@ -47,8 +49,7 @@ S1 --> A
 
 ### Canonical State
 
-* represents shared truth at a given point
-* derived from canonical event history
+* represents state derived from canonical event history
 * stable and reconstructable
 
 ---
@@ -67,7 +68,7 @@ Observers:
 
 The key decision point:
 
-> Does this interaction affect canonical truth?
+> Does this interaction affect canonical event history?
 
 ---
 
@@ -103,7 +104,8 @@ The server:
 
 If accepted:
 
-* event is appended to canonical history
+* the server assigns `server_sequence`
+* the event is appended to canonical event history
 * the universe transitions from Sₙ → Sₙ₊₁
 
 ---
@@ -139,7 +141,7 @@ CrypSA state transitions are:
 
 * deterministic
 * validated
-* ordered
+* ordered (via `server_sequence`)
 * reconstructable
 
 ---
@@ -151,10 +153,10 @@ This model enables:
 * replay and reconstruction
 * debugging via event history
 * persistent worlds
-* consistent shared truth
+* consistent shared reality
 
 ---
 
 ## One Sentence Summary
 
-CrypSA models the universe as a sequence of validated canonical state transitions, where each accepted event moves the system from one stable state to the next.
+CrypSA models the universe as a sequence of validated canonical state transitions, where each accepted event moves the system from one stable state to the next through canonical event history.
