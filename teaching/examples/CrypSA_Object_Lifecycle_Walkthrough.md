@@ -6,9 +6,9 @@ This document provides a simple example of how an object evolves in CrypSA.
 
 It demonstrates how:
 
-* objects are defined by **minted structure + event history**
+* objects are defined by **minted structure + canonical event history**
 * canonical events create and evolve objects
-* clients reconstruct objects from canonical truth
+* observers reconstruct objects from canonical truth
 
 This is an illustrative walkthrough, not a specification.
 
@@ -18,14 +18,14 @@ This is an illustrative walkthrough, not a specification.
 
 In CrypSA, an object is defined by:
 
-```
+```text
 Minted Structure + Canonical Event History
 ```
 
 * The **Mint** defines what the object can validly be
 * The **event history** defines what has happened to it
 
-Clients reconstruct the current object from both.
+Observers reconstruct the current object from both.
 
 ---
 
@@ -47,16 +47,16 @@ No sword instance exists yet.
 
 A new canonical object is created.
 
-* a unique identity is assigned
+* a unique identity is created via a mint event
 * the genome is associated
-* initial canonical state is set
-* initial event history is recorded
+* initial state is derived
+* canonical event history begins
 
 ---
 
-## Client
+## Observer
 
-The client:
+The observer:
 
 * shows crafting UI
 * optionally performs local checks
@@ -64,13 +64,13 @@ The client:
 
 Example:
 
-```
+```text
 create_sword
 actor = Player A
 recipe = basic_sword
 ```
 
-The client proposes the event.
+The observer proposes the event.
 It does not create canonical reality.
 
 ---
@@ -86,27 +86,27 @@ The server validates:
 
 If accepted:
 
-* assigns identity (e.g. sword_9AF3)
-* associates genome
-* sets initial state
-* appends canonical events
+* a mint event establishes identity (e.g. sword_9AF3)
+* canonical event is appended to canonical event history
+* derived state is updated via event application
 
-Example lineage:
+Example canonical event history (ordered):
 
-* minted
-* created
-* assigned
+```text
+minted
+created
+assigned_to_Player_A
+```
 
 ---
 
-## Client Reconstruction
+## Observer Reconstruction
 
-Observers reconstruct:
+Observers reconstruct the object by:
 
-* identity
-* genome
-* canonical state
-* event history
+* applying canonical events in order
+* resolving identity and genome
+* deriving current state
 
 The sword now exists canonically.
 
@@ -119,14 +119,14 @@ The sword now exists canonically.
 The object remains the same.
 
 * identity is unchanged
-* history expands
-* canonical state evolves
+* canonical event history expands
+* derived state evolves
 
 ---
 
-## Client
+## Observer
 
-The client:
+The observer:
 
 * shows upgrade UI
 * previews results
@@ -134,11 +134,11 @@ The client:
 
 Example:
 
-```
+```text
 upgrade_sword
-target = sword_9AF3
 actor = Player A
-upgrade_type = sharpen_1
+target = sword_9AF3
+payload = { upgrade_type: sharpen_1 }
 ```
 
 ---
@@ -153,18 +153,20 @@ The server validates:
 
 If accepted:
 
-* updates canonical state
-* appends event
+* canonical event is appended
+* derived state is updated via replay
 
 Example:
 
-* upgraded
+```text
+upgraded
+```
 
 ---
 
-## Client Reconstruction
+## Observer Reconstruction
 
-The same object is reconstructed with updated state.
+The same object is reconstructed with updated state via replay.
 
 ---
 
@@ -176,19 +178,19 @@ The object persists.
 
 * identity remains the same
 * ownership changes
-* history expands
+* canonical event history expands
 
 ---
 
-## Client
+## Observer
 
-The client submits:
+The observer submits:
 
-```
+```text
 transfer_sword
+actor = Player A
 target = sword_9AF3
-from = Player A
-to = Player B
+payload = { new_owner: Player B }
 ```
 
 ---
@@ -197,53 +199,55 @@ to = Player B
 
 The server validates:
 
-* existence
+* object existence
 * ownership
 * transfer rules
 
 If accepted:
 
-* updates owner
-* appends event
+* canonical event is appended
+* derived state updates
 
 Example:
 
-* transferred
+```text
+transferred_to_Player_B
+```
 
 ---
 
-## Client Reconstruction
+## Observer Reconstruction
 
-Observers now reconstruct:
+Observers reconstruct:
 
 * same identity
 * updated ownership
-* full event history
+* full canonical event history
 
 ---
 
-# Final Event Lineage
+# Final Canonical Event History
 
-```
+```text
 sword_9AF3
 
 minted
 created
-assigned to Player A
+assigned_to_Player_A
 upgraded
-transferred to Player B
+transferred_to_Player_B
 ```
 
 ---
 
 # Final Reconstructed Object
 
-```
+```text
 identity = sword_9AF3
 genome = sword
 owner = Player B
 upgrade_level = 1
-history = full event lineage
+history = canonical event history
 ```
 
 ---
@@ -258,7 +262,7 @@ The Mint defines what the object can be.
 
 ## 2. Event History Defines Life
 
-Events define what has happened to this object.
+Canonical events define what has happened to the object.
 
 ---
 
@@ -268,9 +272,9 @@ The object remains the same across all changes.
 
 ---
 
-## 4. Client Reconstruction
+## 4. Observer Reconstruction
 
-Clients rebuild the object from structure + history.
+Observers rebuild the object by replaying canonical event history.
 
 ---
 
@@ -280,15 +284,15 @@ The server:
 
 * validates events
 * enforces invariants
-* records canonical history
+* records canonical event history
 
 ---
 
 # Key Principle
 
 > The Mint defines what an object can be.
-> Event history defines what it has become.
-> Clients reconstruct the result.
+> Canonical event history defines what it has become.
+> Observers reconstruct the result.
 
 ---
 
