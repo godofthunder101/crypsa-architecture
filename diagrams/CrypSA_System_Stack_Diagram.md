@@ -1,242 +1,151 @@
----
+# CrypSA System Stack Diagram
 
-CrypSA System Stack Diagram
+## Purpose
 
-Purpose
+This diagram illustrates the layered structure of a CrypSA system.
 
-The CrypSA System Stack Diagram illustrates the layered structure of a CrypSA universe.
+It shows how CrypSA separates:
 
-The architecture separates observer experience, local simulation, and canonical truth into distinct layers. This separation allows observers to simulate locally while the system maintains global consistency through validated canonical events.
+* observer experience
+* interpretation
+* data translation
+* canonical truth
 
-The stack demonstrates how CrypSA minimizes centralized simulation while preserving shared universe integrity.
-
-
----
-
-CrypSA System Stack
-
-┌───────────────────────────────────────────────┐
-│           OBSERVER EXPERIENCE LAYER           │
-│                                               │
-│  Rendering • UI • Perception • Feedback       │
-│                                               │
-│  What the player or observer sees             │
-└───────────────────────────────────────────────┘
-                     │
-                     ▼
-┌───────────────────────────────────────────────┐
-│           LENS INTERPRETATION LAYER           │
-│                                               │
-│  Gameplay Systems                             │
-│  Economy Systems                              │
-│  Discovery Systems                            │
-│  Interaction Rules                            │
-│                                               │
-│  Interprets canonical objects                 │
-└───────────────────────────────────────────────┘
-                     │
-                     ▼
-┌───────────────────────────────────────────────┐
-│            LOCAL SIMULATION LAYER             │
-│                                               │
-│  Physics Prediction                           │
-│  Temporary Phenomena                          │
-│  Observer-relative Systems                    │
-│                                               │
-│  Runs independently on observers              │
-└───────────────────────────────────────────────┘
-                     │
-                     ▼
-═══════════════════════
-    INVARIANT BOUNDARY
-═══════════════════════
-                     │
-                     ▼
-┌───────────────────────────────────────────────┐
-│        CANONICAL EVENT RECONCILIATION         │
-│                                               │
-│  Event Validation                             │
-│  Contextual Event Verification                │
-│  Conflict Resolution                          │
-│  Invariant Enforcement                        │
-│                                               │
-│  Ensures canonical truth                      │
-└───────────────────────────────────────────────┘
-                     │
-                     ▼
-┌───────────────────────────────────────────────┐
-│           CANONICAL OBJECT MODEL              │
-│                                               │
-│  Minted Identities                            │
-│  Deterministic Genomes                        │
-│  Canonical Object Definitions                 │
-│                                               │
-│  Structural foundation of the universe        │
-└───────────────────────────────────────────────┘
-                     │
-                     ▼
-┌───────────────────────────────────────────────┐
-│           CANONICAL TRUTH STORE               │
-│                                               │
-│  Invariant State                              │
-│  Canonical Event History                      │
-│  Structural Persistence                       │
-│                                               │
-│  Shared universe reality                      │
-└───────────────────────────────────────────────┘
-
+This separation allows observers to simulate locally while canonical truth remains consistent.
 
 ---
 
-Layer Explanation
+## Diagram
 
-Observer Experience Layer
+```mermaid
+flowchart TB
 
-The observer experience layer represents the presentation of the universe.
+subgraph "Experience Layer"
+    A[UI and Observer Experience]
+    B[Local Simulation and Feedback]
+end
 
-This includes:
+subgraph "Interpretation Layer"
+    C[Lenses]
+end
 
-rendering systems
+subgraph "Translation Layer"
+    D[Adapters]
+end
 
-UI systems
+subgraph "Invariant Boundary"
+    E[Candidate Events Cross Boundary]
+end
 
-player feedback
+subgraph "Truth Layer"
+    F[Validation and Invariant Enforcement]
+    G[Canonical Event History]
+end
 
-sensory representation
-
-
-This layer contains no canonical authority.
-
-
----
-
-Lens Interpretation Layer
-
-Lenses convert canonical structural information into gameplay meaning.
-
-Examples of lenses include:
-
-gameplay rule systems
-
-economy mechanics
-
-discovery mechanics
-
-narrative interpretation layers
-
-
-Lenses allow multiple experiences to exist on top of the same canonical universe.
-
+A --> B
+B --> C
+C --> D
+D --> E
+E --> F
+F --> G
+G --> A
+```
 
 ---
 
-Local Simulation Layer
+## How to Read This
 
-Observers simulate temporary or predictive systems locally.
+### Experience Layer
 
-Examples include:
+This layer includes:
 
-physics prediction
+* UI
+* rendering
+* input handling
+* local simulation
 
-movement
-
-temporary environmental effects
-
-speculative interactions
-
-
-These simulations are observer-relative and do not modify canonical truth.
-
+It defines what the observer experiences.
 
 ---
 
-Invariant Boundary
+### Interpretation Layer
 
-The invariant boundary separates local simulation from canonical truth.
+Lenses:
 
-When interactions cross this boundary, they generate canonical events that must be validated by the reconciliation system.
+* interpret data
+* determine meaning
+* define interaction
 
-
----
-
-Canonical Event Reconciliation
-
-This layer validates events affecting shared universe state.
-
-Responsibilities include:
-
-validating event legitimacy
-
-enforcing invariant rules
-
-resolving structural conflicts
-
-updating canonical history
-
-
-The reconciliation system protects the structural integrity of the universe.
-
+They shape how the observer understands the world.
 
 ---
 
-Canonical Object Model
+### Translation Layer
 
-This layer defines the structural entities that exist within the universe.
+Adapters:
 
-Objects are defined by:
+* reshape data
+* combine canonical and observer inputs
+* prepare structured outputs
 
-minted identities
-
-deterministic genomes
-
-canonical definitions
-
-
-These definitions allow objects to be reconstructed across observers.
-
+They isolate systems from raw runtime data.
 
 ---
 
-Canonical Truth Store
+### Invariant Boundary
 
-The canonical truth store records the evolving structural state of the universe.
+The invariant boundary separates:
 
-This includes:
+* local observer behavior
+* canonical truth
 
-invariant state
+When an interaction crosses this boundary:
 
-canonical event history
-
-historical records
-
-
-Observers reconstruct the universe using these canonical references.
-
+* it becomes a candidate event
+* it must be validated
 
 ---
 
-Architectural Principle
+### Truth Layer
 
-CrypSA separates structural truth from observer experience.
+The truth layer:
 
-Observers simulate locally.
+* validates events
+* enforces invariants
+* records canonical event history
 
-The system validates only the changes that affect shared invariants.
-
-This allows large persistent universes to operate without requiring centralized full-world simulation.
-
-
----
-
-Summary
-
-The CrypSA System Stack shows how the architecture distributes responsibility across multiple layers.
-
-Observers simulate experience locally, while canonical truth is protected through validated events and invariant enforcement.
-
-This layered model allows CrypSA systems to scale while maintaining consistent shared reality.
-
+Canonical event history defines shared reality.
 
 ---
 
+## Key Insight
 
+> CrypSA separates experience, interpretation, translation, and truth into distinct layers, with the invariant boundary controlling what becomes canonical.
+
+---
+
+## Relationship to Architecture
+
+This diagram directly reflects:
+
+* **Truth** → canonical events and validation
+* **Translation** → adapters
+* **Interpretation** → lenses
+* **Experience** → UI and simulation
+
+---
+
+## Why This Matters
+
+This layered separation enables:
+
+* responsive local simulation
+* consistent shared truth
+* modular system design
+* scalable architecture
+
+---
+
+## One Sentence Summary
+
+CrypSA structures systems into experience, interpretation, translation, and truth layers, with the invariant boundary ensuring only validated events become canonical.
