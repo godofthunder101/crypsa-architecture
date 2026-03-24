@@ -256,10 +256,10 @@ CrypSA is less suited for:
 
 ## Summary
 
-CrypSA does not remove server authority.
+CrypSA does not remove server authority.  
 It redefines it.
 
-> The server does not control everything that happens.
+> The server does not control everything that happens.  
 > It controls what is allowed to become real.
 
 Security in CrypSA comes from:
@@ -269,5 +269,3 @@ Security in CrypSA comes from:
 * and inspectable history
 
 —not from restricting client-side behavior.
-* cross-check this against the **Runtime Spec v0.1** to ensure terminology is perfectly aligned, or
-* move on to the next document.
