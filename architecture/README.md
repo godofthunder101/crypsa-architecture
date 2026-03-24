@@ -18,7 +18,7 @@ For exact runtime behavior, see `../spec/`.
 
 CrypSA separates multiplayer systems into:
 
-* **canonical truth** (events and invariants)
+* **canonical event history and validation**
 * **observer simulation** (local reconstruction and prediction)
 
 Rather than synchronizing full world state, CrypSA synchronizes:
@@ -50,7 +50,7 @@ The system is event-driven:
 * validation → canonical events
 * canonical events → shared reality
 
-Canonical events define what is true.
+Canonical event history defines what is true.
 
 ---
 
@@ -87,7 +87,7 @@ World state is not the primary source of truth.
 
 Instead:
 
-* canonical history is authoritative
+* canonical event history is authoritative
 * state is derived from that history
 
 Replay enables reconstruction, debugging, and verification.
@@ -139,7 +139,7 @@ A[Canonical Events] --> B[Derived State]
 B --> C[Adapters]
 C --> D[Lenses]
 D --> E[UI / Experience]
-```
+````
 
 ---
 
@@ -158,6 +158,6 @@ Separating responsibilities enables:
 ## Where to Go Next
 
 * `../CrypSA_Architecture_Overview.md` — system overview
-* `CrypSA_Event_Model.md` — event structure
-* `CrypSA_Validation_Model.md` — invariant enforcement
-* `CrypSA_Replay_Model.md` — state reconstruction
+* `../spec/CrypSA_Event_Model.md` — event structure
+* `../spec/CrypSA_Validation_Model.md` — invariant enforcement
+* `../spec/CrypSA_Replay_Model.md` — state reconstruction
