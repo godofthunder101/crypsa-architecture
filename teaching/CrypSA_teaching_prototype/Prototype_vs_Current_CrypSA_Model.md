@@ -140,10 +140,10 @@ Use this order if you want the teaching view first and the broader CrypSA model 
 1. `README.md`
 2. `Codebase_Walkthrough.md`
 3. this document
-4. `repo/CrypSA_In_5_Minutes.md`
-5. `repo/CrypSA_Architecture_Overview.md`
-6. `repo/exploratory/core_concepts/` and `repo/architecture/`
-7. `repo/spec/`
+4. `../CrypSA_In_5_Minutes.md`
+5. `../CrypSA_Architecture_Overview.md`
+6. `../exploratory/core_concepts/` and `../architecture/`
+7. `../spec/`
 
 That order gives you:
 
