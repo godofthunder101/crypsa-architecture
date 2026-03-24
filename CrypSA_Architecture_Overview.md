@@ -6,7 +6,7 @@ It is intentionally focused on system structure rather than step-by-step flow.
 
 For a worked example, see:
 
-* `CrypSA_WORKED_EXAMPLE.md`
+* `CrypSA_Worked_Example.md`
 
 ---
 
@@ -22,7 +22,7 @@ CrypSA is best understood as four core responsibilities:
 These responsibilities are implemented across different parts of the system:
 
 * observers (clients)
-* canonical server
+* the server
 * adapter layer
 * lens layer
 * UI / observer experience
@@ -44,7 +44,7 @@ They are responsible for local simulation and parts of interpretation.
 
 ---
 
-### Canonical Server
+### Server
 
 The server:
 
@@ -53,7 +53,9 @@ The server:
 * accepts or rejects them
 * assigns canonical ordering (`server_sequence`)
 
-The server defines **truth**.
+The server enforces validation and ordering.
+
+Canonical event history defines **truth**.
 
 ---
 
@@ -144,7 +146,7 @@ A[Canonical Event History] --> B[Derived Canonical State]
 B --> C[Adapters]
 C --> D[Lenses]
 D --> E[UI / Experience]
-```
+````
 
 ---
 
