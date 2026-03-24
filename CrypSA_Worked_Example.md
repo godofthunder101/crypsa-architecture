@@ -267,4 +267,3 @@ This example corresponds directly to:
 ## One Sentence Summary
 
 A local action becomes a candidate event, the server validates it, accepted events define canonical event history, and observers reconcile their local simulation to that shared truth.
-That one will make the repo feel *finished and navigable*, not just correct.
