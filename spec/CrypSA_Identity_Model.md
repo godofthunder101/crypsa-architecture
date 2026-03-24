@@ -1,15 +1,13 @@
-
----
 # CrypSA Identity Model Spec v0.1
 
 This document defines how objects are identified, created, and evolve within a CrypSA system.
 
 The identity model ensures that:
 
-- objects can be referenced consistently over time  
-- events can safely modify objects  
-- replay produces stable and correct results  
-- object definitions remain compatible with history  
+* objects can be referenced consistently over time
+* events can safely modify objects
+* replay produces stable and correct results
+* object definitions remain compatible with history
 
 ---
 
@@ -17,8 +15,8 @@ The identity model ensures that:
 
 In CrypSA:
 
-> Identity is permanent.  
-> Definition may evolve.  
+> Identity is permanent.
+> Definition may evolve.
 > History must remain valid.
 
 ---
@@ -27,24 +25,25 @@ In CrypSA:
 
 CrypSA separates:
 
-- **Identity** → "what this object is"  
-- **Definition** → "how this object behaves"  
+* **Identity** → "what this object is"
+* **Definition (Genome)** → "how this object behaves"
 
 ---
 
 ### Identity
 
-- unique and persistent  
-- referenced in all events  
-- does not change  
+* unique and persistent
+* referenced in all events
+* immutable
+* does not change over time
 
 ---
 
 ### Definition (Genome)
 
-- describes structure and rules  
-- may evolve over time  
-- must be version-aware  
+* describes structure and rules
+* may evolve over time
+* must be version-aware
 
 ---
 
@@ -58,28 +57,30 @@ Objects are created through **mint events**.
 
 A mint event creates:
 
-- a new unique identity (`object_id`)  
-- an initial definition reference (`genome_id`)  
-- initial state  
+* a new unique identity (`object_id`)
+* an initial genome reference (`genome_id`)
+* initial state
 
 ---
 
 ### Example
 
+```text
 event_type = mint_object
 payload = {
-object_id: obj_123,
-genome_id: mining_station_v1,
-initial_state: { ... }
+  object_id: obj_123,
+  genome_id: mining_station_v1,
+  initial_state: { ... }
 }
+```
 
 ---
 
 ### Requirements
 
-- `object_id` must be globally unique  
-- mint events must be canonical before object is usable  
-- no object exists without a mint event  
+* `object_id` must be globally unique within the canonical domain
+* mint events must be accepted as canonical before the object exists
+* no object exists without a canonical mint event
 
 ---
 
@@ -87,11 +88,13 @@ initial_state: { ... }
 
 Objects follow this lifecycle:
 
+```text
 non-existent
 → minted
 → active
 → modified (via events)
 → possibly destroyed or archived
+```
 
 ---
 
@@ -99,7 +102,8 @@ non-existent
 
 Destruction is represented by a canonical event.
 
-The identity remains valid for historical reference.
+* identity remains valid for historical reference
+* destroyed objects cannot be modified
 
 ---
 
@@ -107,9 +111,9 @@ The identity remains valid for historical reference.
 
 Once created:
 
-- `object_id` never changes  
-- events always refer to the same identity  
-- identity remains valid even if object is destroyed  
+* `object_id` never changes
+* events always refer to the same identity
+* identity remains valid even if the object is destroyed
 
 ---
 
@@ -123,10 +127,10 @@ Each object references a **genome**.
 
 Defines:
 
-- structure  
-- allowed state transitions  
-- validation rules  
-- event compatibility  
+* structure
+* allowed state transitions
+* validation rules
+* event compatibility
 
 ---
 
@@ -136,40 +140,34 @@ Genomes must be versioned.
 
 Example:
 
+```text
 mining_station_v1
 mining_station_v2
+```
 
 ---
 
 ### Historical Consistency
 
-Objects must remain compatible with the genome version they were created with.
+Replay must remain deterministic.
 
-Options:
-
-- freeze genome version per object  
-- allow migration via explicit events  
+Objects must remain compatible with their genome definition.
 
 ---
 
-## Definition Evolution
+### Strategy 1: Version Freeze (Required for v0.1)
 
-CrypSA allows definitions to evolve over time.
-
----
-
-### Strategy 1: Version Freeze (Recommended v0.1)
-
-- object remains tied to original genome version  
-- ensures perfect replay consistency  
+* object remains tied to original genome version
+* ensures deterministic replay
+* avoids migration complexity
 
 ---
 
-### Strategy 2: Explicit Migration
+### Strategy 2: Explicit Migration (Future)
 
-- new event updates object to new genome version  
-- migration must be deterministic  
-- migration must be replay-safe  
+* new event updates object to a new genome version
+* migration must be deterministic
+* migration must be replay-safe
 
 ---
 
@@ -181,22 +179,26 @@ All canonical events must reference identities explicitly.
 
 ### Requirements
 
-- all target objects must exist  
-- identity must be valid at event time  
-- destroyed objects cannot be modified  
+* all target objects must exist
+* identity must be valid at event time
+* destroyed objects cannot be modified
 
 ---
 
 ## Identity Registry
 
-The system maintains an identity registry containing:
+The system maintains an identity registry as part of derived state.
 
-- object_id  
-- genome reference  
-- current state  
-- lifecycle status  
+This registry contains:
 
-This registry is part of derived canonical state.
+* object_id
+* genome reference
+* lifecycle status
+* derived state (materialized from canonical event history)
+
+This registry is:
+
+> a computed view, not the source of truth
 
 ---
 
@@ -208,9 +210,9 @@ Replay relies on identity stability.
 
 ### Requirements
 
-- identity must resolve consistently across replay  
-- genome references must be resolvable  
-- state transitions must be deterministic  
+* identity must resolve consistently across replay
+* genome references must be resolvable
+* state transitions must be deterministic
 
 ---
 
@@ -222,15 +224,15 @@ Identity must be unique within the canonical system.
 
 ### v0.1 Assumption
 
-- global uniqueness (single canonical domain)
+* global uniqueness within a single canonical domain
 
 ---
 
 ### Future Extensions
 
-- partitioned identity spaces  
-- shard-aware identity prefixes  
-- globally coordinated identity generation  
+* partitioned identity spaces
+* shard-aware identity prefixes
+* globally coordinated identity generation
 
 ---
 
@@ -238,36 +240,23 @@ Identity must be unique within the canonical system.
 
 In v0.1:
 
-- clients may propose object_ids  
-- server must validate uniqueness  
+* clients may propose `object_id`
+* server must validate uniqueness
 
 ---
 
 ### Requirements
 
-- collision detection required  
-- duplicate mint must be rejected  
+* collision detection is required
+* duplicate mint attempts must be rejected
 
 ---
 
 ### Alternative (Future)
 
-- server-assigned identities  
-- deterministic ID generation  
-- namespace-based IDs  
-
----
-
-## Identity and Branching
-
-Each identity exists within a branch context.
-
----
-
-### v0.1 Simplification
-
-- identities are assumed consistent within a branch  
-- cross-branch identity divergence is not fully defined  
+* server-assigned identities
+* deterministic ID generation
+* namespace-based IDs
 
 ---
 
@@ -275,10 +264,10 @@ Each identity exists within a branch context.
 
 Identity systems must handle:
 
-- duplicate object IDs  
-- missing identity references  
-- invalid genome references  
-- attempts to modify destroyed objects  
+* duplicate object IDs
+* missing identity references
+* invalid genome references
+* attempts to modify destroyed objects
 
 ---
 
@@ -286,9 +275,9 @@ Identity systems must handle:
 
 Identity validation must ensure:
 
-- no spoofed object IDs  
-- no unauthorized modification  
-- no duplication of unique objects  
+* no spoofed object IDs
+* no unauthorized modification
+* no duplication of unique objects
 
 ---
 
@@ -296,18 +285,18 @@ Identity validation must ensure:
 
 ### Advantages
 
-- stable referencing  
-- replay safety  
-- clear object lifecycle  
-- flexible definition evolution  
+* stable referencing
+* replay safety
+* clear object lifecycle
+* flexible definition evolution
 
 ---
 
 ### Costs
 
-- need for version management  
-- migration complexity  
-- identity registry overhead  
+* need for version management
+* migration complexity
+* identity registry overhead
 
 ---
 
@@ -315,16 +304,13 @@ Identity validation must ensure:
 
 CrypSA identity model ensures:
 
-- objects have permanent identities  
-- definitions are versioned and controlled  
-- events safely reference objects  
-- replay remains deterministic  
+* objects have permanent identities
+* definitions are versioned and controlled
+* events safely reference objects
+* replay remains deterministic
 
 ---
 
 ## One Sentence Summary
 
 CrypSA identity separates permanent object identity from evolving definitions, ensuring stable references, deterministic replay, and safe object lifecycle management.
----
-
----
