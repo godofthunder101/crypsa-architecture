@@ -1,11 +1,12 @@
 # CrypSA Snapshot Model Spec v0.1
 
-This document defines how CrypSA captures and uses snapshots of derived world state.
+This document defines how CrypSA captures and uses snapshots of derived state.
 
 Snapshots are used to:
-- improve replay performance
-- enable fast recovery
-- support scalable persistence
+
+* improve replay performance
+* enable fast recovery
+* support practical reconstruction for reconnect and late join
 
 ---
 
@@ -13,12 +14,12 @@ Snapshots are used to:
 
 In CrypSA:
 
-> Canonical history is the source of truth,  
-> snapshots are derived performance artifacts.
+> Canonical event history is the source of truth.
+> Snapshots are derived performance artifacts.
 
-Snapshots do not replace event history.
+Snapshots do not replace canonical event history.
 
-They are a cached representation of state at a specific point in that history.
+They are cached representations of derived state at a specific point in canonical history.
 
 ---
 
@@ -26,9 +27,9 @@ They are a cached representation of state at a specific point in that history.
 
 A snapshot is:
 
-- a derived state of the world
-- tied to a specific canonical event position
-- used as a starting point for replay
+* derived canonical state
+* tied to a specific canonical sequence position
+* used as a starting point for replay
 
 ---
 
@@ -36,12 +37,15 @@ A snapshot is:
 
 Every snapshot must reference:
 
-- a canonical event position  
-  (e.g., `canonical_sequence`, event_id, or lineage point)
+* `server_sequence`
+
+It may also include:
+
+* the last canonical event ID included in the snapshot
 
 This ensures:
 
-> Replay from snapshot + subsequent events produces the same result as full replay.
+> replay from snapshot + subsequent canonical events produces the same result as full replay
 
 ---
 
@@ -49,46 +53,44 @@ This ensures:
 
 A snapshot contains:
 
-- derived world state (objects, positions, properties)
-- relevant system state (inventories, relationships, etc.)
-- reference to event position
-- version metadata
+* derived canonical state
+* relevant system state required for reconstruction
+* snapshot position (`server_sequence`)
+* version metadata
 
-Snapshots should NOT contain:
+Snapshots must not contain:
 
-- unvalidated or observer-local data
-- transient client state
-- candidate (non-canonical) events
+* unvalidated or observer-local data
+* transient client state
+* candidate events
+* data that cannot be reproduced from canonical event history
 
 ---
 
 ## Snapshot Types
 
-CrypSA supports multiple snapshot strategies:
+CrypSA may support multiple snapshot strategies.
 
----
+### 1. Full Snapshot
 
-### Full Snapshot
+* captures the full derived canonical state
+* used for full recovery or new observers
 
-- captures entire world state
-- used for full recovery or new observers
+### 2. Partial Snapshot
 
----
+* captures a subset of derived canonical state
+* examples:
 
-### Partial Snapshot
+  * region snapshot
+  * object-group snapshot
 
-- captures a subset of the world
-- examples:
-  - region snapshot
-  - object group snapshot
+### 3. Incremental Snapshot
 
----
+* stores only changes since the previous snapshot
+* reduces storage cost
+* increases reconstruction complexity
 
-### Incremental Snapshot
-
-- stores only changes since last snapshot
-- reduces storage cost
-- increases reconstruction complexity
+Version 0.1 only requires support for a basic full snapshot model.
 
 ---
 
@@ -96,21 +98,21 @@ CrypSA supports multiple snapshot strategies:
 
 Snapshots may be created:
 
-- periodically (time-based)
-- after a number of events
-- during low-load periods
-- on-demand (manual or system-triggered)
+* periodically
+* after a number of accepted canonical events
+* during low-load periods
+* on demand
 
 ---
 
 ## Snapshot Frequency
 
-Choosing frequency is a tradeoff:
+Choosing snapshot frequency is a tradeoff:
 
-| High Frequency | Low Frequency |
-|----------------|----------------|
-| Faster replay   | Lower storage cost |
-| More storage    | Longer replay time |
+| High Frequency | Low Frequency      |
+| -------------- | ------------------ |
+| Faster replay  | Lower storage cost |
+| More storage   | Longer replay time |
 
 ---
 
@@ -118,48 +120,43 @@ Choosing frequency is a tradeoff:
 
 Snapshots are used for:
 
----
-
 ### 1. Fast Startup
 
-- new observers load snapshot
-- replay only recent events
-
----
+* new observers load a snapshot
+* replay only recent canonical events
 
 ### 2. Recovery
 
-- system restarts from snapshot
-- avoids full replay
+* system restarts from a snapshot
+* avoids full replay from genesis
 
----
+### 3. Partial Loading
 
-### 3. Partition Loading
-
-- load only relevant world sections
-- supports scalable systems
+* load only relevant world sections where supported
+* useful for larger systems beyond the minimal model
 
 ---
 
 ## Replay with Snapshots
 
-Replay process with snapshots:
+Replay using snapshots follows this process:
 
-1. Load snapshot state
-2. Identify snapshot event position
-3. Fetch events after snapshot
-4. Apply events in order
-5. Produce current state
+1. load snapshot state
+2. read snapshot `server_sequence`
+3. fetch canonical events after that sequence
+4. apply events in `server_sequence` order
+5. produce current derived state
 
 ---
 
 ## Snapshot Consistency
 
-Snapshots must satisfy:
+Snapshots must satisfy all of the following:
 
-- derived from valid canonical history
-- correspond to a specific event position
-- reproducible via replay
+* derived from valid canonical event history
+* tied to a specific `server_sequence`
+* reproducible via replay
+* equivalent to replaying history up to that sequence
 
 ---
 
@@ -167,9 +164,13 @@ Snapshots must satisfy:
 
 Snapshots should be verified by:
 
-- comparing replay results against snapshot
-- periodic consistency checks
-- optional checksum or hash validation
+* comparing replay results against snapshot contents
+* periodic consistency checks
+* optional checksum or hash validation
+
+If a mismatch exists:
+
+> canonical event history is authoritative, and the snapshot must be treated as invalid
 
 ---
 
@@ -177,9 +178,10 @@ Snapshots should be verified by:
 
 Snapshots are typically immutable once created.
 
-If updated:
-- a new snapshot is created
-- old snapshots may be archived or deleted
+If state changes:
+
+* a new snapshot is created
+* old snapshots may be archived or deleted
 
 ---
 
@@ -187,9 +189,11 @@ If updated:
 
 Snapshots may be stored:
 
-- locally (for single-node systems)
-- in distributed storage systems
-- in partitioned storage (per region/object)
+* locally for single-node systems
+* in distributed storage systems
+* in partitioned storage for larger deployments
+
+Version 0.1 only requires a simple local or file-backed approach.
 
 ---
 
@@ -197,13 +201,11 @@ Snapshots may be stored:
 
 Snapshots must include:
 
-- schema version
-- compatible event version range
-- definition (Genome/Mint) version references
+* snapshot schema version
+* compatible event model version
+* relevant genome / definition version references
 
-This ensures:
-
-> replay remains correct across system evolution
+This ensures replay remains correct across system evolution.
 
 ---
 
@@ -211,10 +213,10 @@ This ensures:
 
 Snapshot systems must handle:
 
-- corrupted snapshot data
-- mismatch between snapshot and event history
-- missing events after snapshot
-- incompatible schema versions
+* corrupted snapshot data
+* mismatch between snapshot and canonical event history
+* missing canonical events after the snapshot
+* incompatible schema versions
 
 ---
 
@@ -222,17 +224,17 @@ Snapshot systems must handle:
 
 Snapshot performance depends on:
 
-- snapshot size
-- frequency
-- serialization format
-- partitioning strategy
+* snapshot size
+* snapshot frequency
+* serialization format
+* replay tail length
 
 Optimization strategies include:
 
-- compression
-- partial snapshots
-- incremental updates
-- caching hot regions
+* compression
+* partial snapshots
+* incremental snapshots
+* caching frequently used regions
 
 ---
 
@@ -240,46 +242,42 @@ Optimization strategies include:
 
 Snapshots must:
 
-- only include canonical data
-- be protected from tampering
-- be verifiable against event history
+* contain only canonical-derived data
+* be verifiable against canonical event history
+* never override canonical event history in the event of mismatch
 
 ---
 
 ## Tradeoffs
 
-Snapshots introduce tradeoffs:
-
 ### Advantages
 
-- faster replay  
-- improved scalability  
-- quicker recovery  
-- reduced startup cost  
-
----
+* faster replay
+* quicker recovery
+* reduced startup cost
+* more practical reconnect behavior
 
 ### Costs
 
-- storage overhead  
-- snapshot management complexity  
-- consistency verification requirements  
+* storage overhead
+* snapshot management complexity
+* consistency verification requirements
 
 ---
 
-## Relationship to Canonical History
+## Relationship to Canonical Event History
 
-Snapshots do not replace canonical history.
+Snapshots do not replace canonical event history.
 
 They are:
 
-> a cached projection of that history at a point in time.
+> cached projections of canonical event history at a specific sequence
 
-Canonical history remains:
+Canonical event history remains:
 
-- authoritative  
-- complete  
-- required for full reconstruction  
+* authoritative
+* complete
+* required for full reconstruction
 
 ---
 
@@ -287,13 +285,9 @@ Canonical history remains:
 
 CrypSA snapshots are:
 
-- derived  
-- versioned  
-- position-aware  
-- replay-compatible  
+* derived
+* versioned
+* sequence-aware
+* replay-compatible
 
-They ensure that:
-
-> Event-driven worlds remain practical to operate at scale.
-
----
+They make event-driven worlds practical to operate without changing the source of truth.
