@@ -43,7 +43,7 @@ Examples include:
 * simulation nodes
 * tools or analytics systems
 
-Observers simulate locally while respecting canonical truth.
+Observers simulate locally while reconciling with canonical event history.
 
 ---
 
@@ -56,7 +56,7 @@ A Canonical Object is an entity defined by:
 * identity
 * genome
 * invariant-relevant state
-* event history
+* canonical event history
 
 It can be reconstructed deterministically from canonical data.
 
@@ -88,43 +88,29 @@ It ensures:
 
 ## Truth Layer
 
-### Canonical Truth
-
-Canonical Truth is the shared reality of the universe.
-
-It consists of:
-
-* canonical event history
-* invariant constraints
-* identity and genome definitions
-
-It is protected by server validation.
-
----
-
 ### Canonical Event
 
-A Canonical Event is a validated change to canonical truth.
+A Canonical Event is a validated event that has been accepted into canonical event history.
 
 ---
 
-### Event History
+### Canonical Event History
 
-Event History is the ordered record of canonical events.
+Canonical Event History is the ordered, append-only record of canonical events.
 
-It defines how the universe evolves over time.
+It defines how the universe evolves over time and is the source of truth.
 
 ---
 
 ### Invariant
 
-An Invariant is a rule that must always remain true in canonical reality.
+An Invariant is a rule that must always remain valid within canonical event history.
 
 ---
 
 ### Invariant Boundary
 
-The Invariant Boundary is where proposed actions are validated before becoming canonical.
+The Invariant Boundary is where proposed actions are validated before becoming canonical events.
 
 ---
 
@@ -146,7 +132,7 @@ It is not authoritative.
 
 ### Observer Convergence
 
-Observer Convergence is the process by which observers align with canonical truth after updates.
+Observer Convergence is the process by which observers align with canonical event history after updates.
 
 ---
 
@@ -199,4 +185,4 @@ This separation allows:
 
 * deterministic reconstruction
 * flexible observer behavior
-* consistent shared reality
+* consistent shared reality derived from canonical event history
