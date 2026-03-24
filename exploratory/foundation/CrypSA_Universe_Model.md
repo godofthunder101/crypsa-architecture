@@ -1,250 +1,202 @@
----
-
-CrypSA Universe Model
+# CrypSA Universe Model
 
 > Exploratory note: This document represents early conceptual framing.
 >
-> For the current CrypSA model, refer to `../../CrypSA_Why_It_Exists.md`, `../../CrypSA_Where_It_Fits.md`, `../../architecture/`, and `../../spec/`.
-
-Purpose
-
-The CrypSA Universe Model illustrates how a CrypSA world is structured.
-
-Instead of representing a universe as a continuously simulated state, CrypSA represents a universe as a history of canonical events that observers use to reconstruct the world.
-
-Objects, player actions, and world changes all emerge from this shared event history.
-
+> For the current CrypSA model, refer to:
+>
+> * `../../CrypSA_Why_It_Exists.md`
+> * `../../CrypSA_Where_It_Fits.md`
+> * `../../architecture/`
+> * `../../spec/`
 
 ---
 
-CrypSA Universe Model Diagram
+## Purpose
 
-CRYPSA UNIVERSE MODEL
+This document presents a conceptual model of how a CrypSA universe is structured.
 
+Rather than representing a universe as continuously simulated state, CrypSA represents a universe as:
 
-                ┌───────────────────────┐
-                │        Observers       │
-                │                       │
-                │  Player A             │
-                │  Player B             │
-                │  Player C             │
-                └───────────┬───────────┘
-                            │
-                            │ Local Simulation
-                            ▼
+> canonical event history from which observers reconstruct the world
 
-           ┌─────────────────────────────────┐
-           │     Observer Simulation Layer    │
-           │                                  │
-           │  • movement                      │
-           │  • rendering                     │
-           │  • interaction                   │
-           │  • prediction                    │
-           │                                  │
-           └───────────────┬──────────────────┘
-                           │
-                           │ Proposed Events
-                           ▼
-
-              ┌────────────────────────────┐
-              │       Invariant Boundary    │
-              │           (Server)          │
-              │                              │
-              │  • validate rules            │
-              │  • enforce invariants        │
-              │  • maintain canonical log    │
-              └───────────────┬─────────────┘
-                              │
-                              │ Canonical Events
-                              ▼
-
-              ┌────────────────────────────┐
-              │     Canonical Event Log     │
-              │                              │
-              │  E1: Object Minted           │
-              │  E2: Object Placed           │
-              │  E3: Resource Mined          │
-              │  E4: Structure Built         │
-              │  E5: Object Transferred      │
-              │                              │
-              └───────────────┬─────────────┘
-                              │
-                              │ Timeline History
-                              ▼
-
-             ┌────────────────────────────────┐
-             │        Timeline Structure       │
-             │                                 │
-             │ Genesis                         │
-             │   │                             │
-             │   ├─ Event A                    │
-             │   │    │                        │
-             │   │    └─ Event B               │
-             │   │         │                   │
-             │   │         └─ Event C          │
-             │   │                             │
-             │   └─ Alternate Branch           │
-             │        │                        │
-             │        └─ Event B'              │
-             │              │                  │
-             │              └─ Event C'        │
-             └───────────────┬────────────────┘
-                             │
-                             ▼
-
-                ┌────────────────────────┐
-                │   Object Reconstruction │
-                │                        │
-                │ Objects defined by    │
-                │ their event history   │
-                │                        │
-                │ Example:              │
-                │ Sword #9AF3           │
-                │  Minted → Modified    │
-                │  Transferred → Used   │
-                └────────────────────────┘
-
+This is a conceptual model, not an authoritative system definition.
 
 ---
 
-What This Diagram Shows
+## Diagram
 
-This model highlights several core CrypSA ideas.
+```mermaid
+flowchart TD
 
-Observers
+A[Observers]
+B[Local Simulation]
+C[Invariant Boundary]
+D[Validation]
+E[Canonical Event History]
+F[Object Reconstruction]
+G[Observer Experience]
 
-Players or clients act as observers of the universe.
-
-They simulate the world locally and interact with it.
-
-
----
-
-Observer Simulation
-
-Observers run their own simulation:
-
-movement
-
-rendering
-
-prediction
-
-local interactions
-
-
-This allows responsive gameplay without requiring the server to simulate everything.
-
+A --> B
+B --> C
+C -->|Candidate Event| D
+D -->|Accepted| E
+E --> F
+F --> G
+G --> B
+```
 
 ---
 
-Invariant Boundary
+## How to Read This
 
-The server acts as the invariant boundary.
+### Observers
 
-Its job is to:
+Observers (players, systems, tools):
 
-validate events
-
-enforce world rules
-
-record canonical history
-
-
-The server protects the integrity of the universe.
-
+* reconstruct the universe
+* simulate locally
+* interact with the world
 
 ---
 
-Canonical Event Log
+### Local Simulation (Experience)
 
-All accepted events are recorded in a canonical event log.
+Observers simulate:
 
-This log defines the shared history of the universe.
+* movement
+* rendering
+* prediction
+* temporary effects
 
-Examples include:
-
-object minting
-
-structure construction
-
-resource gathering
-
-ownership transfer
-
-
+This provides responsiveness without requiring centralized simulation.
 
 ---
 
-Timeline Structure
+### Invariant Boundary
 
-The universe is represented as a timeline of events.
+The invariant boundary determines:
 
-In some cases, alternate branches may exist for:
+> Does this interaction affect canonical truth?
 
-debugging
-
-experimentation
-
-simulation forks
-
-
-This makes CrypSA worlds conceptually similar to versioned histories.
-
+* No → remains local
+* Yes → becomes a candidate event
 
 ---
 
-Object Reconstruction
+### Validation (Truth Layer)
 
-Objects in CrypSA are defined by their event lineage rather than just their current state.
+The server validates candidate events:
 
-This allows:
+* enforces invariants
+* checks rules
+* determines acceptance
 
-historical tracking
-
-provenance
-
-reconstructable objects
-
-
+Accepted events are appended to canonical event history.
 
 ---
 
-Key Idea
+### Canonical Event History
 
-A CrypSA universe is not defined by a single world state.
+Canonical event history defines shared truth.
 
-It is defined by:
+Examples:
 
-the canonical history of events that created the world.
+* object minting
+* structure placement
+* resource collection
+* ownership transfer
+
+This history is:
+
+* ordered
+* append-only (conceptually)
+* authoritative
+
+---
+
+### Object Reconstruction
+
+Observers reconstruct objects using:
+
+```text
+identity + genome + canonical event history → derived state
+```
+
+Objects are defined by their history, not stored mutable state.
+
+---
+
+### Observer Experience Loop
+
+Observers continuously:
+
+* reconstruct
+* simulate
+* interact
+* validate (when needed)
+
+This creates a continuous loop between local simulation and canonical truth.
+
+---
+
+## Timeline Structure (Exploratory)
+
+A CrypSA universe can be viewed as a timeline of events.
+
+In exploratory or advanced scenarios, alternate branches may exist for:
+
+* debugging
+* experimentation
+* simulation forks
+
+This is not part of the minimal v0.1 runtime model.
+
+---
+
+## Key Idea
+
+> A CrypSA universe is defined by canonical event history, not by a single stored world state.
 
 Observers reconstruct the universe by interpreting that history.
 
+---
+
+## Relationship to Architecture
+
+This conceptual model maps to:
+
+* **Experience** → local simulation and UI
+* **Interpretation** → lenses (not shown in diagram)
+* **Translation** → adapters (not shown in diagram)
+* **Truth** → validation and canonical event history
 
 ---
 
-Summary
+## Summary
 
 CrypSA transforms how persistent worlds are represented.
 
 Instead of:
 
+```text
 Server → World State
+```
 
 CrypSA uses:
 
+```text
 Canonical Event History → Reconstructed Universe
+```
 
 This enables:
 
-distributed simulation
-
-historical world reconstruction
-
-event-driven persistence
-
-preservation-friendly world design
-
-
+* distributed simulation
+* deterministic reconstruction
+* persistent world history
+* scalable system design
 
 ---
+
+## One Sentence Summary
+
+A CrypSA universe is defined by canonical event history, and observers reconstruct and experience that universe through local simulation and interpretation.
