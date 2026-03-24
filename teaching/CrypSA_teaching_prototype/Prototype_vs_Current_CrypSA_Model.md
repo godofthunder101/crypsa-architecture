@@ -42,7 +42,7 @@ The rule is:
 Another useful rule:
 
 - if the prototype teaches a core CrypSA idea, keep it accurate
-- if the broader `repo/` adds deployment or architecture depth, do not force all of that depth into this app
+- if the broader CrypSA architecture and specification (`../architecture/` and `../spec/`) add deployment or system depth, do not force all of that depth into this app
 
 ## What This Prototype Teaches Directly
 
