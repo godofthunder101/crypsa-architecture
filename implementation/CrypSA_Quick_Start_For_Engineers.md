@@ -28,11 +28,11 @@ A minimal CrypSA implementation requires only:
 
 * identity and object definitions
 * canonical event history
-* derived state cache
+* derived canonical state cache
 * validation pipeline
 * observer clients
 
-Each part exists to protect canonical truth while allowing local simulation.
+Each part exists to protect canonical event history while allowing local simulation.
 
 ---
 
@@ -49,7 +49,7 @@ Example:
 ```text
 Object Identity: sword_1001
 Genome: sword_type_A
-```
+````
 
 The Mint (or equivalent system) defines:
 
@@ -114,9 +114,9 @@ Avoid:
 
 ---
 
-## Step 4 — Maintain Derived State
+## Step 4 — Maintain Derived Canonical State
 
-The server maintains a derived state cache for:
+The server maintains a derived canonical state cache for:
 
 * validation
 * querying
@@ -131,7 +131,7 @@ Examples:
 
 Important:
 
-> derived state is a computed view, not the source of truth
+> derived canonical state is a computed view, not the source of truth
 
 It is updated by applying accepted events.
 
@@ -159,12 +159,12 @@ Observers:
 
 Every interaction must answer:
 
-> Does this affect canonical truth?
+> Does this affect canonical event history?
 
 Example:
 
 ```python
-if affects_canonical_truth(interaction):
+if affects_canonical_event_history(interaction):
     create_candidate_event(interaction)
 else:
     process_locally(interaction)
@@ -178,7 +178,7 @@ Only meaningful changes become candidate events.
 
 ## Step 7 — Submit Candidate Events
 
-When canonical truth is affected, the observer submits a candidate event.
+When canonical event history is affected, the observer submits a candidate event.
 
 Example structure:
 
@@ -242,16 +242,16 @@ def validate_event(event):
 
 If validation succeeds:
 
-* assign canonical metadata
+* assign canonical metadata (including `server_sequence`)
 * append to canonical event history
-* update derived state
+* update derived canonical state
 * notify observers
 
 Example:
 
 ```python
 def accept_event(event):
-    canonical_event = assign_canonical_metadata(event)
+    canonical_event = assign_canonical_metadata(event)  # assigns server_sequence
     append_to_event_history(canonical_event)
     apply_to_derived_state(canonical_event)
     notify_observers(canonical_event)
@@ -272,7 +272,7 @@ This may involve:
 
 Because reconstruction is deterministic:
 
-> all observers converge on the same shared truth
+> all observers converge on the same shared state derived from canonical event history
 
 ---
 
@@ -285,8 +285,9 @@ Reconstruct world
 → Invariant boundary check
 → Candidate event submission
 → Server validation
+→ Assign server_sequence
 → Canonical event history updated
-→ Derived state updated
+→ Derived canonical state updated
 → Observer reconciliation
 ```
 
@@ -355,7 +356,7 @@ A minimal CrypSA system requires:
 
 * identity and structural definitions
 * canonical event history
-* derived state
+* derived canonical state
 * observer reconstruction
 * invariant boundary checks
 * server-side validation
@@ -366,4 +367,4 @@ With these, a persistent event-driven universe can be built.
 
 ## One Sentence Summary
 
-A minimal CrypSA system allows observers to simulate locally while a server validates candidate events, records accepted events as canonical history, and distributes shared truth back to all observers.
+A minimal CrypSA system allows observers to simulate locally while a server validates candidate events, records accepted events as canonical event history, and distributes that shared history back to all observers.
