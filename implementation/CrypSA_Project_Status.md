@@ -125,11 +125,11 @@ These documents define how CrypSA is expected to function as a system.
 
 A local teaching prototype exists in:
 
-`../teaching/crypsa_teaching_prototype/`
+`../teaching/CrypSA_teaching_prototype/`
 
 For authoritative prototype status, see:
 
-`../teaching/crypsa_teaching_prototype/STATUS.md`
+`../teaching/CrypSA_teaching_prototype/STATUS.md`
 
 It demonstrates:
 
@@ -278,7 +278,7 @@ Use `../spec/` for runtime behavior and `../architecture/` for system structure.
 
 ### To understand the model in practice
 
-* `../teaching/crypsa_teaching_prototype/`
+* `../teaching/CrypSA_teaching_prototype/`
 
 Treat this as a completed teaching artifact, not as the runtime proof.
 
