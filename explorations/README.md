@@ -1,46 +1,87 @@
 # CrypSA Explorations
 
+## Purpose
+
 This section contains experimental and forward-looking ideas related to CrypSA.
 
-These are not part of the core v0.1 runtime specification.
+These documents explore possible extensions, alternative designs, and future directions.
 
-They represent:
-
-- possible extensions  
-- design explorations  
-- future directions  
+They are intentionally separated from the core system.
 
 ---
 
 ## Important
 
-These documents:
+These documents are **not authoritative**.
 
-- are not required to understand CrypSA v0.1  
-- are not yet fully specified  
-- may change significantly  
+They:
+
+* are not part of the v0.1 runtime specification
+* are not required to understand CrypSA
+* are not guaranteed to be correct or complete
+* may change or be removed at any time
+
+They must not be treated as:
+
+* architecture definitions
+* specification rules
+* implementation requirements
 
 ---
 
-## Purpose
+## Scope
 
-The goal of this section is to:
+Exploration documents may:
 
-- explore the design space  
-- inspire future development  
-- capture ideas without mixing them into the core system  
+* propose new ideas
+* test alternative models
+* describe potential features
+* explore future system directions
+
+They may be incomplete or speculative.
+
+---
+
+## Constraints
+
+Exploration documents must not:
+
+* redefine existing architecture concepts
+* introduce conflicting terminology
+* override definitions in `architecture/` or `spec/`
+* blur the boundary between truth, translation, interpretation, and experience
+
+If a concept becomes stable, it should be promoted to the appropriate layer.
 
 ---
 
 ## Relationship to Core System
 
-If you are new to CrypSA, start with:
+For authoritative understanding, start with:
 
-- `CrypSA_In_5_Minutes.md`  
-- `spec/`  
-- `CrypSA_Worked_Example.md`  
+* `CrypSA_In_5_Minutes.md`
+* `architecture/`
+* `spec/`
 
-Then return here later.
+Then return to this section for exploration and future ideas.
+
+---
+
+## Promotion Path
+
+Ideas in this section may evolve into core concepts.
+
+When that happens:
+
+1. the concept is formalized
+2. terminology is aligned with the architecture
+3. it is moved into:
+
+   * `architecture/` (structure)
+   * `spec/` (behavior)
+   * `implementation/` (practical use)
+
+Exploratory documents should not become authoritative in place.
 
 ---
 
