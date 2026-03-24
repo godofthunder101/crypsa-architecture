@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document explains how the minimal teaching prototype relates to the current CrypSA architecture and specification (`../architecture/` and `../spec/`).
+This document explains how the minimal teaching prototype relates to the current CrypSA architecture and specification (`../../architecture/` and `../../spec/`).
 
 Use it when you want to answer:
 
@@ -42,7 +42,7 @@ The rule is:
 Another useful rule:
 
 - if the prototype teaches a core CrypSA idea, keep it accurate
-- if the broader CrypSA architecture and specification (`../architecture/` and `../spec/`) add deployment or system depth, do not force all of that depth into this app
+- if the broader CrypSA architecture and specification (`../../architecture/` and `../../spec/`) add deployment or system depth, do not force all of that depth into this app
 
 ## What This Prototype Teaches Directly
 
@@ -140,10 +140,10 @@ Use this order if you want the teaching view first and the broader CrypSA model 
 1. `README.md`
 2. `Codebase_Walkthrough.md`
 3. this document
-4. `../CrypSA_In_5_Minutes.md`
-5. `../CrypSA_Architecture_Overview.md`
-6. `../exploratory/core_concepts/` and `../architecture/`
-7. `../spec/`
+4. `../../CrypSA_In_5_Minutes.md`
+5. `../../CrypSA_Architecture_Overview.md`
+6. `../../exploratory/core_concepts/` and `../../architecture/`
+7. `../../spec/`
 
 That order gives you:
 
