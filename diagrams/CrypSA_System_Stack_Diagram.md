@@ -9,9 +9,9 @@ It shows how CrypSA separates:
 * observer experience
 * interpretation
 * data translation
-* canonical truth
+* canonical event history
 
-This separation allows observers to simulate locally while canonical truth remains consistent.
+This separation allows observers to simulate locally while canonical event history remains consistent.
 
 ---
 
@@ -34,7 +34,7 @@ subgraph "Translation Layer"
 end
 
 subgraph "Invariant Boundary"
-    E[Candidate Events Cross Boundary]
+    E[Candidate Events (Invariant Boundary)]
 end
 
 subgraph "Truth Layer"
@@ -49,7 +49,7 @@ D --> E
 E --> F
 F --> G
 G --> A
-```
+````
 
 ---
 
@@ -97,7 +97,7 @@ They isolate systems from raw runtime data.
 The invariant boundary separates:
 
 * local observer behavior
-* canonical truth
+* canonical event history
 
 When an interaction crosses this boundary:
 
@@ -120,7 +120,7 @@ Canonical event history defines shared reality.
 
 ## Key Insight
 
-> CrypSA separates experience, interpretation, translation, and truth into distinct layers, with the invariant boundary controlling what becomes canonical.
+> CrypSA separates experience, interpretation, translation, and truth into distinct layers, with the invariant boundary controlling what becomes part of canonical event history.
 
 ---
 
@@ -140,7 +140,7 @@ This diagram directly reflects:
 This layered separation enables:
 
 * responsive local simulation
-* consistent shared truth
+* consistent shared reality
 * modular system design
 * scalable architecture
 
@@ -148,4 +148,4 @@ This layered separation enables:
 
 ## One Sentence Summary
 
-CrypSA structures systems into experience, interpretation, translation, and truth layers, with the invariant boundary ensuring only validated events become canonical.
+CrypSA structures systems into experience, interpretation, translation, and truth layers, with the invariant boundary ensuring only validated events become part of canonical event history.
