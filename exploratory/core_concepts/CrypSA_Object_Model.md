@@ -1,372 +1,311 @@
-CrypSA Object Model
+# CrypSA Object Model
 
 > Exploratory note: This document reflects conceptual exploration and early modeling.
 >
-> For the current CrypSA model, refer to `../../CrypSA_In_5_Minutes.md`, `../../architecture/`, and `../../spec/`.
-
-Purpose
-
-This document defines the structure of objects within a CrypSA system.
-
-In CrypSA, objects are not stored as continuously updated mutable state.
-Instead, objects are reconstructed deterministically from:
-
-identity
-
-genome
-
-canonical invariant state
-
-event history
-
-
-This model allows objects to remain consistent across all observers while minimizing the need for centralized simulation.
-
+> For the current CrypSA model, refer to:
+>
+> * `../../CrypSA_In_5_MinUTES.md`
+> * `../../architecture/`
+> * `../../spec/`
 
 ---
 
-Core Principle
+## Purpose
+
+This document describes a conceptual model for how objects are represented in a CrypSA system.
+
+In CrypSA, objects are not defined by continuously updated mutable state.
+
+Instead, objects are reconstructed deterministically from:
+
+* identity
+* genome
+* canonical event history
+
+Derived state is computed from this information.
+
+---
+
+## Core Principle
 
 A CrypSA object is not defined by its current state alone.
 
 Instead:
 
-> A CrypSA object is a deterministic reconstruction of identity + genome + validated history.
+> A CrypSA object is a deterministic reconstruction of identity, genome, and validated event history.
 
+Canonical event history is the source of truth.
 
-
-
----
-
-Object Components
-
-Every canonical object in CrypSA is defined by four core components.
-
+Derived state is a computed result.
 
 ---
 
-1. Identity
+## Object Components
+
+Every canonical object can be understood through four conceptual components.
+
+---
+
+### 1. Identity
 
 The identity uniquely defines the object.
 
 Examples:
 
-player_17
-
-sword_4821
-
-structure_slot_42
-
+* player_17
+* sword_4821
+* structure_slot_42
 
 Properties:
 
-immutable
+* immutable
+* globally unique within canonical scope
+* issued or recognized by the mint
 
-globally unique (within canonical scope)
-
-issued or recognized by the canonical mint
-
-
-The identity ensures that all observers refer to the same object.
-
+Identity ensures all observers refer to the same object.
 
 ---
 
-2. Genome
+### 2. Genome
 
 The genome defines the structural rules of the object.
 
 It describes:
 
-what the object is
-
-how it behaves
-
-how it can evolve
-
-what transitions are valid
-
+* what the object is
+* how it behaves
+* how it can evolve
+* what transitions are valid
 
 Examples:
 
-Sword Genome:
-- max durability
-- allowed upgrades
-- ownership rules
+Sword genome:
 
-Structure Slot Genome:
-- buildable or not
-- allowed structure types
-- spatial constraints
+* max durability
+* allowed upgrades
+* ownership rules
+
+Structure slot genome:
+
+* buildable or not
+* allowed structure types
+* spatial constraints
 
 The genome is deterministic and shared across observers.
 
-
 ---
 
-3. Canonical Invariant State
+### 3. Canonical Event History
 
-This represents the current accepted canonical state of the object.
+The event history defines how the object evolves over time.
 
 Examples:
 
-current owner
-
-current durability
-
-structure type placed
-
-upgrade level
-
-
-This state is not arbitrary — it is always the result of validated events.
-
-
----
-
-4. Event History
-
-The event history defines how the object has evolved over time.
-
-Examples:
-
+```text
 mint → upgrade → transfer → upgrade → damage
+```
 
 This history is:
 
-canonical (server-validated)
+* canonical (server-validated)
+* ordered
+* append-only (conceptually)
 
-ordered
-
-append-only (conceptually)
-
-
-The history allows reconstruction of the object at any point in time.
-
+This is the authoritative source of truth.
 
 ---
 
-Object Reconstruction
+### 4. Derived Canonical State
+
+Derived state represents the current observable state of the object.
+
+Examples:
+
+* current owner
+* durability
+* structure type
+* upgrade level
+
+This state:
+
+* is derived from canonical event history
+* is not independently authoritative
+
+---
+
+## Object Reconstruction
 
 Observers reconstruct objects using:
 
-identity
-+ genome
-+ canonical invariant state
-+ event history
+```text
+identity + genome + canonical event history → derived state
+```
 
-This allows:
+This enables:
 
-consistent object state across clients
-
-deterministic replay
-
-temporal inspection
-
-reduced need for full state synchronization
-
-
+* consistent object state across observers
+* deterministic replay
+* temporal inspection
+* reduced need for full state synchronization
 
 ---
 
-Example: Sword Lifecycle
+## Example: Sword Lifecycle
 
-Step 1 — Mint
+### Step 1 — Mint
 
 identity: sword_1001
 genome: sword_type_A
-state: base sword
-
 
 ---
 
-Step 2 — Upgrade
+### Step 2 — Upgrade
 
 Event:
 
+```text
 upgrade → +sharpness
-
-State becomes:
-
-sharpness_level = 1
-
+```
 
 ---
 
-Step 3 — Ownership Transfer
+### Step 3 — Ownership Transfer
 
 Event:
 
+```text
 transfer → player_B
-
-State becomes:
-
-owner = player_B
-
+```
 
 ---
 
-Step 4 — Reconstruction
+### Step 4 — Reconstruction
 
-Any observer can reconstruct the sword:
+Any observer reconstructs:
 
-identity → sword_1001
-genome → sword_type_A
-history → [mint, upgrade, transfer]
-state → derived from validated events
+* identity → sword_1001
+* genome → sword_type_A
+* history → [mint, upgrade, transfer]
+* derived state → computed from history
 
-All observers arrive at the same result.
-
+All observers reach the same result.
 
 ---
 
-Relationship to the Mint
+## Relationship to the Mint
 
 The mint defines:
 
-valid identities
-
-valid genomes
-
+* valid identities
+* valid genomes
 
 The object model uses those definitions to reconstruct objects.
 
 The mint answers:
 
-"What is allowed to exist?"
+> What is allowed to exist?
 
 The object model answers:
 
-"What does this object currently represent?"
-
+> What does this object represent over time?
 
 ---
 
-Relationship to Invariants
+## Relationship to Invariants
 
-Invariants ensure that object transitions remain valid.
+Invariants ensure that transitions remain valid.
 
 Examples:
 
-cannot upgrade a non-existent object
+* cannot upgrade a non-existent object
+* cannot transfer ownership without owning the object
+* cannot place a structure in an invalid location
 
-cannot transfer ownership without owning the object
-
-cannot place a structure in an invalid location
-
-
-The object model relies on invariants to ensure that its history remains valid.
-
+The object model relies on invariants to ensure event history remains valid.
 
 ---
 
-Relationship to Event Lifecycle
+## Relationship to Event Lifecycle
 
-Objects evolve through events.
+Objects evolve through events:
 
-Event → validated → recorded → affects object state
+```text
+Event → validated → appended → affects derived state
+```
 
 The object model is the result of this process.
 
-
 ---
 
-Client vs Server Perspective
+## Client vs Server Perspective
 
-Client
+**Client (Observer)**
 
-reconstructs objects
+* reconstructs objects
+* simulates interactions
+* predicts outcomes
 
-simulates interactions
+**Server (Truth Layer)**
 
-predicts outcomes
-
-
-Server
-
-validates events affecting objects
-
-enforces invariants
-
-records canonical history
-
+* validates events
+* enforces invariants
+* appends canonical event history
 
 The object model is shared, but authority differs.
 
-
 ---
 
-Object Stability
+## Object Stability
 
 Because identity and genome are stable:
 
-objects remain consistent across observers
+* objects remain consistent across observers
+* objects can be reconstructed at any time
+* objects do not depend on continuous simulation
 
-objects can be reconstructed at any time
-
-objects do not depend on continuous simulation
-
-
-This provides long-term persistence.
-
+This supports long-term persistence.
 
 ---
 
-Temporal Reconstruction
+## Temporal Reconstruction
 
 Because objects are event-driven, they can be reconstructed at any point in time.
 
 This enables:
 
-replay systems
-
-debugging
-
-historical analysis
-
-branching timelines
-
-
+* replay systems
+* debugging
+* historical analysis
+* branching exploration
 
 ---
 
-Minimal Object Definition
+## Minimal Object Model
 
 At minimum, a CrypSA object requires:
 
-identity
+* identity
+* genome
+* canonical event history
 
-genome
-
-canonical event history
-
-
-Canonical state can always be derived from these.
-
+Derived state can always be computed.
 
 ---
 
-Key Insight
+## Key Insight
 
-CrypSA objects are not stored as “current state.”
-
-They are derived from validated history.
-
+> CrypSA objects are derived from validated history, not stored as mutable state.
 
 ---
 
-Summary
+## Summary
 
-The CrypSA object model defines objects as deterministic reconstructions of identity, genome, and canonical event history.
+The CrypSA object model describes objects as deterministic reconstructions of identity, genome, and canonical event history.
 
 This allows consistent shared worlds without requiring centralized simulation or constant state synchronization.
 
-
 ---
 
-One Sentence Summary
+## One Sentence Summary
 
-A CrypSA object is a deterministic reconstruction of identity, genome, and validated event history, rather than a continuously stored mutable state.
-
-
----
+A CrypSA object is a deterministic reconstruction of identity, genome, and validated event history, with current state derived from that history.
