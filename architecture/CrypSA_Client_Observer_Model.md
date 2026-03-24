@@ -231,7 +231,7 @@ Observers operate with high autonomy:
 * simulate independently
 * predict outcomes
 
-Canonical reconciliation ensures eventual consistency.
+Observer reconciliation ensures eventual consistency.
 
 ---
 
@@ -325,14 +325,3 @@ Together, this enables a shared universe defined by event history rather than ce
 A CrypSA client is not a renderer.
 
 It is an observer that reconstructs, simulates, translates, interprets, and experiences a canonical universe.
-
----
-
-# Final Notes
-
-This doc is already one of your **core pillars**. The update mainly:
-
-* reduces repetition
-* aligns explicitly with the four-layer model
-* tightens language
-* reinforces boundaries without overexplaining
