@@ -1,42 +1,46 @@
 # CrypSA Snapshot and Replay
 
+## Purpose
+
 This diagram shows how CrypSA reconstructs current canonical state using:
 
-- a snapshot
-- the canonical event tail after that snapshot
+* a snapshot
+* the canonical event tail after that snapshot
 
-It illustrates how CrypSA avoids replaying from genesis every time while keeping canonical history as the source of truth.
+It illustrates how CrypSA avoids replaying from genesis while keeping canonical history as the source of truth.
 
 ---
+
+## Diagram
 
 ```mermaid
 flowchart LR
 
-A[Canonical Event Log] --> B[Snapshot Created at Sequence N]
+A[Canonical Event History] --> B[Create Snapshot at Sequence N]
 
 B --> C[Observer Connects or Reconnects]
 C --> D[Load Snapshot at Sequence N]
 
 A --> E[Fetch Events After Sequence N]
+
 D --> F[Apply Snapshot State]
 E --> G[Replay Event Tail]
 
 F --> H[Reconstructed Current State]
 G --> H
 
-H --> I[Observer Continues from Canonical Truth]
-
-````
+H --> I[Observer Continues Simulation]
+```
 
 ---
 
 ## How to Read This
 
-### 1. Canonical History Remains the Source of Truth
+### 1. Canonical History Is the Source of Truth
 
-CrypSA stores canonical events as the authoritative history.
+Canonical event history defines what is real.
 
-Snapshots do not replace this history.
+Snapshots do not replace history.
 
 They are:
 
@@ -44,59 +48,68 @@ They are:
 
 ---
 
-### 2. A Snapshot Is Created at a Known Position
+### 2. Snapshot Captures a Known State
 
-At some canonical position:
+A snapshot:
 
-* a snapshot is generated
-* it captures derived state
-* it is tied to a specific sequence or event position
+* is created from canonical history
+* captures derived state at a specific sequence
+* is tied to a known position in history
 
-This means:
+This allows:
 
-> Snapshot + later events = current state
+> Snapshot + event tail = current state
 
 ---
 
-### 3. An Observer Joins or Reconnects
+### 3. Observer Loads Snapshot
 
-When an observer needs to reconstruct the world, it does not always need full replay from genesis.
+When an observer connects or reconnects, it can:
 
-Instead it can:
-
-* load the latest relevant snapshot
-* fetch events after that snapshot
-* replay only the missing tail
+* load a snapshot
+* avoid replaying from genesis
 
 ---
 
 ### 4. Replay Applies the Event Tail
 
-The observer applies canonical events after the snapshot position in canonical order.
+The observer fetches and applies events after the snapshot position.
 
-This rebuilds the current state consistently.
+This reconstructs current canonical state deterministically.
 
 ---
 
-### 5. The Observer Continues from Canonical Truth
+### 5. Simulation Continues
 
-After reconstruction:
+Once reconstructed:
 
-* the observer has current canonical state
-* local simulation can continue from there
+* the observer has up-to-date canonical state
+* local simulation resumes
 
 ---
 
 ## Key Insight
 
 > Snapshots improve practicality.
-> Canonical history remains the real source of truth.
+> Canonical event history remains the source of truth.
+
+---
+
+## Relationship to Architecture
+
+This diagram reflects:
+
+* **Truth** → canonical event history
+* **Reconstruction** → replay + snapshot
+* **Experience** → observer simulation
+
+Snapshots are an optimization, not a source of truth.
 
 ---
 
 ## Relationship to Specs
 
-This diagram maps directly to:
+This diagram maps to:
 
 * `spec/CrypSA_Replay_Model.md`
 * `spec/CrypSA_Snapshot_Model.md`
@@ -106,4 +119,4 @@ This diagram maps directly to:
 
 ## One Sentence Summary
 
-CrypSA uses snapshots as cached reconstruction points, allowing observers to load a known canonical state and replay only the remaining event tail to reach the current world state.
+CrypSA uses snapshots as cached reconstruction points, allowing observers to load a known state and replay only the remaining event tail while canonical history remains the authoritative source of truth.
