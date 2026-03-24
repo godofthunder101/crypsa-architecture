@@ -24,7 +24,7 @@ The documents in this folder define the core runtime behavior of CrypSA, includi
 * how replay reconstructs state
 * how snapshots improve performance
 * how identities remain stable over time
-* how transport moves events between observers and the server
+* how events are transported between observers and the server
 
 These documents define the **minimum required system behavior** needed to make CrypSA:
 
@@ -57,29 +57,29 @@ then:
 
 If you are reading the specs for the first time, use this order:
 
-1. `CrypSA_Runtime_Spec_v0.1.md`
+1. `CrypSA_Runtime_Spec_v0.1.md`  
    Defines the overall runtime loop and system contract
 
-2. `CrypSA_Event_Model_Spec_v0.1.md`
+2. `CrypSA_Event_Model.md`  
    Defines event structure and lifecycle
 
-3. `CrypSA_Validation_Model.md`
+3. `CrypSA_Validation_Model.md`  
    Defines how candidate events are validated
 
-4. `CrypSA_Consistency_Model.md`
+4. `CrypSA_Consistency_Model.md`  
    Defines how shared reality converges
 
-5. `CrypSA_Replay_Model.md`
+5. `CrypSA_Replay_Model.md`  
    Defines deterministic reconstruction
 
-6. `CrypSA_Snapshot_Model.md`
+6. `CrypSA_Snapshot_Model.md`  
    Defines snapshot usage and performance
 
-7. `CrypSA_Identity_Model.md`
+7. `CrypSA_Identity_Model.md`  
    Defines identity, minting, and object lifecycle
 
-8. `CrypSA_Transport_Model.md`
-   Defines communication between observers and server
+8. `CrypSA_Transport_Model.md`  
+   Defines communication between observers and the server
 
 ---
 
@@ -90,7 +90,7 @@ The specs are designed to be read as a connected system.
 A useful mental model:
 
 * **Runtime Spec** → overall loop
-* **Event + Validation** → what becomes canonical
+* **Event + Validation** → validated events become canonical events
 * **Consistency + Replay** → how shared truth stays coherent
 * **Snapshot + Identity + Transport** → how the system remains practical
 
@@ -140,7 +140,7 @@ Suggested reading flow:
 
 ### New to CrypSA
 
-* `../CrypSA_In_5_MinUTES.md`
+* `../CrypSA_In_5_Minutes.md`
 * `../CrypSA_Terminology_Primer.md`
 * `../FAQ.md`
 
