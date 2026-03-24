@@ -4,7 +4,7 @@
 
 This document outlines the design principles that guide CrypSA.
 
-CrypSA is not just a networking pattern. It is an architectural approach for building persistent digital universes around canonical truth, local observer simulation, and explicit reconstruction.
+CrypSA is not just a networking pattern. It is an architectural approach for building persistent digital universes around canonical event history, local observer simulation, and explicit reconstruction.
 
 These principles describe how systems built on CrypSA should be designed.
 
@@ -12,23 +12,23 @@ These principles describe how systems built on CrypSA should be designed.
 
 ## Foundational Principles
 
-### 1. Canonical Truth Is Authoritative
+### 1. Canonical Event History Is Authoritative
 
-Canonical truth must remain internally consistent.
+Canonical event history must remain internally consistent.
 
-No component, including clients, tools, or supporting systems, may bypass canonical validation or violate invariants.
+No component, including clients, tools, or supporting systems, may bypass validation or violate invariants.
 
 CrypSA assumes:
 
-* canonical truth is authoritative
-* invariants define what must remain true
+* canonical event history is authoritative
+* invariants define what must remain valid
 * validation protects the shared universe
 
 This principle is the foundation of the architecture.
 
 ---
 
-### 2. The Server Protects Truth, Not Experience
+### 2. The Server Protects Event History, Not Experience
 
 CrypSA separates responsibilities into:
 
@@ -43,9 +43,9 @@ It determines what becomes canonical. It does not need to own local feel, presen
 
 ---
 
-### 3. Simulate Locally Whenever Canonical Truth Is Not at Stake
+### 3. Simulate Locally Whenever Event History Is Not at Stake
 
-Observers should simulate locally whenever doing so does not directly change shared truth.
+Observers should simulate locally whenever doing so does not directly change canonical event history.
 
 This includes:
 
@@ -54,7 +54,7 @@ This includes:
 * presentation-driven behavior
 * observer-relative simulation
 
-Server validation is required when canonical truth may change.
+Server validation is required when canonical event history may change.
 
 This preserves responsiveness without weakening shared consistency.
 
@@ -66,7 +66,7 @@ The invariant boundary separates observer-local behavior from canonical world ch
 
 Every meaningful interaction should answer a simple question:
 
-> Does this action affect canonical truth?
+> Does this action affect canonical event history?
 
 If yes, it must cross the invariant boundary and be validated before becoming canonical.
 
@@ -81,11 +81,11 @@ A clear invariant boundary is essential for:
 
 ### 5. Favor Canonical Events Over Mutable State Synchronization
 
-CrypSA systems should prefer validated canonical events as the basis of shared truth.
+CrypSA systems should prefer validated canonical events as the basis of shared reality.
 
-Rather than constantly synchronizing mutable world state, observers should reconstruct from canonical history and related canonical definitions.
+Rather than constantly synchronizing mutable world state, observers should reconstruct from canonical event history and canonical definitions.
 
-This keeps truth explicit, inspectable, and durable.
+This keeps reality explicit, inspectable, and durable.
 
 ---
 
@@ -96,7 +96,7 @@ Observers should be able to reconstruct relevant canonical reality from:
 * identity
 * genome or structural definition
 * canonical event history
-* invariant-relevant state
+* derived invariant-relevant state
 
 This makes world evolution understandable and debuggable, and reduces dependence on opaque centralized simulation.
 
@@ -104,7 +104,7 @@ This makes world evolution understandable and debuggable, and reduces dependence
 
 ### 7. Keep the Canonical Layer Minimal
 
-Canonical truth should contain only what must remain globally consistent.
+Canonical event history should contain only what must remain globally consistent.
 
 It should avoid storing:
 
@@ -113,7 +113,7 @@ It should avoid storing:
 * presentation details
 * transient local effects
 
-The canonical layer should remain compact, durable, and focused on truth.
+The canonical layer should remain compact, durable, and focused on event history.
 
 ---
 
@@ -128,7 +128,7 @@ In particular:
 * adapters must not become validators
 * lenses must not become truth sources
 * UI must not become runtime authority
-* observer experience must not redefine canonical reality
+* observer experience must not redefine canonical event history
 
 This separation keeps the architecture understandable and prevents controller sprawl.
 
@@ -136,7 +136,7 @@ This separation keeps the architecture understandable and prevents controller sp
 
 ### 9. Preserve Object Identity and Provenance
 
-Canonical objects should retain stable identity across their lifecycle, while canonical history records how they changed over time.
+Canonical objects should retain stable identity across their lifecycle, while canonical event history records how they changed over time.
 
 This allows systems to reason about:
 
@@ -150,11 +150,11 @@ CrypSA systems should preserve enough provenance to explain how canonical realit
 
 ---
 
-### 10. Support Multiple Interpretations of the Same Truth
+### 10. Support Multiple Interpretations of the Same Event History
 
 A single canonical universe may support multiple observer experiences.
 
-Different systems may apply different lenses and experience layers to the same underlying truth.
+Different systems may apply different lenses and experience layers to the same underlying canonical event history.
 
 This allows:
 
@@ -163,7 +163,7 @@ This allows:
 * different visibility rules
 * different observer contexts
 
-Interpretation may vary. Canonical truth must not.
+Interpretation may vary. Canonical event history must not.
 
 ---
 
@@ -173,10 +173,10 @@ CrypSA should be designed as infrastructure for persistent universes, not merely
 
 This means thinking in terms of:
 
-* canonical truth
+* canonical event history
 * invariants
 * object lifecycle
-* event history
+* event evolution
 * observer reconstruction
 
 rather than only request/response flows or centralized simulation loops.
@@ -197,7 +197,7 @@ This can support stronger anomaly detection and richer rule enforcement.
 
 ### Deferred Investigation
 
-Some systems may defer expensive investigation when immediate rejection is not required, provided canonical truth remains protected.
+Some systems may defer expensive investigation when immediate rejection is not required, provided canonical event history remains protected.
 
 This can help balance responsiveness and operational cost.
 
@@ -213,7 +213,7 @@ This is an application design strategy, not a core architectural requirement.
 
 ### Risk-Based Validation Depth
 
-Some systems may validate high-impact actions more deeply than low-impact actions, as long as canonical truth remains properly protected.
+Some systems may validate high-impact actions more deeply than low-impact actions, as long as canonical event history remains properly protected.
 
 This is a scaling strategy, not permission to weaken invariants.
 
@@ -223,10 +223,10 @@ This is a scaling strategy, not permission to weaken invariants.
 
 CrypSA design is guided by a small set of core ideas:
 
-* protect canonical truth
+* protect canonical event history
 * simulate locally where possible
 * keep the invariant boundary explicit
-* reconstruct from canonical history
+* reconstruct from canonical event history
 * keep the canonical layer minimal
 * preserve separation between truth, translation, interpretation, and experience
 
@@ -236,4 +236,4 @@ These principles allow CrypSA to support persistent universes that remain consis
 
 ## One Sentence Summary
 
-CrypSA is designed around protecting canonical truth while allowing observers to simulate, interpret, and experience the universe locally through explicit architectural boundaries.
+CrypSA is designed around protecting canonical event history while allowing observers to simulate, interpret, and experience the universe locally through explicit architectural boundaries.
