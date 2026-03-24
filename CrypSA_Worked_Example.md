@@ -37,7 +37,7 @@ I --> J[Broadcast]
 
 J --> K[Observer Reconciliation]
 G --> K
-```
+````
 
 ---
 
@@ -96,7 +96,6 @@ precondition_refs = {
   player_resources >= 50
 }
 
-branch_id = main
 event_id = evt_001
 ```
 
@@ -106,7 +105,7 @@ This event represents an **intent**, not a confirmed state change.
 
 ## Phase 3 — Submission
 
-The observer sends the event to the canonical server.
+The observer sends the event to the server.
 
 State at this moment:
 
@@ -268,3 +267,5 @@ This example corresponds directly to:
 ## One Sentence Summary
 
 A local action becomes a candidate event, the server validates it, accepted events define canonical event history, and observers reconcile their local simulation to that shared truth.
+That one will make the repo feel *finished and navigable*, not just correct.
+```
