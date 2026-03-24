@@ -1,31 +1,35 @@
 # Observer vs Canonical State
 
+## Purpose
+
 This diagram shows the relationship between:
 
-- local observer simulation  
-- canonical server truth  
+* local observer simulation
+* canonical server truth
 
 It explains how CrypSA separates:
 
-> what is predicted  
-vs  
-> what is real  
+> what is predicted
+> vs
+> what is real
 
 ---
+
+## Diagram
 
 ```mermaid
 flowchart LR
 
-subgraph Observer
-A[Local State]
-B[Local Simulation]
-C[Predicted Actions]
+subgraph "Observer"
+    A[Local State]
+    B[Local Simulation]
+    C[Predicted Actions]
 end
 
-subgraph Server
-D[Validation Pipeline]
-E[Canonical Event Log]
-F[Derived Canonical State]
+subgraph "Server (Truth Layer)"
+    D[Validation and Invariant Enforcement]
+    E[Canonical Event History]
+    F[Derived Canonical State]
 end
 
 A --> B
@@ -37,14 +41,13 @@ D -->|Rejected| A
 
 E --> F
 F --> A
-
-````
+```
 
 ---
 
 ## How to Read This
 
-### Observer Side (Client)
+### Observer Side
 
 The observer maintains:
 
@@ -52,7 +55,7 @@ The observer maintains:
 * local simulation
 * predicted actions
 
-These allow:
+These enable:
 
 * responsiveness
 * immediate feedback
@@ -63,48 +66,48 @@ However:
 
 ---
 
-### Server Side (Canonical)
+### Server Side (Truth Layer)
 
 The server maintains:
 
-* validation pipeline
-* canonical event log
+* validation and invariant enforcement
+* canonical event history
 * derived canonical state
 
-This defines:
+Canonical event history defines what is real.
 
-> what is actually real
-
----
-
-### The Interaction
-
-1. The observer performs an action
-2. The action becomes a candidate event
-3. The server validates the event
+Derived state is a computed view, not the source of truth.
 
 ---
 
-### Two Possible Outcomes
+### Interaction Flow
+
+1. the observer performs an action
+2. the action becomes a candidate event
+3. the server validates the event
+
+---
+
+### Outcomes
 
 #### Accepted
 
-* event enters canonical history
-* derived state updates
-* observers receive canonical update
+* event is appended to canonical history
+* canonical truth changes
+* observers receive updates
 
 ---
 
 #### Rejected
 
-* canonical state remains unchanged
-* observer must correct its local prediction
+* canonical truth does not change
+* observer corrects its local prediction
 
 ---
 
 ### Reconciliation
 
-The observer updates its local state based on canonical truth.
+Observers update local state based on canonical truth.
 
 This ensures:
 
@@ -115,22 +118,33 @@ This ensures:
 ## Key Insight
 
 > The observer simulates freely.
-> The server decides what becomes real.
+> The server determines what becomes real.
 > Canonical history corrects local state.
+
+---
+
+## Relationship to Architecture
+
+This diagram reflects:
+
+* **Truth** → server validation and canonical events
+* **Experience** → local simulation and prediction
+
+Adapters and lenses operate within the observer before and after this flow.
 
 ---
 
 ## Relationship to Specs
 
-This diagram connects:
+This diagram connects to:
 
-* Runtime Spec → observer/server roles
-* Validation Model → decision boundary
-* Consistency Model → reconciliation
-* Replay Model → canonical reconstruction
+* Runtime Spec — observer/server roles
+* Validation Model — invariant enforcement
+* Consistency Model — reconciliation
+* Replay Model — canonical reconstruction
 
 ---
 
 ## One Sentence Summary
 
-Observers simulate locally and predict outcomes, but only server-validated events become canonical truth, and all observers reconcile to that shared state.
+Observers simulate locally and predict outcomes, but only server-validated events become canonical truth, and all observers reconcile to that shared reality.
