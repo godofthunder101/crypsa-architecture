@@ -14,7 +14,7 @@
 
 This document describes how interactions propagate through a CrypSA system.
 
-It presents a conceptual flow of how observer actions may become part of canonical truth.
+It presents a conceptual flow of how observer actions may become part of canonical event history.
 
 This is a **conceptual model**, not an authoritative runtime definition.
 
@@ -29,9 +29,10 @@ Observer Action
 → Candidate Event
 → Submission
 → Validation
+→ Assign server_sequence
 → Canonical Event History Update
 → Observer Reconstruction
-```
+````
 
 ---
 
@@ -51,6 +52,8 @@ Invariant Boundary Check
                  Validation
                      ↓
               Accepted / Rejected
+                     ↓
+          Assign server_sequence
                      ↓
      Canonical Event History Updated
                      ↓
@@ -94,7 +97,7 @@ This provides immediate feedback.
 
 The system determines:
 
-> Does this interaction affect canonical truth?
+> Does this interaction affect canonical event history?
 
 * No → remains local
 * Yes → becomes a candidate event
@@ -103,7 +106,7 @@ The system determines:
 
 ### 4. Candidate Event
 
-If the interaction affects canonical truth:
+If the interaction affects canonical event history:
 
 * a candidate event is created
 * it represents a proposed change
@@ -136,8 +139,8 @@ The event is:
 
 If accepted:
 
+* the server assigns `server_sequence`
 * the event is appended to canonical event history
-* canonical truth is updated
 
 ---
 
@@ -146,7 +149,7 @@ If accepted:
 Observers receive updates and:
 
 * reconstruct affected objects
-* align with canonical truth
+* align with canonical event history
 
 ---
 
@@ -180,8 +183,8 @@ These are implementation choices and not required by the core model.
 CrypSA systems:
 
 * simulate locally
-* validate only when necessary
-* update canonical history through accepted events
+* validate when crossing the invariant boundary
+* update canonical event history through accepted events
 * reconstruct shared reality deterministically
 
 ---
