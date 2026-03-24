@@ -18,7 +18,7 @@ Most online games use a server-authoritative model:
 
 ```text
 Clients → Server → Database
-```
+````
 
 The server:
 
@@ -36,12 +36,12 @@ This becomes expensive and difficult to scale.
 CrypSA changes what is synchronized:
 
 ```text
-Observer → Local Simulation → Invariant Boundary → Validation → Canonical Events
+Observer → Local Simulation → Invariant Boundary → Validation → Canonical Event History
 ```
 
 Instead of synchronizing full state, CrypSA synchronizes:
 
-> validated canonical events
+> validated canonical events as part of canonical event history
 
 ---
 
@@ -66,7 +66,7 @@ The Mint defines:
 Observers reconstruct objects from canonical inputs:
 
 ```text
-Identity + Genome + Event History → Object
+Identity + Genome + Canonical Event History → Object
 ```
 
 This removes the need for full server-side simulation.
@@ -83,7 +83,7 @@ Observer → Simulation → Prediction → Local Effects
 
 Observers may temporarily diverge in local simulation.
 
-This is acceptable as long as canonical truth is preserved.
+This is acceptable as long as canonical event history is preserved.
 
 ---
 
@@ -92,19 +92,19 @@ This is acceptable as long as canonical truth is preserved.
 The key decision:
 
 ```text
-Does this affect canonical truth?
+Does this affect canonical event history?
 ```
 
 * No → remain local
 * Yes → candidate event
 
-This boundary separates simulation from truth.
+This boundary separates simulation from canonical event history.
 
 ---
 
 ## Diagram 7 — Validation and Canonical Acceptance
 
-When an action affects canonical truth:
+When an action affects canonical event history:
 
 ```text
 Candidate Event → Validation → Accepted / Rejected
@@ -116,7 +116,7 @@ If accepted:
 → appended to canonical event history
 ```
 
-The server validates truth.
+The server validates reality.
 It does not simulate the world.
 
 ---
@@ -160,7 +160,7 @@ Experience → Interpretation → Translation → Truth
 * observers simulate locally
 * lenses interpret
 * adapters translate
-* the server protects truth
+* the server protects canonical event history
 
 ---
 
@@ -190,4 +190,4 @@ Mint
 
 ## One Sentence Summary
 
-CrypSA replaces centralized simulation with validated canonical events, local observer simulation, and layered interpretation of shared truth.
+CrypSA replaces centralized simulation with validated canonical events, local observer simulation, and layered interpretation of shared reality defined by canonical event history.
