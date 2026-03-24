@@ -1,316 +1,369 @@
----
-
-CrypSA Quick Start for Engineers
+# CrypSA Quick Start for Engineers
 
 > Scope note: This document is an implementation-oriented starting point.
 >
 > For authoritative runtime behavior, refer to `../spec/`.
 >
-> Intended audience: technical readers who already understand the core CrypSA idea and want a concise implementation entrypoint.
-
-Purpose
-
-This document provides a concise guide for engineers who want to build a minimal CrypSA-based system.
-
-It is not a general introduction to CrypSA.
-
-It does not attempt to explain the entire architecture from scratch.
-Instead, it demonstrates the smallest possible system that follows CrypSA principles.
-
-The goal is to show how CrypSA can be implemented in practice.
-
+> Intended audience: engineers who understand the core CrypSA idea and want to build a minimal working system.
 
 ---
 
-Minimal CrypSA System
+## Purpose
 
-A basic CrypSA implementation only requires a few core components:
+This document provides a concise guide for building a minimal CrypSA-based system.
 
-Mint
-Canonical Object Store
-Event Reconciliation Server
-Observer Clients
+It is not a full introduction to CrypSA.
 
-Each component has a specific role in maintaining canonical truth.
+It focuses on:
 
-
----
-
-Step 1 — Implement the Mint
-
-The Mint is responsible for creating canonical identities.
-
-Every object that enters the universe must receive a unique identity.
-
-Example:
-
-mint(object_type):
-    id = generate_unique_identifier()
-    genome = load_genome(object_type)
-    invariant_state = default_state(object_type)
-
-    return CanonicalObject(id, genome, invariant_state)
-
-The Mint guarantees:
-
-identity uniqueness
-
-genome association
-
-initial invariant state
-
-
+* the smallest viable runtime loop
+* the minimum required components
+* how to go from concept → working system
 
 ---
 
-Step 2 — Define Object Genomes
-
-Genomes define how objects behave.
-
-A genome typically describes:
-
-valid states
-
-allowed transitions
-
-invariant rules
-
-interaction capabilities
-
-
-Example concept:
-
-Sword Genome
--------------
-states:
-  - unowned
-  - owned
-
-invariants:
-  - cannot exist in two inventories
-  - cannot be both owned and unowned
-
-actions:
-  - pickup
-  - drop
-  - transfer
-
-Genomes are structural blueprints.
-
-
----
-
-Step 3 — Store Canonical Objects
-
-The server must maintain canonical object data.
-
-A minimal canonical object record may include:
-
-CanonicalObject
----------------
-identity
-genome_reference
-invariant_state
-event_history_pointer
-
-The server does not need to store full simulation data.
-
-Only canonical structural information must persist.
-
-
----
-
-Step 4 — Build the Observer Client
-
-Observers reconstruct the universe locally.
-
-The observer loads canonical data and builds a local representation of the world.
-
-Typical reconstruction inputs:
-
-identity
-genome
-invariant_state
-event_history
-
-This allows the observer to simulate interactions locally.
-
-
----
-
-Step 5 — Implement the Invariant Boundary
-
-Every interaction must check whether it affects canonical truth.
-
-Example logic:
-
-if interaction_affects_invariant():
-    create_canonical_event()
-else:
-    process_locally()
-
-Most interactions remain local.
-
-Only invariant-affecting interactions generate canonical events.
-
-
----
-
-Step 6 — Send Canonical Events to the Server
-
-When an invariant-changing interaction occurs, the observer sends a candidate event to the server.
-
-Example event structure:
-
-CanonicalEvent
---------------
-event_type
-object_identity
-actor_identity
-context_data
-timestamp
-
-The event represents a proposed change to canonical reality.
-
-
----
-
-Step 7 — Server Validation
-
-The server evaluates incoming events.
-
-Typical validation checks include:
-
-identity exists
-
-genome permits the action
-
-invariants remain valid
-
-contextual rules satisfied
-
-
-Example validation flow:
-
-validate_event(event):
-
-    if not identity_exists(event.object):
-        reject()
-
-    if not genome_allows(event):
-        reject()
-
-    if violates_invariant(event):
-        reject()
-
-    accept()
-
-
----
-
-Step 8 — Apply Canonical State Transition
-
-If validation succeeds, the server updates canonical state.
-
-Example transition:
-
-apply_event(event):
-
-    update_invariant_state(event)
-    append_event_history(event)
-    broadcast_update()
-
-The universe has now moved to a new canonical state.
-
-
----
-
-Step 9 — Observers Reconstruct
-
-Observers receive the updated canonical information and rebuild affected objects.
-
-Example update flow:
-
-receive_update(event):
-
-    update_local_state()
-    rebuild_object()
-
-Because reconstruction is deterministic, observers converge on the same structural reality.
-
-
----
-
-Minimal CrypSA Loop
-
-The runtime loop of a minimal CrypSA system looks like this:
-
-Observer reconstructs world
-        ↓
-Observer simulates locally
-        ↓
-Interaction occurs
-        ↓
-Invariant boundary check
-        ↓
-If canonical → send event
-        ↓
-Server validates event
-        ↓
-Canonical state updated
-        ↓
-Observers reconstruct
-
-This loop forms the core runtime behavior of the architecture.
-
-
----
-
-What This Minimal System Omits
-
-This quick start intentionally omits many advanced CrypSA concepts, including:
-
-contextual event validation
-
-anomaly detection
-
-object provenance systems
-
-quarantine investigation
-
-advanced lens stacks
-
-
-These features can be added later as the system evolves.
-
-
----
-
-Summary
+## Minimal CrypSA System
 
 A minimal CrypSA implementation requires only:
 
-a mint for identity creation
+* identity and object definitions
+* canonical event history
+* derived state cache
+* validation pipeline
+* observer clients
 
-genomes defining object rules
-
-a canonical object store
-
-observer reconstruction
-
-invariant boundary checks
-
-event reconciliation
-
-
-With these components, a persistent canonical universe can be constructed.
-
+Each part exists to protect canonical truth while allowing local simulation.
 
 ---
 
-One Sentence Summary
+## Step 1 — Define Identity and Object Structure
 
-CrypSA systems mint deterministic objects, simulate locally on observers, and use invariant-protected canonical events to evolve the shared universe.
+Every canonical object must have:
 
+* a unique identity
+* a structural definition (genome)
+* a valid event history
+
+Example:
+
+```text
+Object Identity: sword_1001
+Genome: sword_type_A
+```
+
+The Mint (or equivalent system) defines:
+
+* valid identities
+* valid structural definitions
+
+The key requirement:
+
+> objects must be reconstructable from canonical inputs
 
 ---
+
+## Step 2 — Define Minimal Event Types
+
+Start with a very small set of events.
+
+Recommended initial set:
+
+* `mint_object`
+* `place_structure`
+* `destroy_structure`
+
+Optional next step:
+
+* `transfer_object`
+
+These are enough to prove:
+
+* validation
+* conflict handling
+* reconstruction
+
+---
+
+## Step 3 — Store Canonical Event History
+
+Canonical event history is the source of truth.
+
+Example structure:
+
+```text
+CanonicalEvent
+--------------
+canonical_event_id
+server_sequence
+event_type
+actor_id
+target_ids
+payload
+accepted_at
+```
+
+The system should:
+
+* append events in order
+* avoid mutating history
+* keep events inspectable
+
+Avoid:
+
+* treating world state as primary storage
+
+---
+
+## Step 4 — Maintain Derived State
+
+The server maintains a derived state cache for:
+
+* validation
+* querying
+* efficient lookup
+
+Examples:
+
+* tile occupancy
+* ownership
+* object lifecycle state
+* resource counts
+
+Important:
+
+> derived state is a computed view, not the source of truth
+
+It is updated by applying accepted events.
+
+---
+
+## Step 5 — Build the Observer
+
+Observers reconstruct the world locally using:
+
+* identity
+* genome
+* canonical event history
+* snapshot or derived state
+
+Observers:
+
+* simulate locally
+* present the world
+* gather user input
+* track pending candidate events
+
+---
+
+## Step 6 — Implement the Invariant Boundary
+
+Every interaction must answer:
+
+> Does this affect canonical truth?
+
+Example:
+
+```python
+if affects_canonical_truth(interaction):
+    create_candidate_event(interaction)
+else:
+    process_locally(interaction)
+```
+
+Most interactions remain local.
+
+Only meaningful changes become candidate events.
+
+---
+
+## Step 7 — Submit Candidate Events
+
+When canonical truth is affected, the observer submits a candidate event.
+
+Example structure:
+
+```text
+CandidateEvent
+--------------
+event_id
+event_type
+actor_id
+target_ids
+payload
+precondition_refs
+client_time
+```
+
+Notes:
+
+* `event_id` must be unique (used for idempotency)
+* `client_time` is informational only
+* ordering is determined by the server
+
+---
+
+## Step 8 — Validate on the Server
+
+The server evaluates candidate events through a validation pipeline.
+
+Typical stages:
+
+* schema validation
+* identity validation
+* precondition validation
+* invariant validation
+* event-specific rule validation
+
+Example:
+
+```python
+def validate_event(event):
+    if not schema_valid(event):
+        return reject("invalid_schema")
+
+    if not identities_valid(event):
+        return reject("invalid_identity")
+
+    if not preconditions_hold(event):
+        return reject("precondition_failed")
+
+    if violates_invariants(event):
+        return reject("invariant_violation")
+
+    if not event_rules_valid(event):
+        return reject("rule_violation")
+
+    return accept()
+```
+
+---
+
+## Step 9 — Append Accepted Events
+
+If validation succeeds:
+
+* assign canonical metadata
+* append to canonical event history
+* update derived state
+* notify observers
+
+Example:
+
+```python
+def accept_event(event):
+    canonical_event = assign_canonical_metadata(event)
+    append_to_event_history(canonical_event)
+    apply_to_derived_state(canonical_event)
+    notify_observers(canonical_event)
+```
+
+---
+
+## Step 10 — Reconcile Observers
+
+Observers receive canonical updates and reconcile their local simulation.
+
+This may involve:
+
+* confirming predictions
+* correcting divergence
+* rebuilding objects
+* updating UI
+
+Because reconstruction is deterministic:
+
+> all observers converge on the same shared truth
+
+---
+
+## Minimal CrypSA Loop
+
+```text
+Reconstruct world
+→ Simulate locally
+→ Interaction occurs
+→ Invariant boundary check
+→ Candidate event submission
+→ Server validation
+→ Canonical event history updated
+→ Derived state updated
+→ Observer reconciliation
+```
+
+---
+
+## Server Responsibility (Important)
+
+The server:
+
+* validates candidate events
+* enforces invariants
+* maintains canonical event history
+
+The server does **not**:
+
+* simulate the world
+* predict outcomes
+* control user experience
+
+> The server controls truth, not simulation
+
+---
+
+## What This Minimal System Omits
+
+This quick start intentionally excludes:
+
+* large-scale performance concerns
+* anti-cheat systems
+* distributed shards
+* branch merging
+* advanced validation strategies
+* complex lens systems
+* full persistence strategies
+
+These are added later.
+
+---
+
+## Recommended First Demo
+
+### Structure Placement
+
+Why:
+
+* simple
+* visible
+* conflict-prone
+* easy to validate
+
+---
+
+### Object Transfer (Optional Next Step)
+
+Why:
+
+* demonstrates ownership rules
+* demonstrates rejection cases
+* tests invariant enforcement
+
+---
+
+## Summary
+
+A minimal CrypSA system requires:
+
+* identity and structural definitions
+* canonical event history
+* derived state
+* observer reconstruction
+* invariant boundary checks
+* server-side validation
+
+With these, a persistent event-driven universe can be built.
+
+---
+
+## One Sentence Summary
+
+A minimal CrypSA system allows observers to simulate locally while a server validates candidate events, records accepted events as canonical history, and distributes shared truth back to all observers.
