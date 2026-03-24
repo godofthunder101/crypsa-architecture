@@ -18,7 +18,7 @@ If you want the quickest repeatable smoke test after changing runtime/UI behavio
 
 If you are lost while reading the runtime, come back to this file after each major source file. It is meant to be a map, not a one-time introduction.
 
-If your question turns into "how would this work across a real deployed CrypSA runtime?", leave this package and read `../Prototype_vs_Current_CrypSA_Model.md`, then the newer `../repo/` material. This package teaches the runtime loop, not the full deployment shape.
+If your question turns into "how would this work across a real deployed CrypSA runtime?", leave this package and read `../Prototype_vs_Current_CrypSA_Model.md`, then the newer `../architecture/` and `../spec/` material. This package teaches the runtime loop, not the full deployment shape.
 
 ## Folder Role
 
