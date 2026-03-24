@@ -153,7 +153,7 @@ Go to:
 Go to:
 
 1. `Prototype_vs_Current_CrypSA_Model.md`
-2. then the newer `repo/` docs if needed
+2. then the newer core documentation (`../architecture/` and `../spec/`) if needed
 
 ## If You Changed Code
 
