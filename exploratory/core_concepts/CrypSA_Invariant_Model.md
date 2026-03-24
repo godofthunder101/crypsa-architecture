@@ -14,7 +14,7 @@
 
 This document describes the role of invariants in a CrypSA system.
 
-Invariants define rules that must remain true within canonical truth. The server enforces these rules when validating candidate events.
+Invariants define rules that must remain true within canonical event history. The server enforces these rules when validating candidate events.
 
 This document provides a conceptual view of invariants, not a formal specification.
 
@@ -22,7 +22,7 @@ This document provides a conceptual view of invariants, not a formal specificati
 
 ## Core Principle
 
-An invariant is a rule that must always remain true in canonical truth.
+An invariant is a rule that must always remain true in canonical event history.
 
 Examples:
 
@@ -50,7 +50,7 @@ Without invariants, systems could produce:
 * invalid geometry
 * inconsistent ownership
 
-By enforcing invariants, CrypSA ensures canonical truth remains logically consistent.
+By enforcing invariants, CrypSA ensures canonical event history remains logically consistent.
 
 ---
 
@@ -65,9 +65,10 @@ Observer Action
 → Local Simulation
 → Candidate Event
 → Validation (Invariant Enforcement)
+→ Assign server_sequence
 → Append to Canonical Event History
 → Observer Reconciliation
-```
+````
 
 The invariant boundary separates:
 
@@ -168,7 +169,7 @@ Examples:
 
 These checks are not authoritative.
 
-Only the server enforces invariants for canonical truth.
+Only the server enforces invariants for canonical event history.
 
 ---
 
@@ -192,7 +193,7 @@ Example:
 
 Because all accepted events satisfy invariants:
 
-* canonical history remains consistent
+* canonical event history remains consistent
 * reconstruction is reliable
 * contradictions do not occur
 
@@ -222,7 +223,7 @@ Different systems emphasize different invariant sets.
 
 ## Summary
 
-Invariants define the rules that must remain true in canonical truth.
+Invariants define the rules that must remain true in canonical event history.
 
 The server enforces these rules during validation, ensuring that all accepted events preserve consistency.
 
@@ -230,4 +231,4 @@ The server enforces these rules during validation, ensuring that all accepted ev
 
 ## One Sentence Summary
 
-CrypSA invariants define the rules of canonical truth and are enforced during validation to ensure that all accepted events maintain a consistent universe.
+CrypSA invariants define the rules of canonical event history and are enforced during validation to ensure that all accepted events maintain a consistent universe.
