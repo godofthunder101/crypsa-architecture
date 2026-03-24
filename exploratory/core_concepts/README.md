@@ -34,7 +34,7 @@ They must not be treated as:
 
 For the current CrypSA model, refer to:
 
-* `../../CrypSA_In_5_MinUTES.md`
+* `../../CrypSA_In_5_Minutes.md`
 * `../../architecture/`
 * `../../spec/`
 
