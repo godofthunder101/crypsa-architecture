@@ -4,7 +4,7 @@ This document defines how CrypSA validates proposed actions before they become p
 
 Validation is the mechanism that:
 
-* protects shared truth
+* protects canonical event history
 * enforces invariants
 * determines what becomes canonical
 
@@ -14,7 +14,7 @@ Validation is the mechanism that:
 
 In CrypSA:
 
-> Clients may simulate freely, but only validated events become real.
+> Clients may simulate freely, but only validated events become part of canonical event history.
 
 Validation occurs at the **Invariant Boundary**, where proposed actions transition from local simulation to canonical event history.
 
@@ -24,28 +24,28 @@ Validation occurs at the **Invariant Boundary**, where proposed actions transiti
 
 The validation pipeline follows this sequence:
 
-1. **Observer Action**
-   Local simulation only
+1. **Observer Action**  
+   Local simulation only  
 
-2. **Candidate Creation**
-   Action becomes a candidate event
+2. **Candidate Creation**  
+   Action becomes a candidate event  
 
-3. **Submission**
-   Event is sent to the server
+3. **Submission**  
+   Event is sent to the server  
 
-4. **Validation**
-   Server evaluates the event
+4. **Validation**  
+   Server evaluates the event  
 
 5. **Decision**
 
-   * accepted → becomes canonical
-   * rejected → discarded
+   * accepted → becomes a canonical event  
+   * rejected → discarded  
 
-6. **Canonical Update**
-   Accepted events are appended to canonical event history
+6. **Canonical Update**  
+   Accepted events are assigned `server_sequence` and appended to canonical event history  
 
-7. **Observer Reconciliation**
-   Observers update local state based on canonical events
+7. **Observer Reconciliation**  
+   Observers update local state based on canonical events  
 
 ---
 
@@ -61,9 +61,9 @@ Ensures the event is well-formed.
 
 Checks include:
 
-* required fields present
-* valid structure
-* correct data types
+* required fields present  
+* valid structure  
+* correct data types  
 
 ---
 
@@ -73,9 +73,9 @@ Ensures referenced identities are valid.
 
 Checks include:
 
-* actor exists
-* target objects exist
-* identities are valid at event time
+* actor exists  
+* target objects exist  
+* identities are valid at event time  
 
 ---
 
@@ -85,9 +85,9 @@ Ensures client assumptions are still true.
 
 Checks include:
 
-* expected state matches canonical state
-* required resources exist
-* required conditions hold
+* expected state matches canonical state  
+* required resources exist  
+* required conditions hold  
 
 ---
 
@@ -97,9 +97,9 @@ Ensures canonical rules are not violated.
 
 Examples:
 
-* no duplicate ownership
-* valid placement
-* valid state transitions
+* no duplicate ownership  
+* valid placement  
+* valid state transitions  
 
 ---
 
@@ -109,9 +109,9 @@ Ensures event-specific rules are satisfied.
 
 Examples:
 
-* upgrade paths
-* allowed interactions
-* resource costs
+* upgrade paths  
+* allowed interactions  
+* resource costs  
 
 ---
 
@@ -123,17 +123,17 @@ These are not required for v0.1 runtime behavior.
 
 #### Simulation Validation (Optional)
 
-* verifies plausibility of proposed outcome
-* does not define canonical outcome
-* may re-simulate critical actions
+* verifies plausibility of proposed outcome  
+* does not define canonical outcome  
+* may re-simulate critical actions  
 
 ---
 
 #### Pattern / Anomaly Validation (Optional)
 
-* evaluates behavior over time
-* detects suspicious or invalid patterns
-* does not directly determine canonical acceptance
+* evaluates behavior over time  
+* detects suspicious or invalid patterns  
+* does not directly determine canonical acceptance  
 
 ---
 
@@ -141,9 +141,9 @@ These are not required for v0.1 runtime behavior.
 
 Validation must be:
 
-* deterministic
-* atomic within conflict scope
-* based on canonical event history and derived state
+* deterministic  
+* atomic within conflict scope  
+* based on canonical event history and derived canonical state  
 
 ---
 
@@ -155,21 +155,22 @@ Each candidate results in:
 
 ### Accepted
 
-* event is valid
-* appended to canonical event history
-* becomes part of shared reality
+* event is valid  
+* assigned `server_sequence`  
+* appended to canonical event history  
+* becomes part of canonical event history  
 
 ---
 
 ### Rejected
 
-* event violates rules
-* no canonical change
+* event violates rules  
+* no canonical change  
 
 Optional:
 
-* rejection reason returned
-* rejection logged
+* rejection reason returned  
+* rejection logged  
 
 ---
 
@@ -188,26 +189,26 @@ Optional:
 
 Invariants define:
 
-* what must always be true
-* what cannot be violated
+* what must always be true  
+* what cannot be violated  
 
 Examples:
 
-* an object has one location
-* ownership is unique
-* transitions follow valid paths
+* an object has one location  
+* ownership is unique  
+* transitions follow valid paths  
 
 Strong invariant design ensures:
 
-* consistency
-* correctness
-* security
+* consistency  
+* correctness  
+* security  
 
 ---
 
 ## Validation Scope
 
-Only actions that affect canonical truth are validated.
+Only actions that affect canonical event history are validated.
 
 Examples:
 
@@ -223,9 +224,9 @@ Examples:
 
 CrypSA reduces server load by:
 
-* avoiding full simulation
-* validating only boundary-crossing actions
-* applying deeper validation selectively
+* avoiding full simulation  
+* validating only boundary-crossing actions  
+* applying deeper validation selectively  
 
 ---
 
@@ -235,12 +236,12 @@ CrypSA does not trust client simulation.
 
 It trusts:
 
-> the validation process that determines canonical event history
+> the validation process that determines canonical event history  
 
 Clients may propose any action, but:
 
-* invalid actions are rejected
-* only accepted events affect the world
+* invalid actions are rejected  
+* only accepted events affect canonical event history  
 
 ---
 
@@ -248,16 +249,16 @@ Clients may propose any action, but:
 
 Validation must handle:
 
-* duplicate submissions
-* delayed submissions
-* conflicting actions
-* incomplete context
+* duplicate submissions  
+* delayed submissions  
+* conflicting actions  
+* incomplete context  
 
 Strategies include:
 
-* idempotency checks
-* conflict resolution
-* ordering rules
+* idempotency checks  
+* conflict resolution  
+* ordering rules  
 
 ---
 
@@ -267,9 +268,9 @@ Validation determines what enters canonical event history.
 
 Once accepted:
 
-* events are immutable
-* history is append-only
-* state is derived via replay
+* events are immutable  
+* history is append-only  
+* state is derived via replay  
 
 ---
 
@@ -277,12 +278,12 @@ Once accepted:
 
 CrypSA validation is:
 
-* layered
-* deterministic
-* rule-driven
-* authoritative at the invariant boundary
+* layered  
+* deterministic  
+* rule-driven  
+* authoritative at the invariant boundary  
 
 It ensures:
 
-> clients may act freely,
+> clients may act freely,  
 > but only valid actions become part of canonical event history
