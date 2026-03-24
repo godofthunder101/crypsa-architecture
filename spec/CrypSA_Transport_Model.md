@@ -1,6 +1,6 @@
 # CrypSA Transport Model Spec v0.1
 
-This document defines how events and canonical updates are transmitted between observers and the canonical server.
+This document defines how events and canonical updates are transmitted between observers and the server.
 
 It specifies:
 
@@ -91,7 +91,7 @@ If the same event is submitted multiple times:
 
 Each submission results in:
 
-* **accepted** → becomes canonical
+* **accepted** → becomes part of canonical event history
 * **rejected** → no canonical change
 
 The observer must be informed of the outcome.
@@ -124,7 +124,7 @@ The server distributes accepted canonical events to observers.
 Canonical events must be:
 
 * eventually delivered to all relevant observers
-* complete and consistent with canonical event history
+* complete and consistent with canonical event history ordering (`server_sequence`)
 
 ---
 
@@ -168,7 +168,7 @@ Observers must align received events with their local replay state.
 If gaps are detected:
 
 * request missing events
-* ensure replay does not proceed with incomplete canonical history
+* ensure replay does not proceed with incomplete canonical event history
 
 ---
 
@@ -199,7 +199,7 @@ When an observer disconnects:
 Upon reconnection:
 
 * observer must fetch canonical updates
-* reconcile local state with canonical truth
+* reconcile local state with canonical event history
 
 ---
 
@@ -313,7 +313,7 @@ Transport is responsible for:
 It does not:
 
 * validate events
-* define canonical truth
+* define canonical event history
 * simulate world state
 
 ---
@@ -329,8 +329,8 @@ CrypSA transport is:
 
 It ensures:
 
-> candidate events reach the server,
-> canonical events reach observers,
+> candidate events reach the server,  
+> canonical events reach observers,  
 > and all participants converge on shared history
 
 ---
