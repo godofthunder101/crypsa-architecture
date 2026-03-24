@@ -12,13 +12,13 @@ Use this document when you want to understand how Mint editing, validation, and 
 
 If you want a guided tutorial for following the code across files, start with `Codebase_Walkthrough.md` in the project root first, then use this file for the Mint-specific reference view.
 
-If you want the current artifact status and maintenance posture before reading Mint internals, read `../STATUS.md` in the project root.
+If you want the current artifact status and maintenance posture before reading Mint internals, read `../../STATUS.md` in the project root.
 
 If you want the quickest manual validation path after changing Mint or runtime/Mint integration behavior, use `Manual_Regression_Checklist.md` in the project root.
 
 If you are lost on the Mint side, use this file to separate three concerns: editor orchestration, modal presentation, and schema truth.
 
-If your question becomes "how does Mint fit into the broader CrypSA runtime beyond this teaching app?", read `../Prototype_vs_Current_CrypSA_Model.md` and then the newer `../architecture/` and `../spec/` documentation. This folder teaches the local authoring boundary, not the full architecture around it.
+If your question becomes "how does Mint fit into the broader CrypSA runtime beyond this teaching app?", read `../../Prototype_vs_Current_CrypSA_Model.md` and then the newer `../../architecture/` and `../../spec/` documentation. This folder teaches the local authoring boundary, not the full architecture around it.
 
 ## Folder Role
 
