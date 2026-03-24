@@ -14,7 +14,7 @@ For a worked example, see:
 
 CrypSA is best understood as four core responsibilities:
 
-* **Truth** — canonical events and validation
+* **Truth** — canonical event history and validation
 * **Translation** — adapters shaping runtime data
 * **Interpretation** — lenses determining observer meaning
 * **Experience** — UI and local interaction
@@ -55,7 +55,7 @@ The server:
 
 The server enforces validation and ordering.
 
-Canonical event history defines **truth**.
+Canonical event history defines what is true.
 
 ---
 
@@ -103,12 +103,12 @@ This is the **experience layer**.
 
 The key idea in CrypSA is that these responsibilities remain separate:
 
-| Responsibility | Layer                         |
-| -------------- | ----------------------------- |
-| Truth          | Canonical events + validation |
-| Translation    | Adapters                      |
-| Interpretation | Lenses                        |
-| Experience     | UI / interaction              |
+| Responsibility | Layer                                   |
+| -------------- | --------------------------------------- |
+| Truth          | Canonical event history + validation     |
+| Translation    | Adapters                                |
+| Interpretation | Lenses                                  |
+| Experience     | UI / interaction                        |
 
 This separation prevents:
 
@@ -173,7 +173,7 @@ CrypSA separates:
 
 Truth lives in canonical event history.
 
-Derived state is reconstructed via replay.
+Derived canonical state is reconstructed via replay.
 
 Everything else builds on that.
 
