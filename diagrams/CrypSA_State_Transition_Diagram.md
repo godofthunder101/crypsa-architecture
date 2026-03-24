@@ -1,360 +1,160 @@
----
+# CrypSA State Transition Diagram
 
-CrypSA State Transition Diagram
+## Purpose
 
-Purpose
+This diagram shows how canonical universe state evolves in CrypSA.
 
-The CrypSA State Transition Diagram explains how canonical universe state evolves over time.
+The universe does not evolve through continuous simulation, but through:
 
-CrypSA does not treat the universe as a continuously simulated mutable server state. Instead, the universe advances through a sequence of validated canonical transitions.
-
-Each accepted canonical event moves the universe from one stable canonical state to the next.
-
-This document describes that model.
-
+> validated canonical events that transition the universe between stable states
 
 ---
 
-High-Level State Transition Model
+## Diagram
 
-At the highest level, a CrypSA universe evolves like this:
+```mermaid
+flowchart TD
 
-Canonical State S0
-        ↓
-Validated Event E1
-        ↓
-Canonical State S1
-        ↓
-Validated Event E2
-        ↓
-Canonical State S2
-        ↓
-Validated Event E3
-        ↓
-Canonical State S3
+S0[Canonical State S_n]
+A[Observer Simulation]
+B[Invariant Boundary Check]
+C[Candidate Event]
+D[Validation and Invariant Enforcement]
+R[Event Rejected]
+E[Event Accepted]
+S1[Canonical State S_n+1]
 
-Each canonical state represents the current shared truth of the universe.
+S0 --> A
+A --> B
 
-Each validated event produces a deterministic transition.
+B -->|No invariant change| A
+B -->|Affects canonical truth| C
 
+C --> D
 
----
+D -->|Rejected| R
+R --> A
 
-Full State Transition Diagram
+D -->|Accepted| E
+E --> S1
 
-┌───────────────────────────────────────────────┐
-│             CANONICAL STATE Sₙ                │
-│                                               │
-│  Current invariant state                      │
-│  Current canonical object structure           │
-│  Current event history reference              │
-└──────────────────────┬────────────────────────┘
-                       │
-                       │ observer reconstruction
-                       ▼
-┌───────────────────────────────────────────────┐
-│            OBSERVER SIMULATION                │
-│                                               │
-│  Local actions                                │
-│  Speculative interactions                     │
-│  Temporary simulation results                 │
-└──────────────────────┬────────────────────────┘
-                       │
-                       │ interaction occurs
-                       ▼
-┌───────────────────────────────────────────────┐
-│         INVARIANT BOUNDARY CHECK              │
-│                                               │
-│  Does this interaction affect                 │
-│  canonical truth?                             │
-└───────────────┬───────────────────────────────┘
-                │
-        ┌───────┴────────┐
-        │                │
-        ▼                ▼
- LOCAL RESULT     CANONICAL EVENT
-(no state change)     candidate
-        │                │
-        │                ▼
-        │     ┌───────────────────────────────┐
-        │     │      EVENT VALIDATION         │
-        │     │                               │
-        │     │ identity valid?               │
-        │     │ genome rules satisfied?       │
-        │     │ invariant preserved?          │
-        │     └───────────────┬───────────────┘
-        │                     │
-        │         ┌───────────┴─────────────┐
-        │         │                         │
-        │         ▼                         ▼
-        │   EVENT REJECTED           EVENT ACCEPTED
-        │         │                         │
-        │         │                         ▼
-        │         │       ┌───────────────────────────────┐
-        │         │       │    APPLY STATE TRANSITION     │
-        │         │       │                               │
-        │         │       │ update invariant state        │
-        │         │       │ append event to history       │
-        │         │       └───────────────┬───────────────┘
-        │         │                       │
-        │         └───────────────┐       ▼
-        │                         │
-        ▼                         │
-┌───────────────────────────────────────────────┐
-│            CANONICAL STATE Sₙ₊₁              │
-│                                               │
-│  Updated invariant state                      │
-│  Updated canonical object structure           │
-│  Extended canonical event history             │
-└───────────────────────────────────────────────┘
-
+S1 --> A
+```
 
 ---
 
-What a Canonical State Is
+## How to Read This
 
-A canonical state is the current shared structural truth of the universe.
+### Canonical State
 
-It is not a full dump of temporary simulation data.
-
-Instead, it consists of stable canonical information such as:
-
-invariant values
-
-persistent object relationships
-
-structural ownership
-
-world progression thresholds
-
-canonical event history position
-
-
-This is the reality all observers must ultimately agree on.
-
+* represents shared truth at a given point
+* derived from canonical event history
+* stable and reconstructable
 
 ---
 
-What Changes State
+### Observer Simulation
 
-Only validated canonical events can change canonical state.
+Observers:
 
-Examples of state-changing events include:
-
-persistent item acquisition
-
-structure placement
-
-region unlocks
-
-discovery registration
-
-ownership transfer
-
-world milestone completion
-
-
-If an interaction does not affect canonical truth, it does not produce a state transition.
-
-It remains local.
-
+* reconstruct canonical state
+* simulate locally
+* generate interactions
 
 ---
 
-Local Results vs Canonical Transitions
+### Invariant Boundary
 
-This distinction is crucial.
+The key decision point:
 
-Local Result
-
-A local result may include:
-
-movement prediction
-
-particles
-
-temporary effects
-
-camera motion
-
-speculative interactions
-
-
-These do not change canonical state.
-
-Canonical Transition
-
-A canonical transition occurs only when:
-
-the interaction crosses the invariant boundary
-
-the server validates the event
-
-canonical truth is updated
-
-
-This is how CrypSA keeps the canonical universe stable while allowing flexible local simulation.
-
+> Does this interaction affect canonical truth?
 
 ---
 
-Event Validation Before Transition
+### Local Result
 
-Before the universe can move from one state to another, the candidate event must pass validation.
+If no:
 
-Typical checks include:
-
-is the identity real?
-
-do the genome rules allow this transition?
-
-would an invariant be violated?
-
-is the event causally valid?
-
-does contextual validation pass if required?
-
-
-If validation fails, the transition is rejected.
-
-The universe remains in the previous canonical state.
-
+* the result remains local
+* no canonical state change occurs
 
 ---
 
-Accepted State Transitions
+### Candidate Event
 
-When an event is accepted, the system performs a deterministic transition.
+If yes:
 
-This usually means:
-
-1. updating invariant state
-
-
-2. appending the event to canonical history
-
-
-3. advancing the universe timeline
-
-
-4. publishing updated truth to observers
-
-
-
-The canonical universe has now moved from Sₙ to Sₙ₊₁.
-
+* a candidate event is created
+* submitted for validation
 
 ---
 
-Deterministic Reconstruction
+### Validation
 
-Observers can rebuild canonical states from:
+The server:
 
-identity
-+ genome
-+ invariant state
-+ event history
-
-This means CrypSA does not require constant centralized world simulation to preserve truth.
-
-Instead, stable canonical state can be reconstructed when needed.
-
+* checks invariants
+* verifies rules
+* accepts or rejects
 
 ---
 
-Properties of CrypSA State Transitions
+### State Transition
 
-CrypSA state transitions have several important properties.
+If accepted:
 
-Deterministic
-
-The same canonical inputs produce the same structural result.
-
-Validated
-
-All transitions must satisfy invariant rules.
-
-Ordered
-
-Canonical events are applied in a defined sequence.
-
-Reconstructable
-
-Past states can be reproduced from historical event data.
-
-Observable
-
-Observers can rebuild the updated universe after transition.
-
+* event is appended to canonical history
+* the universe transitions from Sₙ → Sₙ₊₁
 
 ---
 
-Relationship to Event-Sourced Systems
+### Rejection
 
-CrypSA’s state model resembles event-sourced architectures in that the system evolves through recorded events.
+If rejected:
 
-However, CrypSA extends this idea with:
-
-deterministic structural genomes
-
-invariant boundary enforcement
-
-observer-relative simulation
-
-lens-based interpretation
-
-
-These additions make the model suitable for persistent digital universes rather than only business-state systems.
-
+* canonical state does not change
+* observer corrects local simulation
 
 ---
 
-Why the State Transition Model Matters
+## Key Insight
 
-This diagram explains why CrypSA naturally supports:
-
-deterministic replay
-
-temporal debugging
-
-timeline branching
-
-world preservation
-
-event auditing
-
-historical analysis
-
-
-These are all consequences of the universe being modeled as a sequence of validated canonical states.
-
+> Only validated canonical events can transition the universe between states.
 
 ---
 
-Conceptual Summary
+## Relationship to Architecture
 
-CrypSA treats the universe as a progression of stable canonical realities:
+This diagram reflects:
 
-State S0
-   ↓
-Validated Event
-   ↓
-State S1
-   ↓
-Validated Event
-   ↓
-State S2
-
-Observers may simulate locally, but only validated events move the universe to the next shared state.
-
+* **Truth** → canonical events and state transitions
+* **Experience** → observer simulation
+* **Invariant Boundary** → decision between local and canonical
 
 ---
 
-One Sentence Summary
+## Properties of State Transitions
 
-The CrypSA State Transition Diagram shows how the universe evolves as a sequence of validated canonical states, where each accepted event produces a deterministic transition to the next stable shared reality.
+CrypSA state transitions are:
 
+* deterministic
+* validated
+* ordered
+* reconstructable
 
 ---
 
+## Why This Matters
 
+This model enables:
+
+* replay and reconstruction
+* debugging via event history
+* persistent worlds
+* consistent shared truth
+
+---
+
+## One Sentence Summary
+
+CrypSA models the universe as a sequence of validated canonical state transitions, where each accepted event moves the system from one stable state to the next.
