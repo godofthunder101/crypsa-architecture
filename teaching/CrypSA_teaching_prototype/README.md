@@ -24,6 +24,18 @@ If you want the implementation-facing architecture anchor, start with:
 
 ---
 
+## ⚠️ Important Scope Note
+
+This prototype includes concepts (such as event lineage visualization and branching-style timelines) that are useful for teaching but are **not part of the CrypSA v0.1 runtime model**.
+
+In v0.1:
+
+* canonical event history is append-only  
+* ordering is defined by `server_sequence`  
+* branching is not part of the runtime model  
+
+---
+
 ## What This Prototype Demonstrates
 
 This prototype is designed to demonstrate the core CrypSA model with minimal extra game logic.
@@ -32,9 +44,8 @@ It shows:
 
 - observer-local simulation  
 - invariant-boundary candidate events  
-- canonical validation and reconciliation  
+- canonical validation and observer reconciliation  
 - accepted canonical event history  
-- event-lineage branching  
 - replay-derived canonical state  
 - Mint-authored canonical object definitions  
 
@@ -55,9 +66,9 @@ In this prototype:
 
 - the right pane shows what the observer is doing locally  
 - the left pane shows what the world officially knows  
-- candidate events sit in between until canonical reconciliation  
-- accepted canonical events become canonical history  
-- canonical state is rebuilt by replaying that accepted canonical history  
+- candidate events sit in between until observer reconciliation  
+- accepted canonical events become canonical event history  
+- derived canonical state is rebuilt by replaying that canonical event history  
 
 This is the shortest useful mental model for reading the UI.
 
@@ -104,7 +115,7 @@ If you need the broader CrypSA architecture, spec, or deployment model, leave th
 
 ## Supporting Modules
 
-- `crypsa/crypsa_event_graph.py`: event lineage and replay substrate  
+- `crypsa/crypsa_event_graph.py`: event lineage and replay substrate (prototype-specific)  
 - `crypsa/crypsa_lens_adapters.py`: runtime-to-UI translation layer  
 - `crypsa/crypsa_action_requests.py`: typed UI intent objects  
 - `crypsa/runtime_store.py`: grouped runtime state  
@@ -120,49 +131,6 @@ If you need the broader CrypSA architecture, spec, or deployment model, leave th
 - `crypsa/runtime_persistence.py`: save/load logic  
 - `crypsa/teaching_example_loader.py`: fixture-backed scenario loader  
 
-UI modules:
-
-- `crypsa/ui/crypsa_render_ui.py`  
-- `crypsa/ui/crypsa_history_ui.py`  
-- `crypsa/ui/crypsa_action_ui.py`  
-- `crypsa/ui/crypsa_teaching_ui.py`  
-
-Mint modules:
-
-- `mint/mint_models.py`  
-- `mint/mint_lens_adapters.py`  
-- `mint/mint_editor_ui.py`  
-- `mint/mint_catalog_store.py`  
-
----
-
-## Module Map (How to Read the Code)
-
-The easiest architecture stack to keep in mind is:
-
-1. runtime/controller  
-2. replay/event graph  
-3. adapters  
-4. lenses and typed requests  
-5. UI modules  
-6. Mint modules  
-
-The UI handoff pattern is:
-
-1. runtime/controller owns meaning and mutation  
-2. adapters translate raw state into lens-ready data  
-3. UI renders that data  
-4. UI emits typed requests  
-5. runtime/controller executes the requests  
-
-Adapters are intentional architectural scaffolding, not just UI helpers.
-
-They exist to:
-
-- keep lenses decoupled from runtime internals  
-- shape data before presentation  
-- preserve separation between runtime meaning and UI  
-
 ---
 
 ## Teaching Model
@@ -173,76 +141,9 @@ This prototype teaches:
 - candidate events at the invariant boundary  
 - canonical validation and acceptance  
 - replay-derived canonical state  
-- event-lineage branching  
 - Mint definitions freezing into canonical objects  
 
-The timeline UI visualizes lineage for human understanding, but rows are not canonical truth.
-
-The built-in scenario lives in:
-
-- `fixtures/teaching_example.json`  
-- loaded via `crypsa/teaching_example_loader.py`  
-
----
-
-## What This Teaches vs What It Does Not
-
-### Teaches
-
-- observer vs canonical separation  
-- candidate → validation → canonical flow  
-- replay-based state reconstruction  
-- lineage branching  
-- Mint integration  
-
-### Does Not Teach
-
-- networking or distributed deployment  
-- concurrency handling  
-- large-scale performance  
-- production server architecture  
-- full gameplay systems  
-
----
-
-## How To Read The Prototype
-
-Use this mental model:
-
-- `Observer Representation` = local simulation  
-- `Candidates` = pending events  
-- `Canonical Representation` = replay-derived state  
-- `History` = canonical truth  
-- `Timeline` = lineage visualization  
-
----
-
-## Launch
-
-Run the prototype:
-
-```powershell
-.\start-crypsa-teaching-prototype.cmd
-````
-
-Run the Mint editor:
-
-```powershell
-.\start-mint-editor.cmd
-```
-
----
-
-## Best First Path
-
-1. Launch the prototype
-2. Click `How To Read`
-3. Click `Load Teaching Example`
-4. Open `History`
-5. Open `Timeline`
-6. Queue a build
-7. Reconcile
-8. Compare observer vs canonical
+The timeline UI visualizes lineage for human understanding, but this visualization is **not part of the CrypSA v0.1 runtime model**.
 
 ---
 
@@ -252,9 +153,9 @@ This teaching prototype provides a minimal, inspectable implementation of CrypSA
 
 It demonstrates how:
 
-* canonical events define truth
-* adapters translate data
-* lenses interpret meaning
-* observers experience and simulate the world
+* canonical event history defines truth  
+* adapters translate data  
+* lenses interpret meaning  
+* observers experience and simulate the world  
 
 It is complete for its purpose and is not intended to evolve into a production runtime.
