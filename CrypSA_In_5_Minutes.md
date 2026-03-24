@@ -14,10 +14,10 @@ CrypSA is a multiplayer architecture where:
 
 Instead of synchronizing everything all the time:
 
-- clients simulate locally  
-- actions are proposed as events  
-- the server validates those events  
-- accepted events define shared reality  
+* clients simulate locally
+* actions are proposed as events
+* the server validates those events
+* accepted events define shared reality
 
 ---
 
@@ -27,8 +27,8 @@ Instead of synchronizing everything all the time:
 flowchart LR
 
 subgraph Truth
-A[Canonical Events]
-B[Derived Canonical State]
+A[Canonical Event History]
+B[Derived Canonical State (via Replay)]
 end
 
 subgraph Translation
@@ -48,8 +48,7 @@ A --> B
 B --> C
 C --> D
 D --> E
-E --> F
-````
+```
 
 ---
 
@@ -57,8 +56,8 @@ E --> F
 
 Think of CrypSA like this:
 
-* The **server** decides what *actually happened*
-* The **clients** simulate what *they think is happening*
+* The **server** decides what becomes canonical truth
+* Observers simulate what they think is happening
 * Only validated actions become part of shared reality
 * Everything else is local prediction
 
@@ -78,14 +77,14 @@ This is the canonical layer.
 
 It includes:
 
-* accepted canonical events
+* canonical event history
 * validation
-* canonical ordering
-* derived canonical state
+* canonical ordering (`server_sequence`)
+* derived canonical state (via replay)
 
 This is the part of the system that defines what is real.
 
-If something is not part of canonical history:
+If something is not part of canonical event history:
 
 > it did not happen
 
@@ -99,7 +98,7 @@ Adapters take canonical and observer-side data and reshape it into forms that ot
 
 They do things like:
 
-* combine runtime and observer state
+* combine canonical and observer state
 * normalize structures
 * build view-ready or lens-ready data
 
@@ -232,6 +231,14 @@ CrypSA is not ideal for:
 
 ---
 
+## One Missing Truth (Now Added)
+
+In CrypSA:
+
+> state is not stored as truth — it is derived from canonical event history via replay
+
+---
+
 ## If You Want More
 
 * Read `CrypSA_Terminology_Primer.md`
@@ -245,7 +252,7 @@ CrypSA is not ideal for:
 
 CrypSA can be summarized as:
 
-> canonical events define truth,
+> canonical event history defines truth,
 > adapters shape data,
 > lenses interpret meaning,
-> and observers experience and simulate the resulting world.
+> and observers simulate and experience the resulting world
