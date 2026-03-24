@@ -8,7 +8,7 @@ It demonstrates how:
 
 * objects are defined by **minted structure + canonical event history**
 * canonical events create and evolve objects
-* observers reconstruct objects from canonical truth
+* observers reconstruct objects from canonical event history
 
 This is an illustrative walkthrough, not a specification.
 
@@ -20,10 +20,10 @@ In CrypSA, an object is defined by:
 
 ```text
 Minted Structure + Canonical Event History
-```
+````
 
 * The **Mint** defines what the object can validly be
-* The **event history** defines what has happened to it
+* The **canonical event history** defines what has happened to it
 
 Observers reconstruct the current object from both.
 
@@ -87,10 +87,11 @@ The server validates:
 If accepted:
 
 * a mint event establishes identity (e.g. sword_9AF3)
+* the server assigns `server_sequence`
 * canonical event is appended to canonical event history
-* derived state is updated via event application
+* derived canonical state is updated via replay
 
-Example canonical event history (ordered):
+Example canonical event history (ordered, illustrative labels):
 
 ```text
 minted
@@ -120,7 +121,7 @@ The object remains the same.
 
 * identity is unchanged
 * canonical event history expands
-* derived state evolves
+* derived canonical state evolves
 
 ---
 
@@ -153,10 +154,11 @@ The server validates:
 
 If accepted:
 
+* the server assigns `server_sequence`
 * canonical event is appended
-* derived state is updated via replay
+* derived canonical state updates via replay
 
-Example:
+Example (illustrative):
 
 ```text
 upgraded
@@ -205,10 +207,11 @@ The server validates:
 
 If accepted:
 
+* the server assigns `server_sequence`
 * canonical event is appended
-* derived state updates
+* derived canonical state updates via replay
 
-Example:
+Example (illustrative):
 
 ```text
 transferred_to_Player_B
@@ -260,7 +263,7 @@ The Mint defines what the object can be.
 
 ---
 
-## 2. Event History Defines Life
+## 2. Canonical Event History Defines Life
 
 Canonical events define what has happened to the object.
 
@@ -278,13 +281,13 @@ Observers rebuild the object by replaying canonical event history.
 
 ---
 
-## 5. Server Protects Truth
+## 5. Server Responsibility
 
 The server:
 
 * validates events
 * enforces invariants
-* records canonical event history
+* maintains canonical event history
 
 ---
 
