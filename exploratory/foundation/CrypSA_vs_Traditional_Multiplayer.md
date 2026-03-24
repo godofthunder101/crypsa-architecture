@@ -1,200 +1,127 @@
----
-
-Traditional Multiplayer vs CrypSA Architecture
+# Traditional Multiplayer vs CrypSA Architecture
 
 > Exploratory note: This document represents early conceptual framing.
 >
-> For the current CrypSA model, refer to `../../CrypSA_Why_It_Exists.md`, `../../CrypSA_Where_It_Fits.md`, `../../architecture/`, and `../../spec/`.
-
-Purpose
-
-This diagram compares the traditional multiplayer architecture model with the CrypSA architecture model.
-
-The goal is to illustrate the key difference:
-
-Traditional systems synchronize world state.
-CrypSA synchronizes canonical events.
-
-This shift changes how simulation, networking, and persistence are handled in multiplayer worlds.
-
+> For the current CrypSA model, refer to:
+>
+> * `../../CrypSA_Why_It_Exists.md`
+> * `../../CrypSA_Where_It_Fits.md`
+> * `../../architecture/`
+> * `../../spec/`
 
 ---
 
-Traditional Multiplayer Architecture
+## Purpose
 
-TRADITIONAL MULTIPLAYER MODEL
+This document compares traditional multiplayer architecture with CrypSA.
 
+The key difference:
 
-        ┌───────────────┐      ┌───────────────┐
-        │   Client A    │      │   Client B    │
-        │               │      │               │
-        └───────┬───────┘      └───────┬───────┘
-                │                      │
-                │ Input Commands      │
-                ▼                      ▼
-
-              ┌──────────────────────────┐
-              │        Game Server        │
-              │                           │
-              │ • runs full simulation    │
-              │ • calculates physics      │
-              │ • tracks world state      │
-              │ • resolves combat         │
-              │ • manages AI              │
-              └─────────────┬────────────┘
-                            │
-                            │ World State Updates
-                            ▼
-
-        ┌───────────────┐      ┌───────────────┐
-        │   Client A    │      │   Client B    │
-        │ receives      │      │ receives      │
-        │ server state  │      │ server state  │
-        └───────────────┘      └───────────────┘
-
-Key Characteristics
-
-Traditional multiplayer systems typically:
-
-• centralize simulation on the server
-• synchronize full world state to clients
-• require powerful servers for large worlds
-• depend on continuous server operation
-
-If the server disappears, the world usually disappears with it.
-
+> Traditional systems synchronize world state
+> CrypSA synchronizes validated canonical events
 
 ---
 
-CrypSA Architecture Model
+## Traditional Multiplayer Model
 
-CRYPSA ARCHITECTURE MODEL
+```mermaid
+flowchart LR
 
+A[Client A] -->|Input| B[Server]
+C[Client B] -->|Input| B
 
-        ┌───────────────┐      ┌───────────────┐
-        │   Observer A  │      │   Observer B  │
-        │               │      │               │
-        └───────┬───────┘      └───────┬───────┘
-                │                      │
-                │ Local Simulation    │
-                ▼                      ▼
+B -->|World State Updates| A
+B -->|World State Updates| C
+```
 
-      ┌─────────────────────────────────────────┐
-      │         Observer Simulation Layer        │
-      │                                          │
-      │ • movement                               │
-      │ • rendering                              │
-      │ • prediction                             │
-      │ • temporary local state                  │
-      └───────────────┬──────────────────────────┘
-                      │
-                      │ Proposed Events
-                      ▼
+### Characteristics
 
-            ┌──────────────────────────┐
-            │     Invariant Boundary    │
-            │         (Server)          │
-            │                           │
-            │ • validates events        │
-            │ • enforces invariants     │
-            │ • records canonical log   │
-            └─────────────┬────────────┘
-                          │
-                          │ Canonical Events
-                          ▼
+Traditional systems:
 
-            ┌──────────────────────────┐
-            │    Canonical Event Log    │
-            │                           │
-            │ • mint events             │
-            │ • object lineage          │
-            │ • world state evolution   │
-            └─────────────┬────────────┘
-                          │
-                          │ Event Updates
-                          ▼
+* centralize simulation on the server
+* synchronize full world state
+* require continuous server operation
+* tightly couple world existence to server uptime
 
-      ┌─────────────────────────────────────────┐
-      │        Observer Reconstruction Layer     │
-      │                                          │
-      │ Observers reconstruct shared world state │
-      │ from canonical event history.            │
-      └─────────────────────────────────────────┘
-
+If the server disappears, the world typically disappears.
 
 ---
 
-Core Difference
+## CrypSA Model
 
-Traditional Model
+```mermaid
+flowchart LR
 
-Server Simulates the World
+A[Observer A] --> B[Local Simulation]
+C[Observer B] --> D[Local Simulation]
 
-Clients receive updates from the server.
+B --> E[Invariant Boundary]
+D --> E
 
-The server is responsible for:
+E -->|Candidate Event| F[Validation]
+F -->|Accepted| G[Canonical Event History]
 
-world simulation
-
-physics
-
-combat
-
-AI
-
-game logic
-
-
-This places heavy load on the server and tightly couples the world to server infrastructure.
-
+G --> H[Observer Reconstruction]
+H --> B
+H --> D
+```
 
 ---
 
-CrypSA Model
+## Core Difference
 
-Observers Simulate Locally
+### Traditional Model
 
-The server protects the canonical truth of the universe.
+> Server simulates the world
 
-The server's responsibilities are limited to:
-
-validating events
-
-enforcing invariants
-
-recording canonical history
-
-
-Observers reconstruct the world locally from canonical events.
-
+* server computes state
+* clients receive updates
+* server is the source of truth
 
 ---
 
-Key Architectural Differences
+### CrypSA Model
 
-Traditional Multiplayer	CrypSA
+> Observers simulate locally
 
-Server runs simulation	Observers simulate locally
-State synchronization	Event synchronization
-Server computes world	Server protects invariants
-World tied to server uptime	World defined by event history
-Limited replayability	Full historical reconstruction possible
+* observers simulate experience
+* server validates canonical changes
+* canonical event history defines truth
 
+The server is primarily responsible for:
 
+* validating events
+* enforcing invariants
+* maintaining canonical event history
+
+---
+
+## Key Architectural Differences
+
+| Traditional Multiplayer     | CrypSA                                |
+| --------------------------- | ------------------------------------- |
+| Server runs simulation      | Observers simulate locally            |
+| State synchronization       | Event synchronization                 |
+| Server computes world       | Server validates truth                |
+| World tied to server uptime | World defined by event history        |
+| Limited replayability       | Deterministic reconstruction possible |
 
 ---
 
-Implications
+## Implications
 
-This architectural shift enables several possibilities:
+This architectural shift enables:
 
-• distributed simulation
-• reconstructable worlds
-• event-driven world history
-• lower server simulation burden
-• preservation-friendly universe design
+* distributed simulation
+* reconstructable worlds
+* event-driven persistence
+* reduced server simulation load
+* preservation-friendly universe design
 
-CrypSA allows persistent universes to evolve through canonical event history, rather than continuous centralized simulation.
-
+CrypSA allows persistent universes to evolve through canonical event history rather than continuous centralized simulation.
 
 ---
+
+## One Sentence Summary
+
+Traditional multiplayer systems synchronize world state through server simulation, while CrypSA synchronizes validated canonical events and allows observers to reconstruct the world locally.
