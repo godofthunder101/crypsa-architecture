@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This diagram shows how the server evaluates a candidate event before it becomes part of canonical history.
+This diagram shows how the server evaluates a candidate event before it becomes part of canonical event history.
 
 It represents the layered validation model used to determine whether an event is:
 
@@ -31,11 +31,11 @@ E -->|Fail| R4[Reject invariant_violation]
 E -->|Pass| F[Rule Validation]
 
 F -->|Fail| R5[Reject rule_violation]
-F -->|Pass| G[Accept Event]
+F -->|Pass| G[Accept and Assign server_sequence]
 
 G --> H[Append to Canonical Event History]
 H --> I[Observers Receive Canonical Update]
-```
+````
 
 ---
 
@@ -79,7 +79,7 @@ Examples:
 
 ### 4. Invariant Validation
 
-The server ensures canonical truth would remain valid.
+The server ensures canonical event history would remain valid.
 
 Examples:
 
@@ -129,4 +129,4 @@ This diagram maps to:
 
 ## One Sentence Summary
 
-A candidate event must pass schema, identity, precondition, invariant, and rule validation before it is accepted and recorded in canonical event history.
+A candidate event must pass schema, identity, precondition, invariant, and rule validation before it is assigned `server_sequence`, accepted, and recorded in canonical event history.
