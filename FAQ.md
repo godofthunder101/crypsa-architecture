@@ -85,7 +85,7 @@ CrypSA:
 
 No.
 
-CrypSA requires a canonical server to:
+CrypSA requires a server to:
 
 * validate events
 * enforce invariants
