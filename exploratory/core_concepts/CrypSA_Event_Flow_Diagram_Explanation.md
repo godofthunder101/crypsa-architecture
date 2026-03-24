@@ -1,317 +1,191 @@
----
-
-CrypSA Event Flow Model
+# CrypSA Event Flow Model
 
 > Exploratory note: This document reflects conceptual exploration and early modeling.
 >
-> For the current CrypSA model, refer to `../../CrypSA_In_5_Minutes.md`, `../../architecture/`, and `../../spec/`.
-
-Purpose
-
-The CrypSA Event Flow Model describes how interactions propagate through a CrypSA universe.
-
-Rather than continuously synchronizing simulation state, CrypSA systems evolve through validated canonical events. Observers simulate locally and submit events only when actions affect canonical invariants.
-
-This document illustrates how observer actions move through the architecture and become part of canonical truth.
-
+> For the current CrypSA model, refer to:
+>
+> * `../../CrypSA_In_5_MinUTES.md`
+> * `../../architecture/`
+> * `../../spec/`
 
 ---
 
-High-Level Flow
+## Purpose
 
-A CrypSA interaction follows this general path:
+This document describes how interactions propagate through a CrypSA system.
 
+It presents a conceptual flow of how observer actions may become part of canonical truth.
+
+This is a **conceptual model**, not an authoritative runtime definition.
+
+---
+
+## High-Level Flow
+
+```text
 Observer Action
+→ Local Simulation
+→ Invariant Boundary Check
+→ Candidate Event
+→ Submission
+→ Validation
+→ Canonical Event History Update
+→ Observer Reconstruction
+```
 
+---
+
+## Conceptual Flow
+
+```text
+Observer Action
       ↓
 Local Simulation
-
       ↓
-Invariant Detection
-
-      ↓
-Canonical Event Generation
-
-      ↓
-Event Submission
-
-      ↓
-Server Reconciliation
-
-      ↓
-Canonical History Update
-
-      ↓
-Observer Reconstruction
-
-This event-driven model replaces continuous server simulation with validated structural transitions.
-
+Invariant Boundary Check
+      ├─ No  → Remain Local
+      └─ Yes → Candidate Event
+                     ↓
+               Event Submission
+                     ↓
+                 Validation
+                     ↓
+              Accepted / Rejected
+                     ↓
+     Canonical Event History Updated
+                     ↓
+         Observer Reconstruction
+```
 
 ---
 
-Event Flow Diagram
+## Step-by-Step Explanation
 
-┌─────────────────────────────┐
-│        OBSERVER ACTION       │
-│                              │
-│  Player interaction          │
-│  AI behavior                 │
-│  System trigger              │
-└───────────────┬─────────────┘
-                │
-                ▼
-┌─────────────────────────────┐
-│       LOCAL SIMULATION       │
-│                              │
-│  Movement                    │
-│  Physics                     │
-│  Interaction prediction      │
-│  Temporary effects           │
-└───────────────┬─────────────┘
-                │
-                ▼
-┌─────────────────────────────┐
-│     INVARIANT DETECTION      │
-│                              │
-│  Does this interaction       │
-│  affect canonical state?     │
-└───────────────┬─────────────┘
-         NO     │      YES
-                │
-                ▼
-┌─────────────────────────────┐
-│  CANONICAL EVENT GENERATION  │
-│                              │
-│  Event payload created       │
-│  Context trail attached      │
-└───────────────┬─────────────┘
-                │
-                ▼
-┌─────────────────────────────┐
-│        EVENT SUBMISSION      │
-│                              │
-│  Event sent to               │
-│  reconciliation server       │
-└───────────────┬─────────────┘
-                │
-                ▼
-┌─────────────────────────────┐
-│     EVENT RECONCILIATION     │
-│                              │
-│  Identity verification       │
-│  Genome rule validation      │
-│  Invariant checks            │
-│  Contextual event analysis   │
-└───────────────┬─────────────┘
-         FAIL   │      PASS
-                │
-                ▼
-┌─────────────────────────────┐
-│    CANONICAL HISTORY UPDATE  │
-│                              │
-│  Event appended to           │
-│  canonical event history     │
-│  Invariant state updated     │
-└───────────────┬─────────────┘
-                │
-                ▼
-┌─────────────────────────────┐
-│     OBSERVER RECONSTRUCTION  │
-│                              │
-│  Observers rebuild affected  │
-│  objects using:              │
-│  identity                    │
-│  genome                      │
-│  invariant state             │
-│  event history               │
-└─────────────────────────────┘
+### 1. Observer Action
 
+An observer initiates an interaction.
+
+Examples:
+
+* picking up an item
+* placing a structure
+* triggering a system event
+
+At this stage, the interaction exists only locally.
 
 ---
 
-Step-by-Step Explanation
+### 2. Local Simulation
 
-1. Observer Action
+The observer simulates the interaction.
 
-An observer initiates an interaction within their observer frame.
+Examples:
 
-Examples include:
+* movement
+* physics
+* prediction
+* temporary effects
 
-picking up an item
-
-constructing a structure
-
-discovering a resource
-
-triggering a world event
-
-
-At this stage the interaction exists only in local simulation.
-
+This provides immediate feedback.
 
 ---
 
-2. Local Simulation
+### 3. Invariant Boundary Check
 
-The observer simulates the action locally.
+The system determines:
 
-Examples of local checks:
+> Does this interaction affect canonical truth?
 
-collision detection
-
-physics prediction
-
-gameplay rules
-
-interaction feasibility
-
-
-These systems allow the observer to experience immediate feedback without waiting for server validation.
-
+* No → remains local
+* Yes → becomes a candidate event
 
 ---
 
-3. Invariant Detection
+### 4. Candidate Event
 
-The system determines whether the interaction affects canonical invariants.
+If the interaction affects canonical truth:
 
-Examples of invariant interactions:
-
-placing structures
-
-consuming shared resources
-
-altering world topology
-
-completing discoveries
-
-
-If no invariants are affected, the interaction remains local.
-
+* a candidate event is created
+* it represents a proposed change
 
 ---
 
-4. Canonical Event Generation
+### 5. Event Submission
 
-If the interaction affects canonical truth, the observer generates a canonical event.
-
-Example structure:
-
-event_type: structure_build
-target_identity: structure_slot_4821
-observer_id: player_17
-payload: mining_station
-timestamp: t
-context_trail: [...]
-
-The context trail may include recent actions that provide validation context.
-
+The candidate event is sent to the server.
 
 ---
 
-5. Event Submission
+### 6. Validation
 
-The canonical event is submitted to the reconciliation server.
+The server evaluates the event:
 
-The server reconstructs the referenced canonical objects using:
+* invariant enforcement
+* rule validation
+* identity and reference checks
 
-identity
+The event is:
 
-genome
-
-invariant state
-
-event history
-
-
+* accepted
+  or
+* rejected
 
 ---
 
-6. Event Reconciliation
+### 7. Canonical Event History Update
 
-The server validates the event.
+If accepted:
 
-Validation checks may include:
-
-identity verification
-
-genome rule compliance
-
-invariant constraints
-
-contextual event validation
-
-
-Events that violate canonical rules are rejected.
-
+* the event is appended to canonical event history
+* canonical truth is updated
 
 ---
 
-7. Canonical History Update
+### 8. Observer Reconstruction
 
-If validation succeeds, the event becomes part of canonical history.
+Observers receive updates and:
 
-Example changes:
-
-structure_slot.state = occupied
-structure_slot.owner = player_17
-structure_slot.structure_type = mining_station
-
-This update modifies canonical truth.
-
+* reconstruct affected objects
+* align with canonical truth
 
 ---
 
-8. Observer Reconstruction
+## Observer Convergence
 
-Observers receive the updated canonical information.
+Observers may temporarily diverge in local simulation.
 
-Each observer reconstructs the affected objects using deterministic rules.
+After canonical updates:
 
-Because reconstruction is deterministic, observers converge on the same structural reality.
-
-
----
-
-Observer Convergence
-
-CrypSA systems rely on eventual convergence rather than continuous synchronization.
-
-Observers may temporarily simulate different local states, but once canonical events propagate, all observers rebuild the universe consistently.
-
+* all observers reconstruct consistently
+* shared reality converges
 
 ---
 
-Architectural Advantages
+## Key Insight
 
-This event-driven model provides several benefits.
-
-Reduced Server Simulation
-
-Servers validate events rather than simulate the entire world.
-
-Scalable Observer Simulation
-
-Observers perform most simulation work locally.
-
-Deterministic Reconstruction
-
-Canonical objects can be rebuilt anywhere.
-
-Historical Persistence
-
-Event history records the evolution of the universe.
-
+> CrypSA systems evolve through validated canonical events, not continuous synchronized simulation.
 
 ---
 
-Summary
+## Notes on Implementation
 
-CrypSA universes evolve through validated canonical events.
+Some implementations may include additional context or metadata to support validation.
 
-Observers simulate locally while the system ensures structural integrity through event reconciliation and invariant enforcement.
-
-This architecture allows persistent digital universes to scale while preserving shared canonical truth.
-
+These are implementation choices and not required by the core model.
 
 ---
+
+## Summary
+
+CrypSA systems:
+
+* simulate locally
+* validate only when necessary
+* update canonical history through accepted events
+* reconstruct shared reality deterministically
+
+---
+
+## One Sentence Summary
+
+CrypSA models interaction flow as a transition from local simulation to validated canonical events, followed by deterministic reconstruction of shared reality.
