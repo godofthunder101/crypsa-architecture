@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document explains how the minimal teaching prototype relates to the newer CrypSA material in `repo/`.
+This document explains how the minimal teaching prototype relates to the current CrypSA architecture and specification (`../architecture/` and `../spec/`).
 
 Use it when you want to answer:
 
