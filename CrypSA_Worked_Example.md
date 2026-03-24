@@ -8,10 +8,10 @@ This document walks through a complete runtime example of CrypSA.
 
 It shows how:
 
-* a local action becomes a candidate event
-* the server validates that event
-* canonical event history is updated
-* observers reconcile their local state
+* a local action becomes a candidate event  
+* the server validates that event  
+* canonical event history is updated  
+* observers reconcile their local state  
 
 This example focuses on clarity and uses a simple scenario.
 
@@ -99,7 +99,7 @@ precondition_refs = {
 event_id = evt_001
 ```
 
-This event represents an **intent**, not a confirmed state change.
+This event represents an **intent**, not a canonical change.
 
 ---
 
@@ -118,7 +118,7 @@ State at this moment:
 
 ## Phase 4 — Validation Pipeline (Server)
 
-The server processes the event.
+The server processes and validates the event.
 
 ### 4.1 Schema Validation
 
@@ -167,7 +167,7 @@ Derived canonical state updates:
 * tile_42 → mining_station
 * player_A resources → 50
 
-Derived state now reflects the change.
+Derived canonical state now reflects the change.
 
 ---
 
@@ -246,7 +246,7 @@ Rejected client:
 
 * actions are proposals, not guarantees
 * validation determines reality
-* canonical event history is the source of truth
+* canonical event history defines what is true
 * observers may temporarily diverge
 * reconciliation restores consistency
 
@@ -266,4 +266,4 @@ This example corresponds directly to:
 
 ## One Sentence Summary
 
-A local action becomes a candidate event, the server validates it, accepted events define canonical event history, and observers reconcile their local simulation to that shared truth.
+A local action becomes a candidate event, the server validates it, accepted events are appended to canonical event history, and observers reconcile their local simulation to that shared history.
