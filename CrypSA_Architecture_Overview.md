@@ -6,7 +6,7 @@ It is intentionally focused on system structure rather than step-by-step flow.
 
 For a worked example, see:
 
-- `CrypSA_WORKED_EXAMPLE.md`
+* `CrypSA_WORKED_EXAMPLE.md`
 
 ---
 
@@ -14,18 +14,18 @@ For a worked example, see:
 
 CrypSA is best understood as four core responsibilities:
 
-- **Truth** — canonical events and validation  
-- **Translation** — adapters shaping runtime data  
-- **Interpretation** — lenses determining observer meaning  
-- **Experience** — UI and local simulation  
+* **Truth** — canonical events and validation
+* **Translation** — adapters shaping runtime data
+* **Interpretation** — lenses determining observer meaning
+* **Experience** — UI and local interaction
 
 These responsibilities are implemented across different parts of the system:
 
-- observers (clients)
-- canonical server
-- adapter layer
-- lens layer
-- UI / observer experience
+* observers (clients)
+* canonical server
+* adapter layer
+* lens layer
+* UI / observer experience
 
 ---
 
@@ -35,12 +35,12 @@ These responsibilities are implemented across different parts of the system:
 
 Observers:
 
-- simulate the world locally  
-- generate candidate events  
-- render the world to the player  
-- reconcile with canonical updates  
+* simulate the world locally
+* generate candidate events
+* maintain local prediction
+* reconcile with canonical updates
 
-They are responsible for the **experience layer** and parts of interpretation.
+They are responsible for local simulation and parts of interpretation.
 
 ---
 
@@ -48,10 +48,10 @@ They are responsible for the **experience layer** and parts of interpretation.
 
 The server:
 
-- receives candidate events  
-- validates them against invariants  
-- accepts or rejects them  
-- assigns canonical order  
+* receives candidate events
+* validates them against invariants
+* accepts or rejects them
+* assigns canonical ordering (`server_sequence`)
 
 The server defines **truth**.
 
@@ -61,9 +61,9 @@ The server defines **truth**.
 
 Adapters:
 
-- reshape canonical and observer state  
-- combine runtime data into structured forms  
-- prepare data for interpretation and UI  
+* reshape canonical and observer state
+* combine canonical and observer data
+* prepare structured outputs for interpretation and UI
 
 Adapters are the **translation layer**.
 
@@ -75,9 +75,9 @@ They do not define truth.
 
 Lenses:
 
-- interpret adapted data  
-- determine what an observer sees  
-- define interaction meaning  
+* interpret adapted data
+* determine what an observer sees
+* define interaction meaning
 
 Lenses are the **interpretation layer**.
 
@@ -89,10 +89,9 @@ They do not define truth or mutate runtime state.
 
 The UI layer:
 
-- renders the world  
-- handles input  
-- provides immediate feedback  
-- drives local simulation  
+* renders the world
+* handles input
+* provides immediate feedback
 
 This is the **experience layer**.
 
@@ -102,18 +101,18 @@ This is the **experience layer**.
 
 The key idea in CrypSA is that these responsibilities remain separate:
 
-| Responsibility | Layer |
-|------|--------|
-| Truth | Canonical events + validation |
-| Translation | Adapters |
-| Interpretation | Lenses |
-| Experience | UI / local simulation |
+| Responsibility | Layer                         |
+| -------------- | ----------------------------- |
+| Truth          | Canonical events + validation |
+| Translation    | Adapters                      |
+| Interpretation | Lenses                        |
+| Experience     | UI / interaction              |
 
 This separation prevents:
 
-- UI logic leaking into runtime truth  
-- validation becoming entangled with presentation  
-- interpretation being confused with data shaping  
+* UI logic leaking into runtime truth
+* validation becoming entangled with presentation
+* interpretation being confused with data shaping
 
 ---
 
@@ -121,18 +120,18 @@ This separation prevents:
 
 Traditional architectures often combine:
 
-- simulation
-- validation
-- rendering
+* simulation
+* validation
+* rendering
 
 into tightly coupled systems.
 
 CrypSA separates them to:
 
-- improve clarity  
-- enable deterministic replay  
-- support multiple observer views  
-- allow independent evolution of layers  
+* improve clarity
+* enable deterministic replay
+* support multiple observer perspectives
+* allow independent evolution of layers
 
 ---
 
@@ -141,11 +140,11 @@ CrypSA separates them to:
 ```mermaid
 flowchart LR
 
-A[Canonical Events] --> B[Derived State]
+A[Canonical Event History] --> B[Derived Canonical State]
 B --> C[Adapters]
 C --> D[Lenses]
 D --> E[UI / Experience]
-````
+```
 
 ---
 
@@ -156,7 +155,7 @@ flowchart LR
 
 A[User Action] --> B[Candidate Event]
 B --> C[Validation]
-C -->|Accepted| D[Canonical Events]
+C -->|Accepted| D[Canonical Event History]
 C -->|Rejected| E[Rejection]
 ```
 
@@ -170,9 +169,11 @@ CrypSA separates:
   from
 * **how it is seen**
 
-Truth lives in canonical history.
+Truth lives in canonical event history.
 
-Everything else derives from it.
+Derived state is reconstructed via replay.
+
+Everything else builds on that.
 
 ---
 
@@ -180,11 +181,10 @@ Everything else derives from it.
 
 CrypSA is structured around a clear separation of responsibilities:
 
-* canonical events define truth
+* canonical event history defines truth
 * adapters translate data
 * lenses interpret meaning
-* observers experience and simulate the world
+* observers simulate and reconcile
+* UI presents the experience
 
 This separation is what makes the system predictable, debuggable, and extensible.
-👉 `CrypSA_Terminology_Primer.md` (very small but important alignment tweak)
-```
