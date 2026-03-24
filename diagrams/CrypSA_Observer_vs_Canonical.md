@@ -5,7 +5,7 @@
 This diagram shows the relationship between:
 
 * local observer simulation
-* canonical server truth
+* the server’s truth-layer role
 
 It explains how CrypSA separates:
 
@@ -41,7 +41,7 @@ D -->|Rejected| A
 
 E --> F
 F --> A
-```
+````
 
 ---
 
@@ -92,7 +92,7 @@ Derived state is a computed view, not the source of truth.
 
 #### Accepted
 
-* event is appended to canonical history
+* event is appended to canonical event history
 * canonical truth changes
 * observers receive updates
 
@@ -119,7 +119,7 @@ This ensures:
 
 > The observer simulates freely.
 > The server determines what becomes real.
-> Canonical history corrects local state.
+> Canonical event history corrects local state.
 
 ---
 
@@ -147,4 +147,4 @@ This diagram connects to:
 
 ## One Sentence Summary
 
-Observers simulate locally and predict outcomes, but only server-validated events become canonical truth, and all observers reconcile to that shared reality.
+Observers simulate locally and predict outcomes, but only validated canonical events become part of canonical event history, and all observers reconcile to that shared reality.
