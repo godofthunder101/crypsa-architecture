@@ -5,10 +5,11 @@
 This document defines the minimal runtime behavior of a CrypSA system.
 
 It specifies how:
-- local observer actions become candidate events  
-- candidate events are validated  
-- canonical truth is updated  
-- observers reconcile to canonical state  
+
+* local observer actions become candidate events
+* candidate events are validated
+* canonical truth is updated
+* observers reconcile to canonical state
 
 This is the minimum runtime contract required for CrypSA to be:
 
@@ -30,24 +31,23 @@ For a high-level flow of the runtime:
 
 This v0.1 runtime spec covers:
 
-- observer action proposal  
-- candidate event structure  
-- server-side validation  
-- event acceptance and rejection  
-- canonical event recording  
-- canonical update distribution  
-- observer reconciliation  
-- per-object ordering  
-- snapshot-assisted reconstruction  
+* observer action proposal
+* candidate event structure
+* server-side validation
+* event acceptance and rejection
+* canonical event recording
+* canonical update distribution
+* observer reconciliation
+* snapshot-assisted reconstruction
 
 This v0.1 spec does **not fully define**:
 
-- combat adjudication  
-- advanced anti-cheat systems  
-- distributed shard coordination  
-- mergeable offline branches  
-- advanced partitioning strategies  
-- cryptographic trust proofs  
+* combat adjudication
+* advanced anti-cheat systems
+* distributed shard coordination
+* mergeable offline branches
+* advanced partitioning strategies
+* cryptographic trust proofs
 
 ---
 
@@ -57,12 +57,10 @@ This v0.1 spec does **not fully define**:
 
 A process that:
 
-- reconstructs canonical objects locally  
-- simulates local experience  
-- proposes candidate events  
-- reconciles local state with canonical truth  
-
-In most games, this is the client.
+* reconstructs canonical objects locally
+* simulates local experience
+* proposes candidate events
+* performs observer reconciliation
 
 ---
 
@@ -70,11 +68,19 @@ In most games, this is the client.
 
 A process that:
 
-- receives candidate events  
-- validates them  
-- enforces invariants  
-- records accepted canonical events  
-- distributes canonical updates  
+* receives candidate events
+* validates them
+* enforces invariants
+* records accepted canonical events
+* distributes canonical updates
+
+The server does **not**:
+
+* simulate the world
+* predict outcomes
+* control user experience
+
+> The server controls truth, not simulation.
 
 ---
 
@@ -82,11 +88,15 @@ A process that:
 
 The persistent runtime store containing:
 
-- canonical event log  
-- object identity registry  
-- genome references  
-- derived canonical state  
-- snapshots  
+* canonical event history
+* object identity registry
+* genome references
+* derived state (materialized view)
+* snapshots
+
+Canonical truth is defined by:
+
+> canonical event history, not derived state
 
 ---
 
@@ -96,16 +106,14 @@ A player action does **not directly modify canonical truth**.
 
 Instead:
 
----
-
-Local Action  
-→ Candidate Event  
-→ Server Validation  
-→ Accept or Reject  
-→ Canonical Log Update  
-→ Observer Reconciliation  
-
----
+```text
+Local Action
+→ Candidate Event
+→ Server Validation
+→ Accept or Reject
+→ Canonical Event History Update
+→ Observer Reconciliation
+```
 
 Only accepted events become canonical.
 
@@ -119,12 +127,12 @@ Actions that do not affect canonical truth.
 
 Examples:
 
-- camera movement  
-- visual effects  
-- UI changes  
-- cosmetic previews  
+* camera movement
+* visual effects
+* UI changes
+* cosmetic previews
 
-These never enter canonical history.
+These never enter canonical event history.
 
 ---
 
@@ -134,12 +142,12 @@ Actions that may affect canonical truth.
 
 Examples:
 
-- mint object  
-- place structure  
-- destroy structure  
-- transfer ownership  
-- upgrade item  
-- consume resource  
+* mint object
+* place structure
+* destroy structure
+* transfer ownership
+* upgrade item
+* consume resource
 
 These must pass validation.
 
@@ -149,75 +157,71 @@ These must pass validation.
 
 Each candidate event must contain:
 
----
-
-event_id  
-event_type  
-actor_id  
-target_ids  
-payload  
-client_time  
-branch_id  
-precondition_refs  
+```text
+event_id
+event_type
+actor_id
+target_ids
+payload
+client_time
+precondition_refs
+```
 
 ---
 
 ### 5.1 Field Definitions
 
-**event_id**  
-Client-generated unique identifier.  
+**event_id**
+Client-generated unique identifier.
 
 Used for:
-- deduplication  
-- retry safety  
-- reconciliation tracking  
+
+* idempotency
+* retry safety
+* reconciliation tracking
 
 ---
 
-**event_type**  
+**event_type**
 Defines the action.
 
 ---
 
-**actor_id**  
+**actor_id**
 Canonical identity of acting entity.
 
 ---
 
-**target_ids**  
+**target_ids**
 Canonical objects affected.
 
 ---
 
-**payload**  
+**payload**
 Event-specific data describing the proposed state transition.
 
 ---
 
-**client_time**  
+**client_time**
 Client-local timestamp. Not authoritative.
 
 ---
 
-**branch_id**  
-The branch/timeline context the observer is operating in.
-
----
-
-**precondition_refs**  
+**precondition_refs**
 Explicit assumptions about canonical state.
 
 ---
 
 ### 5.2 Precondition Evaluation
 
-- All preconditions must evaluate to `true`
-- Any failure → rejection
+* all preconditions must evaluate to `true`
+* any failure → rejection
 
 Preconditions must be:
-- explicit  
-- deterministic  
-- verifiable  
+
+* explicit
+* deterministic
+* verifiable
 
 ---
 
@@ -225,14 +229,15 @@ Preconditions must be:
 
 CrypSA v0.1 uses:
 
-> server-defined canonical ordering with per-object conflict resolution
+> server-defined canonical ordering with scoped conflict resolution
 
 ---
 
 ### 6.1 Canonical Order
 
-- server assigns ordering  
-- client order is not authoritative  
+* server assigns `server_sequence`
+* `server_sequence` defines authoritative ordering
+* client order is not authoritative
 
 ---
 
@@ -240,17 +245,17 @@ CrypSA v0.1 uses:
 
 Conflicts are resolved within:
 
-- object  
-- tile  
-- inventory slot  
-- ownership target  
+* object
+* tile
+* inventory slot
+* ownership target
 
 ---
 
 ### 6.3 Conflict Resolution
 
-- first valid accepted event wins  
-- later conflicting events are rejected  
+* first valid accepted event wins
+* later conflicting events are rejected
 
 ---
 
@@ -260,17 +265,9 @@ Validation must be atomic within the conflict scope.
 
 ---
 
-### 6.5 No Global Strong Ordering
-
-Only local ordering is required where invariants depend on it.
-
----
-
 ## 7. Validation Pipeline
 
 Each candidate event passes through:
-
----
 
 ```mermaid
 flowchart TD
@@ -292,53 +289,12 @@ E -->|Pass| F[Rule Validation]
 F -->|Fail| R5[Reject: rule_violation]
 F -->|Pass| G[Accept Event]
 
-G --> H[Canonical Log Update]
-
-````
-
----
-
-### 7.1 Schema Validation
-
-Reject if malformed.
+G --> H[Canonical Event History Update]
+```
 
 ---
 
-### 7.2 Identity Validation
-
-Reject if invalid references.
-
----
-
-### 7.3 Precondition Validation
-
-Reject if assumptions fail.
-
----
-
-### 7.4 Invariant Validation
-
-Reject if rules would be violated.
-
----
-
-### 7.5 Rule Validation
-
-Reject if event-specific rules fail.
-
----
-
-### 7.6 Acceptance
-
-If all checks pass:
-
-* event becomes canonical
-* derived state updates
-* observers notified
-
----
-
-### 7.7 Determinism Requirement
+## 7.7 Determinism Requirement
 
 All accepted events must produce deterministic results.
 
@@ -346,15 +302,15 @@ All accepted events must produce deterministic results.
 
 ## 8. Validation Outcomes
 
-### 8.1 Accepted
+### Accepted
 
 * event recorded
-* state updated
+* derived state updated
 * observers notified
 
 ---
 
-### 8.2 Rejected
+### Rejected
 
 * no canonical change
 * rejection returned
@@ -362,11 +318,10 @@ All accepted events must produce deterministic results.
 
 ---
 
-### 8.3 Rejection Codes
+### Rejection Codes
 
 * invalid_schema
 * invalid_identity
-* invalid_branch
 * precondition_failed
 * invariant_violation
 * rule_violation
@@ -376,7 +331,7 @@ All accepted events must produce deterministic results.
 
 ## 9. Canonical Event Recording
 
-Append-only log.
+Canonical event history is append-only.
 
 Each event includes:
 
@@ -384,15 +339,15 @@ Each event includes:
 * source_event_id
 * server_sequence
 * accepted_at
-* branch_id
 
 ---
 
-## 10. Derived Canonical State
+## 10. Derived State
 
-Materialized view of event history.
+Derived state is:
 
-Not independently authoritative.
+* a materialized view of canonical event history
+* not independently authoritative
 
 ---
 
@@ -426,17 +381,20 @@ Observers must:
 System must handle:
 
 * delays
-* out-of-order events
+* out-of-order delivery
 * retries
 * duplicates
 
 ---
 
-## 14. Worked Example
+## 14. Idempotency Requirement
 
-See:
+The system must ensure:
 
-👉 `CrypSA_WORKED_EXAMPLE.md`
+* duplicate `event_id` submissions
+* do not create duplicate canonical events
+
+Each event must be processed exactly once.
 
 ---
 
@@ -471,11 +429,11 @@ CrypSA runtime:
 
 * observers simulate locally
 * server validates events
-* canonical history defines truth
+* canonical event history defines truth
 * observers reconcile
 
 ---
 
 ## One Sentence Summary
 
-CrypSA Runtime v0.1 defines how observer actions become validated canonical events and how shared reality emerges from event-driven canonical history.
+CrypSA Runtime v0.1 defines how observer actions become validated canonical events and how shared reality emerges from event-driven canonical event history.
