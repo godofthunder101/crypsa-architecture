@@ -21,7 +21,7 @@ Its core ideas include:
 
 * minted canonical identities
 * deterministic structural genomes
-* invariant-protected canonical truth
+* invariant-protected canonical event history
 * validated event-driven evolution
 * observer-relative simulation
 * lens-based interpretation layers
@@ -41,6 +41,6 @@ This repository serves as the canonical public record of the architecture’s or
 
 ## Attribution
 
-Creator: Beau Wells
-Architecture Name: CrypSA — Cryptid Server Architecture
+Creator: Beau Wells  
+Architecture Name: CrypSA — Cryptid Server Architecture  
 First Public Release: 2026
