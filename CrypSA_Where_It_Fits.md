@@ -1,12 +1,6 @@
+# Where CrypSA Fits (and Where It Doesn't)
+
 This document explains when CrypSA should or should not be used.
----
-Where CrypSA Fits (and Where It Doesn't)
----
-CrypSA is not a universal replacement for all multiplayer architectures.
-
-It is designed for specific types of systems, and it introduces tradeoffs that make it better suited for some domains than others.
-
-This document outlines where CrypSA is a strong fit, where it is weaker, and how it compares to traditional approaches.
 
 ---
 
@@ -18,10 +12,11 @@ CrypSA is strongest in systems where:
 
 It prioritizes:
 
-- canonical event history  
-- deterministic reconstruction  
-- invariant-based validation  
-- persistent world evolution  
+* canonical event history
+* replay
+* deterministic reconstruction
+* invariant-based validation
+* persistent world evolution
 
 ---
 
@@ -31,16 +26,16 @@ It prioritizes:
 
 Examples:
 
-- sandbox building games  
-- survival worlds  
-- MMO-style environments  
-- simulation-driven worlds  
+* sandbox building games
+* survival worlds
+* MMO-style environments
+* simulation-driven worlds
 
 Why it fits:
 
-- world state evolves through discrete events  
-- history and provenance matter  
-- replay and reconstruction are valuable  
+* world state evolves through discrete events
+* history and provenance matter
+* replay and reconstruction are valuable
 
 ---
 
@@ -48,15 +43,15 @@ Why it fits:
 
 Examples:
 
-- RTS (non twitch-heavy)  
-- turn-based or hybrid strategy  
-- colony simulations  
+* RTS (non twitch-heavy)
+* turn-based or hybrid strategy
+* colony simulations
 
 Why it fits:
 
-- actions are discrete and verifiable  
-- outcomes can be validated against rules  
-- deterministic reconstruction is achievable  
+* actions are discrete and verifiable
+* outcomes can be validated against rules
+* deterministic reconstruction via replay is achievable
 
 ---
 
@@ -64,15 +59,15 @@ Why it fits:
 
 Examples:
 
-- trading systems  
-- resource networks  
-- logistics simulations  
+* trading systems
+* resource networks
+* logistics simulations
 
 Why it fits:
 
-- transactions are event-based  
-- auditability is valuable  
-- invariant validation maps well to economic rules  
+* transactions are event-based
+* auditability is valuable
+* invariant validation maps well to economic rules
 
 ---
 
@@ -80,15 +75,15 @@ Why it fits:
 
 Examples:
 
-- idle or incremental games  
-- persistent online worlds  
-- offline progression systems  
+* idle or incremental games
+* persistent online worlds
+* offline progression systems
 
 Why it fits:
 
-- events can be validated independently  
-- snapshots + replay support long timelines  
-- clients do not need constant synchronization  
+* events can be validated independently
+* snapshots + replay support long timelines
+* clients do not need constant synchronization
 
 ---
 
@@ -96,15 +91,15 @@ Why it fits:
 
 Examples:
 
-- competitive logs  
-- debugging-heavy simulations  
-- content playback systems  
+* competitive logs
+* debugging-heavy simulations
+* content playback systems
 
 Why it fits:
 
-- canonical history is first-class  
-- replay is built into the architecture  
-- state can be reconstructed at any point  
+* canonical event history is first-class
+* replay is built into the architecture
+* state can be reconstructed at any point
 
 ---
 
@@ -114,15 +109,15 @@ Why it fits:
 
 Examples:
 
-- FPS games  
-- fighting games  
-- real-time action combat  
+* FPS games
+* fighting games
+* real-time action combat
 
 Why it struggles:
 
-- requires frame-level authority  
-- latency sensitivity is extreme  
-- event validation is too slow for per-frame decisions  
+* requires frame-level authority
+* latency sensitivity is extreme
+* validation is too slow for per-frame decisions
 
 ---
 
@@ -130,15 +125,15 @@ Why it struggles:
 
 Examples:
 
-- vehicle physics  
-- destructible environments  
-- continuous collision systems  
+* vehicle physics
+* destructible environments
+* continuous collision systems
 
 Why it struggles:
 
-- continuous simulation is hard to represent as discrete events  
-- deterministic reconstruction is difficult  
-- invariant validation becomes complex and expensive  
+* continuous simulation is hard to represent as discrete events
+* deterministic reconstruction is difficult
+* invariant validation becomes complex and expensive
 
 ---
 
@@ -146,14 +141,14 @@ Why it struggles:
 
 Examples:
 
-- anti-cheat critical PvP  
-- esports-grade environments  
+* anti-cheat critical PvP
+* esports-grade environments
 
 Why it struggles:
 
-- CrypSA gives more responsibility to observers  
-- validation replaces full server simulation  
-- requires additional trust and security layers  
+* CrypSA allows observer-side simulation
+* validation replaces continuous full server simulation
+* requires additional trust and security layers
 
 ---
 
@@ -161,15 +156,19 @@ Why it struggles:
 
 CrypSA does not need to replace all systems.
 
+In practice:
+
+> it often should not
+
 It can coexist with traditional approaches.
 
 Examples:
 
-- CrypSA for world state + traditional server authority for combat  
-- CrypSA for economy + traditional sync for physics  
-- CrypSA for persistence + snapshot injection into real-time systems  
+* CrypSA for world state + traditional server authority for combat
+* CrypSA for economy + traditional sync for physics
+* CrypSA for persistence + snapshot injection into real-time systems
 
-This hybrid approach may be the most practical path for many projects.
+This hybrid approach is often the most practical path.
 
 ---
 
@@ -179,37 +178,39 @@ CrypSA introduces important tradeoffs:
 
 ### Gains
 
-- replayability  
-- auditability  
-- persistence  
-- flexible client simulation  
-- reduced server simulation load  
+* replayability
+* auditability
+* persistence
+* deterministic reconstruction via replay
+* flexible client simulation
+* reduced server simulation load
 
 ---
 
 ### Costs
 
-- more complex validation logic  
-- reconciliation complexity  
-- harder mental model  
-- potential security challenges  
-- not suited for all gameplay types  
+* more complex validation logic
+* reconciliation complexity
+* harder mental model
+* potential security challenges
+* debugging requires understanding event history
+* not suited for all gameplay types
 
 ---
 
 ## Why CrypSA Exists
 
-CrypSA is an exploration of a different question:
+CrypSA explores a different question:
 
-> What if multiplayer systems agreed on history instead of synchronizing state?
+> What if multiplayer systems agreed on canonical event history instead of synchronizing state?
 
 It is not intended to replace all architectures.
 
 It is intended to:
 
-- expand the design space  
-- enable new types of systems  
-- simplify some problems while shifting complexity elsewhere  
+* expand the design space
+* enable new types of systems
+* simplify some problems while shifting complexity elsewhere
 
 ---
 
@@ -217,11 +218,11 @@ It is intended to:
 
 You should consider CrypSA if your system:
 
-- is event-driven at its core  
-- benefits from persistent history  
-- needs replay or auditability  
-- can tolerate validation-based authority  
-- is not dependent on frame-perfect simulation  
+* is event-driven at its core
+* benefits from persistent history
+* needs replay or auditability
+* can tolerate validation-based authority
+* is not dependent on frame-perfect simulation
 
 ---
 
@@ -229,10 +230,11 @@ You should consider CrypSA if your system:
 
 You should avoid CrypSA if your system:
 
-- depends on frame-level precision  
-- requires strict server-side control of every interaction  
-- relies heavily on continuous physics  
-- cannot tolerate reconciliation corrections  
+* depends on frame-level precision
+* requires strict server-side control of every interaction
+* relies heavily on continuous physics
+* requires continuous authoritative simulation
+* cannot tolerate reconciliation corrections
 
 ---
 
