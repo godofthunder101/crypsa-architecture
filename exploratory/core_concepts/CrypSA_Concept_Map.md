@@ -1,295 +1,155 @@
-#CrypSA Concept Map
+# CrypSA Concept Map
 
 > Exploratory note: This document reflects conceptual exploration and early modeling.
 >
-> For the current CrypSA model, refer to `../../CrypSA_In_5_Minutes.md`, `../../architecture/`, and `../../spec/`.
-
-Purpose
-
-The CrypSA Concept Map presents the architecture as a single conceptual chain.
-
-Rather than describing the system through multiple documents and diagrams, this map shows how the core components of CrypSA connect together to produce a persistent canonical universe.
-
-This diagram provides a quick way to understand the structure of the system.
-
+> For the current CrypSA model, refer to:
+>
+> * `../../CrypSA_In_5_MinUTES.md`
+> * `../../architecture/`
+> * `../../spec/`
 
 ---
 
-The CrypSA Concept Chain
+## Purpose
 
-At its core, CrypSA can be understood as a sequence of structural layers.
+This document presents CrypSA as a single conceptual chain.
 
+It is intended as a **mental model**, not an authoritative description of the system.
+
+It helps illustrate how core ideas connect, but does not define architecture or behavior.
+
+---
+
+## Conceptual Chain
+
+```text
 Mint
-
-  ↓
-
-Identity
-
-  ↓
-
-Genome
-
-  ↓
-
-Canonical Object
-
-  ↓
-
-Canonical Invariants
-
-  ↓
-
-Observer Reconstruction
-
-  ↓
-
-Lens Interpretation
-
-  ↓
-
-Local Simulation
-
-  ↓
-
-Invariant Boundary
-
-  ↓
-
-Canonical Event
-
-  ↓
-
-Server Reconciliation
-
-  ↓
-
-Canonical Truth
-
-  ↓
-
-Universe State Transition
-
-Each layer builds upon the previous one to form a complete persistent universe architecture.
-
+→ Identity
+→ Genome
+→ Canonical Object
+→ Invariants
+→ Observer Reconstruction
+→ Adapters (Translation)
+→ Lenses (Interpretation)
+→ Experience (Simulation/UI)
+→ Invariant Boundary
+→ Candidate Event
+→ Validation
+→ Canonical Event History
+→ Reconstructed State
+```
 
 ---
 
-Layer Explanation
+## How to Read This
 
-Mint
+This chain describes a conceptual flow:
 
-The Mint is responsible for creating canonical identities.
-
-It ensures that every object entering the universe has a unique and verifiable identity.
-
-
----
-
-Identity
-
-Identity represents the permanent existence of an object.
-
-It answers the question:
-
-What object is this?
-
-Identity does not change over time.
-
+* objects are defined structurally
+* observers reconstruct and interpret them
+* simulation occurs locally
+* some interactions cross the invariant boundary
+* validated events update canonical history
+* observers reconstruct updated state
 
 ---
 
-Genome
+## Important Clarification
 
-The genome defines the structural rules and capabilities of the object.
+This chain is a **conceptual simplification**.
 
-Examples include:
+The authoritative CrypSA architecture is defined as:
 
-valid states
+* **Truth** — canonical events and validation
+* **Translation** — adapters
+* **Interpretation** — lenses
+* **Experience** — UI and local simulation
 
-allowed transitions
-
-interaction capabilities
-
-invariant requirements
-
-
-The genome acts as the object's structural blueprint.
-
+This document should not be used to redefine those layers.
 
 ---
 
-Canonical Object
+## Notes on Concepts
 
-A canonical object combines:
+### Mint, Identity, Genome
 
-Identity + Genome + Invariant State
+These describe how objects are structurally defined.
 
-This forms the persistent structural representation of an object within the universe.
-
-
----
-
-Canonical Invariants
-
-Invariants define rules that must always remain true in the canonical universe.
-
-Examples include:
-
-unique ownership relationships
-
-mutually exclusive states
-
-structural constraints
-
-
-These rules preserve the integrity of shared reality.
-
+They exist in the **truth layer**, but are presented here in sequence for clarity.
 
 ---
 
-Observer Reconstruction
+### Observer Reconstruction
 
-Observers rebuild the universe locally using canonical information.
+Observers rebuild canonical reality locally from:
 
-Observers typically use:
-
-Identity
-+ Genome
-+ Invariant State
-+ Event History
-
-This allows observers to reconstruct objects without constant server synchronization.
-
+* identity
+* genome
+* canonical event history
 
 ---
 
-Lens Interpretation
+### Adapters and Lenses
 
-Lenses transform canonical structure into experience.
-
-Examples include:
-
-gameplay interpretation
-
-economy systems
-
-discovery systems
-
-visualization layers
-
-
-Different lens stacks may produce different experiences from the same canonical universe.
-
+* adapters shape data (**translation**)
+* lenses interpret meaning (**interpretation**)
 
 ---
 
-Local Simulation
+### Experience
 
-Observers simulate interactions locally.
-
-This includes:
-
-movement
-
-physics
-
-prediction
-
-temporary effects
-
-
-Most simulation happens here.
-
+Local simulation and UI form the observer’s experience.
 
 ---
 
-Invariant Boundary
+### Invariant Boundary
 
-The invariant boundary determines whether an interaction affects canonical truth.
+This determines whether an action:
 
-Does this interaction change canonical reality?
-
-If no → remain local
-If yes → generate canonical event
-
-This boundary is the central decision point in CrypSA.
-
+* remains local
+* becomes a candidate event
 
 ---
 
-Canonical Event
+### Validation and Canonical Events
 
-A canonical event represents a proposed change to the universe.
+The server validates candidate events.
 
-Examples include:
+Accepted events:
 
-item acquisition
-
-ownership transfer
-
-structure placement
-
-discovery registration
-
-
-These events are candidates for canonical truth.
-
+* are appended to canonical event history
+* define shared truth
 
 ---
 
-Server Reconciliation
+### Reconstruction Loop
 
-The server validates canonical events.
+Observers reconstruct updated state from canonical history.
 
-Validation checks include:
+This forms a continuous loop between:
 
-identity existence
-
-genome rule compliance
-
-invariant preservation
-
-contextual validity
-
-
-If validation fails, the event is rejected.
-
-If validation succeeds, canonical truth is updated.
-
+* simulation
+* validation
+* reconstruction
 
 ---
 
-Canonical Truth
+## Key Insight
 
-Canonical truth represents the shared structural reality of the universe.
-
-All observers ultimately converge on this truth.
-
+> CrypSA can be understood as a cycle of reconstruction, simulation, validation, and canonical update.
 
 ---
 
-Universe State Transition
+## Why This Exists
 
-When a canonical event is accepted, the universe transitions to a new canonical state.
+This conceptual map helps:
 
-State S₀
-
-  ↓
-
-Validated Event
-
-  ↓
-
-State S₁
-
-The universe evolves through a sequence of validated state transitions.
-
+* understand the system holistically
+* connect otherwise separate components
+* reason about flow without strict layering
 
 ---
 
-One Sentence Summary
+## One Sentence Summary
 
-CrypSA constructs persistent digital universes by minting deterministic objects, allowing observers to simulate locally, and using invariant-protected canonical events to evolve shared reality.
-
-
----
+CrypSA can be viewed as a cycle where deterministic object definitions, local simulation, and invariant-protected validation work together to produce and maintain canonical shared reality.
