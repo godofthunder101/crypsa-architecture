@@ -6,10 +6,10 @@ This diagram shows how CrypSA resolves conflicting candidate events that target 
 
 Examples of conflict scope include:
 
-* the same tile
-* the same object
-* the same inventory slot
-* the same ownership target
+* the same tile  
+* the same object  
+* the same inventory slot  
+* the same ownership target  
 
 In CrypSA v0.1:
 
@@ -27,7 +27,7 @@ B[Observer B submits candidate event] --> C
 
 C --> D[Evaluate against canonical event history]
 
-D --> E[Validate next candidate event]
+D --> E[Validate candidate event]
 
 E -->|Valid and first| G[Accept event]
 E -->|Invalid| R1[Reject event]
@@ -100,7 +100,7 @@ After the canonical event is accepted:
 
 * observers receive the update
 * local predictions are confirmed or corrected
-* all observers converge to canonical event history
+* all observers converge to derived canonical state
 
 ---
 
@@ -122,4 +122,4 @@ This diagram maps to:
 
 ## One Sentence Summary
 
-When multiple observers submit conflicting actions, the server evaluates them against canonical event history, assigns ordering via `server_sequence`, accepts one valid event within the conflict scope, rejects the others, and observers reconcile to the resulting canonical state.
+When multiple observers submit conflicting actions, the server evaluates them against canonical event history, assigns ordering via `server_sequence`, accepts one valid event within the conflict scope, rejects the others, and observers reconcile to the resulting derived canonical state.
