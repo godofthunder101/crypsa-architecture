@@ -51,29 +51,60 @@ Observers simulate locally.
 
 ---
 
+## Documentation Authority
+
+CrypSA uses a layered documentation model.
+
+Current authority order is:
+
+1. `../spec/` — authoritative for runtime behavior
+2. `../architecture/` — authoritative for system structure
+3. `../implementation/` — implementation direction and engineering guidance
+4. `../teaching/` — teaching materials and prototype explanation
+5. `../exploratory/`, `../design/`, `../diagrams/`, `../atlas/` — supporting or non-authoritative material
+
+Important:
+
+> `exploratory/` provides historical background and conceptual context.
+> It is not the current source of truth for CrypSA runtime behavior.
+
+---
+
 ## What Exists Today
 
-### 1. Conceptual Architecture
+### 1. Authoritative Architecture and Runtime Definition
 
-The repository defines:
+The repository currently defines CrypSA through:
 
-* observer model
-* canonical server model
+* `../architecture/` — system structure and architectural boundaries
+* `../spec/` — runtime behavior and implementation-facing system contracts
+
+Together, these define:
+
+* the observer model
+* the server role in validation and canonical event handling
 * event-driven world evolution
 * invariant-based validation
 * reconstruction from canonical event history
 
-These are described in:
+---
 
-* `exploratory/foundation/`
-* `exploratory/core_concepts/`
-* `architecture/`
+### 2. Supporting Historical and Exploratory Material
+
+The repository also includes:
+
+* `../exploratory/foundation/`
+* `../exploratory/core_concepts/`
+
+These documents provide background, earlier framing, and conceptual exploration.
+
+They are useful for historical context and idea evolution, but they are not authoritative for the current CrypSA model.
 
 ---
 
-### 2. Formal Specifications
+### 3. Formal Specifications
 
-The `spec/` folder defines intended runtime behavior.
+The `../spec/` folder defines intended runtime behavior.
 
 Current coverage includes:
 
@@ -86,19 +117,19 @@ Current coverage includes:
 * identity model
 * transport model
 
-These documents describe how CrypSA is expected to function as a system.
+These documents define how CrypSA is expected to function as a system.
 
 ---
 
-### 3. Teaching Prototype
+### 4. Teaching Prototype
 
 A local teaching prototype exists in:
 
-`teaching/crypsa_teaching_prototype/`
+`../teaching/crypsa_teaching_prototype/`
 
 For authoritative prototype status, see:
 
-`../teaching/CrypSA_teaching_prototype/STATUS.md`
+`../teaching/crypsa_teaching_prototype/STATUS.md`
 
 It demonstrates:
 
@@ -121,11 +152,11 @@ Important:
 
 ---
 
-### 4. Minimal Server Design
+### 5. Minimal Server Design
 
 A minimal server design has been defined in:
 
-* `implementation/CrypSA_Minimal_Server_v0.1.md`
+* `CrypSA_Minimal_Server_v0.1.md`
 
 This document describes:
 
@@ -174,7 +205,7 @@ CrypSA is currently focused on proving:
 1. that canonical event-driven truth is viable
 2. that invariant-based validation can replace full server simulation
 3. that observers can reconstruct shared state from canonical event history
-4. that observer reconciliation (alignment of local prediction with canonical truth) is manageable
+4. that observer reconciliation is manageable
 
 The goal is to validate the architecture, not optimize it.
 
@@ -230,28 +261,41 @@ Long-term evolution is described in:
 
 ### To understand the idea
 
-* `CrypSA_In_5_Minutes.md`
-* `CrypSA_Terminology_Primer.md`
-* `FAQ.md`
+* `../CrypSA_In_5_Minutes.md`
+* `../CrypSA_Terminology_Primer.md`
+* `../FAQ.md`
 
 ---
 
-### To understand the system
+### To understand the current system definition
 
-* `architecture/`
-* `spec/`
+* `../architecture/`
+* `../spec/`
+
+Use `../spec/` for runtime behavior and `../architecture/` for system structure.
 
 ---
 
 ### To understand the model in practice
 
-* `teaching/crypsa_teaching_prototype/`
+* `../teaching/crypsa_teaching_prototype/`
+
+Treat this as a completed teaching artifact, not as the runtime proof.
+
+---
+
+### To understand historical context
+
+* `../exploratory/foundation/`
+* `../exploratory/core_concepts/`
+
+Use these for background only, not as the current source of truth.
 
 ---
 
 ### To understand how to build it
 
-* `implementation/CrypSA_Minimal_Server_v0.1.md`
+* `CrypSA_Minimal_Server_v0.1.md`
 
 ---
 
