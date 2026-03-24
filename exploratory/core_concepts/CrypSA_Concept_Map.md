@@ -1,6 +1,4 @@
----
-
-CrypSA Concept Map
+#CrypSA Concept Map
 
 > Exploratory note: This document reflects conceptual exploration and early modeling.
 >
