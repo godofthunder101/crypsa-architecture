@@ -3,9 +3,10 @@
 This document defines how CrypSA reconstructs world state from canonical event history.
 
 Replay is the mechanism that turns:
-- canonical events  
-into  
-- derived world state  
+
+* canonical events
+  into
+* derived world state
 
 ---
 
@@ -15,7 +16,7 @@ In CrypSA:
 
 > The world is not stored — it is reconstructed.
 
-Canonical state is always derived by replaying events.
+Canonical state is always derived by replaying canonical event history.
 
 ---
 
@@ -33,11 +34,11 @@ Replay is the process of:
 
 Replay requires:
 
-- canonical event history  
-- ordering information (`lineage_parent`, sequence)  
-- event payloads  
-- invariant rules  
-- object definitions (Genomes / Mint)  
+* canonical event history
+* authoritative ordering (`server_sequence`)
+* event payloads
+* invariant rules
+* object definitions (genomes / mint)
 
 ---
 
@@ -47,15 +48,15 @@ Replay can begin from:
 
 ### 1. Genesis
 
-- Empty or initial world state
-- All events are applied
+* empty or initial world state
+* all events are applied
 
 ---
 
 ### 2. Snapshot (Recommended)
 
-- Precomputed derived state at a known point
-- Replay resumes from snapshot forward
+* precomputed derived state at a known sequence
+* replay resumes from snapshot forward
 
 ---
 
@@ -63,37 +64,22 @@ Replay can begin from:
 
 Replay order is defined by:
 
-### 1. Lineage Chain
+### Canonical Ordering
 
-- Events follow their `lineage_parent`
-- Defines the primary replay path
-
----
-
-### 2. Scoped Sequence
-
-- `canonical_sequence` ensures ordering within a scope
-- Scope may be:
-  - global
-  - region
-  - object
-
----
-
-### 3. Deterministic Application
-
-Events must be applied in a consistent order to ensure identical results.
+* events must be applied strictly in `server_sequence` order
+* this ordering is authoritative
+* all observers must use the same ordering
 
 ---
 
 ## Event Application
 
-Each event modifies state according to:
+Each event modifies derived state according to:
 
-- its `event_type`
-- its `payload`
-- the current state
-- invariant rules
+* its `event_type`
+* its `payload`
+* the current derived state
+* invariant rules
 
 ---
 
@@ -101,9 +87,13 @@ Each event modifies state according to:
 
 Event application must be:
 
-- deterministic  
-- side-effect controlled  
-- idempotent  
+* deterministic
+* idempotent
+* free of external side effects
+
+Event application must only affect:
+
+> derived state constructed from canonical event history
 
 ---
 
@@ -115,9 +105,9 @@ This requires:
 
 ### 1. Deterministic Logic
 
-- no randomness unless seeded
-- no time-dependent logic
-- no platform-dependent variation
+* no randomness unless explicitly seeded
+* no time-dependent logic
+* no platform-dependent variation
 
 ---
 
@@ -126,27 +116,28 @@ This requires:
 Events must include all required data.
 
 Avoid:
-- hidden dependencies
-- implicit state assumptions
+
+* hidden dependencies
+* implicit state assumptions
 
 ---
 
 ### 3. Stable Definitions
 
-- Genomes must be versioned or frozen
-- historical events must use correct definitions
+* genomes must be versioned or frozen
+* historical events must use correct definitions
 
 ---
 
 ## Idempotency
 
-Events may be replayed multiple times.
+Replay systems must tolerate repeated application attempts.
 
 Therefore:
 
-- applying the same event twice must not corrupt state
-- event_id must uniquely identify the event
-- systems must detect duplicates
+* canonical events must not produce different results if re-applied
+* event identity must uniquely identify each event
+* duplicate application must not corrupt derived state
 
 ---
 
@@ -156,9 +147,9 @@ Replay does not always require full history.
 
 Possible strategies:
 
-- replay from last snapshot
-- replay a subset of events
-- replay per partition or object
+* replay from last snapshot
+* replay a subset of events
+* replay per partition or object
 
 ---
 
@@ -166,30 +157,30 @@ Possible strategies:
 
 Replay can occur at different levels:
 
-- full world replay  
-- region replay  
-- object-specific replay  
+* full world replay
+* region replay
+* object-specific replay
 
 This depends on system design.
 
 ---
 
-## Reconciliation
+## Observer Reconciliation
 
 Observers use replay to reconcile:
 
-- local predictions vs canonical state
-- rejected candidate events
-- late-arriving canonical events
+* local predictions vs canonical state
+* rejected candidate events
+* late-arriving canonical events
 
 ---
 
 ### Reconciliation Process
 
-1. Receive canonical event
-2. Compare with local state
-3. Correct divergence
-4. Continue simulation
+1. receive canonical event
+2. compare with local state
+3. correct divergence
+4. continue simulation
 
 ---
 
@@ -197,13 +188,13 @@ Observers use replay to reconcile:
 
 Divergence occurs when:
 
-- local simulation differs from canonical outcome
-- events are rejected
-- ordering differs
+* local simulation differs from canonical outcome
+* events are rejected
+* canonical updates arrive after local prediction
 
 Replay ensures:
 
-> canonical history overrides local assumptions
+> canonical event history overrides local assumptions
 
 ---
 
@@ -213,9 +204,9 @@ Snapshots improve replay performance.
 
 ### Requirements:
 
-- snapshot must correspond to a specific event position
-- snapshot must be reproducible from history
-- replay after snapshot must match full replay
+* snapshot must correspond to a specific `server_sequence`
+* snapshot must be reproducible from canonical event history
+* replay after snapshot must produce identical results to full replay
 
 ---
 
@@ -223,14 +214,14 @@ Snapshots improve replay performance.
 
 Replay must handle:
 
-- evolving event schemas
-- changing object definitions (Genomes)
+* evolving event schemas
+* changing object definitions (genomes)
 
 Strategies:
 
-- versioned event types
-- backward compatibility layers
-- migration during replay
+* versioned event types
+* backward compatibility layers
+* migration during replay
 
 ---
 
@@ -238,10 +229,10 @@ Strategies:
 
 Replay systems must handle:
 
-- missing events
-- corrupted events
-- inconsistent ordering
-- partial snapshots
+* missing events
+* corrupted events
+* inconsistent ordering
+* partial snapshots
 
 ---
 
@@ -249,15 +240,15 @@ Replay systems must handle:
 
 Replay cost depends on:
 
-- number of events
-- complexity of event application
-- frequency of snapshots
+* number of events
+* complexity of event application
+* frequency of snapshots
 
 Optimization strategies:
 
-- snapshotting
-- incremental replay
-- partitioned replay
+* snapshotting
+* incremental replay
+* partitioned replay
 
 ---
 
@@ -265,12 +256,13 @@ Optimization strategies:
 
 Replay assumes:
 
-- only canonical events are processed
-- all events have passed validation
+* only canonical events are processed
+* all events have already passed validation
 
 Replay does not:
-- validate events again
-- trust observer-local data
+
+* validate events again
+* trust observer-local data
 
 ---
 
@@ -278,14 +270,12 @@ Replay does not:
 
 CrypSA replay is:
 
-- deterministic  
-- event-driven  
-- idempotent  
-- reconstructive  
+* deterministic
+* event-driven
+* idempotent
+* reconstructive
 
 It ensures that:
 
-> Given the same canonical history,  
-> all observers derive the same world.
-
----
+> given the same canonical event history,
+> all observers derive the same world
