@@ -6,9 +6,9 @@ This folder contains implementation strategy, build direction, project status, a
 
 These documents describe:
 
-* how the system may be built
-* how components may be structured in code
-* how architectural ideas translate into implementation
+* how the system may be structured and built in code  
+* how components may be organized in practice  
+* how architectural ideas translate into implementation  
 
 ---
 
@@ -18,14 +18,16 @@ Documents in this folder are **not authoritative**.
 
 They:
 
-* do not define runtime behavior
-* do not define validation rules
-* do not define canonical truth
+* do not define runtime behavior  
+* do not define validation rules  
+* do not define truth  
 
 They must not be treated as:
 
-* specification documents
-* architecture definitions
+* specification documents  
+* architecture definitions  
+
+Examples and code patterns in this folder are illustrative and must not be treated as authoritative behavior.
 
 ---
 
@@ -43,13 +45,15 @@ For conceptual system structure, refer to:
 
 ## Relationship Between Layers
 
-CrypSA separates responsibilities across three layers:
+CrypSA separates documentation responsibilities across three layers:
 
-* **Architecture** → what the system is
-* **Spec** → how the system behaves
-* **Implementation** → how the system is built
+* **Architecture** → what the system is  
+* **Spec** → how the system behaves  
+* **Implementation** → how the system is built  
 
 This folder exists only in the **implementation layer**.
+
+Implementation must never override or reinterpret behavior defined in the spec.
 
 ---
 
@@ -57,14 +61,14 @@ This folder exists only in the **implementation layer**.
 
 Documents in this folder must not:
 
-* redefine validation logic
-* redefine event structure
-* redefine invariants
-* introduce conflicting terminology
+* redefine validation logic  
+* redefine event structure  
+* redefine invariants  
+* introduce conflicting terminology  
 
 If a conflict exists:
 
-> the spec and architecture always take precedence
+> the spec and architecture always take precedence  
 
 ---
 
@@ -74,8 +78,9 @@ Implementation guidance may evolve as the system is built.
 
 If implementation patterns become stable and necessary:
 
-* behavior belongs in `spec/`
-* structure belongs in `architecture/`
+* behavioral rules must move to `spec/`  
+* structural definitions must move to `architecture/`  
+* this folder must remain non-authoritative  
 
 Implementation documents should not become authoritative definitions.
 
