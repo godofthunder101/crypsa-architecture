@@ -4,13 +4,15 @@
 >
 > The prototype is preserved as a teaching artifact and is not updated to reflect ongoing architectural changes.
 >
-> For current system behavior, refer to `../../spec/`.
+> For current system behavior, refer to `../../../spec/`.
 
-# CrypSA Teaching Prototype - Data Flow Diagram
+# CrypSA Teaching Prototype — Data Flow Diagram
 
 > Scope note: This document describes the teaching prototype implementation.
 >
 > It does not define the full CrypSA architecture. For prototype status, refer to `../STATUS.md`.
+
+---
 
 ## Purpose
 
@@ -27,20 +29,24 @@ The goal is to make the prototype's architecture understandable at a glance.
 
 For artifact status and maintenance posture, pair this with `STATUS.md`.
 
+---
+
 ## Core Principle
 
-The teaching prototype is built around two opposite flows:
+The teaching prototype is built around two opposing flows:
 
-- downward: truth becomes experience
-- upward: user intent becomes validated canonical change
+- downward: canonical event history becomes experience  
+- upward: user intent becomes validated canonical events  
 
 This demonstrates the CrypSA model, not a distributed production implementation.
+
+---
 
 ## Full System Data Flow
 
 ```text
-Canonical Event Log
--> Canonical Replay
+Canonical Event History
+-> Replay
 -> Derived Canonical State
 -> Adapters
 -> Lenses
@@ -52,14 +58,16 @@ UI Interaction
 -> Controller / Runtime Action
 -> Validation
 -> Canonical Apply
--> Canonical Event Log
--> Canonical Replay
-```
+-> Canonical Event History
+-> Replay
+````
 
-## Downward Flow - Truth To Experience
+---
+
+## Downward Flow — Canonical Event History to Experience
 
 ```text
-Accepted Canonical History
+Canonical Event History
 -> Replay
 -> Derived Canonical State
 -> Adapters
@@ -67,9 +75,15 @@ Accepted Canonical History
 -> UI
 ```
 
-This is the path by which accepted history, replayed truth, and observer-local context become visible state and interaction options.
+This is the path by which accepted canonical event history becomes:
 
-## Upward Flow - Intent To Truth
+* reconstructed state
+* interpreted meaning
+* visible experience
+
+---
+
+## Upward Flow — Intent to Canonical Event History
 
 ```text
 UI Action
@@ -79,47 +93,97 @@ UI Action
 -> Validation
 -> Canonical Apply
 -> Accepted Canonical Event
+-> Canonical Event History
 -> Replay
 ```
 
-This is the path by which user intent becomes accepted canonical truth or is rejected during canonical validation.
+This is the path by which user intent becomes:
+
+* a candidate event
+* validated against invariants and rules
+* accepted (or rejected)
+* appended to canonical event history
+
+---
 
 ## Boundary Emphasis
 
 ### Runtime / Controller
 
-Owns meaning and coordination.
+Owns:
+
+* coordination
+* mutation pathways
+* candidate event creation
+
+---
 
 ### Replay
 
-Owns derivation of canonical state.
+Owns:
+
+* reconstruction of derived canonical state
+* deterministic application of canonical event history
+
+---
 
 ### Adapters
 
-Own data shaping.
+Own:
+
+* shaping canonical and observer data
+* preparing lens-ready structures
+
+---
 
 ### Lenses + Requests
 
-Own interpretation and intent handoff.
+Own:
+
+* interpretation of meaning
+* intent handoff back into the runtime
+
+---
 
 ### UI
 
-Owns presentation and input.
+Owns:
+
+* presentation
+* input
+* local feedback
+
+---
 
 ### Mint
 
-Owns authored definition structure.
+Owns:
+
+* structural definitions
+* genome and invariant schema inputs
+
+---
 
 ## Why This Matters
 
 This structure makes it easier to:
 
-- teach CrypSA clearly
-- inspect canonical history
-- debug local vs canonical divergence
-- evolve layers independently
-- avoid runtime/UI coupling
+* teach CrypSA clearly
+* inspect canonical event history
+* debug local vs canonical divergence
+* evolve layers independently
+* avoid runtime/UI coupling
+
+---
+
+## Key Insight
+
+> Canonical event history defines what has happened.
+> Replay derives what currently exists.
+> Everything else builds on top of that.
+
+---
 
 ## One Sentence Summary
 
-The CrypSA teaching prototype turns accepted canonical events into observer experience through replay, adapters, lenses, and UI, while all user intent flows back upward through typed requests, controller actions, validation, and canonical application.
+The CrypSA teaching prototype transforms canonical event history into observer experience through replay, adapters, lenses, and UI, while all user intent flows upward through typed requests, controller actions, validation, and canonical application into canonical event history.
