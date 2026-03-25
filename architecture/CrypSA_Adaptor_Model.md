@@ -33,18 +33,18 @@ They exist to ensure that:
 
 CrypSA separates responsibilities into four layers:
 
-* **Truth** → canonical events and validation
-* **Translation** → adapters
-* **Interpretation** → lenses
-* **Experience** → UI and local simulation
+* **Truth** → canonical event history and validation  
+* **Translation** → adapters  
+* **Interpretation** → lenses  
+* **Experience** → UI and local simulation  
 
 Adapters sit strictly in the **translation layer**.
 
 They:
 
-* consume canonical or runtime-derived data
-* reshape it for other systems
-* do not influence truth or interpretation
+* consume canonical event history, derived canonical state, or observer/runtime data  
+* reshape it for other systems  
+* do not influence truth or interpretation  
 
 ---
 
@@ -54,23 +54,23 @@ Adapters perform **pure data transformation**.
 
 Typical responsibilities include:
 
-* reshaping canonical data into UI-friendly structures
-* converting runtime data into lens-ready inputs
-* formatting data for debugging or external tools
-* mapping between internal representations and transport formats
+* reshaping canonical data into UI-friendly structures  
+* converting runtime data into lens-ready inputs  
+* formatting data for debugging or external tools  
+* mapping between internal representations and transport formats  
 
 Examples:
 
-* converting canonical entity state into a UI view model
-* transforming event history into a structured feed
-* exposing validation context in a readable format
-* mapping network payloads into typed requests
+* converting derived canonical state into a UI view model  
+* transforming canonical event history into a structured feed  
+* exposing validation context in a readable format  
+* mapping network payloads into typed requests  
 
 Adapters are:
 
-* deterministic
-* stateless (or effectively stateless)
-* side-effect free
+* deterministic  
+* stateless (or effectively stateless)  
+* side-effect free  
 
 ---
 
@@ -78,13 +78,14 @@ Adapters are:
 
 Adapters must never:
 
-* define or alter canonical truth
-* perform validation or enforce rules
-* execute gameplay or domain logic
-* act as controllers or coordinators
-* interpret meaning (this is the role of lenses)
+* define or alter truth  
+* perform validation or enforce rules  
+* execute gameplay or domain logic  
+* act as controllers or coordinators  
+* interpret meaning (this is the role of lenses)  
+* assign canonical ordering or authority (e.g. `server_sequence`)  
 
-If an adapter begins making decisions, it is no longer an adapter.
+If an adapter begins making decisions about meaning or rules, it is no longer an adapter.
 
 ---
 
@@ -92,13 +93,13 @@ If an adapter begins making decisions, it is no longer an adapter.
 
 Adapters and lenses are often confused but serve different roles:
 
-* **Adapters** reshape data
-* **Lenses** assign meaning
+* **Adapters** reshape data  
+* **Lenses** assign meaning  
 
 Example:
 
-* Adapter → outputs `{ health: 25 }`
-* Lens → interprets that as “critical condition”
+* Adapter → outputs `{ health: 25 }`  
+* Lens → interprets that as “critical condition”  
 
 Adapters are neutral.  
 Lenses are interpretive.
@@ -110,19 +111,20 @@ Lenses are interpretive.
 Adapters should follow these rules:
 
 * **No logic creep**  
-  No conditionals that encode gameplay or meaning
+  No conditionals that encode gameplay or meaning  
+  Structural transformation logic is allowed, but semantic or rule-based decisions are not  
 
 * **No mutation of source data**  
-  They do not change canonical or runtime state
+  They do not change canonical or runtime state  
 
 * **Single responsibility**  
-  Each adapter serves one transformation purpose
+  Each adapter serves one transformation purpose  
 
 * **Explicit inputs and outputs**  
-  No hidden dependencies or implicit state
+  No hidden dependencies or implicit state  
 
 * **Replaceable**  
-  Adapters can be swapped without affecting truth or interpretation
+  Adapters can be swapped without affecting truth or interpretation  
 
 ---
 
@@ -134,31 +136,37 @@ Adapters may exist in different contexts:
 
 Prepare data for display layers.
 
+---
+
 ### Lens Input Adapters
 
 Shape data into forms expected by lenses.
+
+---
 
 ### Transport Adapters
 
 Convert between wire formats and internal structures.
 
-### Debug/Tooling Adapters
+---
+
+### Debug / Tooling Adapters
 
 Expose runtime or canonical data for inspection.
 
 ---
 
-## Relationship to Canonical Truth
+## Relationship to Truth
 
-Adapters may **consume truth-derived data**, but they do not define or modify it.
+Adapters may consume truth-derived data, but they do not define or modify it.
 
-Canonical truth is:
+Truth is:
 
-* created through validated events
-* stored in the event system
-* reconstructed through runtime systems
+* created through validated events  
+* stored in canonical event history  
+* reconstructed into derived canonical state  
 
-Adapters operate strictly **after truth is established**.
+Adapters operate on data around truth boundaries, but do not define or modify canonical truth.
 
 ---
 
@@ -166,10 +174,10 @@ Adapters operate strictly **after truth is established**.
 
 The teaching prototype demonstrated that:
 
-* removing adapters leads to tight coupling between runtime and UI
-* lenses become overloaded without proper data shaping
-* debugging becomes harder without structured translation layers
-* systems become harder to reason about without explicit boundaries
+* removing adapters leads to tight coupling between runtime and UI  
+* lenses become overloaded without proper data shaping  
+* debugging becomes harder without structured translation layers  
+* systems become harder to reason about without explicit boundaries  
 
 Adapters are therefore a **required architectural boundary**, not an optional pattern.
 
@@ -181,15 +189,15 @@ Adapters are the **translation layer** of CrypSA.
 
 They:
 
-* reshape data
-* preserve meaning
-* enforce separation between systems
+* reshape data  
+* preserve meaning  
+* enforce separation between systems  
 
 They do not:
 
-* define truth
-* interpret meaning
-* execute logic
+* define truth  
+* interpret meaning  
+* execute logic  
 
 ---
 
