@@ -28,7 +28,7 @@ A minimal CrypSA implementation requires only:
 
 * identity and object definitions
 * canonical event history
-* derived canonical state cache
+* derived canonical state
 * validation pipeline
 * observer clients
 
@@ -42,7 +42,7 @@ Every canonical object must have:
 
 * a unique identity
 * a structural definition (genome)
-* a valid event history
+* a canonical event history (which may initially be empty)
 
 Example:
 
@@ -116,7 +116,7 @@ Avoid:
 
 ## Step 4 — Maintain Derived Canonical State
 
-The server maintains a derived canonical state cache for:
+The server maintains a derived canonical state (typically cached) for:
 
 * validation
 * querying
@@ -144,7 +144,7 @@ Observers reconstruct the world locally using:
 * identity
 * genome
 * canonical event history
-* snapshot or derived state
+* snapshot + canonical event history replay
 
 Observers:
 
@@ -272,7 +272,7 @@ This may involve:
 
 Because reconstruction is deterministic:
 
-> all observers converge on the same shared state derived from canonical event history
+> all observers converge on the same derived canonical state reconstructed from canonical event history
 
 ---
 
