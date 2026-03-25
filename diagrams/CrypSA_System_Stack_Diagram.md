@@ -114,7 +114,7 @@ The truth layer:
 * enforces invariants
 * records canonical event history
 
-Canonical event history defines shared reality.
+Canonical event history defines what is true.
 
 ---
 
@@ -128,7 +128,7 @@ Canonical event history defines shared reality.
 
 This diagram directly reflects:
 
-* **Truth** → canonical events and validation
+* **Truth** → canonical event history and validation
 * **Translation** → adapters
 * **Interpretation** → lenses
 * **Experience** → UI and simulation
