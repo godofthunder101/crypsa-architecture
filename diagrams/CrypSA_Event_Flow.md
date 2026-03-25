@@ -27,7 +27,7 @@ E -->|Rejected| G[Return Rejection Result]
 F --> H[Observers Receive Canonical Update]
 H --> J[Observer Reconciliation]
 G --> J
-J --> K[Updated Local State]
+J --> K[Updated Derived Canonical State]
 ````
 
 ---
@@ -82,7 +82,7 @@ Observers:
 ## Key Insight
 
 > Actions do not directly change reality.
-> Validated events become canonical events within canonical event history.
+> Validated events are appended to canonical event history.
 
 ---
 
@@ -111,4 +111,4 @@ This diagram maps to:
 
 ## One Sentence Summary
 
-A player action becomes a candidate event, the server validates it against canonical event history, accepted events are recorded in canonical event history, and all observers reconcile to that shared history.
+A player action becomes a candidate event, the server validates it against canonical event history, accepted events are recorded in canonical event history, and observers reconcile to derived canonical state.
