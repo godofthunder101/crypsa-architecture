@@ -2,12 +2,12 @@
 
 ## Purpose
 
-This diagram shows how CrypSA reconstructs current canonical state using:
+This diagram shows how CrypSA reconstructs current derived canonical state using:
 
 * a snapshot
 * the canonical event tail after that snapshot
 
-It illustrates how CrypSA avoids replaying from genesis while keeping canonical history as the source of truth.
+It illustrates how CrypSA avoids replaying from genesis while keeping canonical event history as the source of truth.
 
 ---
 
@@ -26,17 +26,17 @@ A --> E[Fetch Events After Sequence N]
 D --> F[Apply Snapshot State]
 E --> G[Replay Event Tail]
 
-F --> H[Reconstructed Current State]
+F --> H[Reconstructed Derived Canonical State]
 G --> H
 
 H --> I[Observer Continues Simulation]
-```
+````
 
 ---
 
 ## How to Read This
 
-### 1. Canonical History Is the Source of Truth
+### 1. Canonical Event History Is the Source of Truth
 
 Canonical event history defines what is real.
 
@@ -52,13 +52,13 @@ They are:
 
 A snapshot:
 
-* is created from canonical history
-* captures derived state at a specific sequence
+* is created from canonical event history
+* captures derived canonical state at a specific sequence
 * is tied to a known position in history
 
 This allows:
 
-> Snapshot + event tail = current state
+> Snapshot + event tail = current derived canonical state
 
 ---
 
@@ -75,7 +75,7 @@ When an observer connects or reconnects, it can:
 
 The observer fetches and applies events after the snapshot position.
 
-This reconstructs current canonical state deterministically.
+This reconstructs current derived canonical state deterministically.
 
 ---
 
@@ -83,7 +83,7 @@ This reconstructs current canonical state deterministically.
 
 Once reconstructed:
 
-* the observer has up-to-date canonical state
+* the observer has up-to-date derived canonical state
 * local simulation resumes
 
 ---
@@ -119,4 +119,4 @@ This diagram maps to:
 
 ## One Sentence Summary
 
-CrypSA uses snapshots as cached reconstruction points, allowing observers to load a known state and replay only the remaining event tail while canonical history remains the authoritative source of truth.
+CrypSA uses snapshots as cached reconstruction points, allowing observers to load a known state and replay only the remaining event tail while canonical event history remains the authoritative source of truth.
