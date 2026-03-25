@@ -6,8 +6,8 @@ This diagram shows how the server evaluates a candidate event before it becomes 
 
 It represents the layered validation model used to determine whether an event is:
 
-* accepted
-* rejected
+* accepted  
+* rejected  
 
 ---
 
@@ -79,7 +79,7 @@ Examples:
 
 ### 4. Invariant Validation
 
-The server ensures canonical event history would remain valid.
+The server ensures canonical event history does not violate invariants.
 
 Examples:
 
@@ -104,7 +104,7 @@ Examples:
 ## Key Insight
 
 > Validation is layered.
-> Failure at any stage prevents canonicalization.
+> Failure at any stage prevents the event from being appended to canonical event history.
 
 ---
 
@@ -114,7 +114,7 @@ This diagram reflects the **truth layer**:
 
 * validation
 * invariant enforcement
-* canonical event acceptance
+* appending events to canonical event history
 
 ---
 
