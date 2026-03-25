@@ -76,7 +76,7 @@ The server maintains:
 
 Canonical event history defines what is real.
 
-Derived state is a computed view, not the source of truth.
+Derived canonical state is a computed view, not the source of truth.
 
 ---
 
@@ -93,25 +93,25 @@ Derived state is a computed view, not the source of truth.
 #### Accepted
 
 * event is appended to canonical event history
-* canonical truth changes
+* canonical event history changes
 * observers receive updates
 
 ---
 
 #### Rejected
 
-* canonical truth does not change
+* canonical event history does not change
 * observer corrects its local prediction
 
 ---
 
 ### Reconciliation
 
-Observers update local state based on canonical truth.
+Observers update local state based on canonical event history.
 
 This ensures:
 
-> all observers converge on the same reality
+> all observers converge to derived canonical state
 
 ---
 
@@ -127,7 +127,7 @@ This ensures:
 
 This diagram reflects:
 
-* **Truth** → server validation and canonical events
+* **Truth** → validation and canonical event history
 * **Experience** → local simulation and prediction
 
 Adapters and lenses operate within the observer before and after this flow.
@@ -147,4 +147,4 @@ This diagram connects to:
 
 ## One Sentence Summary
 
-Observers simulate locally and predict outcomes, but only validated canonical events become part of canonical event history, and all observers reconcile to that shared reality.
+Observers simulate locally and predict outcomes, but only validated events are appended to canonical event history, and all observers reconcile to derived canonical state.
