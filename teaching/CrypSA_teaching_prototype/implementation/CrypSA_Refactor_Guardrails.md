@@ -4,13 +4,15 @@
 >
 > The prototype is preserved as a teaching artifact and is not updated to reflect ongoing architectural changes.
 >
-> For current system behavior, refer to `../../spec/`.
+> For current system behavior, refer to `../../../spec/`.
 
 # CrypSA Refactor Guardrails
 
 > Scope note: This document describes guardrails for the teaching prototype implementation.
 >
 > It does not define the full CrypSA architecture. For prototype status, refer to `../STATUS.md`.
+
+---
 
 ## Purpose
 
@@ -22,9 +24,11 @@ The goal now is not to reinvent the architecture.
 
 The goal is to:
 
-- protect clear boundaries
-- prevent drift back into controller-heavy design
-- keep future changes selective and justified
+- protect clear boundaries  
+- prevent drift back into controller-heavy design  
+- keep future changes selective and justified  
+
+---
 
 ## Current Architectural Phase
 
@@ -42,10 +46,12 @@ phase.
 
 That means future refactors should be:
 
-- targeted
-- boundary-aware
-- driven by real pressure
-- not cosmetic
+- targeted  
+- boundary-aware  
+- driven by real pressure  
+- not cosmetic  
+
+---
 
 ## Core Principle
 
@@ -53,55 +59,62 @@ Refactors should make the architecture clearer, not merely more abstract.
 
 Prefer:
 
-- explicit boundaries
-- boring modules
-- direct data flow
-- obvious ownership
+- explicit boundaries  
+- boring modules  
+- direct data flow  
+- obvious ownership  
 
 Avoid:
 
-- framework-ization
-- premature abstraction
-- splitting files just to make them smaller
-- moving logic into the wrong layer for neatness
+- framework-ization  
+- premature abstraction  
+- splitting files just to make them smaller  
+- moving logic into the wrong layer for neatness  
+
+---
 
 ## The Current Layer Model
 
 The teaching prototype is structured as:
 
-1. Runtime / Controller
-2. Replay / Event Graph
-3. Adapter Layer
-4. Lens + Request Layer
-5. UI Layer
-6. Mint Layer
+1. Runtime / Controller  
+2. Validation / Apply / Reconciliation  
+3. Replay / Event Graph  
+4. Adapter Layer (Translation)  
+5. Lens + Request Layer (Interpretation + Intent)  
+6. UI Layer (Experience)  
+7. Mint Layer (Structure)  
 
 Future refactors should reinforce this layering, not blur it.
 
+---
+
 ## Global Rules
 
-### Rule 1 - Only Extract When the Destination Is Obvious
+### Rule 1 — Only Extract When the Destination Is Obvious
 
 Do not split code merely because a file feels large.
 
 Only extract code when:
 
-- the extracted piece has a clear identity
-- the extracted piece maps to an existing layer
-- the extracted piece has a stable reason to exist
+- the extracted piece has a clear identity  
+- the extracted piece maps to an existing layer  
+- the extracted piece has a stable reason to exist  
 
 Good extraction:
 
-- replay logic -> replay module
-- validation logic -> validation module
-- request routing -> request dispatch
+- replay logic → replay module  
+- validation logic → validation module  
+- request routing → request dispatch  
 
 Bad extraction:
 
-- splitting one controller method across three files without a real boundary
-- creating vague helper modules with unstable responsibilities
+- splitting one controller method across multiple files without a real boundary  
+- creating vague helper modules with unstable responsibilities  
 
-### Rule 2 - Do Not Chase a Perfectly Thin Controller
+---
+
+### Rule 2 — Do Not Chase a Perfectly Thin Controller
 
 The controller is allowed to orchestrate.
 
@@ -111,91 +124,118 @@ Do not refactor just to make the controller look small.
 
 Refactor only when:
 
-- duplication appears
-- a coordination pattern becomes reusable
-- a clear boundary already exists elsewhere
+- duplication appears  
+- a coordination pattern becomes reusable  
+- a clear boundary already exists elsewhere  
 
-### Rule 3 - Prefer Explicitness Over Cleverness
+---
+
+### Rule 3 — Prefer Explicitness Over Cleverness
 
 This is a teaching prototype.
 
 That means:
 
-- readable beats clever
-- explicit beats magical
-- stable beats elegant-looking abstraction
+- readable beats clever  
+- explicit beats magical  
+- stable beats elegant abstraction  
 
 A small amount of repetition is acceptable if it keeps layer boundaries obvious.
+
+---
 
 ## Runtime / Controller Guardrails
 
 The runtime/controller layer owns:
 
-- orchestration
-- action coordination
-- top-level meaning
-- the bridge between user intent and canonical outcomes
+- orchestration  
+- action coordination  
+- candidate event creation  
+- the bridge between user intent and canonical event history  
 
 It must not drift into:
 
-- UI rendering logic
-- adapter shaping
-- replay implementation details
-- Mint editor implementation
-- file-format parsing details
+- UI rendering logic  
+- adapter shaping  
+- replay implementation details  
+- Mint editor implementation  
+- persistence or file-format parsing  
 
 Allowed:
 
-- calling runtime actions
-- triggering replay
-- coordinating request handling
-- scheduling UI refresh
+- calling runtime actions  
+- triggering replay  
+- coordinating request handling  
+- scheduling UI updates  
 
 Not allowed:
 
-- manually reshaping UI view models inline
-- embedding validation rules inline
-- embedding replay algorithms inline
+- reshaping UI view models inline  
+- embedding validation rules inline  
+- embedding replay algorithms inline  
+
+---
+
+## Validation / Apply / Reconciliation Guardrails
+
+This layer defines how candidate events become canonical events.
+
+It owns:
+
+- validation (schema → identity → preconditions → invariants → rules)  
+- canonical event acceptance  
+- assignment of `server_sequence`  
+- canonical event creation and append  
+
+It must not:
+
+- perform UI work  
+- perform replay  
+- shape adapter outputs  
+- contain presentation logic  
+
+---
 
 ## Replay / Event Graph Guardrails
 
 Replay and event-graph logic own:
 
-- canonical derivation
-- lineage
-- event ordering
-- branch-aware reconstruction
+- canonical event history traversal  
+- event ordering  
+- deterministic reconstruction of derived canonical state  
 
 They must remain separate from:
 
-- UI
-- validation
-- request dispatch
-- controller-specific behavior
+- UI  
+- validation  
+- request dispatch  
+- controller-specific orchestration  
 
 Allowed:
 
-- derive state from accepted canonical history
-- traverse event lineage
-- reconstruct branch-selected state
+- derive state from canonical event history  
+- traverse event lineage  
+- reconstruct state deterministically  
 
 Not allowed:
 
-- mutate UI
-- validate candidates
-- dispatch actions
-- perform persistence side effects
+- mutate UI  
+- validate candidate events  
+- dispatch actions  
+- perform persistence side effects  
 
 Specific rule:
 
 Do not collapse:
 
-- `canonical_replay.py`
-- `crypsa_event_graph.py`
+- `canonical_replay.py`  
+- `crypsa_event_graph.py`  
 
-back into one vague replay blob unless there is a very strong reason.
+back into a single ambiguous module without strong justification.
 
-## Adapter Guardrails
+---
+
+## Adapter Guardrails (Translation Layer)
 
 Adapters translate data.
 
@@ -203,234 +243,263 @@ They do not define truth.
 
 Allowed:
 
-- reshape runtime data
-- aggregate canonical and observer state
-- produce stable outputs for lenses or UI
+- reshape canonical and observer data  
+- aggregate inputs  
+- produce structured outputs for lenses or UI  
 
 Not allowed:
 
-- mutate canonical state
-- enforce invariants
-- validate events
-- decide system behavior
-- trigger side effects
+- mutate canonical event history  
+- enforce invariants  
+- validate events  
+- decide system behavior  
+- trigger side effects  
 
 Specific rule:
 
-If an adapter starts doing decision-making, it is no longer just an adapter.
+If an adapter starts making decisions, it is no longer an adapter.
 
-Move that logic back into:
+Move that logic into:
 
-- runtime actions
-- validation
-- reconciliation
-- controller coordination
+- runtime actions  
+- validation  
+- reconciliation  
+- controller coordination  
 
-## Lens Guardrails
+---
+
+## Lens Guardrails (Interpretation Layer)
 
 Lenses interpret data.
 
-They do not translate raw runtime state from scratch, and they do not own truth.
+They do not define truth.
 
 Allowed:
 
-- visibility filtering
-- observer-specific meaning
-- interaction interpretation
-- presentation-oriented interpretation
+- visibility filtering  
+- observer-specific meaning  
+- interaction interpretation  
+- presentation-oriented derivation  
 
 Not allowed:
 
-- mutating runtime state
-- validating actions
-- depending directly on unrelated lens internals
-- digging through raw runtime structures when adapted inputs exist
+- mutating runtime state  
+- validating actions  
+- depending on unrelated lens internals  
+- bypassing adapters to access raw runtime structures unnecessarily  
 
 Specific rule:
 
-Lenses should consume adapted data whenever practical.
+Lenses should consume adapter-shaped data whenever practical.
+
+---
 
 ## Request Guardrails
 
 Requests carry intent.
 
-They do not contain business logic.
+They do not contain logic.
 
 Allowed:
 
-- identify user intent
-- carry small structured payloads
-- provide stable dispatch input
+- represent user intent  
+- carry structured payloads  
+- provide stable dispatch inputs  
 
 Not allowed:
 
-- validate themselves
-- mutate runtime state
-- contain branching behavior
-- perform interpretation logic
+- validate themselves  
+- mutate runtime state  
+- contain branching logic  
+- interpret meaning  
 
 Specific rule:
 
-If a request object starts acquiring methods that decide behavior, it is drifting out of role.
+If a request object starts deciding behavior, it is no longer just a request.
+
+---
 
 ## Request Dispatch Guardrails
 
 Request dispatch routes intent.
 
-It must not become the new hidden controller.
+It must not become a hidden controller.
 
 Allowed:
 
-- map request type to runtime action
-- perform straightforward routing
+- map request type to runtime actions  
+- perform straightforward routing  
 
 Not allowed:
 
-- embed validation rules
-- perform replay
-- shape UI data
-- coordinate unrelated workflows inline
+- embed validation rules  
+- perform replay  
+- shape UI data  
+- coordinate unrelated workflows  
 
 Specific rule:
 
-If dispatch starts growing condition-heavy behavior, that logic probably belongs in:
+If dispatch becomes condition-heavy, logic likely belongs in:
 
-- runtime actions
-- controller coordination
-- reconciliation
+- runtime actions  
+- controller coordination  
+- reconciliation  
 
-## UI Guardrails
+---
+
+## UI Guardrails (Experience Layer)
 
 The UI layer presents and collects input.
 
-It should remain read-only with respect to canonical truth.
+It must remain non-authoritative.
 
 Allowed:
 
-- render adapted and lens-shaped data
-- emit typed requests
-- show status and feedback
+- render adapter + lens outputs  
+- emit typed requests  
+- display feedback  
 
 Not allowed:
 
-- mutate canonical state directly
-- call validation directly
-- build replay state
-- bypass request dispatch for meaningful behavior
+- mutate canonical event history  
+- call validation directly  
+- perform replay  
+- bypass request dispatch  
 
 Specific rule:
 
-If a UI module starts knowing too much about runtime internals, move that knowledge behind:
+If UI modules gain knowledge of runtime internals, move that behind:
 
-- adapters
-- requests
-- controller coordination
+- adapters  
+- requests  
+- controller coordination  
 
-## Mint Guardrails
+---
+
+## Mint Guardrails (Structure Layer)
 
 Mint is a definition system, not runtime authority.
 
 Allowed:
 
-- define object schemas
-- define transitions and rules
-- author reusable definitions
-- normalize catalog structures
+- define genomes and schemas  
+- define invariant inputs and allowed transitions  
+- normalize catalog structures  
 
 Not allowed:
 
-- bypass runtime validation
-- mutate canonical truth directly
-- become a hidden runtime execution layer
+- mutate canonical event history  
+- bypass validation  
+- act as a runtime execution layer  
 
 Specific rule:
 
-Mint defines what is possible.
+Mint defines what is possible.  
+Runtime determines what becomes canonical.
 
-Runtime decides what actually becomes canonical.
+---
 
 ## Test Guardrails
 
-The test suite should remain focused on architectural boundaries.
+Tests should protect architectural boundaries.
 
-Prefer tests that protect:
+Prefer tests that verify:
 
-- validation outcomes
-- canonical apply behavior
-- replay derivation
-- request routing
-- adapter output contracts
-- fixture loading
-- shared typed seams
+- validation outcomes  
+- canonical event application  
+- replay correctness  
+- request routing  
+- adapter outputs  
+- fixture loading  
 
-Do not bloat the suite with large amounts of low-value UI automation unless a real risk justifies it.
+Avoid excessive UI-heavy testing unless justified by real risk.
+
+---
 
 ## Typing Guardrails
 
-Do not treat "more types everywhere" as the goal.
+Do not treat “more types everywhere” as the goal.
 
 Add typing when:
 
-- a shape crosses module boundaries often
-- a shared seam becomes hard to maintain
-- bugs or drift come from ambiguous structure
+- structures cross module boundaries frequently  
+- shared seams become unstable  
+- bugs arise from ambiguous data  
 
-Keep some inner maps dynamic if that genuinely helps the teaching prototype stay flexible.
+Allow some dynamic structures where they improve clarity in a teaching context.
+
+---
 
 ## Documentation Guardrails
 
-As code changes, keep these aligned:
+Keep documentation aligned with code:
 
-- README and start-here docs
-- codebase walkthrough
-- reference docs
-- implementation-layer docs
-- summary and handoff docs
+- README and entry points  
+- walkthrough docs  
+- architecture and implementation docs  
+- summary and handoff documents  
 
-Do not let docs fall far enough behind the code that reviewers get an outdated picture of the architecture.
+Do not allow documentation drift that misrepresents the system.
+
+---
 
 ## What We Are Not Trying To Do
 
 We are not trying to:
 
-- framework-ize the prototype
-- pretend the teaching prototype is a production runtime
-- split every large file into tiny files
-- type every dynamic structure
-- replace selective refinement with another broad architecture campaign
+- turn the prototype into a framework  
+- treat it as production runtime  
+- split every large file  
+- type every structure  
+- restart architectural redesign  
+
+---
 
 ## Good Refactor Triggers
 
-A refactor is likely justified when:
+A refactor is justified when:
 
-- a module boundary is already clear
-- duplication is appearing
-- a shared seam is causing real maintenance pain
-- tests are getting harder because responsibilities are blurred
-- a layer is starting to absorb behavior that belongs elsewhere
+- a boundary is already clear  
+- duplication appears  
+- shared seams create maintenance pain  
+- tests become harder due to blurred responsibilities  
+- a layer begins absorbing incorrect responsibilities  
+
+---
 
 ## Bad Refactor Triggers
 
-A refactor is probably not justified when:
+A refactor is not justified when:
 
-- a file just feels big
-- a module could be split purely for aesthetic reasons
-- abstraction is added before repeated need appears
-- complexity is moved instead of reduced
-- the result makes the teaching model harder to explain
+- a file simply feels large  
+- changes are aesthetic only  
+- abstraction is added prematurely  
+- complexity is moved rather than reduced  
+- the teaching model becomes harder to explain  
+
+---
 
 ## Quick Safety Checklist
 
-Before making a refactor, ask:
+Before refactoring, ask:
 
-1. What layer does this belong to?
-2. Does the destination already have a clear identity?
-3. Will this make the architecture easier to explain?
-4. Am I reducing coupling, or just moving it?
-5. Am I protecting the teaching model, or obscuring it?
+1. What layer does this belong to?  
+2. Does the destination already have a clear identity?  
+3. Will this make the architecture easier to explain?  
+4. Am I reducing coupling, or just moving it?  
+5. Am I protecting the teaching model, or obscuring it?  
 
 If the answers are unclear, do not refactor yet.
 
+---
+
+## Key Insight
+
+> The goal is not to improve the code endlessly.
+> The goal is to preserve a clear, teachable architecture.
+
+---
+
 ## One Sentence Summary
 
-Future CrypSA teaching prototype refactors should be selective, boundary-aware, and architecture-protective, reinforcing the existing layered design instead of reopening broad structural invention.
+Future CrypSA teaching prototype refactors should be selective, boundary-aware, and architecture-protective, reinforcing the existing layered design while preserving clarity of canonical event history, validation, replay, and observer experience.
