@@ -4,13 +4,15 @@
 >
 > The prototype is preserved as a teaching artifact and is not updated to reflect ongoing architectural changes.
 >
-> For current system behavior, refer to `../../spec/`.
+> For current system behavior, refer to `../../../spec/`.
 
-# CrypSA Teaching Prototype - Layer Model
+# CrypSA Teaching Prototype — Layer Model
 
 > Scope note: This document describes the teaching prototype implementation.
 >
 > It does not define the full CrypSA architecture. For prototype status, refer to `../STATUS.md`.
+
+---
 
 ## Purpose
 
@@ -20,86 +22,119 @@ It is not a file-by-file reference.
 
 It is a boundary document that answers:
 
-Where does each responsibility live?
+> Where does each responsibility live?
 
 This document exists to prevent architectural drift as the system evolves.
 
-For the companion document that describes what future refactors should avoid blurring, see:
+For guardrails on how to preserve these boundaries, see:
 
 - `implementation/CrypSA_Refactor_Guardrails.md`
 
-For the current artifact-status and maintenance posture, also see:
+For current artifact status and maintenance posture, see:
 
 - `STATUS.md`
+
+---
 
 ## Core Principle
 
 The teaching prototype is structured as a layered system where:
 
-- truth is event-driven
-- state is derived
-- interpretation is separate from data
-- presentation is separate from meaning
+- canonical event history defines what has happened  
+- derived canonical state is reconstructed via replay  
+- interpretation is separate from data shaping  
+- presentation is separate from meaning  
 
-Each layer has a clear responsibility.
+Each layer has a clear and non-overlapping responsibility.
+
+---
 
 ## Layer Overview
 
 The system is organized into the following layers:
 
-1. Runtime / Controller
-2. Replay / Event Graph
-3. Adapter Layer
-4. Lens + Request Layer
-5. UI Layer
-6. Mint Layer
+1. Runtime / Controller  
+2. Validation / Apply / Reconciliation  
+3. Replay / Event Graph  
+4. Adapter Layer (Translation)  
+5. Lens + Request Layer (Interpretation + Intent)  
+6. UI Layer (Experience)  
+7. Mint Layer (Structure)  
 
-These layers are directional.
+These layers are directional:
 
-Data flows downward for presentation and upward for intent.
+- downward → canonical event history becomes experience  
+- upward → user intent becomes candidate events and canonical updates  
 
-## Layer 1 - Runtime / Controller
+---
+
+## Layer 1 — Runtime / Controller
 
 ### Responsibility
 
 The runtime/controller layer owns:
 
-- canonical event handling
-- validation coordination
-- event acceptance and rejection
-- replay triggering
-- orchestration of runtime actions
-- high-level application flow
+- orchestration  
+- candidate event creation  
+- coordination of runtime actions  
+- triggering validation and replay  
+- high-level application flow  
 
 ### Key Modules
 
 - `crypsa/crypsa_teaching_prototype.py`
 - `crypsa/runtime_store.py`
 - `crypsa/runtime_actions.py`
-- `crypsa/validation.py`
-- `crypsa/reconciliation.py`
-- `crypsa/canonical_apply.py`
 - `crypsa/controller_ui_actions.py`
 
 ### Rules
 
-- This layer defines what happens.
-- It owns meaning and decisions.
-- It does not shape UI data directly.
-- It does not perform rendering.
+- This layer coordinates what happens.  
+- It does not define canonical truth directly.  
+- It does not shape UI data.  
+- It does not implement replay logic.  
 
-## Layer 2 - Replay / Event Graph
+---
+
+## Layer 2 — Validation / Apply / Reconciliation
 
 ### Responsibility
 
-This layer derives canonical state from history.
+This layer defines how candidate events become canonical events.
 
 It owns:
 
-- canonical replay
-- event ordering
-- lineage traversal
-- branch-aware reconstruction
+- validation (schema → identity → preconditions → invariants → rules)  
+- acceptance or rejection of candidate events  
+- assignment of `server_sequence`  
+- canonical event creation and append to canonical event history  
+
+### Key Modules
+
+- `crypsa/validation.py`
+- `crypsa/reconciliation.py`
+- `crypsa/canonical_apply.py`
+
+### Rules
+
+- This layer defines what becomes canonical.  
+- It must not perform replay.  
+- It must not shape UI data.  
+- It must not contain presentation logic.  
+
+---
+
+## Layer 3 — Replay / Event Graph
+
+### Responsibility
+
+This layer derives state from canonical event history.
+
+It owns:
+
+- replay of canonical events  
+- event ordering and lineage  
+- deterministic reconstruction of derived canonical state  
 
 ### Key Modules
 
@@ -108,23 +143,25 @@ It owns:
 
 ### Rules
 
-- Input: canonical events
-- Output: derived canonical state
-- No UI knowledge
-- No validation logic
-- No mutation outside replay state
+- Input: canonical event history  
+- Output: derived canonical state  
+- No validation  
+- No UI interaction  
+- No mutation outside replay state  
 
-## Layer 3 - Adapter Layer
+---
+
+## Layer 4 — Adapter Layer (Translation)
 
 ### Responsibility
 
-Adapters translate runtime state into structured data for interpretation.
+Adapters translate runtime and canonical data into structured forms.
 
 They:
 
-- reshape data
-- combine runtime and observer state
-- produce lens-ready or UI-ready models
+- reshape canonical and observer data  
+- combine multiple data sources  
+- produce lens-ready or UI-ready structures  
 
 ### Key Modules
 
@@ -133,43 +170,43 @@ They:
 
 ### Rules
 
-- Adapters translate; they do not decide truth.
-- They do not mutate canonical state.
-- They do not enforce rules.
-- They do not perform validation.
-- They produce structured outputs for consumers.
+- Adapters translate; they do not define truth.  
+- They do not mutate canonical event history.  
+- They do not enforce rules or validation.  
+- They produce structured outputs only.  
 
-## Layer 4 - Lens + Request Layer
+---
+
+## Layer 5 — Lens + Request Layer (Interpretation + Intent)
 
 ### Responsibility
 
 This layer defines:
 
-- how data is interpreted for specific UI surfaces
-- how user intent is expressed back to the runtime
+- how data is interpreted  
+- how user intent enters the system  
 
-### Key Modules
-
-- `crypsa/crypsa_action_requests.py`
-- `crypsa/request_dispatch.py`
-- runtime and Mint lens dataclasses
+---
 
 ### Lenses
 
 Lenses answer:
 
-What does this data mean for this observer or this UI surface?
+> What does this mean for this observer?
 
 They may:
 
-- interpret state
-- shape interaction options
-- provide read-only presentation structure
+- interpret state  
+- determine visibility  
+- define interaction meaning  
 
 They must not:
 
-- mutate runtime state
-- enforce canonical truth
+- mutate runtime state  
+- validate events  
+- define canonical truth  
+
+---
 
 ### Requests
 
@@ -177,26 +214,43 @@ Requests represent user intent entering the system.
 
 Examples:
 
-- submit candidate
-- select branch
-- select history point
-- reload catalog
+- submit candidate event  
+- select branch  
+- select history point  
+- reload catalog  
 
 Requests:
 
-- are routed through dispatch
-- trigger controller-side mutation paths
-- do not contain business logic
+- carry structured intent  
+- are routed through dispatch  
+- trigger controller-side logic  
 
-## Layer 5 - UI Layer
+They must not:
+
+- contain business logic  
+- validate themselves  
+- mutate state directly  
+
+---
+
+### Key Modules
+
+- `crypsa/crypsa_action_requests.py`
+- `crypsa/request_dispatch.py`
+- runtime and Mint lens dataclasses  
+
+---
+
+## Layer 6 — UI Layer (Experience)
 
 ### Responsibility
 
 The UI layer handles:
 
-- rendering
-- interaction
-- input capture
+- rendering  
+- interaction  
+- input capture  
+- feedback  
 
 ### Key Modules
 
@@ -208,28 +262,28 @@ The UI layer handles:
 
 ### Rules
 
-- UI consumes lens or adapted data.
-- UI emits requests.
-- UI does not:
-  - validate events
-  - mutate canonical state
-  - perform replay
-  - enforce invariants
+- UI consumes adapter + lens outputs.  
+- UI emits typed requests.  
+- UI must not:
+  - validate events  
+  - mutate canonical event history  
+  - perform replay  
+  - enforce invariants  
 
 UI is presentation only.
 
-## Layer 6 - Mint Layer
+---
+
+## Layer 7 — Mint Layer (Structure)
 
 ### Responsibility
 
 The Mint layer defines:
 
-- object schemas
-- invariant rules
-- transitions
-- metadata
-
-It is the authoring system for runtime definitions.
+- object schemas (genomes)  
+- invariant inputs  
+- allowed transitions  
+- metadata  
 
 ### Key Modules
 
@@ -239,25 +293,31 @@ It is the authoring system for runtime definitions.
 
 ### Rules
 
-- Mint defines what is possible.
-- Runtime decides what actually becomes canonical.
-- Mint must not directly mutate canonical state.
-- Mint must not bypass validation or replay.
+- Mint defines what is possible.  
+- Runtime determines what becomes canonical.  
+- Mint must not:
+  - mutate canonical event history  
+  - bypass validation  
+  - act as runtime execution  
+
+---
 
 ## Data Flow
 
-### Downward (Truth -> Experience)
+### Downward (Canonical Event History → Experience)
 
 ```text
-Canonical Events
+Canonical Event History
 -> Replay
 -> Derived Canonical State
 -> Adapters
 -> Lenses
 -> UI
-```
+````
 
-### Upward (Intent -> Truth)
+---
+
+### Upward (Intent → Canonical Event History)
 
 ```text
 UI Interaction
@@ -267,60 +327,82 @@ UI Interaction
 -> Validation
 -> Canonical Apply
 -> Canonical Event
+-> Canonical Event History
 -> Replay
 ```
+
+---
 
 ## Boundary Rules
 
 ### Runtime
 
-- Owns truth decisions
-- Must not depend on UI layout details
+* owns orchestration
+* does not own truth directly
+
+### Validation
+
+* defines canonical acceptance
+* must remain deterministic
 
 ### Replay
 
-- Pure derivation
-- No side effects
+* pure derivation
+* no side effects
 
 ### Adapters
 
-- No mutation
-- No validation
-- No truth decisions
+* no mutation
+* no validation
+* no decision-making
 
 ### Requests
 
-- Intent only
-- No business logic
+* intent only
+* no logic
 
 ### UI
 
-- Presentation only
-- No canonical mutation
+* presentation only
+* no canonical mutation
 
 ### Mint
 
-- Defines structures
-- Does not execute runtime behavior
+* defines structure
+* does not execute runtime behavior
+
+---
 
 ## What This Prototype Is
 
 This is:
 
-- a teaching implementation
-- a concept-validation artifact
-- a structured demonstration of CrypSA principles
+* a teaching implementation
+* a concept-validation artifact
+* a structured demonstration of CrypSA principles
+
+---
 
 ## What This Prototype Is Not
 
 This is not:
 
-- a networked runtime
-- a distributed system
-- a production server
-- a scalability proof
-- a security model
+* a networked runtime
+* a distributed system
+* a production server
+* a scalability proof
+* a security model
+
+---
+
+## Key Insight
+
+> Canonical event history defines what has happened.
+> Replay defines what currently exists.
+> All other layers interpret, shape, or present that reality.
+
+---
 
 ## One Sentence Summary
 
-The CrypSA teaching prototype is a layered system where canonical events define truth, replay derives state, adapters shape data, lenses interpret meaning, and UI presents the result while user intent flows back through typed requests into the runtime.
+The CrypSA teaching prototype is a layered system where canonical event history defines truth, validation controls acceptance, replay derives state, adapters shape data, lenses interpret meaning, and UI presents the result while user intent flows back through typed requests into the runtime.
