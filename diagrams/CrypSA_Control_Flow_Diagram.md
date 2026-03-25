@@ -144,7 +144,7 @@ If yes:
 Accepted events:
 
 * are appended to canonical event history
-* define new shared state
+* extend canonical event history
 
 ---
 
@@ -153,8 +153,8 @@ Accepted events:
 Observers:
 
 * receive updates
-* rebuild affected state
-* converge to canonical event history
+* rebuild affected derived canonical state
+* converge to derived canonical state
 
 ---
 
