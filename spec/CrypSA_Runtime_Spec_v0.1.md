@@ -6,14 +6,14 @@ This document defines the minimal runtime behavior of a CrypSA system.
 
 It specifies how:
 
-* local observer actions become candidate events
-* candidate events are validated
-* canonical truth is updated
-* observers reconcile to canonical state
+* local observer actions become candidate events  
+* candidate events are validated  
+* canonical event history is updated  
+* observers reconcile to derived canonical state  
 
 This is the minimum runtime contract required for CrypSA to be:
 
-> technically reviewable and implementable
+> technically reviewable and implementable  
 
 This is not a full production protocol.
 
@@ -31,23 +31,23 @@ For a high-level flow of the runtime:
 
 This v0.1 runtime spec covers:
 
-* observer action proposal
-* candidate event structure
-* server-side validation
-* event acceptance and rejection
-* canonical event recording
-* canonical update distribution
-* observer reconciliation
-* snapshot-assisted reconstruction
+* observer action proposal  
+* candidate event structure  
+* server-side validation  
+* event acceptance and rejection  
+* canonical event recording  
+* canonical update distribution  
+* observer reconciliation  
+* snapshot-assisted reconstruction  
 
 This v0.1 spec does **not fully define**:
 
-* combat adjudication
-* advanced anti-cheat systems
-* distributed shard coordination
-* mergeable offline branches
-* advanced partitioning strategies
-* cryptographic trust proofs
+* combat adjudication  
+* advanced anti-cheat systems  
+* distributed shard coordination  
+* mergeable offline branches  
+* advanced partitioning strategies  
+* cryptographic trust proofs  
 
 ---
 
@@ -57,28 +57,28 @@ This v0.1 spec does **not fully define**:
 
 A process that:
 
-* reconstructs canonical objects locally
-* simulates local experience
-* proposes candidate events
-* performs observer reconciliation
+* reconstructs canonical objects locally  
+* simulates local experience  
+* proposes candidate events  
+* performs observer reconciliation  
 
 ---
 
-### 2.2 Canonical Server
+### 2.2 Server
 
 A process that:
 
-* receives candidate events
-* validates them
-* enforces invariants
-* records accepted canonical events
-* distributes canonical updates
+* receives candidate events  
+* validates them  
+* enforces invariants  
+* records accepted canonical events  
+* distributes canonical updates  
 
 The server does **not**:
 
-* simulate the world
-* predict outcomes
-* control user experience
+* simulate the world  
+* predict outcomes  
+* control user experience  
 
 > The server controls truth, not simulation.
 
@@ -90,28 +90,28 @@ The server persists canonical event history as the source of truth.
 
 Supporting runtime structures may include:
 
-* snapshots
-* indexes
-* object identity registries
-* genome references
-* derived state (materialized views)
+* snapshots  
+* indexes  
+* object identity registries  
+* genome references  
+* derived canonical state (materialized views)  
 
 These structures exist to enable:
 
-* efficient replay
-* fast lookup
-* reconstruction
-* recovery
+* efficient replay  
+* fast lookup  
+* reconstruction  
+* recovery  
 
-They do **not define canonical truth**.
+They do **not define truth**.
 
-> Canonical truth is defined solely by canonical event history.
+> Truth is defined solely by canonical event history.
 
 ---
 
 ## 3. Core Runtime Principle
 
-A player action does **not directly modify canonical truth**.
+A player action does **not directly modify canonical event history**.
 
 Instead:
 
@@ -122,7 +122,7 @@ Local Action
 → Accept or Reject
 → Canonical Event History Update
 → Observer Reconciliation
-```
+````
 
 Only accepted events become canonical.
 
@@ -132,7 +132,7 @@ Only accepted events become canonical.
 
 ### 4.1 Local-Only Actions
 
-Actions that do not affect canonical truth.
+Actions that do not affect canonical event history.
 
 Examples:
 
@@ -147,7 +147,7 @@ These never enter canonical event history.
 
 ### 4.2 Canonical Candidate Actions
 
-Actions that may affect canonical truth.
+Actions that may affect canonical event history.
 
 Examples:
 
@@ -303,7 +303,7 @@ G --> H[Canonical Event History Update]
 
 ---
 
-## 7.7 Determinism Requirement
+## 7.1 Determinism Requirement
 
 All accepted events must produce deterministic results.
 
@@ -314,7 +314,7 @@ All accepted events must produce deterministic results.
 ### Accepted
 
 * event recorded
-* derived state updated
+* derived canonical state updated
 * observers notified
 
 ---
@@ -351,13 +351,42 @@ Each event includes:
 
 ---
 
-## 10. Derived State
+### 9.1 Event Application
 
-Derived state is:
+After a canonical event is appended:
+
+* the event must be applied to derived canonical state
+* the application must follow deterministic rules defined by the event type
+* the result must match replay behavior
+
+This ensures consistency between:
+
+* live state
+* replayed state
+
+---
+
+## 10. Derived Canonical State
+
+Derived canonical state is:
 
 * a materialized view of canonical event history
 * not independently authoritative
 * replaceable through replay
+
+---
+
+### 10.1 Derived State Update Rule
+
+Derived canonical state must be updated by applying accepted canonical events in `server_sequence` order.
+
+This update must be:
+
+* deterministic
+* consistent with replay
+* equivalent to reconstructing from canonical event history
+
+The derived state must never diverge from what would be produced by full replay.
 
 ---
 
@@ -372,7 +401,7 @@ Derived state is:
 
 ### Reconstruction Rule
 
-> Snapshot + Event Tail → Current State
+> Snapshot + Event Tail → Derived Canonical State
 
 ---
 
@@ -382,7 +411,7 @@ Observers must:
 
 * detect accepted/rejected events
 * correct local state
-* rebuild from canonical truth
+* rebuild derived canonical state from canonical event history
 
 ---
 
@@ -446,4 +475,4 @@ CrypSA runtime:
 
 ## One Sentence Summary
 
-CrypSA Runtime v0.1 defines how observer actions become validated canonical events and how shared reality emerges from event-driven canonical event history.
+CrypSA Runtime v0.1 defines how observer actions become validated canonical events and how derived canonical state emerges from canonical event history.
