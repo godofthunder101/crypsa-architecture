@@ -15,7 +15,7 @@ The universe does not evolve through continuous simulation, but through:
 ```mermaid
 flowchart TD
 
-S0[Canonical State S_n]
+S0[Derived Canonical State S_n]
 A[Observer Simulation]
 B[Invariant Boundary Check]
 C[Candidate Event]
@@ -23,7 +23,7 @@ D[Validation and Invariant Enforcement]
 R[Event Rejected]
 E[Event Accepted]
 O[Assign server_sequence]
-S1[Canonical State S_n+1]
+S1[Derived Canonical State S_n+1]
 
 S0 --> A
 A --> B
@@ -58,7 +58,7 @@ S1 --> A
 
 Observers:
 
-* reconstruct canonical state
+* reconstruct derived canonical state
 * simulate locally
 * generate interactions
 
@@ -77,7 +77,7 @@ The key decision point:
 If no:
 
 * the result remains local
-* no canonical state change occurs
+* no canonical event history change occurs
 
 ---
 
@@ -114,7 +114,7 @@ If accepted:
 
 If rejected:
 
-* canonical state does not change
+* canonical event history does not change
 * observer corrects local simulation
 
 ---
@@ -129,7 +129,7 @@ If rejected:
 
 This diagram reflects:
 
-* **Truth** → canonical events and state transitions
+* **Truth** → canonical event history and validation
 * **Experience** → observer simulation
 * **Invariant Boundary** → decision between local and canonical
 
