@@ -41,7 +41,7 @@ Observer → Local Simulation → Invariant Boundary → Validation → Canonica
 
 Instead of synchronizing full state, CrypSA synchronizes:
 
-> validated canonical events as part of canonical event history
+> validated events appended to canonical event history
 
 ---
 
@@ -116,7 +116,7 @@ If accepted:
 → appended to canonical event history
 ```
 
-The server validates reality.
+The server validates candidate events against invariants.
 It does not simulate the world.
 
 ---
@@ -137,7 +137,7 @@ Lenses define:
 
 ---
 
-## Diagram 9 — Canonical State Transitions
+## Diagram 9 — Derived Canonical State Transitions
 
 The universe evolves through validated events:
 
@@ -190,4 +190,4 @@ Mint
 
 ## One Sentence Summary
 
-CrypSA replaces centralized simulation with validated canonical events, local observer simulation, and layered interpretation of shared reality defined by canonical event history.
+CrypSA replaces centralized simulation with validated events, local observer simulation, and layered interpretation of derived canonical state defined by canonical event history.
