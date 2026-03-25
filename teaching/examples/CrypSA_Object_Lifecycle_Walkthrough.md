@@ -89,7 +89,7 @@ If accepted:
 * a mint event establishes identity (e.g. sword_9AF3)
 * the server assigns `server_sequence`
 * canonical event is appended to canonical event history
-* derived canonical state is updated via replay
+* derived canonical state is updated by applying the event
 
 Example canonical event history (ordered, illustrative labels):
 
@@ -156,7 +156,7 @@ If accepted:
 
 * the server assigns `server_sequence`
 * canonical event is appended
-* derived canonical state updates via replay
+* derived canonical state is updated by applying the event
 
 Example (illustrative):
 
@@ -168,7 +168,7 @@ upgraded
 
 ## Observer Reconstruction
 
-The same object is reconstructed with updated state via replay.
+The same object is reconstructed by replaying canonical event history.
 
 ---
 
@@ -209,7 +209,7 @@ If accepted:
 
 * the server assigns `server_sequence`
 * canonical event is appended
-* derived canonical state updates via replay
+* derived canonical state is updated by applying the event
 
 Example (illustrative):
 
@@ -250,7 +250,7 @@ identity = sword_9AF3
 genome = sword
 owner = Player B
 upgrade_level = 1
-history = canonical event history
+history = canonical event history for this object
 ```
 
 ---
