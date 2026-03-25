@@ -34,18 +34,18 @@ The goal is to keep adapters:
 
 CrypSA separates responsibilities into:
 
-* **Truth** — validation and canonical event history
-* **Translation** — adapters
-* **Interpretation** — lenses
-* **Experience** — UI and local simulation
+* **Truth** — validation and canonical event history  
+* **Translation** — adapters  
+* **Interpretation** — lenses  
+* **Experience** — UI and local simulation  
 
 Adapters belong strictly to the **translation layer**.
 
 They must not cross into:
 
-* truth (validation or canonical mutation)
-* interpretation (lens logic)
-* experience (UI control or simulation behavior)
+* truth (validation or canonical mutation)  
+* interpretation (lens logic)  
+* experience (UI control or simulation behavior)  
 
 ---
 
@@ -53,15 +53,15 @@ They must not cross into:
 
 In CrypSA:
 
-> adapters translate data
-> they do not define truth
+> adapters translate data  
+> they do not define truth  
 
 Adapters prepare runtime and canonical data for:
 
-* lenses
-* UI modules
-* tooling
-* debugging views
+* lenses  
+* UI modules  
+* tooling  
+* debugging views  
 
 They are not part of canonical authority or server decision-making.
 
@@ -71,23 +71,24 @@ They are not part of canonical authority or server decision-making.
 
 Adapters may:
 
-* reshape data
-* aggregate inputs
-* normalize structures
-* build view-ready models
+* reshape data  
+* aggregate inputs  
+* normalize structures  
+* build view-ready models  
 
 Adapters must not:
 
-* decide whether something is valid
-* decide whether an event should be accepted
-* decide what canonical truth is
+* decide whether something is valid  
+* decide whether an event should be accepted  
+* decide what truth is  
+* assign canonical ordering or authority (e.g. `server_sequence`)  
 
 Truth belongs to:
 
-* canonical event history
-* validation
-* invariant enforcement
-* server-side logic
+* canonical event history  
+* validation  
+* invariant enforcement  
+* server-side logic  
 
 ---
 
@@ -97,20 +98,20 @@ Adapters are read-only.
 
 Adapters must not:
 
-* append canonical events
-* modify derived state
-* alter identity or ownership
-* write to runtime state
+* append canonical events  
+* modify derived canonical state  
+* alter identity or ownership  
+* write to runtime state  
 
-Derived state is:
+Derived canonical state is:
 
-> a read-only result of canonical event history reconstruction
+> a read-only result of canonical event history reconstruction  
 
-Any change to canonical truth belongs to:
+Any change to canonical event history belongs to:
 
-* validation logic
-* event application
-* reconstruction systems
+* validation logic  
+* event application  
+* reconstruction systems  
 
 ---
 
@@ -120,15 +121,15 @@ Adapters must never enforce canonical rules.
 
 They must not decide:
 
-* whether placement is legal
-* whether ownership is allowed
-* whether resources are sufficient
-* whether a state transition is valid
+* whether placement is legal  
+* whether ownership is allowed  
+* whether resources are sufficient  
+* whether a state transition is valid  
 
 Those belong to:
 
-* validation logic
-* invariant checks
+* validation logic  
+* invariant checks  
 
 Adapters may display rule-related information, but they do not enforce it.
 
@@ -140,13 +141,13 @@ A good adapter should do one job only.
 
 Good examples:
 
-* build timeline rows from canonical event history
-* build render grid data from occupancy + observer selection
-* build teaching overlay data from pending vs canonical comparison
+* build timeline rows from canonical event history  
+* build render grid data from occupancy + observer selection  
+* build teaching overlay data from pending vs canonical comparison  
 
 Bad examples:
 
-* one adapter handling world logic, validation, UI, and control flow
+* one adapter handling world logic, validation, UI, and control flow  
 
 If an adapter is hard to explain in one sentence, it is too broad.
 
@@ -158,21 +159,23 @@ Adapters prepare data for lenses.
 
 They must not:
 
-* depend on lens outputs
-* rely on interpretation-specific structures
-* chain interpretation logic across modules
+* depend on lens outputs  
+* rely on interpretation-specific structures  
+* chain interpretation logic across modules  
 
 Preferred pattern:
 
 ```text
 Runtime Data → Adapter → Lens
-```
+````
 
 Not:
 
 ```text
 Runtime Data → Adapter → Lens → Adapter → Lens
 ```
+
+This creates hidden coupling and breaks layer separation.
 
 Adapters depend on **data**, not **interpretation outputs**.
 
@@ -241,6 +244,8 @@ Adapters should follow:
 input → deterministic output
 ```
 
+The same input must always produce the same output.
+
 They should be easy to test with:
 
 * known input
@@ -276,10 +281,11 @@ Aggregation is allowed. Control is not.
 
 Adapters must not:
 
-* depend on networking logic
-* handle retries or timeouts
-* depend on async sequencing
+* implement networking behavior (retries, timeouts, sequencing)
+* depend on transport timing or delivery guarantees
 * assume ordering guarantees
+
+Transport adapters may map data formats, but must not control transport behavior.
 
 Transport and timing belong to:
 
