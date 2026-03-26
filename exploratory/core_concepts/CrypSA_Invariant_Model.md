@@ -14,7 +14,7 @@
 
 This document describes the role of invariants in a CrypSA system.
 
-Invariants define rules that must remain true within canonical event history. The server enforces these rules when validating candidate events.
+Invariants define rules that must remain true within canonical reality as represented by canonical event history. The server enforces these rules when validating candidate events.
 
 This document provides a conceptual view of invariants, not a formal specification.
 
@@ -22,14 +22,16 @@ This document provides a conceptual view of invariants, not a formal specificati
 
 ## Core Principle
 
-An invariant is a rule that must always remain true in canonical event history.
+An invariant is a rule that must always remain true in canonical reality.
+
+Canonical reality is defined by canonical event history.
 
 Examples:
 
-* an object cannot exist in two locations simultaneously
-* an item cannot be owned by multiple actors at the same time
-* a structure cannot occupy an invalid location
-* an upgrade cannot be applied to a non-existent item
+* an object cannot exist in two locations simultaneously  
+* an item cannot be owned by multiple actors at the same time  
+* a structure cannot occupy an invalid location  
+* an upgrade cannot be applied to a non-existent item  
 
 If a proposed event would violate an invariant:
 
@@ -45,10 +47,10 @@ Invariants protect the structural integrity of the universe.
 
 Without invariants, systems could produce:
 
-* duplicated unique objects
-* impossible states
-* invalid geometry
-* inconsistent ownership
+* duplicated unique objects  
+* impossible states  
+* invalid geometry  
+* inconsistent ownership  
 
 By enforcing invariants, CrypSA ensures canonical event history remains logically consistent.
 
@@ -65,6 +67,7 @@ Observer Action
 → Local Simulation
 → Candidate Event
 → Validation (Invariant Enforcement)
+→ Accepted Event (Canonical Event)
 → Assign server_sequence
 → Append to Canonical Event History
 → Observer Reconciliation
@@ -141,19 +144,19 @@ Examples:
 
 ## Relationship to the Mint
 
-The mint defines the structural possibilities of objects.
+The Mint defines the structural possibilities of objects.
 
 Invariants enforce which changes are allowed at runtime.
 
 Example:
 
-The mint may define:
+The Mint may define:
 
 * valid upgrades
 * durability range
 * ownership model
 
-Invariants ensure that events affecting those objects follow valid rules.
+Invariants ensure that candidate events affecting those objects follow valid rules before becoming canonical events.
 
 ---
 
@@ -177,9 +180,9 @@ Only the server enforces invariants for canonical event history.
 
 When an invariant violation occurs:
 
-1. the event is rejected
+1. the candidate event is rejected
 2. canonical event history is unchanged
-3. the observer reconciles local simulation
+3. the observer corrects local simulation
 
 Example:
 
@@ -194,7 +197,7 @@ Example:
 Because all accepted events satisfy invariants:
 
 * canonical event history remains consistent
-* reconstruction is reliable
+* reconstruction via replay is reliable
 * contradictions do not occur
 
 ---
@@ -223,12 +226,12 @@ Different systems emphasize different invariant sets.
 
 ## Summary
 
-Invariants define the rules that must remain true in canonical event history.
+Invariants define the rules that must remain true in canonical reality.
 
-The server enforces these rules during validation, ensuring that all accepted events preserve consistency.
+The server enforces these rules during validation, ensuring that all accepted events preserve consistency before being recorded in canonical event history.
 
 ---
 
 ## One Sentence Summary
 
-CrypSA invariants define the rules of canonical event history and are enforced during validation to ensure that all accepted events maintain a consistent universe.
+CrypSA invariants define the rules of canonical reality and are enforced during validation so that only events that preserve consistency become part of canonical event history.
