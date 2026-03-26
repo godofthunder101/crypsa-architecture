@@ -23,7 +23,7 @@ It is intended as a **simplified conceptual overview**, not a full description o
 CrypSA separates:
 
 * local observer experience
-* canonical event history
+* canonical event history (shared truth)
 
 Observers simulate the world locally, but only validated events can change the shared universe.
 
@@ -33,6 +33,8 @@ Local Simulation
 Invariant Boundary Check
       ↓
 Validation
+      ↓
+Accepted Event (Canonical Event)
       ↓
 Canonical Event History Updated
       ↓
@@ -90,7 +92,7 @@ It describes:
 
 ### 4. Invariants
 
-Invariants are rules that must remain true in canonical event history.
+Invariants are rules that must remain true in canonical reality.
 
 Examples:
 
@@ -98,11 +100,13 @@ Examples:
 * ownership must remain consistent
 * invalid states are not allowed
 
+Invariants are enforced during validation.
+
 ---
 
 ### 5. Events
 
-Events represent proposed changes to canonical event history.
+Events represent proposed changes to canonical reality.
 
 Examples:
 
@@ -110,7 +114,7 @@ Examples:
 * transferring ownership
 * crafting
 
-Events must be validated before becoming canonical.
+These begin as **candidate events** and must be validated before becoming **canonical events**.
 
 ---
 
@@ -127,21 +131,22 @@ The invariant boundary determines:
 
 ## Validation
 
-When an event crosses the boundary:
+When an interaction crosses the boundary:
 
+* a candidate event is submitted
 * the server validates it
-* invariants are enforced
+* invariants and rules are enforced
 
 Result:
 
-* accepted → canonical event history updated
+* accepted → becomes a canonical event → canonical event history updated
 * rejected → local simulation corrected
 
 ---
 
 ## Canonical Evolution
 
-The universe evolves through validated events:
+The universe evolves through validated canonical events:
 
 ```text
 Sₙ → Event → Sₙ₊₁
@@ -157,7 +162,7 @@ Observers rebuild the world from canonical data:
 Identity + Genome + Canonical Event History → World State
 ```
 
-This allows consistent shared reality.
+This ensures consistent shared reality.
 
 ---
 
@@ -169,7 +174,7 @@ Reconstruct
 → Interact
 → Boundary Check
 → Validate
-→ Update Canonical Event History
+→ Append to Canonical Event History
 → Reconstruct
 ```
 
@@ -203,12 +208,10 @@ Instead:
 
 ## Key Insight
 
-> CrypSA allows local freedom while protecting shared reality through validation of canonical event history.
+> CrypSA allows local freedom while protecting shared reality through validation of canonical events recorded in canonical event history.
 
 ---
 
 ## One Sentence Summary
 
-CrypSA is an architecture where observers simulate locally, but only validated events that respect invariant rules are allowed to become part of canonical event history and shape the shared universe.
-and we start building the system.
-```
+CrypSA is an architecture where observers simulate locally, but only validated candidate events that become canonical events are recorded in canonical event history and shape the shared universe.
