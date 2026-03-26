@@ -29,8 +29,9 @@ Observer Action
 → Candidate Event
 → Submission
 → Validation
+→ Accepted?
 → Assign server_sequence
-→ Canonical Event History Update
+→ Append to Canonical Event History
 → Observer Reconstruction
 ````
 
@@ -52,11 +53,13 @@ Invariant Boundary Check
                  Validation
                      ↓
               Accepted / Rejected
-                     ↓
-          Assign server_sequence
-                     ↓
-     Canonical Event History Updated
-                     ↓
+                ├─ Rejected → Local Correction
+                └─ Accepted
+                        ↓
+              Assign server_sequence
+                        ↓
+     Append to Canonical Event History
+                        ↓
          Observer Reconstruction
 ```
 
@@ -111,11 +114,13 @@ If the interaction affects canonical event history:
 * a candidate event is created
 * it represents a proposed change
 
+A candidate event is **not yet canonical**.
+
 ---
 
 ### 5. Event Submission
 
-The candidate event is sent to the server.
+The candidate event is sent to the server for validation.
 
 ---
 
@@ -123,9 +128,11 @@ The candidate event is sent to the server.
 
 The server evaluates the event:
 
+* schema validation
+* identity validation
+* precondition checks
 * invariant enforcement
 * rule validation
-* identity and reference checks
 
 The event is:
 
@@ -135,27 +142,34 @@ The event is:
 
 ---
 
-### 7. Canonical Event History Update
+### 7. Canonical Event Acceptance
 
 If accepted:
 
-* the server assigns `server_sequence`
-* the event is appended to canonical event history
+* the server assigns `server_sequence` (authoritative ordering)
+* the event becomes a **canonical event**
+* it is appended to canonical event history
+
+If rejected:
+
+* no canonical change occurs
+* the observer corrects local simulation
 
 ---
 
 ### 8. Observer Reconstruction
 
-Observers receive updates and:
+Observers receive canonical updates and:
 
+* replay canonical event history (or apply updates)
 * reconstruct affected objects
-* align with canonical event history
+* align with canonical truth
 
 ---
 
 ## Observer Convergence
 
-Observers may temporarily diverge in local simulation.
+Observers may temporarily diverge due to local simulation.
 
 After canonical updates:
 
@@ -166,13 +180,13 @@ After canonical updates:
 
 ## Key Insight
 
-> CrypSA systems evolve through validated canonical events, not continuous synchronized simulation.
+> CrypSA systems evolve through validated canonical events recorded in canonical event history, not continuous synchronized simulation.
 
 ---
 
 ## Notes on Implementation
 
-Some implementations may include additional context or metadata to support validation.
+Some implementations may include additional metadata or validation context.
 
 These are implementation choices and not required by the core model.
 
@@ -184,11 +198,12 @@ CrypSA systems:
 
 * simulate locally
 * validate when crossing the invariant boundary
-* update canonical event history through accepted events
+* accept or reject candidate events
+* append accepted events to canonical event history
 * reconstruct shared reality deterministically
 
 ---
 
 ## One Sentence Summary
 
-CrypSA models interaction flow as a transition from local simulation to validated canonical events, followed by deterministic reconstruction of shared reality.
+CrypSA models interaction flow as a transition from local simulation to validated canonical events, where accepted events are ordered, recorded in canonical event history, and used to deterministically reconstruct shared reality.
