@@ -6,7 +6,7 @@ Replay is the mechanism that turns:
 
 * canonical events
   into
-* derived world state
+* derived canonical state
 
 ---
 
@@ -24,9 +24,9 @@ Canonical state is always derived by replaying canonical event history.
 
 Replay is the process of:
 
-1. Starting from a known base state (genesis or snapshot)
-2. Applying canonical events in order
-3. Producing a deterministic world state
+1. starting from a known base state (genesis or snapshot)
+2. applying canonical events in order
+3. producing a deterministic derived canonical state
 
 ---
 
@@ -55,7 +55,7 @@ Replay can begin from:
 
 ### 2. Snapshot (Recommended)
 
-* precomputed derived state at a known sequence
+* precomputed derived canonical state at a known sequence
 * replay resumes from snapshot forward
 
 ---
@@ -70,15 +70,17 @@ Replay order is defined by:
 * this ordering is authoritative
 * all observers must use the same ordering
 
+> `server_sequence` is assigned by the validator and defines canonical ordering.
+
 ---
 
 ## Event Application
 
-Each event modifies derived state according to:
+Each canonical event modifies derived canonical state according to:
 
 * its `event_type`
 * its `payload`
-* the current derived state
+* the current derived canonical state
 * invariant rules
 
 ---
@@ -88,12 +90,12 @@ Each event modifies derived state according to:
 Event application must be:
 
 * deterministic
-* idempotent
-* free of external side effects
+* side-effect free (with respect to external systems)
+* purely derived from canonical inputs
 
 Event application must only affect:
 
-> derived state constructed from canonical event history
+> derived canonical state constructed from canonical event history
 
 ---
 
@@ -103,9 +105,11 @@ Replay must produce identical results given the same inputs.
 
 This requires:
 
+---
+
 ### 1. Deterministic Logic
 
-* no randomness unless explicitly seeded
+* no unseeded randomness
 * no time-dependent logic
 * no platform-dependent variation
 
@@ -125,19 +129,37 @@ Avoid:
 ### 3. Stable Definitions
 
 * genomes must be versioned or frozen
-* historical events must use correct definitions
+* historical events must resolve against correct definitions
 
 ---
 
-## Idempotency
+## Idempotency vs Replay Safety
 
-Replay systems must tolerate repeated application attempts.
+Replay must be safe under repeated or partial application.
 
-Therefore:
+---
 
-* canonical events must not produce different results if re-applied
-* event identity must uniquely identify each event
-* duplicate application must not corrupt derived state
+### Requirements
+
+* canonical events must not produce different results if applied multiple times in the same sequence position
+* event identity must uniquely identify each canonical event
+* replay systems must prevent duplicate application within the same sequence
+
+---
+
+### Clarification
+
+Replay is not defined as arbitrary reapplication.
+
+Instead:
+
+> replay is deterministic application of a canonical sequence
+
+Idempotency ensures robustness in:
+
+* recovery
+* partial replay
+* distributed systems
 
 ---
 
@@ -202,7 +224,9 @@ Replay ensures:
 
 Snapshots improve replay performance.
 
-### Requirements:
+---
+
+### Requirements
 
 * snapshot must correspond to a specific `server_sequence`
 * snapshot must be reproducible from canonical event history
@@ -217,11 +241,13 @@ Replay must handle:
 * evolving event schemas
 * changing object definitions (genomes)
 
-Strategies:
+---
+
+### Strategies
 
 * versioned event types
 * backward compatibility layers
-* migration during replay
+* explicit migration events
 
 ---
 
@@ -244,7 +270,9 @@ Replay cost depends on:
 * complexity of event application
 * frequency of snapshots
 
-Optimization strategies:
+---
+
+### Optimization Strategies
 
 * snapshotting
 * incremental replay
@@ -261,7 +289,7 @@ Replay assumes:
 
 Replay does not:
 
-* validate events again
+* perform validation again
 * trust observer-local data
 
 ---
@@ -272,10 +300,27 @@ CrypSA replay is:
 
 * deterministic
 * event-driven
-* idempotent
 * reconstructive
+* validator-aligned
 
 It ensures that:
 
 > given the same canonical event history,
 > all observers derive the same world
+
+---
+
+## One Sentence Summary
+
+CrypSA replay reconstructs derived canonical state deterministically by applying canonical events in validator-defined order, ensuring consistent results across all observers.
+
+---
+
+## 🔍 What changed (quick review)
+
+* Replaced **server → validator**
+* Clarified **derived canonical state terminology**
+* Fixed **idempotency vs replay semantics (important)**
+* Strengthened **determinism guarantees**
+* Tightened **event application definition**
+* Improved consistency with other specs
