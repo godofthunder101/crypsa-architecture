@@ -2,47 +2,108 @@
 
 CrypSA uses a layered documentation system so that each concept has a clear source of truth.
 
+This structure ensures:
+
+* clarity of responsibility
+* consistency across documents
+* a predictable learning path
+
 ---
 
 ## Core Learning Path
 
+Start here to understand CrypSA:
+
+* `CrypSA_In_One_Diagram.md`
 * `CrypSA_In_5_Minutes.md`
 * `CrypSA_Terminology_Primer.md`
 * `FAQ.md`
 * `CrypSA_Worked_Example.md`
 
+These documents provide:
+
+* high-level understanding
+* core terminology
+* conceptual grounding
+* concrete examples
+
 ---
 
 ## System Definition (Authoritative)
 
-* `architecture/`
-* `spec/`
+These define what CrypSA **is**.
+
+* `spec/` — runtime behavior (highest authority)
+* `architecture/` — system structure and responsibilities
+
+These documents define:
+
+* validation behavior
+* canonical event model
+* system responsibilities
+* invariant enforcement
 
 ---
 
 ## Implementation Direction
 
+These describe how CrypSA can be built:
+
 * `implementation/`
+
+These documents:
+
+* guide system construction
+* describe practical approaches
+* do not redefine system behavior
 
 ---
 
 ## Teaching System
 
+These demonstrate and explain the system:
+
 * `teaching/`
+
+Includes:
+
+* teaching prototype
+* learning-oriented materials
+
+These documents are:
+
+* illustrative
+* non-authoritative
 
 ---
 
 ## Supporting and Reference Content
 
-* `diagrams/`
-* `atlas/`
-* `design/`
+These help explain and navigate the system:
+
+* `diagrams/` — visual representations
+* `atlas/` — glossary and navigation
+* `design/` — use cases and patterns
+
+These documents:
+
+* support understanding
+* must align with authoritative sources
+* must not introduce new behavior
 
 ---
 
 ## Exploratory Content
 
+Forward-looking or non-final ideas:
+
 * `exploratory/`
+
+These documents:
+
+* explore possibilities
+* test concepts
+* are explicitly non-authoritative
 
 ---
 
@@ -50,11 +111,13 @@ CrypSA uses a layered documentation system so that each concept has a clear sour
 
 If multiple documents appear to describe the same concept, the following precedence applies:
 
-1. `spec/` (runtime behavior — highest authority)
-2. `architecture/` (system structure)
-3. `implementation/` (build direction)
-4. `teaching/` (examples and explanations)
+1. `spec/` — runtime behavior (highest authority)
+2. `architecture/` — system structure
+3. `implementation/` — build direction
+4. `teaching/` — examples and explanation
 5. supporting and exploratory content
+
+> Lower layers must never override higher layers.
 
 Supporting and exploratory documents must not be treated as authoritative definitions of current CrypSA behavior.
 
@@ -62,8 +125,29 @@ Supporting and exploratory documents must not be treated as authoritative defini
 
 ## Consistency Rule
 
-If two documents describe the same concept at the same level:
+If two documents describe the same concept at the same authority level:
 
-> one must be demoted or removed
+> one must be demoted, merged, or removed
 
 No duplicate authoritative explanations are allowed.
+
+---
+
+## Design Principle
+
+Each concept in CrypSA should have:
+
+* one authoritative definition
+* any number of supporting explanations
+
+This prevents:
+
+* conflicting interpretations
+* duplicated logic
+* architectural drift
+
+---
+
+## One Sentence Summary
+
+CrypSA documentation is structured so that authoritative definitions live in `spec/` and `architecture/`, while all other documents support understanding without redefining behavior.
