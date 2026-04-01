@@ -46,10 +46,19 @@ These layers describe how the system is structured.
 
 At a high level:
 
-* the **server** operates in the truth layer
+* the **validator** operates in the truth layer
 * the **observer** operates across translation, interpretation, and experience
 * canonical events define shared reality
 * observers reconstruct and simulate locally
+
+The validator determines what becomes canonical truth.
+
+This role is **deployment-independent**:
+
+* it may run locally alongside an observer
+* or remotely as a shared system
+
+Its responsibilities do not change based on where it runs.
 
 ---
 
@@ -61,25 +70,51 @@ The following concepts are defined in dedicated documents:
 
 Defines valid object structure and identity.
 
+---
+
 ### Canonical Events
 
 Define how the universe changes.
+
+---
 
 ### Invariants
 
 Define what must always remain true.
 
+---
+
 ### Canonical Objects
 
 Defined by identity, genome, and event history.
+
+---
 
 ### Observers
 
 Reconstruct and simulate the world locally.
 
+---
+
+### Validator
+
+Determines whether candidate events become canonical.
+
+Responsible for:
+
+* validation
+* invariant enforcement
+* canonical event recording
+
+See: Terminology Primer and Runtime Spec.
+
+---
+
 ### Adapters
 
 Translate data between layers.
+
+---
 
 ### Lenses
 
@@ -92,7 +127,7 @@ Interpret canonical reality into observer experience.
 The system operates as:
 
 * observers propose candidate events
-* the server validates them
+* the validator evaluates them
 * accepted events become canonical
 * observers reconstruct updated reality
 
@@ -108,17 +143,25 @@ CrypSA documentation is organized into:
 
 Defines system structure and responsibilities.
 
+---
+
 ### Specification (`spec/`)
 
 Defines runtime behavior and rules.
+
+---
 
 ### Implementation (`implementation/`)
 
 Describes how to build CrypSA systems.
 
+---
+
 ### Teaching (`teaching/`)
 
 Demonstrates concepts through examples and prototypes.
+
+---
 
 ### Exploratory (`exploratory/`)
 
@@ -162,6 +205,6 @@ CrypSA enables persistent digital universes by separating:
 * interpretation
 * experience
 
-The server protects truth.
+The validator protects truth.
 Observers simulate and interpret locally.
 Canonical events define the shared universe.
