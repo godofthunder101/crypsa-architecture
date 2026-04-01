@@ -9,7 +9,7 @@ It shows how CrypSA separates:
 * observer experience
 * interpretation
 * data translation
-* canonical event history
+* canonical truth
 
 This separation allows observers to simulate locally while canonical event history remains consistent.
 
@@ -38,6 +38,7 @@ subgraph "Invariant Boundary"
 end
 
 subgraph "Truth Layer"
+    V[Validator]
     F[Validation and Invariant Enforcement]
     G[Canonical Event History]
 end
@@ -46,10 +47,11 @@ A --> B
 B --> C
 C --> D
 D --> E
-E --> F
+E --> V
+V --> F
 F --> G
 G --> A
-````
+```
 
 ---
 
@@ -66,6 +68,12 @@ This layer includes:
 
 It defines what the observer experiences.
 
+This layer is:
+
+* responsive
+* immediate
+* non-authoritative
+
 ---
 
 ### Interpretation Layer
@@ -77,6 +85,8 @@ Lenses:
 * define interaction
 
 They shape how the observer understands the world.
+
+They do not define truth.
 
 ---
 
@@ -90,6 +100,8 @@ Adapters:
 
 They isolate systems from raw runtime data.
 
+They do not define truth or meaning.
+
 ---
 
 ### Invariant Boundary
@@ -97,30 +109,42 @@ They isolate systems from raw runtime data.
 The invariant boundary separates:
 
 * local observer behavior
-* canonical event history
+* canonical truth
 
 When an interaction crosses this boundary:
 
 * it becomes a candidate event
-* it must be validated
+* it must be evaluated before becoming canonical
 
 ---
 
 ### Truth Layer
 
-The truth layer:
+The truth layer includes:
 
-* validates events
+* the **validator**, which evaluates candidate events
+* validation and invariant enforcement
+* canonical event history
+
+The validator:
+
+* accepts or rejects candidate events
 * enforces invariants
-* records canonical event history
+* appends accepted events to canonical event history
 
 Canonical event history defines what is true.
+
+The validator may run locally or remotely, but its role does not change.
 
 ---
 
 ## Key Insight
 
-> CrypSA separates experience, interpretation, translation, and truth into distinct layers, with the invariant boundary controlling what becomes part of canonical event history.
+> CrypSA separates experience, interpretation, translation, and truth into distinct layers.
+
+And critically:
+
+> the invariant boundary controls what is allowed to cross into canonical truth, and validation determines what becomes real
 
 ---
 
@@ -128,7 +152,7 @@ Canonical event history defines what is true.
 
 This diagram directly reflects:
 
-* **Truth** → canonical event history and validation
+* **Truth** → validation and canonical event history
 * **Translation** → adapters
 * **Interpretation** → lenses
 * **Experience** → UI and simulation
@@ -144,8 +168,10 @@ This layered separation enables:
 * modular system design
 * scalable architecture
 
+Because each layer has a clear responsibility, systems can evolve without collapsing boundaries.
+
 ---
 
 ## One Sentence Summary
 
-CrypSA structures systems into experience, interpretation, translation, and truth layers, with the invariant boundary ensuring only validated events become part of canonical event history.
+CrypSA structures systems into experience, interpretation, translation, and truth layers, where the invariant boundary and validator ensure only validated events become part of canonical event history.
