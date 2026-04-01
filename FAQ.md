@@ -10,7 +10,7 @@ For a quick explanation, see:
 
 For the authoritative adapter and observer-model docs, see:
 
-* `architecture/CrypSA_Adaptor_Model.md`
+* `architecture/CrypSA_Adapter_Model.md`
 * `architecture/CrypSA_Client_Observer_Model.md`
 
 ---
@@ -19,18 +19,18 @@ For the authoritative adapter and observer-model docs, see:
 
 CrypSA is an event-driven architecture where:
 
-* clients simulate locally
-* actions are proposed as events
-* the server validates those events
-* accepted events define shared reality
+* observers simulate locally
+* actions are proposed as candidate events
+* a validator evaluates those events
+* accepted events define shared reality through canonical event history
 
 ---
 
-## Is CrypSA server authoritative?
+## Is CrypSA validator authoritative?
 
 Yes — but differently than traditional systems.
 
-The server does not simulate everything.
+The validator does not simulate everything.
 
 Instead, it is authoritative over:
 
@@ -39,25 +39,25 @@ Instead, it is authoritative over:
 
 ---
 
-## Does CrypSA trust the client?
+## Does CrypSA trust the observer?
 
 No.
 
-Clients can propose events, but:
+Observers can propose events, but:
 
 * all canonical changes must be validated
 * invalid or conflicting events are rejected
 
-Clients have freedom to simulate, not authority to define truth.
+Observers have freedom to simulate, not authority to define truth.
 
 ---
 
-## Then why give power to the client?
+## Then why allow observer-side simulation?
 
 CrypSA separates:
 
-* simulation (client-side)
-* truth (server-side)
+* simulation (observer-side)
+* truth (validator-controlled)
 
 This allows:
 
@@ -65,7 +65,7 @@ This allows:
 * flexibility
 * reduced synchronization overhead
 
-The server still controls what is real.
+The validator still controls what is real.
 
 ---
 
@@ -85,17 +85,22 @@ CrypSA:
 
 No.
 
-CrypSA requires a server to:
+CrypSA requires a validator to:
 
 * validate events
 * enforce invariants
 * maintain canonical event history
 
+The validator may run:
+
+* locally
+* or remotely (as a server)
+
 ---
 
-## What does the server actually do?
+## What does the validator actually do?
 
-The server:
+The validator:
 
 * receives candidate events
 * validates them
@@ -107,43 +112,43 @@ It does not need to simulate the entire world continuously.
 
 ---
 
-## What happens if two players act at the same time?
+## What happens if two observers act at the same time?
 
 Both actions may be submitted.
 
-The server:
+The validator:
 
-* validates both
-* accepts one
+* evaluates both
+* accepts one valid event
 * rejects the other
 
 The rejected observer reconciles to canonical state.
 
 ---
 
-## What happens when the client is wrong?
+## What happens when the observer is wrong?
 
-If a client predicts incorrectly:
+If an observer predicts incorrectly:
 
-* the server rejects the event
+* the validator rejects the event
 * the observer corrects its local state
 
 This is expected behavior.
 
 ---
 
-## How does CrypSA prevent client-side logic from breaking the system?
+## How does CrypSA prevent observer-side logic from breaking the system?
 
 CrypSA relies on strict separation of responsibilities:
 
-* the server defines truth
+* the validator defines truth
 * adapters shape data
 * lenses interpret meaning
 * UI presents the result
 
 In addition:
 
-* clients emit **typed requests** representing intent
+* observers emit **typed requests** representing intent
 * canonical changes occur only through validated events
 * adapters prevent UI and lenses from accessing raw runtime structures
 
@@ -225,7 +230,7 @@ It is a teaching tool designed to demonstrate:
 * validation
 * canonical vs local state
 
-It demonstrates the model, not runtime behavior.
+It demonstrates the model, not full runtime behavior.
 
 ---
 
@@ -237,7 +242,7 @@ The teaching prototype:
 * focuses on clarity and inspectability
 * simplifies runtime constraints
 
-The minimal server:
+The minimal validator:
 
 * will test CrypSA as a runtime system
 * introduces networking and multi-observer interaction
@@ -283,12 +288,13 @@ It aims to:
 
 ## Where should I start?
 
-1. `CrypSA_In_5_Minutes.md`
-2. `CrypSA_Terminology_Primer.md`
-3. `CrypSA_Worked_Example.md`
+1. `CrypSA_In_One_Diagram.md`
+2. `CrypSA_In_5_Minutes.md`
+3. `CrypSA_Terminology_Primer.md`
+4. `CrypSA_Worked_Example.md`
 
 ---
 
 ## One Sentence Summary
 
-CrypSA is a system where clients simulate locally, servers validate events, and shared reality is defined by canonical event history.
+CrypSA is a system where observers simulate locally, a validator evaluates events, and shared reality is defined by canonical event history.
