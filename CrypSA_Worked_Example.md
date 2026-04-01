@@ -8,10 +8,10 @@ This document walks through a complete runtime example of CrypSA.
 
 It shows how:
 
-* a local action becomes a candidate event  
-* the server validates that event  
-* canonical event history is updated  
-* observers reconcile their local state  
+* a local action becomes a candidate event
+* the validator evaluates that event
+* canonical event history is updated
+* observers reconcile their local state
 
 This example focuses on clarity and uses a simple scenario.
 
@@ -19,12 +19,12 @@ This example focuses on clarity and uses a simple scenario.
 
 ## 📊 Runtime Flow Overview
 
-```mermaid
+```mermaid id="bq8v2y"
 flowchart LR
 
 A[Player Action] --> B[Local Simulation]
 B --> C[Create Candidate Event]
-C --> D[Send to Server]
+C --> D[Submit to Validator]
 
 D --> E[Validation Pipeline]
 
@@ -37,7 +37,7 @@ I --> J[Broadcast]
 
 J --> K[Observer Reconciliation]
 G --> K
-````
+```
 
 ---
 
@@ -105,7 +105,7 @@ This event represents an **intent**, not a canonical change.
 
 ## Phase 3 — Submission
 
-The observer sends the event to the server.
+The observer submits the event to the validator.
 
 State at this moment:
 
@@ -116,9 +116,9 @@ State at this moment:
 
 ---
 
-## Phase 4 — Validation Pipeline (Server)
+## Phase 4 — Validation Pipeline (Validator)
 
-The server processes and validates the event.
+The validator processes and evaluates the event.
 
 ### 4.1 Schema Validation
 
@@ -144,7 +144,7 @@ The server processes and validates the event.
 
 ## Phase 5 — Acceptance
 
-The server accepts the event.
+The validator accepts the event.
 
 Canonical metadata assigned:
 
@@ -173,7 +173,7 @@ Derived canonical state now reflects the change.
 
 ## Phase 7 — Broadcast
 
-The server sends the canonical event to all observers.
+The validator distributes the canonical event to all observers.
 
 ---
 
@@ -210,7 +210,7 @@ After reconciliation:
 * lenses interpret that data
 * UI renders the result
 
-```text
+```text id="j1m8bp"
 Canonical Update → Adapter → Lens → UI
 ```
 
@@ -220,11 +220,13 @@ Canonical Update → Adapter → Lens → UI
 
 Two players attempt to place on tile_42.
 
-### Server Behavior
+### Validator Behavior
 
-* validates both
-* accepts first valid event
-* rejects second
+* evaluates both candidate events
+* accepts the first valid event
+* rejects the second
+
+---
 
 ### Rejection Result
 
@@ -233,9 +235,11 @@ result = rejected
 reason = precondition_failed
 ```
 
+---
+
 ### Observer Reconciliation
 
-Rejected client:
+Rejected observer:
 
 * removes predicted structure
 * updates to canonical state
@@ -266,4 +270,4 @@ This example corresponds directly to:
 
 ## One Sentence Summary
 
-A local action becomes a candidate event, the server validates it, accepted events are appended to canonical event history, and observers reconcile their local simulation to that shared history.
+A local action becomes a candidate event, the validator evaluates it, accepted events are appended to canonical event history, and observers reconcile their local simulation to that shared history.
