@@ -18,7 +18,7 @@ Most online games use a server-authoritative model:
 
 ```text
 Clients → Server → Database
-````
+```
 
 The server:
 
@@ -36,7 +36,7 @@ This becomes expensive and difficult to scale.
 CrypSA changes what is synchronized:
 
 ```text
-Observer → Local Simulation → Invariant Boundary → Validation → Canonical Event History
+Observer → Local Simulation → Invariant Boundary → Validator → Canonical Event History
 ```
 
 Instead of synchronizing full state, CrypSA synchronizes:
@@ -116,7 +116,7 @@ If accepted:
 → appended to canonical event history
 ```
 
-The server validates candidate events against invariants.
+The validator evaluates candidate events against invariants.
 It does not simulate the world.
 
 ---
@@ -160,7 +160,7 @@ Experience → Interpretation → Translation → Truth
 * observers simulate locally
 * lenses interpret
 * adapters translate
-* the server protects canonical event history
+* the validator protects canonical event history
 
 ---
 
@@ -185,6 +185,10 @@ Mint
 ## Key Insight
 
 > CrypSA separates truth, translation, interpretation, and experience into distinct responsibilities.
+
+And:
+
+> validation determines what becomes canonical truth
 
 ---
 
