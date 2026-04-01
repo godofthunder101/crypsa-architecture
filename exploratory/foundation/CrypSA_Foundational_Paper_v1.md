@@ -11,7 +11,7 @@
 > * `../../architecture/`
 > * `../../spec/`
 
-Author: Beau Wells  
+Author: Beau Wells
 Year: 2026
 
 ---
@@ -22,7 +22,7 @@ CrypSA (Cryptid Server Architecture) is a distributed simulation architecture de
 
 Traditional multiplayer systems rely on server-authoritative models that continuously synchronize mutable world state between clients and servers. As the scale and complexity of shared worlds increase, this model introduces significant challenges related to synchronization overhead, scalability, and infrastructure cost.
 
-CrypSA proposes an alternative approach in which the system synchronizes **validated canonical events** rather than full simulation state. Structural identities and deterministic object genomes allow observers to reconstruct canonical objects locally. **Canonical event history evolves through validated canonical events**, rather than continuous server simulation.
+CrypSA proposes an alternative approach in which the system synchronizes **validated canonical events** rather than full simulation state. Structural identities and deterministic object genomes allow observers to reconstruct canonical objects locally. **Canonical event history evolves through validated canonical events**, rather than continuous centralized simulation.
 
 This architecture separates structural reality from experiential interpretation. The Mint defines immutable identities and deterministic object definitions, while Lenses provide modular interpretation layers that determine how observers experience the universe.
 
@@ -34,27 +34,27 @@ By shifting responsibility for simulation toward observers while preserving cano
 
 Large-scale multiplayer environments present significant architectural challenges.
 
-Traditional game server models maintain global consistency by continuously synchronizing mutable world state across connected clients. While effective for small environments, this model becomes increasingly complex and resource-intensive as worlds grow larger and interactions become more numerous.
+Traditional models maintain global consistency by continuously synchronizing mutable world state across connected clients. While effective for small environments, this model becomes increasingly complex and resource-intensive as worlds grow larger and interactions become more numerous.
 
 Server-authoritative architectures must track:
 
-* world object state  
-* simulation ticks  
-* player interactions  
-* conflict resolution  
-* synchronization across observers  
+* world object state
+* simulation ticks
+* player interactions
+* conflict resolution
+* synchronization across observers
 
-As world size increases, the server becomes responsible for maintaining and distributing an ever-growing volume of mutable state.
+As world size increases, the system becomes responsible for maintaining and distributing an ever-growing volume of mutable state.
 
 CrypSA introduces a different model.
 
 Instead of synchronizing mutable world state, CrypSA synchronizes **validated canonical event history** and enforces invariants at the boundary of shared reality.
 
-Observers reconstruct their experience of the universe locally, while the server acts as a validator of canonical changes rather than a simulator of the world.
+Observers reconstruct their experience of the universe locally, while a **validator** acts as the authority over canonical changes rather than a simulator of the world.
 
 ---
 
-## 3. The CrypSA Model
+## 2. The CrypSA Model
 
 CrypSA separates structural reality from observer experience.
 
@@ -70,20 +70,20 @@ Translation (Adapters)
 Invariant Boundary
 ↓
 Truth (Validation + Canonical Event History)
-````
+```
 
-* Observers simulate and experience the world locally
-* Lenses interpret canonical data into meaning
-* Adapters shape data for interpretation
-* The invariant boundary determines what affects canonical event history
-* The server validates and records canonical events
+* observers simulate and experience the world locally
+* lenses interpret canonical data into meaning
+* adapters shape data for interpretation
+* the invariant boundary determines what affects canonical event history
+* the validator evaluates and records canonical events
 
-The server does not simulate the world.
+The validator does not simulate the world.
 It enforces correctness of canonical event history.
 
 ---
 
-## 4. Core Concepts
+## 3. Core Concepts
 
 ### Invariants
 
@@ -113,38 +113,38 @@ Canonical events define shared truth.
 
 ---
 
-## 6. Validation and Canonical Event Acceptance
+## 4. Validation and Canonical Event Acceptance
 
 When an observer performs an action affecting canonical event history:
 
-1. The action is simulated locally
+1. the action is simulated locally
 
-2. The invariant boundary determines if it affects canonical event history
+2. the invariant boundary determines if it affects canonical event history
 
-3. A candidate event is created
+3. a candidate event is created
 
-4. The event is submitted to the server
+4. the event is submitted to the validator
 
-5. The server validates the event against invariants and rules
+5. the validator evaluates the event against invariants and rules
 
-6. If accepted:
+6. if accepted:
 
    * the event becomes a canonical event
-   * the server assigns `server_sequence`
+   * the validator assigns `server_sequence`
    * the event is appended to canonical event history
 
-7. If rejected:
+7. if rejected:
 
    * no canonical change occurs
    * the observer corrects local simulation
 
-8. Observers reconstruct the updated world state from canonical event history
+8. observers reconstruct the updated world via replay of canonical event history
 
-This ensures that all observers eventually converge on the same state derived from canonical event history.
+This ensures that all observers eventually converge on the same derived canonical state.
 
 ---
 
-## 8. Design Guarantees
+## 5. Design Guarantees
 
 ### Invariant Consistency
 
@@ -156,11 +156,11 @@ Canonical event history remains consistent because:
 
 ---
 
-## 11. Conclusion
+## 6. Conclusion
 
 CrypSA proposes a distributed architecture in which shared reality is maintained through identities, deterministic object definitions, and validated canonical event history.
 
-Observers reconstruct the universe locally while the server ensures that invariant rules remain intact through validation.
+Observers reconstruct the universe locally while the validator ensures that invariant rules remain intact through validation.
 
 By separating structural reality from interpretation and experience, CrypSA enables scalable persistent digital universes that evolve through validated canonical events rather than centralized simulation.
 
@@ -168,4 +168,4 @@ By separating structural reality from interpretation and experience, CrypSA enab
 
 ## One Sentence Summary
 
-CrypSA is a distributed architecture in which observers reconstruct persistent digital universes locally while servers validate candidate events, accept canonical events, and preserve canonical event history.
+CrypSA is a distributed architecture in which observers reconstruct persistent digital universes locally while a validator evaluates candidate events, accepts canonical events, and preserves canonical event history.
