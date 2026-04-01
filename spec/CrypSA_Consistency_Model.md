@@ -1,6 +1,6 @@
 # CrypSA Consistency Model v0.1
 
-This document defines how CrypSA maintains consistency across observers, the server, and canonical event history.
+This document defines how CrypSA maintains consistency across observers, the validator, and canonical event history.
 
 Consistency determines:
 
@@ -49,7 +49,7 @@ CrypSA uses a hybrid consistency model:
 
 ### 1. Event-Level Authority
 
-* The server is authoritative over event acceptance
+* The validator is authoritative over event acceptance
 * Only accepted events enter canonical event history
 * Canonical event history defines shared truth
 
@@ -81,8 +81,10 @@ Canonical event history is strictly ordered by:
 This ordering is:
 
 * authoritative
-* global within the server
+* global within a validator instance
 * used for replay and reconstruction
+
+> `server_sequence` is assigned by the validator and defines canonical ordering.
 
 ---
 
@@ -95,7 +97,7 @@ Implementations may reason about events within scopes such as:
 
 However:
 
-> canonical ordering remains defined by server sequence
+> canonical ordering remains defined by validator-assigned sequence
 
 ---
 
@@ -110,9 +112,9 @@ Conflicts occur when:
 
 ### Conflict Resolution
 
-The server resolves conflicts during validation:
+The validator resolves conflicts during validation:
 
-* events are evaluated atomically within conflict scope
+* events are evaluated atomically within the conflict scope
 * only one valid outcome is accepted
 * rejected events do not enter canonical event history
 
@@ -255,9 +257,15 @@ CrypSA prioritizes:
 CrypSA consistency is:
 
 * event-driven
-* server-validated
+* validator-controlled
 * globally ordered (by canonical sequence)
 * eventually convergent
 
 > Observers may disagree temporarily,
 > but canonical event history ensures they eventually agree.
+
+---
+
+## One Sentence Summary
+
+CrypSA ensures consistency through validator-controlled event acceptance, canonical ordering, and deterministic replay, allowing temporary divergence while guaranteeing eventual convergence.
