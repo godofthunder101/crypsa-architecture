@@ -13,9 +13,9 @@ Events are the foundation of the system.
 
 CrypSA is event-driven.
 
-* The world is not the source of truth
-* **Canonical event history is the source of truth**
-* World state is derived from that history
+* the world is not the source of truth
+* **canonical event history is the source of truth**
+* world state is derived from that history
 
 ---
 
@@ -34,7 +34,7 @@ CrypSA defines two primary event types:
 
 ### 2. Canonical Events
 
-* accepted by the server
+* accepted by the validator
 * immutable
 * part of canonical event history
 * used for replay and reconstruction
@@ -49,10 +49,10 @@ Every event follows this lifecycle:
    Observer creates a candidate event
 
 2. **Submission**
-   Event is sent to the server
+   Event is submitted to the validator
 
 3. **Validation**
-   Server evaluates the event
+   Validator evaluates the event
 
 4. **Decision**
 
@@ -111,7 +111,7 @@ CrypSA events consist of two layers:
 #### `target_ids`
 
 * objects affected by the event
-* may be empty or multiple
+* may be empty or contain multiple targets
 
 ---
 
@@ -155,9 +155,9 @@ Example:
 
 ---
 
-## Canonical Metadata (Server-Assigned)
+## Canonical Metadata (Validator-Assigned)
 
-When an event is accepted, the server assigns:
+When an event is accepted, the validator assigns:
 
 ---
 
@@ -172,11 +172,24 @@ When an event is accepted, the server assigns:
 * authoritative ordering index
 * defines replay order
 
+> `server_sequence` is assigned by the validator and defines canonical ordering.
+
 ---
 
 #### `accepted_at`
 
-* server timestamp of acceptance
+* timestamp of acceptance (validator-defined)
+
+---
+
+## Canonical Event Definition
+
+A canonical event is an accepted candidate event that:
+
+* has passed validation
+* has been assigned `server_sequence`
+* has been appended to canonical event history
+* is immutable
 
 ---
 
@@ -197,10 +210,7 @@ Canonical events must satisfy:
 
 ## Idempotency Requirement
 
-The system must ensure:
-
-* duplicate `event_id` submissions
-* do not create duplicate canonical events
+The system must ensure that duplicate `event_id` submissions do not create duplicate canonical events.
 
 Each candidate event must be processed exactly once.
 
@@ -216,6 +226,7 @@ Replay must be:
 
 * deterministic
 * consistent across all observers
+* equivalent to full reconstruction from canonical event history
 
 ---
 
@@ -233,6 +244,39 @@ This ensures:
 
 ---
 
+## Validation Relationship
+
+Candidate events only become canonical through validation.
+
+Validation ensures:
+
+* invariants are preserved
+* preconditions are satisfied
+* rules are enforced
+
+Rejected events:
+
+* do not enter canonical event history
+* must not affect canonical state
+
+---
+
+## Invariant Boundary Relationship
+
+Candidate events originate from actions that cross the invariant boundary.
+
+The invariant boundary defines:
+
+* the transition from local simulation
+* to canonical validation
+
+Actions that do not cross this boundary:
+
+* remain local
+* do not produce candidate events
+
+---
+
 ## Summary
 
 CrypSA events:
@@ -247,4 +291,4 @@ CrypSA events:
 
 ## One Sentence Summary
 
-CrypSA uses validated, immutable canonical events as the source of truth, and all world state is derived by replaying those events in server-defined order.
+CrypSA uses validated, immutable canonical events as the source of truth, and all world state is derived by replaying those events in validator-defined canonical order.
