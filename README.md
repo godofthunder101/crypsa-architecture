@@ -1,12 +1,15 @@
-# CrypSA - Cryptid Server Architecture
+# CrypSA — Cryptid Server Architecture
 
 CrypSA is an event-driven architecture for building persistent digital worlds.
 
 Instead of synchronizing full world state, CrypSA synchronizes **validated canonical events under invariant rules**.
 
-Observers simulate the world locally, while a server validates events and preserves canonical event history.
+Observers simulate the world locally, while a **validator** evaluates events and preserves canonical event history.
 
-For documentation precedence and folder roles, see `DOCS_STRUCTURE.md`.
+> The validator defines canonical truth.
+> It may run locally or remotely, but its role does not change.
+
+For documentation precedence and folder roles, see `DOCS_STRUCTURE.md`. 
 
 ---
 
@@ -14,9 +17,10 @@ For documentation precedence and folder roles, see `DOCS_STRUCTURE.md`.
 
 If you're new to CrypSA:
 
-1. 📘 `CrypSA_In_5_Minutes.md` — quick overview  
-2. 📖 `CrypSA_Terminology_Primer.md` — understand the vocabulary  
-3. ❓ `FAQ.md` — common questions and concerns  
+1. 🧭 `CrypSA_In_One_Diagram.md` — the entire system in one view
+2. 📘 `CrypSA_In_5_Minutes.md` — quick overview
+3. 📖 `CrypSA_Terminology_Primer.md` — understand the vocabulary
+4. ❓ `FAQ.md` — common questions and concerns
 
 ---
 
@@ -24,9 +28,9 @@ If you're new to CrypSA:
 
 If you want to understand how CrypSA actually works:
 
-1. `spec/CrypSA_Runtime_Spec_v0.1.md`  
-2. `spec/CrypSA_Spec_Index.md` (spec reading order)  
-3. `implementation/CrypSA_Minimal_Server_v0.1.md`  
+1. `spec/CrypSA_Runtime_Spec_v0.1.md`
+2. `spec/CrypSA_Spec_Index.md` (spec reading order)
+3. `implementation/CrypSA_Minimal_Server_v0.1.md`
 
 These define the runtime behavior (spec) and how the system can be implemented (implementation).
 
@@ -36,24 +40,24 @@ These define the runtime behavior (spec) and how the system can be implemented (
 
 Traditional multiplayer systems:
 
-* server simulates the world  
-* clients receive state updates  
+* server simulates the world
+* clients receive state updates
 
 CrypSA:
 
-* clients (observers) simulate locally  
-* actions become candidate events  
-* server validates events  
-* accepted events are appended to canonical event history  
-* derived canonical state is reconstructed via replay  
+* observers simulate locally
+* actions become candidate events
+* a validator evaluates events
+* accepted events are appended to canonical event history
+* derived canonical state is reconstructed via replay
 
-> The system moves from synchronizing state → to agreeing on events.
+> The system moves from synchronizing state → to agreeing on events
 
 In CrypSA:
 
-> state is not stored as truth — it is derived from canonical event history via replay  
+> state is not stored as truth — it is derived from canonical event history via replay
 
-> canonical event history is append-only  
+> canonical event history is append-only
 
 ---
 
@@ -61,15 +65,15 @@ In CrypSA:
 
 CrypSA is easiest to understand as four responsibilities:
 
-* **Truth** — canonical events and validation  
-* **Translation** — adapters shaping runtime data  
-* **Interpretation** — lenses determining observer meaning  
-* **Experience** — UI and local interaction  
+* **Truth** — canonical events and validation
+* **Translation** — adapters shaping runtime data
+* **Interpretation** — lenses determining observer meaning
+* **Experience** — UI and local interaction
 
 These responsibilities are explored in more detail in:
 
-* `CrypSA_In_5_Minutes.md`  
-* `architecture/`  
+* `CrypSA_In_5_Minutes.md`
+* `architecture/`
 
 ---
 
@@ -80,7 +84,7 @@ flowchart LR
 
 A[Player Action] --> B[Local Simulation]
 B --> C[Create Candidate Event]
-C --> D[Send to Server]
+C --> D[Submit to Validator]
 
 D --> E[Validation Pipeline]
 
@@ -93,7 +97,7 @@ I --> J[Broadcast]
 
 J --> K[Observer Reconciliation]
 G --> K
-````
+```
 
 For more diagrams, see:
 
@@ -103,22 +107,24 @@ For more diagrams, see:
 
 ## ⚙️ What CrypSA Enables
 
-* Persistent worlds independent of specific servers
+* Persistent worlds independent of specific server deployments
 * Deterministic world reconstruction
 * Built-in replay and debugging via event history
 * Flexible client-side simulation
 * Strong invariant-based validation
+* Flexible deployment (local or remote validator)
 * Potential for new gameplay models (observer-driven views, replay-based systems)
 
 ---
 
 ## 🧩 Key Concepts
 
+* **Validator** — determines what becomes canonical truth
 * **Minted Identities** — persistent object identities
-* **Genomes** — versioned object definitions
+* **Genomes** — deterministic object definitions
 * **Canonical Events** — immutable events forming canonical event history
 * **Invariants** — rules that must always hold
-* **Observers** — clients that reconstruct and simulate
+* **Observers** — systems that reconstruct and simulate
 * **Lenses** — interpretation layers (view-dependent logic)
 
 See `CrypSA_Terminology_Primer.md` for detailed explanations.
@@ -252,7 +258,7 @@ CrypSA is currently:
 
 Next major step:
 
-→ building a minimal independent server to validate the runtime model
+→ building a minimal validator (which may run locally or remotely) to validate the runtime model
 
 See:
 
@@ -279,15 +285,15 @@ This prototype is intended to:
 It is **not**:
 
 * a production runtime
-* a distributed server implementation
+* a distributed validator implementation
 * a scalability or networking proof
 
 Status:
 
-* Complete for its intended purpose
-* Frozen except for bug fixes and documentation updates
+* complete for its intended purpose
+* frozen except for bug fixes and documentation updates
 
-Future CrypSA work (such as a minimal server/runtime) will be developed as separate programs rather than extending this prototype indefinitely.
+Future CrypSA work (such as a minimal runtime/validator) will be developed as separate programs rather than extending this prototype indefinitely.
 
 ---
 
@@ -295,34 +301,35 @@ Future CrypSA work (such as a minimal server/runtime) will be developed as separ
 
 ### 1. Understand the Idea
 
-1. `CrypSA_In_5_Minutes.md`
-2. `CrypSA_Terminology_Primer.md`
-3. `FAQ.md`
+1. `CrypSA_In_One_Diagram.md`
+2. `CrypSA_In_5_Minutes.md`
+3. `CrypSA_Terminology_Primer.md`
+4. `FAQ.md`
 
 ---
 
 ### 2. See a Concrete Example
 
-4. `CrypSA_Worked_Example.md`
+5. `CrypSA_Worked_Example.md`
 
 ---
 
 ### 3. Understand the Architecture
 
-5. `architecture/`
-6. `spec/`
+6. `architecture/`
+7. `spec/`
 
 ---
 
 ### 4. See the Model in Practice
 
-7. `teaching/CrypSA_teaching_prototype/`
+8. `teaching/CrypSA_teaching_prototype/`
 
 ---
 
 ### 5. Move Toward Implementation
 
-8. `implementation/CrypSA_Minimal_Server_v0.1.md`
+9. `implementation/CrypSA_Minimal_Server_v0.1.md`
 
 ---
 
@@ -362,4 +369,4 @@ If referencing this work, see `CITATION.cff`.
 
 ## One Sentence Summary
 
-CrypSA is an event-driven architecture where clients simulate locally, servers validate events, and shared reality is defined by canonical event history.
+CrypSA is an event-driven architecture where observers simulate locally, a validator evaluates events, and shared reality is defined by canonical event history.
