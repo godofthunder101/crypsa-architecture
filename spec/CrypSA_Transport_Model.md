@@ -1,6 +1,6 @@
 # CrypSA Transport Model Spec v0.1
 
-This document defines how events and canonical updates are transmitted between observers and the server.
+This document defines how events and canonical updates are transmitted between observers and the validator.
 
 It specifies:
 
@@ -32,7 +32,7 @@ over strict real-time guarantees.
 
 ## Transport Roles
 
-### Observer → Server
+### Observer → Validator
 
 * submits candidate events
 * may retry submissions
@@ -40,7 +40,7 @@ over strict real-time guarantees.
 
 ---
 
-### Server → Observer
+### Validator → Observer
 
 * delivers canonical events
 * delivers validation outcomes
@@ -64,7 +64,7 @@ The system must remain correct under these conditions.
 
 ## Candidate Event Submission
 
-Observers submit candidate events to the server.
+Observers submit candidate events to the validator.
 
 ---
 
@@ -72,13 +72,13 @@ Observers submit candidate events to the server.
 
 * each event must include a unique `event_id`
 * submissions must be retry-safe
-* duplicate submissions must not cause duplicate canonical events
+* duplicate submissions must not create duplicate canonical events
 
 ---
 
 ### Idempotency
 
-The server must treat `event_id` as idempotent.
+The validator must treat `event_id` as idempotent.
 
 If the same event is submitted multiple times:
 
@@ -100,7 +100,7 @@ The observer must be informed of the outcome.
 
 ## Acknowledgment Model
 
-The server should provide:
+The validator should provide:
 
 * acknowledgment of receipt (optional in v0.1)
 * final validation outcome (required)
@@ -115,7 +115,7 @@ Observers must track:
 
 ## Canonical Event Distribution
 
-The server distributes accepted canonical events to observers.
+The validator distributes accepted canonical events to observers.
 
 ---
 
@@ -130,11 +130,11 @@ Canonical events must be:
 
 ### Ordering Guarantee
 
-Transport does not guarantee ordering.
+Transport does **not** guarantee ordering.
 
 Canonical ordering is defined by:
 
-* `server_sequence` assigned by the server
+* `server_sequence` assigned by the validator
 
 Observers must:
 
@@ -185,7 +185,7 @@ Observers may retry event submission when:
 ### Requirements
 
 * retries must reuse the same `event_id`
-* server must handle duplicates safely
+* the validator must handle duplicates safely
 
 ---
 
@@ -226,7 +226,7 @@ Transport may provide:
 
 Reconstruction:
 
-> Snapshot + Event Stream → Current State
+> Snapshot + Event Stream → Current Derived Canonical State
 
 ---
 
@@ -260,7 +260,7 @@ Transport layer must ensure:
 
 * events cannot be spoofed or altered in transit
 * observer identity is authenticated
-* server authority is trusted
+* validator authority is trusted
 
 v0.1 does not mandate specific cryptographic protocols.
 
@@ -275,7 +275,9 @@ Transport performance depends on:
 * snapshot size
 * network conditions
 
-Optimization strategies include:
+---
+
+### Optimization Strategies
 
 * batching events
 * compressing payloads
@@ -329,12 +331,12 @@ CrypSA transport is:
 
 It ensures:
 
-> candidate events reach the server,  
-> canonical events reach observers,  
+> candidate events reach the validator,
+> canonical events reach observers,
 > and all participants converge on shared history
 
 ---
 
 ## One Sentence Summary
 
-CrypSA Transport defines how candidate events and canonical updates move between observers and the server using an asynchronous, idempotent, and eventually consistent communication model.
+CrypSA Transport defines how candidate events and canonical updates move between observers and the validator using an asynchronous, idempotent, and eventually consistent communication model.
