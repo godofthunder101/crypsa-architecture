@@ -1,6 +1,6 @@
 # CrypSA Snapshot Model Spec v0.1
 
-This document defines how CrypSA captures and uses snapshots of derived state.
+This document defines how CrypSA captures and uses snapshots of derived canonical state.
 
 Snapshots are used to:
 
@@ -19,7 +19,7 @@ In CrypSA:
 
 Snapshots do not replace canonical event history.
 
-They are cached representations of derived state at a specific point in canonical history.
+They are cached representations of derived canonical state at a specific point in canonical history.
 
 ---
 
@@ -46,6 +46,8 @@ It may also include:
 This ensures:
 
 > replay from snapshot + subsequent canonical events produces the same result as full replay
+
+> `server_sequence` is assigned by the validator and defines canonical ordering.
 
 ---
 
@@ -76,19 +78,28 @@ CrypSA may support multiple snapshot strategies.
 * captures the full derived canonical state
 * used for full recovery or new observers
 
+---
+
 ### 2. Partial Snapshot
 
 * captures a subset of derived canonical state
-* examples:
 
-  * region snapshot
-  * object-group snapshot
+Examples:
+
+* region snapshot
+* object-group snapshot
+
+---
 
 ### 3. Incremental Snapshot
 
 * stores only changes since the previous snapshot
 * reduces storage cost
 * increases reconstruction complexity
+
+---
+
+### v0.1 Requirement
 
 Version 0.1 only requires support for a basic full snapshot model.
 
@@ -122,17 +133,21 @@ Snapshots are used for:
 
 ### 1. Fast Startup
 
-* new observers load a snapshot
+* observers load a snapshot
 * replay only recent canonical events
+
+---
 
 ### 2. Recovery
 
 * system restarts from a snapshot
 * avoids full replay from genesis
 
+---
+
 ### 3. Partial Loading
 
-* load only relevant world sections where supported
+* load only relevant world sections (if supported)
 * useful for larger systems beyond the minimal model
 
 ---
@@ -145,7 +160,7 @@ Replay using snapshots follows this process:
 2. read snapshot `server_sequence`
 3. fetch canonical events after that sequence
 4. apply events in `server_sequence` order
-5. produce current derived state
+5. produce current derived canonical state
 
 ---
 
@@ -229,7 +244,9 @@ Snapshot performance depends on:
 * serialization format
 * replay tail length
 
-Optimization strategies include:
+---
+
+### Optimization Strategies
 
 * compression
 * partial snapshots
@@ -257,6 +274,8 @@ Snapshots must:
 * reduced startup cost
 * more practical reconnect behavior
 
+---
+
 ### Costs
 
 * storage overhead
@@ -271,7 +290,7 @@ Snapshots do not replace canonical event history.
 
 They are:
 
-> cached projections of canonical event history at a specific sequence
+> cached projections of canonical event history at a specific canonical sequence
 
 Canonical event history remains:
 
@@ -291,3 +310,9 @@ CrypSA snapshots are:
 * replay-compatible
 
 They make event-driven worlds practical to operate without changing the source of truth.
+
+---
+
+## One Sentence Summary
+
+CrypSA snapshots are derived, sequence-bound representations of canonical state that accelerate replay while preserving canonical event history as the sole source of truth.
