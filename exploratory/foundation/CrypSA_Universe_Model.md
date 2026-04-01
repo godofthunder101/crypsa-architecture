@@ -35,7 +35,7 @@ D -->|Accepted| E[Canonical Event History]
 E --> F[Object Reconstruction]
 F --> G[Observer Experience]
 G --> B
-````
+```
 
 ---
 
@@ -48,6 +48,8 @@ Observers (players, systems, tools):
 * reconstruct the universe
 * simulate locally
 * interact with the world
+
+Observers are responsible for experience and local simulation, not canonical truth.
 
 ---
 
@@ -77,7 +79,7 @@ The invariant boundary determines:
 
 ### Validation (Truth Layer)
 
-The server validates candidate events:
+A **validator** evaluates candidate events:
 
 * enforces invariants
 * checks rules
@@ -100,7 +102,7 @@ Examples:
 
 This history is:
 
-* ordered
+* ordered (`server_sequence`)
 * append-only
 * authoritative
 
@@ -125,7 +127,7 @@ Observers continuously:
 * reconstruct
 * simulate
 * interact
-* submit candidate events for validation when crossing the invariant boundary
+* submit candidate events (when crossing the invariant boundary)
 
 This creates a loop between local simulation and canonical event history.
 
