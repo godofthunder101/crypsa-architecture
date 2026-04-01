@@ -5,7 +5,7 @@
 This diagram shows the relationship between:
 
 * local observer simulation
-* the server’s truth-layer role
+* the validator’s role in defining canonical truth
 
 It explains how CrypSA separates:
 
@@ -17,7 +17,7 @@ It explains how CrypSA separates:
 
 ## Diagram
 
-```mermaid
+```mermaid id="1k0v8f"
 flowchart LR
 
 subgraph "Observer"
@@ -26,7 +26,7 @@ subgraph "Observer"
     C[Predicted Actions]
 end
 
-subgraph "Server (Truth Layer)"
+subgraph "Validator (Truth Layer)"
     D[Validation and Invariant Enforcement]
     E[Canonical Event History]
     F[Derived Canonical State]
@@ -41,7 +41,7 @@ D -->|Rejected| A
 
 E --> F
 F --> A
-````
+```
 
 ---
 
@@ -66,9 +66,9 @@ However:
 
 ---
 
-### Server Side (Truth Layer)
+### Validator Side (Truth Layer)
 
-The server maintains:
+The validator maintains:
 
 * validation and invariant enforcement
 * canonical event history
@@ -78,13 +78,15 @@ Canonical event history defines what is real.
 
 Derived canonical state is a computed view, not the source of truth.
 
+The validator may run locally or remotely, but its role does not change.
+
 ---
 
 ### Interaction Flow
 
 1. the observer performs an action
 2. the action becomes a candidate event
-3. the server validates the event
+3. the validator evaluates the event
 
 ---
 
@@ -118,7 +120,7 @@ This ensures:
 ## Key Insight
 
 > The observer simulates freely.
-> The server determines what becomes real.
+> The validator determines what becomes real.
 > Canonical event history corrects local state.
 
 ---
@@ -138,7 +140,7 @@ Adapters and lenses operate within the observer before and after this flow.
 
 This diagram connects to:
 
-* Runtime Spec — observer/server roles
+* Runtime Spec — observer/validator roles
 * Validation Model — invariant enforcement
 * Consistency Model — reconciliation
 * Replay Model — canonical reconstruction
