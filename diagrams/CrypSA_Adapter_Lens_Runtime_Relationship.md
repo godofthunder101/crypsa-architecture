@@ -9,6 +9,8 @@ This diagram shows how CrypSA separates:
 * **interpretation**
 * **experience**
 
+It also clarifies how canonical truth is established before it flows into the rest of the system.
+
 ---
 
 ## System Relationship Diagram
@@ -17,6 +19,7 @@ This diagram shows how CrypSA separates:
 flowchart LR
 
 subgraph "Truth Layer"
+    V[Validator]
     A[Canonical Event History]
     B[Derived Canonical State]
 end
@@ -37,12 +40,13 @@ subgraph "Experience Layer"
     F[UI / Observer Experience]
 end
 
+V --> A
 A --> B
 B --> D
 C --> D
 D --> E
 E --> F
-````
+```
 
 ---
 
@@ -52,10 +56,21 @@ E --> F
 
 The truth layer defines what is real.
 
-* **Canonical event history** defines what is true
-* **Derived canonical state** is a convenience for access, reconstruction, and computation
+It includes:
+
+* the **validator**, which determines what becomes canonical
+* **canonical event history**, which defines what is true
+* **derived canonical state**, which is reconstructed from canonical history
+
+The validator:
+
+* accepts or rejects candidate events
+* enforces invariants
+* appends accepted events to canonical event history
 
 Derived canonical state is useful, but it is not more authoritative than canonical event history.
+
+> Canonical truth is defined by validation, not by derived state.
 
 ---
 
@@ -127,6 +142,10 @@ This is what the observer experiences.
 
 > Truth, translation, interpretation, and experience are separate responsibilities.
 
+And critically:
+
+> truth is established by validation before it flows into the rest of the system
+
 This separation is one of the core architectural boundaries in CrypSA.
 
 ---
@@ -134,7 +153,7 @@ This separation is one of the core architectural boundaries in CrypSA.
 ## Simplified Flow
 
 ```text
-Canonical Event History → Derived Canonical State → Adapters → Lenses → Experience
+Validator → Canonical Event History → Derived Canonical State → Adapters → Lenses → Experience
 ```
 
 ---
@@ -155,4 +174,4 @@ Each layer can evolve independently without breaking the others.
 
 ## One Sentence Summary
 
-CrypSA separates truth, translation, interpretation, and experience into distinct layers so the system remains clear, modular, and extensible.
+CrypSA separates truth, translation, interpretation, and experience into distinct layers, where validation establishes canonical truth before it is translated, interpreted, and experienced.
