@@ -33,12 +33,33 @@ For authoritative definitions, refer to:
 
 All diagrams must align with the core CrypSA architecture:
 
-* **Truth** — canonical events and validation
+* **Truth** — validation and canonical event history
 * **Translation** — adapters
 * **Interpretation** — lenses
 * **Experience** — UI and local simulation
 
+And must reflect these core principles:
+
+* **validation determines canonical truth**
+* **canonical event history is the source of truth**
+* **the validator is the authority over canonical events**
+* **the invariant boundary separates local behavior from canonical change**
+
 Diagrams must not introduce alternative models or terminology.
+
+---
+
+## Terminology Requirements
+
+Diagrams must use consistent CrypSA terminology:
+
+* use **validator**, not “server” (unless explicitly referring to a remote deployment)
+* use **candidate event**, not generic “action” when crossing the invariant boundary
+* use **canonical event history**, not “state” as a source of truth
+
+If “server” is used, it must be clear that:
+
+> a server is a deployment of a validator, not the definition of the role
 
 ---
 
@@ -77,8 +98,10 @@ Recommended practices:
 * **spec/** → defines behavior and rules
 * **diagrams/** → visualizes those concepts
 
+Diagrams should reflect the architecture and spec, not reinterpret them.
+
 ---
 
 ## One Sentence Summary
 
-Diagrams visualize CrypSA concepts to aid understanding, but authoritative definitions and behavior are defined only in the architecture and spec layers.
+Diagrams visualize CrypSA concepts to aid understanding, but authoritative definitions and behavior are defined only in the architecture and spec layers, where validation defines canonical truth.
