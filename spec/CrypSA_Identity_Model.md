@@ -25,8 +25,8 @@ In CrypSA:
 
 CrypSA separates:
 
-* **Identity** → "what this object is"
-* **Definition (Genome)** → "how this object behaves"
+* **Identity** → “what this object is”
+* **Definition (Genome)** → “how this object behaves”
 
 ---
 
@@ -49,7 +49,7 @@ CrypSA separates:
 
 ## Minted Identities
 
-Objects are created through **mint events**.
+Objects are created through **canonical mint events**.
 
 ---
 
@@ -65,7 +65,7 @@ A mint event creates:
 
 ### Example
 
-```text
+```text id="qzv8wv"
 event_type = mint_object
 payload = {
   object_id: obj_123,
@@ -88,7 +88,7 @@ payload = {
 
 Objects follow this lifecycle:
 
-```text
+```text id="cz2b8k"
 non-existent
 → minted
 → active
@@ -140,7 +140,7 @@ Genomes must be versioned.
 
 Example:
 
-```text
+```text id="7r2z0v"
 mining_station_v1
 mining_station_v2
 ```
@@ -165,7 +165,7 @@ Objects must remain compatible with their genome definition.
 
 ### Strategy 2: Explicit Migration (Future)
 
-* new event updates object to a new genome version
+* new canonical event updates object to a new genome version
 * migration must be deterministic
 * migration must be replay-safe
 
@@ -179,15 +179,15 @@ All canonical events must reference identities explicitly.
 
 ### Requirements
 
-* all target objects must exist
-* identity must be valid at event time
+* all target objects must exist at validation time
+* identity must be valid within canonical event history
 * destroyed objects cannot be modified
 
 ---
 
 ## Identity Registry
 
-The system maintains an identity registry as part of derived state.
+The system maintains an identity registry as part of derived canonical state.
 
 This registry contains:
 
@@ -213,6 +213,7 @@ Replay relies on identity stability.
 * identity must resolve consistently across replay
 * genome references must be resolvable
 * state transitions must be deterministic
+* replay must produce identical results given the same canonical event history
 
 ---
 
@@ -240,8 +241,8 @@ Identity must be unique within the canonical system.
 
 In v0.1:
 
-* clients may propose `object_id`
-* server must validate uniqueness
+* observers may propose `object_id`
+* the validator must validate uniqueness
 
 ---
 
@@ -249,12 +250,13 @@ In v0.1:
 
 * collision detection is required
 * duplicate mint attempts must be rejected
+* identity uniqueness must be enforced at validation
 
 ---
 
 ### Alternative (Future)
 
-* server-assigned identities
+* validator-assigned identities
 * deterministic ID generation
 * namespace-based IDs
 
