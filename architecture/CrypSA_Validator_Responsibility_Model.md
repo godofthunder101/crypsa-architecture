@@ -1,10 +1,10 @@
-# CrypSA Server Responsibility Model
+# CrypSA Validator Responsibility Model
 
 ## Purpose
 
-This document defines the role of the server in a CrypSA system.
+This document defines the role of the **validator** in a CrypSA system.
 
-The server is responsible for protecting the integrity of **canonical event history** by validating events, enforcing invariants, and maintaining that history.
+The validator is responsible for protecting the integrity of **canonical event history** by validating events, enforcing invariants, and maintaining that history.
 
 ---
 
@@ -12,17 +12,40 @@ The server is responsible for protecting the integrity of **canonical event hist
 
 In CrypSA:
 
-> The server does not simulate the world.
+> The validator does not simulate the world.
 > It controls what becomes real.
 
-The server acts as:
+The validator acts as:
 
 * an event validator
 * an invariant enforcer
 * a canonical event recorder
 
 Observers simulate the world locally.
-The server ensures all accepted events are valid.
+The validator ensures all accepted events are valid.
+
+---
+
+## Validator as a Role
+
+In CrypSA, the validator is a **logical role**, not a specific machine.
+
+It may run:
+
+* **locally**, alongside an observer
+* **remotely**, as a separate system
+
+The responsibilities of the validator do not change based on where it runs.
+
+> Validation defines canonical truth, regardless of deployment.
+
+---
+
+## Server (Deployment Term)
+
+A **server** is a deployment of a validator that runs remotely.
+
+Not all validators are servers, but all servers act as validators.
 
 ---
 
@@ -35,7 +58,7 @@ CrypSA separates responsibilities into:
 * **Interpretation** → lenses
 * **Experience** → UI and local simulation
 
-The server operates strictly in the **truth layer**.
+The validator operates strictly in the **truth layer**.
 
 It does not:
 
@@ -45,11 +68,11 @@ It does not:
 
 ---
 
-## The Server Model
+## The Validator Model
 
 CrypSA replaces centralized simulation with **canonical event validation**.
 
-Instead of computing the entire world, the server:
+Instead of computing the entire world, the validator:
 
 1. receives candidate events
 2. validates them
@@ -64,7 +87,7 @@ This is the minimal loop.
 
 ### 1. Event Acceptance
 
-The server receives **candidate events** from observers.
+The validator receives **candidate events** from observers.
 
 Examples:
 
@@ -79,7 +102,7 @@ Each event represents **intent**, not truth.
 
 ### 2. Validation and Invariant Enforcement
 
-The server validates events against:
+The validator validates events against:
 
 * object existence
 * ownership rules
@@ -113,7 +136,7 @@ Canonical event history is the source of truth.
 
 ## Canonical Data Model
 
-The server’s persistent data consists of:
+The validator’s persistent data consists of:
 
 * object identities
 * genome definitions (from the Mint)
@@ -127,7 +150,7 @@ The system is **event-first**, not state-first.
 
 ## Minimal Runtime Flow (v0.1)
 
-The minimal server loop is:
+The minimal validator loop is:
 
 1. receive request
 2. parse into typed intent
@@ -140,9 +163,9 @@ This is sufficient to maintain shared reality.
 
 ---
 
-## What the Server Does NOT Do
+## What the Validator Does NOT Do
 
-The server does not need to:
+The validator does not need to:
 
 * simulate the full world
 * run physics or AI continuously
@@ -184,7 +207,7 @@ These are optional and do not define the core model.
 
 ## Minimal Responsibilities
 
-At minimum, a CrypSA server must:
+At minimum, a CrypSA validator must:
 
 1. receive candidate events
 2. validate them
@@ -195,26 +218,49 @@ At minimum, a CrypSA server must:
 
 ---
 
-## Server vs Client Responsibilities
+## Validator vs Observer Responsibilities
 
-| Responsibility           | Client | Server       |
-| ------------------------ | ------ | ------------ |
-| Canonical reconstruction | Yes    | Yes          |
-| Local simulation         | Yes    | Not required |
-| Translation (adapters)   | Yes    | Not required |
-| Interpretation (lenses)  | Yes    | Not required |
-| Event proposal           | Yes    | No           |
-| Event validation         | No     | Yes          |
-| Invariant enforcement    | No     | Yes          |
-| Canonical recording      | No     | Yes          |
-| Rendering                | Yes    | No           |
-| Truth authority          | No     | Yes          |
+| Responsibility           | Observer | Validator    |
+| ------------------------ | -------- | ------------ |
+| Canonical reconstruction | Yes      | Yes          |
+| Local simulation         | Yes      | Not required |
+| Translation (adapters)   | Yes      | Not required |
+| Interpretation (lenses)  | Yes      | Not required |
+| Event proposal           | Yes      | No           |
+| Event validation         | No       | Yes          |
+| Invariant enforcement    | No       | Yes          |
+| Canonical recording      | No       | Yes          |
+| Rendering                | Yes      | No           |
+| Truth authority          | No       | Yes          |
+
+---
+
+## Deployment Independence
+
+The validator’s behavior is independent of deployment.
+
+Whether the validator runs:
+
+* locally (within an observer environment)
+* remotely (as a dedicated server)
+
+The following remain unchanged:
+
+* validation rules
+* invariant enforcement
+* canonical event semantics
+* definition of truth
+
+What changes is:
+
+* where validation executes
+* how observers communicate with the validator
 
 ---
 
 ## Summary
 
-The CrypSA server is the **guardian of canonical event history**.
+The CrypSA validator is the **guardian of canonical event history**.
 
 It:
 
@@ -228,6 +274,6 @@ Observers simulate and interpret the world locally.
 
 ## Key Idea
 
-The CrypSA server is not a simulation engine.
+The CrypSA validator is not a simulation engine.
 
 It is a **canonical event acceptance system** that determines what is allowed to become real.
