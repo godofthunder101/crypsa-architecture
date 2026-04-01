@@ -41,7 +41,7 @@ E --> O
 O --> S1
 
 S1 --> A
-````
+```
 
 ---
 
@@ -51,6 +51,10 @@ S1 --> A
 
 * represents state derived from canonical event history
 * stable and reconstructable
+
+Derived canonical state is not the source of truth.
+
+It is produced from canonical event history and reflects the current validated state of the universe.
 
 ---
 
@@ -62,13 +66,19 @@ Observers:
 * simulate locally
 * generate interactions
 
+This simulation is responsive and immediate, but not authoritative.
+
 ---
 
 ### Invariant Boundary
 
-The key decision point:
+The key decision point is:
 
 > Does this interaction affect canonical event history?
+
+If not, the result remains local.
+
+If yes, the interaction must cross the invariant boundary as a candidate event.
 
 ---
 
@@ -86,17 +96,21 @@ If no:
 If yes:
 
 * a candidate event is created
-* submitted for validation
+* submitted to the validator for evaluation
 
 ---
 
 ### Validation
 
-The server:
+The validator:
 
 * checks invariants
 * verifies rules
 * accepts or rejects
+
+The validator may run locally or remotely, but its role does not change.
+
+Validation determines whether the proposed interaction becomes canonical.
 
 ---
 
@@ -104,9 +118,11 @@ The server:
 
 If accepted:
 
-* the server assigns `server_sequence`
+* the validator assigns `server_sequence`
 * the event is appended to canonical event history
 * the universe transitions from Sₙ → Sₙ₊₁
+
+This is how canonical state changes in CrypSA.
 
 ---
 
@@ -122,6 +138,10 @@ If rejected:
 ## Key Insight
 
 > Only validated canonical events can transition the universe between states.
+
+And:
+
+> local simulation may propose changes, but only validation can make them real.
 
 ---
 
@@ -154,6 +174,8 @@ This model enables:
 * debugging via event history
 * persistent worlds
 * consistent shared reality
+
+Because the universe evolves through validated canonical events rather than uncontrolled simulation, every canonical transition can be understood, replayed, and verified.
 
 ---
 
