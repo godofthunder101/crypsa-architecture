@@ -6,14 +6,14 @@ This document defines the minimal runtime behavior of a CrypSA system.
 
 It specifies how:
 
-* local observer actions become candidate events  
-* candidate events are validated  
-* canonical event history is updated  
-* observers reconcile to derived canonical state  
+* local observer actions become candidate events
+* candidate events are validated
+* canonical event history is updated
+* observers reconcile to derived canonical state
 
 This is the minimum runtime contract required for CrypSA to be:
 
-> technically reviewable and implementable  
+> technically reviewable and implementable
 
 This is not a full production protocol.
 
@@ -31,23 +31,23 @@ For a high-level flow of the runtime:
 
 This v0.1 runtime spec covers:
 
-* observer action proposal  
-* candidate event structure  
-* server-side validation  
-* event acceptance and rejection  
-* canonical event recording  
-* canonical update distribution  
-* observer reconciliation  
-* snapshot-assisted reconstruction  
+* observer action proposal
+* candidate event structure
+* validation of candidate events
+* event acceptance and rejection
+* canonical event recording
+* canonical update distribution
+* observer reconciliation
+* snapshot-assisted reconstruction
 
 This v0.1 spec does **not fully define**:
 
-* combat adjudication  
-* advanced anti-cheat systems  
-* distributed shard coordination  
-* mergeable offline branches  
-* advanced partitioning strategies  
-* cryptographic trust proofs  
+* combat adjudication
+* advanced anti-cheat systems
+* distributed shard coordination
+* mergeable offline branches
+* advanced partitioning strategies
+* cryptographic trust proofs
 
 ---
 
@@ -57,51 +57,68 @@ This v0.1 spec does **not fully define**:
 
 A process that:
 
-* reconstructs canonical objects locally  
-* simulates local experience  
-* proposes candidate events  
-* performs observer reconciliation  
+* reconstructs canonical objects locally
+* simulates local experience
+* proposes candidate events
+* performs observer reconciliation
 
 ---
 
-### 2.2 Server
+### 2.2 Validator
 
 A process that:
 
-* receives candidate events  
-* validates them  
-* enforces invariants  
-* records accepted canonical events  
-* distributes canonical updates  
+* receives candidate events
+* validates them
+* enforces invariants
+* records accepted canonical events
+* distributes canonical updates
 
-The server does **not**:
+The validator does **not**:
 
-* simulate the world  
-* predict outcomes  
-* control user experience  
+* simulate the world
+* predict outcomes
+* control user experience
 
-> The server controls truth, not simulation.
+> The validator controls truth, not simulation.
+
+The validator is defined as a **logical role** within the system.
+
+Its deployment is not fixed:
+
+* it may run locally within an observer environment
+* it may run remotely as a separate system
+
+The responsibilities of the validator do not change based on where it runs.
 
 ---
 
-### 2.3 Persistence Model
+### 2.3 Server (Deployment Term)
 
-The server persists canonical event history as the source of truth.
+In CrypSA, a **server** is a deployment of a validator that runs remotely.
+
+Not all validators are servers, but all servers act as validators.
+
+---
+
+### 2.4 Persistence Model
+
+The validator persists canonical event history as the source of truth.
 
 Supporting runtime structures may include:
 
-* snapshots  
-* indexes  
-* object identity registries  
-* genome references  
-* derived canonical state (materialized views)  
+* snapshots
+* indexes
+* object identity registries
+* genome references
+* derived canonical state (materialized views)
 
 These structures exist to enable:
 
-* efficient replay  
-* fast lookup  
-* reconstruction  
-* recovery  
+* efficient replay
+* fast lookup
+* reconstruction
+* recovery
 
 They do **not define truth**.
 
@@ -118,11 +135,11 @@ Instead:
 ```text
 Local Action
 → Candidate Event
-→ Server Validation
+→ Validation
 → Accept or Reject
 → Canonical Event History Update
 → Observer Reconciliation
-````
+```
 
 Only accepted events become canonical.
 
@@ -238,13 +255,13 @@ Preconditions must be:
 
 CrypSA v0.1 uses:
 
-> server-defined canonical ordering with scoped conflict resolution
+> validator-defined canonical ordering with scoped conflict resolution
 
 ---
 
 ### 6.1 Canonical Order
 
-* server assigns `server_sequence`
+* validator assigns `server_sequence`
 * `server_sequence` defines authoritative ordering
 * client order is not authoritative
 
@@ -467,7 +484,7 @@ Not defined:
 CrypSA runtime:
 
 * observers simulate locally
-* server validates events
+* validator validates events
 * canonical event history defines truth
 * observers reconcile
 
