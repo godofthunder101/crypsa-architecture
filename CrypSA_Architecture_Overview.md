@@ -22,7 +22,7 @@ CrypSA is best understood as four core responsibilities:
 These responsibilities are implemented across different parts of the system:
 
 * observers (clients)
-* the server
+* the validator (which may run locally or remotely)
 * adapter layer
 * lens layer
 * UI / observer experience
@@ -44,18 +44,35 @@ They are responsible for local simulation and parts of interpretation.
 
 ---
 
-### Server
+### Validator
 
-The server:
+The validator:
 
 * receives candidate events
 * validates them against invariants
 * accepts or rejects them
 * assigns canonical ordering (`server_sequence`)
 
-The server enforces validation and ordering.
+The validator enforces validation and ordering.
 
 Canonical event history defines what is true.
+
+The validator is a **logical role**, not a specific machine.
+
+It may run:
+
+* locally (within an observer environment)
+* remotely (as a dedicated server)
+
+Its responsibilities do not change based on deployment.
+
+---
+
+### Server (Deployment Term)
+
+A server is a deployment of a validator that runs remotely.
+
+Not all validators are servers, but all servers act as validators.
 
 ---
 
@@ -103,12 +120,12 @@ This is the **experience layer**.
 
 The key idea in CrypSA is that these responsibilities remain separate:
 
-| Responsibility | Layer                                   |
-| -------------- | --------------------------------------- |
-| Truth          | Canonical event history + validation     |
-| Translation    | Adapters                                |
-| Interpretation | Lenses                                  |
-| Experience     | UI / interaction                        |
+| Responsibility | Layer                                |
+| -------------- | ------------------------------------ |
+| Truth          | Validation + canonical event history |
+| Translation    | Adapters                             |
+| Interpretation | Lenses                               |
+| Experience     | UI / interaction                     |
 
 This separation prevents:
 
@@ -146,7 +163,7 @@ A[Canonical Event History] --> B[Derived Canonical State]
 B --> C[Adapters]
 C --> D[Lenses]
 D --> E[UI / Experience]
-````
+```
 
 ---
 
@@ -156,7 +173,7 @@ D --> E[UI / Experience]
 flowchart LR
 
 A[User Action] --> B[Candidate Event]
-B --> C[Validation]
+B --> C[Validator]
 C -->|Accepted| D[Canonical Event History]
 C -->|Rejected| E[Rejection]
 ```
@@ -171,7 +188,7 @@ CrypSA separates:
   from
 * **how it is seen**
 
-Truth lives in canonical event history.
+Truth lives in canonical event history and is established through validation.
 
 Derived canonical state is reconstructed via replay.
 
@@ -183,7 +200,8 @@ Everything else builds on that.
 
 CrypSA is structured around a clear separation of responsibilities:
 
-* canonical event history defines truth
+* validation determines what becomes canonical truth
+* canonical event history defines that truth
 * adapters translate data
 * lenses interpret meaning
 * observers simulate and reconcile
