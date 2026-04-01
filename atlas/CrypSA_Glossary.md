@@ -47,6 +47,30 @@ Observers simulate locally while reconciling with canonical event history.
 
 ---
 
+### Validator
+
+A Validator is the system responsible for:
+
+* validating candidate events
+* enforcing invariants
+* maintaining canonical event history
+
+The validator determines what becomes canonical truth.
+
+A validator is a **role**, not a specific machine.
+
+It may run locally or remotely.
+
+---
+
+### Server
+
+A Server is a deployment of a validator that runs remotely.
+
+Not all validators are servers, but all servers act as validators.
+
+---
+
 ## Structural Concepts
 
 ### Canonical Object
@@ -112,6 +136,8 @@ An Invariant is a rule that must always remain valid within canonical event hist
 
 The Invariant Boundary is where proposed actions are validated before becoming canonical events.
 
+This boundary is enforced by the validator.
+
 ---
 
 ## Observer Concepts
@@ -133,6 +159,33 @@ It is not authoritative.
 ### Observer Convergence
 
 Observer Convergence is the process by which observers align with canonical event history after updates.
+
+---
+
+## Validator Deployment
+
+### Local Validator
+
+A Local Validator runs within the same environment as the observer.
+
+It is commonly used for:
+
+* offline or single-player operation
+* development and testing
+* local-first system design
+
+Even when local, the validator remains a separate logical role and still enforces the invariant boundary.
+
+---
+
+### Remote Validator
+
+A Remote Validator runs on a separate system and is accessed over a network.
+
+It is used for:
+
+* shared canonical truth across multiple observers
+* persistent multiplayer environments
 
 ---
 
@@ -180,6 +233,10 @@ CrypSA separates responsibilities into:
 * **Translation** — adapters
 * **Interpretation** — lenses
 * **Experience** — UI and simulation
+
+And critically:
+
+> validation defines canonical truth, regardless of whether the validator runs locally or remotely
 
 This separation allows:
 
