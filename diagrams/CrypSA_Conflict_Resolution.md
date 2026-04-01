@@ -6,10 +6,10 @@ This diagram shows how CrypSA resolves conflicting candidate events that target 
 
 Examples of conflict scope include:
 
-* the same tile  
-* the same object  
-* the same inventory slot  
-* the same ownership target  
+* the same tile
+* the same object
+* the same inventory slot
+* the same ownership target
 
 In CrypSA v0.1:
 
@@ -22,7 +22,7 @@ In CrypSA v0.1:
 ```mermaid
 flowchart TD
 
-A[Observer A submits candidate event] --> C[Server identifies conflict scope]
+A[Observer A submits candidate event] --> C[Validator identifies conflict scope]
 B[Observer B submits candidate event] --> C
 
 C --> D[Evaluate against canonical event history]
@@ -40,7 +40,7 @@ J --> K[Observers reconcile]
 
 R1 --> L[Return rejection result]
 L --> K
-````
+```
 
 ---
 
@@ -60,7 +60,7 @@ Examples:
 
 ### 2. Evaluation Uses Canonical Event History
 
-The server evaluates events against canonical event history at validation time.
+The validator evaluates events against canonical event history at validation time.
 
 This ensures:
 
@@ -74,7 +74,7 @@ This ensures:
 In v0.1:
 
 * the first valid event within the scope is accepted
-* the server assigns `server_sequence`
+* the validator assigns `server_sequence`
 * later conflicting events are rejected
 
 ---
@@ -108,6 +108,10 @@ After the canonical event is accepted:
 
 > Conflict resolution is determined by validation against canonical event history, not by local simulation.
 
+And:
+
+> the validator defines which event becomes canonical within a conflict scope
+
 ---
 
 ## Relationship to Specs
@@ -122,4 +126,4 @@ This diagram maps to:
 
 ## One Sentence Summary
 
-When multiple observers submit conflicting actions, the server evaluates them against canonical event history, assigns ordering via `server_sequence`, accepts one valid event within the conflict scope, rejects the others, and observers reconcile to the resulting derived canonical state.
+When multiple observers submit conflicting actions, the validator evaluates them against canonical event history, assigns ordering via `server_sequence`, accepts one valid event within the conflict scope, rejects the others, and observers reconcile to the resulting derived canonical state.
