@@ -20,7 +20,7 @@ In CrypSA, an object is defined by:
 
 ```text
 Minted Structure + Canonical Event History
-````
+```
 
 * The **Mint** defines what the object can validly be
 * The **canonical event history** defines what has happened to it
@@ -49,7 +49,7 @@ A new canonical object is created.
 
 * a unique identity is created via a mint event
 * the genome is associated
-* initial state is derived
+* initial state is established via canonical events
 * canonical event history begins
 
 ---
@@ -75,9 +75,9 @@ It does not create canonical reality.
 
 ---
 
-## Server
+## Validator
 
-The server validates:
+The validator evaluates:
 
 * actor validity
 * rule permissions
@@ -86,18 +86,20 @@ The server validates:
 
 If accepted:
 
-* a mint event establishes identity (e.g. sword_9AF3)
-* the server assigns `server_sequence`
-* canonical event is appended to canonical event history
-* derived canonical state is updated by applying the event
+* a mint event establishes identity (e.g. `sword_9AF3`)
+* the validator assigns `server_sequence`
+* the canonical event is appended to canonical event history
+* derived canonical state is updated via replay
 
-Example canonical event history (ordered, illustrative labels):
+Example canonical event history (illustrative labels):
 
 ```text
 minted
-created
 assigned_to_Player_A
 ```
+
+> Note: "minted" represents identity creation.
+> Additional events (like assignment) are separate canonical events.
 
 ---
 
@@ -144,9 +146,9 @@ payload = { upgrade_type: sharpen_1 }
 
 ---
 
-## Server
+## Validator
 
-The server validates:
+The validator evaluates:
 
 * ownership
 * upgrade rules
@@ -154,9 +156,9 @@ The server validates:
 
 If accepted:
 
-* the server assigns `server_sequence`
-* canonical event is appended
-* derived canonical state is updated by applying the event
+* assigns `server_sequence`
+* appends canonical event
+* derived canonical state updates via replay
 
 Example (illustrative):
 
@@ -197,9 +199,9 @@ payload = { new_owner: Player B }
 
 ---
 
-## Server
+## Validator
 
-The server validates:
+The validator evaluates:
 
 * object existence
 * ownership
@@ -207,9 +209,9 @@ The server validates:
 
 If accepted:
 
-* the server assigns `server_sequence`
-* canonical event is appended
-* derived canonical state is updated by applying the event
+* assigns `server_sequence`
+* appends canonical event
+* derived canonical state updates via replay
 
 Example (illustrative):
 
@@ -235,7 +237,6 @@ Observers reconstruct:
 sword_9AF3
 
 minted
-created
 assigned_to_Player_A
 upgraded
 transferred_to_Player_B
@@ -281,11 +282,11 @@ Observers rebuild the object by replaying canonical event history.
 
 ---
 
-## 5. Server Responsibility
+## 5. Validator Responsibility
 
-The server:
+The validator:
 
-* validates events
+* validates candidate events
 * enforces invariants
 * maintains canonical event history
 
