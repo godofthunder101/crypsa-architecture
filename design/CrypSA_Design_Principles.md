@@ -16,7 +16,7 @@ These principles describe how systems built on CrypSA should be designed.
 
 Canonical event history must remain internally consistent.
 
-No component, including clients, tools, or supporting systems, may bypass validation or violate invariants.
+No component, including observers, tools, or supporting systems, may bypass validation or violate invariants.
 
 CrypSA assumes:
 
@@ -28,7 +28,7 @@ This principle is the foundation of the architecture.
 
 ---
 
-### 2. The Server Protects Event History, Not Experience
+### 2. The Validator Protects Event History, Not Experience
 
 CrypSA separates responsibilities into:
 
@@ -37,9 +37,13 @@ CrypSA separates responsibilities into:
 * **Interpretation** — lenses defining meaning
 * **Experience** — UI and local simulation
 
-The server operates in the truth layer.
+The validator operates in the truth layer.
 
-It determines what becomes canonical. It does not need to own local feel, presentation, or full observer simulation.
+It determines what becomes canonical. It does not own:
+
+* local feel
+* presentation
+* observer simulation
 
 ---
 
@@ -54,7 +58,7 @@ This includes:
 * presentation-driven behavior
 * observer-relative simulation
 
-Server validation is required when canonical event history may change.
+Validation is required only when canonical event history may change.
 
 This preserves responsiveness without weakening shared consistency.
 
@@ -64,11 +68,14 @@ This preserves responsiveness without weakening shared consistency.
 
 The invariant boundary separates observer-local behavior from canonical world change.
 
-Every meaningful interaction should answer a simple question:
+Every meaningful interaction should answer:
 
 > Does this action affect canonical event history?
 
-If yes, it must cross the invariant boundary and be validated before becoming canonical.
+If yes:
+
+* it must cross the invariant boundary
+* it must be validated before becoming canonical
 
 A clear invariant boundary is essential for:
 
@@ -83,9 +90,16 @@ A clear invariant boundary is essential for:
 
 CrypSA systems should prefer validated canonical events as the basis of shared reality.
 
-Rather than constantly synchronizing mutable world state, observers should reconstruct from canonical event history and canonical definitions.
+Rather than synchronizing mutable world state:
 
-This keeps reality explicit, inspectable, and durable.
+* observers reconstruct from canonical event history
+* canonical events define all shared change
+
+This keeps reality:
+
+* explicit
+* inspectable
+* durable
 
 ---
 
@@ -96,9 +110,13 @@ Observers should be able to reconstruct relevant canonical reality from:
 * identity
 * genome or structural definition
 * canonical event history
-* derived invariant-relevant state
+* derived canonical state
 
-This makes world evolution understandable and debuggable, and reduces dependence on opaque centralized simulation.
+This makes world evolution:
+
+* understandable
+* debuggable
+* independent of opaque systems
 
 ---
 
@@ -113,7 +131,11 @@ It should avoid storing:
 * presentation details
 * transient local effects
 
-The canonical layer should remain compact, durable, and focused on event history.
+The canonical layer should remain:
+
+* compact
+* durable
+* focused on event history
 
 ---
 
@@ -121,7 +143,7 @@ The canonical layer should remain compact, durable, and focused on event history
 
 CrypSA depends on explicit architectural boundaries.
 
-Systems should not collapse these layers together.
+Systems must not collapse these layers together.
 
 In particular:
 
@@ -130,21 +152,23 @@ In particular:
 * UI must not become runtime authority
 * observer experience must not redefine canonical event history
 
-This separation keeps the architecture understandable and prevents controller sprawl.
+This separation preserves clarity and prevents system coupling.
 
 ---
 
 ### 9. Preserve Object Identity and Provenance
 
-Canonical objects should retain stable identity across their lifecycle, while canonical event history records how they changed over time.
+Canonical objects must retain stable identity across their lifecycle.
 
-This allows systems to reason about:
+Canonical event history records how they evolve over time.
+
+This enables systems to reason about:
 
 * ownership
 * transitions
 * lineage
 * anomaly investigation
-* object persistence
+* persistence
 
 CrypSA systems should preserve enough provenance to explain how canonical reality came to be.
 
@@ -154,20 +178,21 @@ CrypSA systems should preserve enough provenance to explain how canonical realit
 
 A single canonical universe may support multiple observer experiences.
 
-Different systems may apply different lenses and experience layers to the same underlying canonical event history.
+Different systems may apply different lenses and experience layers to the same canonical event history.
 
-This allows:
+This enables:
 
 * different gameplay views
 * different tooling views
 * different visibility rules
 * different observer contexts
 
-Interpretation may vary. Canonical event history must not.
+Interpretation may vary.
+Canonical event history must not.
 
 ---
 
-### 11. Design Universes, Not Just Servers
+### 11. Design Universes, Not Just Validators
 
 CrypSA should be designed as infrastructure for persistent universes, not merely as a conventional multiplayer backend.
 
@@ -187,11 +212,16 @@ rather than only request/response flows or centralized simulation loops.
 
 The following are useful strategies in some CrypSA systems, but they are not universal requirements.
 
+---
+
 ### Context-Aware Validation
 
 Some systems may validate events using surrounding canonical context, provenance, or recent event history rather than only isolated checks.
 
-This can support stronger anomaly detection and richer rule enforcement.
+This can support:
+
+* stronger anomaly detection
+* richer rule enforcement
 
 ---
 
@@ -199,15 +229,22 @@ This can support stronger anomaly detection and richer rule enforcement.
 
 Some systems may defer expensive investigation when immediate rejection is not required, provided canonical event history remains protected.
 
-This can help balance responsiveness and operational cost.
+This can balance:
+
+* responsiveness
+* operational cost
 
 ---
 
 ### Gameplay-Integrated Infrastructure
 
-Some applications may hide infrastructure delays or validation pacing behind diegetic gameplay concepts, such as attunement, stabilization, or synchronization periods.
+Some applications may hide infrastructure delays or validation pacing behind diegetic gameplay concepts, such as:
 
-This is an application design strategy, not a core architectural requirement.
+* attunement
+* stabilization
+* synchronization periods
+
+This is an application design strategy, not a core requirement.
 
 ---
 
@@ -230,7 +267,11 @@ CrypSA design is guided by a small set of core ideas:
 * keep the canonical layer minimal
 * preserve separation between truth, translation, interpretation, and experience
 
-These principles allow CrypSA to support persistent universes that remain consistent, flexible, and understandable.
+These principles allow CrypSA to support persistent universes that remain:
+
+* consistent
+* flexible
+* understandable
 
 ---
 
