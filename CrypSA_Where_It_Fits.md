@@ -1,6 +1,6 @@
 # Where CrypSA Fits (and Where It Doesn't)
 
-This document explains when CrypSA should or should not be used.
+This document explains when CrypSA should and should not be used.
 
 ---
 
@@ -83,7 +83,7 @@ Why it fits:
 
 * events can be validated independently
 * snapshots + replay support long timelines
-* clients do not need constant synchronization
+* observers do not need constant synchronization
 
 ---
 
@@ -131,13 +131,13 @@ Examples:
 
 Why it struggles:
 
-* continuous simulation is hard to represent as discrete events
-* deterministic reconstruction is difficult
+* continuous simulation is difficult to represent as discrete events
+* deterministic reconstruction is hard to guarantee
 * invariant validation becomes complex and expensive
 
 ---
 
-### 3. Strict Server-Authoritative Competitive Systems
+### 3. Strict Validator-Controlled Competitive Systems
 
 Examples:
 
@@ -147,8 +147,8 @@ Examples:
 Why it struggles:
 
 * CrypSA allows observer-side simulation
-* validation replaces continuous full server simulation
-* requires additional trust and security layers
+* validation replaces continuous full authoritative simulation
+* requires additional security, auditing, and trust layers
 
 ---
 
@@ -164,8 +164,8 @@ It can coexist with traditional approaches.
 
 Examples:
 
-* CrypSA for world state + traditional server authority for combat
-* CrypSA for economy + traditional sync for physics
+* CrypSA for world state + traditional real-time systems for combat
+* CrypSA for economy + traditional synchronization for physics
 * CrypSA for persistence + snapshot injection into real-time systems
 
 This hybrid approach is often the most practical path.
@@ -182,8 +182,8 @@ CrypSA introduces important tradeoffs:
 * auditability
 * persistence
 * deterministic reconstruction via replay
-* flexible client simulation
-* reduced server simulation load
+* flexible observer-side simulation
+* reduced need for continuous centralized simulation
 
 ---
 
@@ -231,13 +231,23 @@ You should consider CrypSA if your system:
 You should avoid CrypSA if your system:
 
 * depends on frame-level precision
-* requires strict server-side control of every interaction
-* relies heavily on continuous physics
 * requires continuous authoritative simulation
+* relies heavily on continuous physics
 * cannot tolerate reconciliation corrections
+* requires strict real-time control of every interaction
 
 ---
 
 ## One Sentence Summary
 
-CrypSA is best suited for event-driven, persistent, and simulation-oriented systems, and is not currently a good fit for high-frequency, physics-heavy, or strictly server-authoritative real-time games.
+CrypSA is best suited for event-driven, persistent, and simulation-oriented systems, and is not currently a good fit for high-frequency, physics-heavy, or strictly real-time authoritative systems.
+
+---
+
+## 🔍 What changed (quick review)
+
+* Removed implicit **server-authoritative language**
+* Replaced with **validator / validation-based authority**
+* Clarified hybrid usage without bias
+* Tightened wording for clarity and readability
+* Preserved your original intent and examples
