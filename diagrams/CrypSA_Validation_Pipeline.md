@@ -2,18 +2,18 @@
 
 ## Purpose
 
-This diagram shows how the server evaluates a candidate event before it becomes part of canonical event history.
+This diagram shows how the **validator** evaluates a candidate event before it becomes part of canonical event history.
 
 It represents the layered validation model used to determine whether an event is:
 
-* accepted  
-* rejected  
+* accepted
+* rejected
 
 ---
 
 ## Diagram
 
-```mermaid
+```mermaid id="t1o4rv"
 flowchart TD
 
 A[Candidate Event] --> B[Schema Validation]
@@ -35,7 +35,7 @@ F -->|Pass| G[Accept and Assign server_sequence]
 
 G --> H[Append to Canonical Event History]
 H --> I[Observers Receive Canonical Update]
-````
+```
 
 ---
 
@@ -43,7 +43,7 @@ H --> I[Observers Receive Canonical Update]
 
 ### 1. Schema Validation
 
-The server checks that the event is well-formed.
+The validator checks that the event is well-formed.
 
 Examples:
 
@@ -55,7 +55,7 @@ Examples:
 
 ### 2. Identity Validation
 
-The server verifies referenced identities.
+The validator verifies referenced identities.
 
 Examples:
 
@@ -67,7 +67,7 @@ Examples:
 
 ### 3. Precondition Validation
 
-The server checks that assumptions still hold.
+The validator checks that assumptions still hold.
 
 Examples:
 
@@ -79,7 +79,7 @@ Examples:
 
 ### 4. Invariant Validation
 
-The server ensures canonical event history does not violate invariants.
+The validator ensures canonical event history does not violate invariants.
 
 Examples:
 
@@ -91,7 +91,7 @@ Examples:
 
 ### 5. Rule Validation
 
-The server applies event-specific rules.
+The validator applies event-specific rules.
 
 Examples:
 
@@ -106,6 +106,10 @@ Examples:
 > Validation is layered.
 > Failure at any stage prevents the event from being appended to canonical event history.
 
+And:
+
+> validation is the mechanism that determines whether a candidate event becomes canonical truth
+
 ---
 
 ## Relationship to Architecture
@@ -114,7 +118,9 @@ This diagram reflects the **truth layer**:
 
 * validation
 * invariant enforcement
-* appending events to canonical event history
+* canonical event recording
+
+The validator operates entirely within this layer.
 
 ---
 
