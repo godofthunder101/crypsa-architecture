@@ -17,7 +17,7 @@ flowchart LR
 
 A[Player Action] --> B[Local Simulation]
 B --> C[Create Candidate Event]
-C --> D[Send to Server]
+C --> D[Submit to Validator]
 
 D --> E[Validation and Invariant Enforcement]
 
@@ -28,7 +28,7 @@ F --> H[Observers Receive Canonical Update]
 H --> J[Observer Reconciliation]
 G --> J
 J --> K[Updated Derived Canonical State]
-````
+```
 
 ---
 
@@ -48,8 +48,8 @@ At this point:
 
 ### 2. Validation Phase
 
-* the event is sent to the server
-* the server validates it against invariants
+* the event is submitted to the validator
+* the validator evaluates it against invariants and rules
 
 Result:
 
@@ -57,15 +57,19 @@ Result:
   or
 * rejected
 
+The validator may run locally or remotely, but its role does not change.
+
 ---
 
 ### 3. Canonical Phase
 
 If accepted:
 
-* the server assigns `server_sequence` (authoritative ordering)
+* the validator assigns `server_sequence` (authoritative ordering)
 * the event is appended to canonical event history
 * observers are notified
+
+Canonical event history is extended only through accepted events.
 
 ---
 
@@ -83,6 +87,10 @@ Observers:
 
 > Actions do not directly change reality.
 > Validated events are appended to canonical event history.
+
+And:
+
+> validation is the boundary that determines what becomes canonical truth
 
 ---
 
@@ -111,4 +119,4 @@ This diagram maps to:
 
 ## One Sentence Summary
 
-A player action becomes a candidate event, the server validates it against canonical event history, accepted events are recorded in canonical event history, and observers reconcile to derived canonical state.
+A player action becomes a candidate event, the validator evaluates it against canonical event history, accepted events are recorded in canonical event history, and observers reconcile to derived canonical state.
