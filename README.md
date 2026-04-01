@@ -4,16 +4,18 @@ CrypSA is an event-driven architecture for building persistent digital worlds.
 
 Instead of synchronizing full world state, CrypSA synchronizes **validated canonical events under invariant rules**.
 
-Observers simulate the world locally, while a **validator** evaluates events and preserves canonical event history.
+Observers simulate the world locally, while a **validator** determines what becomes canonical truth.
+
+> Reality is not synchronized — it is agreed upon through validated events.
 
 > The validator defines canonical truth.
 > It may run locally or remotely, but its role does not change.
 
-For documentation precedence and folder roles, see `DOCS_STRUCTURE.md`. 
+For documentation precedence and folder roles, see `DOCS_STRUCTURE.md`.
 
 ---
 
-## 🚀 Start Here
+## 🧭 Start Here
 
 If you're new to CrypSA:
 
@@ -21,6 +23,42 @@ If you're new to CrypSA:
 2. 📘 `CrypSA_In_5_Minutes.md` — quick overview
 3. 📖 `CrypSA_Terminology_Primer.md` — understand the vocabulary
 4. ❓ `FAQ.md` — common questions and concerns
+
+---
+
+## 🧠 Why CrypSA Exists
+
+Traditional multiplayer systems synchronize state:
+
+```text
+Client → Server → State Sync
+```
+
+This leads to:
+
+* complex server-side simulation
+* difficult scaling
+* tightly coupled systems
+* limited flexibility
+
+CrypSA takes a different approach:
+
+```text
+Observer → Validation → Canonical Event History → Reconstruction
+```
+
+Instead of synchronizing state, it:
+
+* validates events
+* records canonical history
+* reconstructs reality deterministically
+
+This creates a system that is:
+
+* easier to reason about
+* replayable by design
+* flexible in deployment (local or remote validator)
+* naturally aligned with persistent worlds
 
 ---
 
