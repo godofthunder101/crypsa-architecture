@@ -313,14 +313,3 @@ It ensures that:
 ## One Sentence Summary
 
 CrypSA replay reconstructs derived canonical state deterministically by applying canonical events in validator-defined order, ensuring consistent results across all observers.
-
----
-
-## 🔍 What changed (quick review)
-
-* Replaced **server → validator**
-* Clarified **derived canonical state terminology**
-* Fixed **idempotency vs replay semantics (important)**
-* Strengthened **determinism guarantees**
-* Tightened **event application definition**
-* Improved consistency with other specs
