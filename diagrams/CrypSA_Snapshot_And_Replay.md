@@ -13,7 +13,7 @@ It illustrates how CrypSA avoids replaying from genesis while keeping canonical 
 
 ## Diagram
 
-```mermaid
+```mermaid id="p0v3p2"
 flowchart LR
 
 A[Canonical Event History] --> B[Create Snapshot at Sequence N]
@@ -30,7 +30,7 @@ F --> H[Reconstructed Derived Canonical State]
 G --> H
 
 H --> I[Observer Continues Simulation]
-````
+```
 
 ---
 
@@ -39,6 +39,8 @@ H --> I[Observer Continues Simulation]
 ### 1. Canonical Event History Is the Source of Truth
 
 Canonical event history defines what is real.
+
+It is produced through validation by the validator and is the only authoritative record of the universe.
 
 Snapshots do not replace history.
 
@@ -75,7 +77,9 @@ When an observer connects or reconnects, it can:
 
 The observer fetches and applies events after the snapshot position.
 
-This reconstructs current derived canonical state deterministically.
+These events were previously accepted through validation and appended to canonical event history.
+
+Replay applies them deterministically to reconstruct current derived canonical state.
 
 ---
 
@@ -93,13 +97,17 @@ Once reconstructed:
 > Snapshots improve practicality.
 > Canonical event history remains the source of truth.
 
+And:
+
+> all reconstructed state ultimately derives from events accepted through validation
+
 ---
 
 ## Relationship to Architecture
 
 This diagram reflects:
 
-* **Truth** → canonical event history
+* **Truth** → canonical event history (produced via validation)
 * **Reconstruction** → replay + snapshot
 * **Experience** → observer simulation
 
@@ -119,4 +127,4 @@ This diagram maps to:
 
 ## One Sentence Summary
 
-CrypSA uses snapshots as cached reconstruction points, allowing observers to load a known state and replay only the remaining event tail while canonical event history remains the authoritative source of truth.
+CrypSA uses snapshots as cached reconstruction points, allowing observers to load a known state and replay only the remaining event tail, while canonical event history—produced through validation—remains the authoritative source of truth.
