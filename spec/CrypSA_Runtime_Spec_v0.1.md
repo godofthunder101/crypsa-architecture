@@ -11,7 +11,7 @@ It specifies how:
 * canonical event history is updated
 * observers reconcile to derived canonical state
 
-This is the minimum runtime contract required for CrypSA to be:
+This defines the minimum behavior required for CrypSA to be:
 
 > technically reviewable and implementable
 
@@ -128,7 +128,7 @@ They do **not define truth**.
 
 ## 3. Core Runtime Principle
 
-A player action does **not directly modify canonical event history**.
+An observer action does **not directly modify canonical event history**.
 
 Instead:
 
@@ -142,6 +142,22 @@ Local Action
 ```
 
 Only accepted events become canonical.
+
+---
+
+### 3.1 Invariant Boundary
+
+All candidate events originate from actions that cross the invariant boundary.
+
+The invariant boundary defines the transition between:
+
+* local simulation
+* canonical validation
+
+If an action does not cross the invariant boundary:
+
+→ it remains local
+→ it does not produce a candidate event
 
 ---
 
@@ -265,6 +281,9 @@ CrypSA v0.1 uses:
 * `server_sequence` defines authoritative ordering
 * client order is not authoritative
 
+> `server_sequence` is the canonical ordering assigned by the validator.
+> The name is retained for compatibility with common terminology.
+
 ---
 
 ### 6.2 Conflict Scope
@@ -287,7 +306,10 @@ Conflicts are resolved within:
 
 ### 6.4 Atomic Validation Requirement
 
-Validation must be atomic within the conflict scope.
+Validation must be atomic within the conflict scope, meaning:
+
+* evaluation occurs against a consistent canonical context
+* no interleaving of conflicting updates is allowed during validation
 
 ---
 
@@ -320,7 +342,7 @@ G --> H[Canonical Event History Update]
 
 ---
 
-## 7.1 Determinism Requirement
+### 7.1 Determinism Requirement
 
 All accepted events must produce deterministic results.
 
@@ -355,6 +377,12 @@ All accepted events must produce deterministic results.
 
 ---
 
+#### conflict_lost
+
+The event was valid at submission time but lost ordering within its conflict scope.
+
+---
+
 ## 9. Canonical Event Recording
 
 Canonical event history is append-only.
@@ -368,7 +396,18 @@ Each event includes:
 
 ---
 
-### 9.1 Event Application
+### 9.1 Canonical Event Definition
+
+A canonical event is an accepted candidate event that:
+
+* has passed validation
+* has been assigned `server_sequence`
+* has been appended to canonical event history
+* is immutable
+
+---
+
+### 9.2 Event Application
 
 After a canonical event is appended:
 
@@ -393,17 +432,14 @@ Derived canonical state is:
 
 ---
 
-### 10.1 Derived State Update Rule
+### 10.1 Derived State Rule
 
-Derived canonical state must be updated by applying accepted canonical events in `server_sequence` order.
+Derived canonical state must be a deterministic function of canonical event history.
 
-This update must be:
+At any time, it must be possible to:
 
-* deterministic
-* consistent with replay
-* equivalent to reconstructing from canonical event history
-
-The derived state must never diverge from what would be produced by full replay.
+* discard derived state
+* reconstruct it solely from canonical event history
 
 ---
 
@@ -445,10 +481,7 @@ System must handle:
 
 ## 14. Idempotency Requirement
 
-The system must ensure:
-
-* duplicate `event_id` submissions
-* do not create duplicate canonical events
+The system must ensure that duplicate `event_id` submissions do not create duplicate canonical events.
 
 Each event must be processed exactly once.
 
@@ -479,7 +512,19 @@ Not defined:
 
 ---
 
-## 17. Summary
+## 17. Runtime Independence
+
+The runtime does not require:
+
+* continuous centralized simulation
+* shared mutable state synchronization
+* observer trust
+
+All canonical changes must pass validation.
+
+---
+
+## 18. Summary
 
 CrypSA runtime:
 
