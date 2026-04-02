@@ -1,7 +1,5 @@
 # CrypSA — Cryptid Server Architecture
 
-
-
 CrypSA is an event-driven architecture for building persistent digital worlds.
 
 Instead of synchronizing full world state, CrypSA synchronizes **validated canonical events under invariant rules**.
@@ -13,7 +11,7 @@ Observers simulate the world locally, while a **validator** determines what beco
 > The validator defines canonical truth.
 > It may run locally or remotely, but its role does not change.
 
-For documentation precedence and folder roles, see `DOCS_STRUCTURE.md`.
+For documentation precedence and folder roles, see `DOCS_STRUCTURE.md`. 
 
 ---
 
@@ -72,7 +70,7 @@ If you want to understand how CrypSA actually works:
 2. `spec/CrypSA_Spec_Index.md` (spec reading order)
 3. `implementation/CrypSA_Minimal_Server_v0.1.md`
 
-These define the runtime behavior (spec) and how the system can be implemented (implementation).
+These define runtime behavior (spec) and how the system can be implemented (implementation).
 
 ---
 
@@ -110,7 +108,7 @@ CrypSA is easiest to understand as four responsibilities:
 * **Interpretation** — lenses determining observer meaning
 * **Experience** — UI and local interaction
 
-These responsibilities are explored in more detail in:
+See:
 
 * `CrypSA_In_5_Minutes.md`
 * `architecture/`
@@ -139,7 +137,7 @@ J --> K[Observer Reconciliation]
 G --> K
 ```
 
-For more diagrams, see:
+For more diagrams:
 
 👉 `diagrams/`
 
@@ -147,14 +145,14 @@ For more diagrams, see:
 
 ## ⚙️ What CrypSA Enables
 
-* Persistent worlds independent of specific server deployments
+* Persistent worlds independent of specific deployments
 * Deterministic world reconstruction
 * Built-in replay and debugging via event history
 * Flexible client-side simulation
 * Strong invariant-based validation
-* Flexible deployment (local or remote validator)
-* Offline-capable development and local-first workflows
-* Potential for new gameplay models (observer-driven views, replay-based systems)
+* Flexible deployment (local, host-based, or remote validator)
+* Local-first and offline-capable development
+* New gameplay models (observer-driven views, replay-based systems)
 
 ---
 
@@ -166,31 +164,33 @@ For more diagrams, see:
 * **Canonical Events** — immutable events forming canonical event history
 * **Invariants** — rules that must always hold
 * **Observers** — systems that reconstruct and simulate
-* **Lenses** — interpretation layers (view-dependent logic)
+* **Lenses** — interpretation layers
 
-See `CrypSA_Terminology_Primer.md` for detailed explanations.
+See:
+
+`CrypSA_Terminology_Primer.md`
 
 ---
 
-## 🛠 Implementation Guidance (NEW)
+## 🛠 Implementation Guidance
 
 CrypSA is designed to be built **local-first**.
 
 This means:
 
-* you can run a validator locally from day one
-* your system works offline immediately
-* moving to multiplayer is a deployment change, not an architectural rewrite
+* start with a local validator
+* validate the architecture locally
+* move to multiplayer as a deployment change, not a rewrite
 
 👉 See:
 
 ```
-implementation/CrypSA_Local_First_Design_Pattern.md
+implementation/CrypSA_Local_First_Development_Approach.md
 ```
 
-This document explains:
+This explains:
 
-* why local validators matter
+* why local validators are the correct starting point
 * how to structure systems for offline-first development
 * how to scale from local → host → dedicated validator
 
@@ -200,7 +200,7 @@ This document explains:
 
 ### Exploratory Foundation
 
-Conceptual framing and motivation.
+Conceptual framing and motivation
 
 ```
 exploratory/foundation/
@@ -210,7 +210,7 @@ exploratory/foundation/
 
 ### Core Concepts
 
-High-level system models (non-authoritative).
+High-level system models (non-authoritative)
 
 ```
 exploratory/core_concepts/
@@ -220,7 +220,7 @@ exploratory/core_concepts/
 
 ### Architecture
 
-How CrypSA is structured.
+How CrypSA is structured
 
 ```
 architecture/
@@ -230,7 +230,7 @@ architecture/
 
 ### Specifications (Core Runtime Behavior)
 
-Authoritative system behavior.
+Authoritative system behavior
 
 ```
 spec/
@@ -251,7 +251,7 @@ Includes:
 
 ### Design
 
-Use cases and system applicability.
+Use cases and applicability
 
 ```
 design/
@@ -261,7 +261,7 @@ design/
 
 ### Implementation
 
-How to build CrypSA systems.
+How to build CrypSA systems
 
 ```
 implementation/
@@ -271,7 +271,7 @@ implementation/
 
 ### Teaching
 
-Learning materials and prototype.
+Learning materials and prototype
 
 ```
 teaching/
@@ -281,7 +281,7 @@ teaching/
 
 ### Diagrams
 
-Visual explanations (non-authoritative).
+Visual explanations (non-authoritative)
 
 ```
 diagrams/
@@ -291,7 +291,7 @@ diagrams/
 
 ### Atlas
 
-Glossary and navigation.
+Glossary and navigation
 
 ```
 atlas/
@@ -309,7 +309,7 @@ CrypSA is currently:
 
 Next major step:
 
-→ building a minimal validator (local-first, then extendable to remote)
+→ build a minimal validator (local-first, then extendable to remote)
 
 See:
 
@@ -368,7 +368,7 @@ This prototype:
 ### 5. Move Toward Implementation
 
 9. `implementation/CrypSA_Minimal_Server_v0.1.md`
-10. `implementation/CrypSA_Local_First_Design_Pattern.md`
+10. `implementation/CrypSA_Local_First_Development_Approach.md`
 
 ---
 
