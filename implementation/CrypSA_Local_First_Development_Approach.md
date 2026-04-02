@@ -2,15 +2,15 @@
 
 ## Purpose
 
-This document explains the recommended development approach for building CrypSA systems.
+This document defines the recommended development approach for building CrypSA systems.
 
 The core idea is:
 
-> start with a local validator, prove the architecture, then move to a remote validator later if needed
+> start with a local validator, prove the architecture, then move to a remote validator later
 
 This approach reduces implementation complexity while preserving the full CrypSA model from the start.
 
-It is an implementation strategy, not a runtime specification.
+It is an implementation strategy, not a runtime specification. 
 
 ---
 
@@ -26,34 +26,34 @@ Because of this, a system can begin with:
 
 all running locally, while still following the real architecture.
 
-This means local-first development is not a shortcut.
+This means:
 
-> It is a valid CrypSA deployment and the recommended starting point for implementation.
+> local-first development is not a shortcut — it is a valid CrypSA deployment.
 
 ---
 
 ## Why Local-First Matters
 
-Building a CrypSA system directly as a remote networked deployment introduces several kinds of complexity at once:
+Building a CrypSA system directly as a networked deployment introduces multiple layers of complexity simultaneously:
 
 * validation logic
 * event flow
 * replay correctness
 * reconciliation
 * transport and networking
-* reconnection and resync behavior
+* reconnection and resynchronization
 
-A local-first approach allows these to be introduced in stages.
+A local-first approach allows these concerns to be introduced in stages.
 
 It lets builders first prove:
 
-* candidate events are created correctly
-* validation works
-* canonical event history behaves correctly
-* replay reconstructs state correctly
+* candidate events are correctly formed
+* validation behaves correctly
+* canonical event history is correct and append-only
+* replay produces deterministic results
 * observers reconcile properly
 
-Only after that should transport and remote deployment be added.
+Only after these are correct should transport and remote deployment be introduced.
 
 ---
 
@@ -68,7 +68,7 @@ Begin with a minimal local deployment:
 * replay and derived state functioning normally
 * validation fully active
 
-At this stage, the goal is to prove the **real runtime loop**, not to simulate one.
+At this stage, the goal is to prove the **actual runtime loop**, not simulate one.
 
 You should already have:
 
@@ -82,40 +82,40 @@ You should already have:
 
 ### Step 2 — Validate the Architecture
 
-Before moving to networking, confirm that the core CrypSA model works locally.
+Before introducing networking, confirm that the CrypSA model works locally.
 
 This means proving:
 
-* local simulation does not directly define truth
+* local simulation does not define truth
 * candidate events cross the invariant boundary
-* validator decides accept/reject
+* the validator determines accept/reject
 * accepted events become canonical
-* replay produces consistent derived state
-* rejected events cause observer correction
-* snapshots and reconnect logic can be reasoned about
+* replay produces consistent derived canonical state
+* rejected events correctly roll back or adjust local state
+* snapshot and reconnect logic can be reasoned about
 
-If these are not working locally, moving to a remote validator will only make debugging harder.
+If this is not stable locally, adding networking will increase complexity and obscure problems.
 
 ---
 
 ### Step 3 — Introduce Remote Deployment
 
-Once the validator model is working locally, move it behind a transport boundary.
+Once the validator model is working locally, introduce a transport boundary.
 
-This may mean:
+This may involve:
 
-* host-based deployment first
+* host-based deployment
 * or a dedicated remote validator
 
-At this stage, the architecture should not change.
+At this stage, the architecture must remain unchanged.
 
-What changes is:
+What changes:
 
 * process separation
 * transport mechanism
-* observer/validator communication path
+* observer ↔ validator communication
 
-What must remain unchanged is:
+What must not change:
 
 * event structure
 * validation semantics
@@ -125,103 +125,101 @@ What must remain unchanged is:
 
 ---
 
-## What Should Stay the Same
+## What Must Remain Stable
 
-A local-first CrypSA system is working correctly only if the following remain stable as deployment changes:
+A correct CrypSA implementation preserves the following across deployment changes:
 
-* observers still submit candidate events
-* validator still decides truth
+* observers submit candidate events
+* validator determines truth
 * canonical event history remains append-only
 * replay remains deterministic
 * derived canonical state remains reconstructable
 * invariant boundary remains explicit
 
-If these change when switching to a remote validator, the architecture is drifting.
+If these change when moving to a remote validator:
+
+> the architecture is drifting
 
 ---
 
-## What Can Change Later
+## What Can Be Added Later
 
-Once the system is working locally, later stages may add:
+After the core system works locally, additional concerns can be layered in:
 
-* WebSocket or network transport
-* session tracking
+* network transport (e.g. WebSocket)
+* session management
 * reconnect handling
 * authentication
-* remote persistence
-* snapshot delivery
-* observer synchronization across machines
+* persistence strategies
+* snapshot distribution
+* multi-observer synchronization
 
-These are deployment and infrastructure concerns.
+These are **deployment concerns**, not core architecture.
 
-They should be layered on top of a working CrypSA core, not mixed into the initial proof step.
+They should not be introduced before the runtime model is proven.
 
 ---
 
 ## Why This Helps Builders
 
-A local-first development approach makes CrypSA easier to adopt because it allows builders to focus on one category of problem at a time.
+Local-first development isolates complexity.
 
-First solve:
+It allows builders to first solve:
 
 * truth
 * validation
 * replay
 * reconciliation
 
-Then solve:
+Then later solve:
 
 * transport
 * latency
 * disconnection
-* multi-observer delivery
+* distributed synchronization
 
-This keeps the system understandable and prevents early architectural collapse.
+This prevents architectural confusion and reduces debugging complexity.
 
 ---
 
 ## Common Mistake to Avoid
 
-A common failure mode is to treat local mode as “fake mode.”
+Do not treat local mode as a “fake” or simplified mode.
 
-For example:
+Examples of incorrect approaches:
 
 * bypassing validation because everything is local
 * mutating canonical state directly
 * skipping replay
-* letting UI or observer logic define truth
+* letting observer/UI logic define truth
 
-That is not local-first CrypSA.
+This is not CrypSA.
 
-That is a different architecture.
-
-A local validator must still behave like a real validator.
+A local validator must behave exactly like a real validator.
 
 ---
 
-## Relationship to Other Docs
+## Relationship to Other Documents
 
-This approach is closely related to:
+This document complements:
 
 * `architecture/CrypSA_Validator_Deployment_Model.md`
 * `implementation/CrypSA_Minimal_Validator_v0.1.md`
 * `implementation/CrypSA_Local_First_Design_Pattern.md`
 
-Those documents explain:
+These describe:
 
 * validator deployment options
-* minimal validator implementation
-* local-first design structure
+* minimal validator structure
+* local-first system design
 
-This document explains the recommended **development path**.
+This document defines the **recommended development path**.
 
 ---
 
 ## Key Insight
 
 > First prove CrypSA locally. Then move the validator, not the architecture.
-
-That is the safest path to a real implementation.
 
 ---
 
@@ -231,12 +229,12 @@ The recommended CrypSA development approach is:
 
 * start with a local validator
 * validate the architecture locally
-* move to remote deployment later
+* introduce remote deployment later
 
-This keeps the truth model stable while allowing complexity to be introduced in a controlled way.
+This keeps the truth model stable while allowing complexity to be introduced in controlled stages.
 
 ---
 
 ## One Sentence Summary
 
-CrypSA should be built local-first: start with a real local validator, prove validation and replay locally, then move to host-based or remote deployment later without changing the architecture.
+CrypSA should be built local-first: start with a real local validator, prove validation and replay locally, then move to host-based or remote deployment without changing the architecture.
