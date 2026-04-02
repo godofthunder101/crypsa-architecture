@@ -36,6 +36,25 @@ They do not define full production systems.
 
 ---
 
+## Core Runtime Principle
+
+> Canonical truth is defined by validated canonical events, not by synchronized state.
+
+At runtime:
+
+* observers propose candidate events
+* the validator evaluates them
+* accepted events are appended to canonical event history
+* derived canonical state is reconstructed via replay
+
+This model applies regardless of validator deployment:
+
+* local
+* host-based
+* or remote
+
+---
+
 ## Authority
 
 Documents in this folder are **authoritative for runtime behavior**.
@@ -117,10 +136,10 @@ The specs are designed to be read as a connected system.
 
 A useful mental model:
 
-* **Runtime Spec** → overall loop
-* **Event + Validation** → validated events become canonical events
-* **Consistency + Replay** → how shared truth remains coherent
-* **Snapshot + Identity + Transport** → how the system remains practical
+* **Runtime Spec** → defines the overall system loop
+* **Event + Validation** → defines how truth is created
+* **Consistency + Replay** → defines how truth is maintained
+* **Snapshot + Identity + Transport** → defines how the system remains practical
 
 ---
 
@@ -135,6 +154,28 @@ All documents in this folder must:
 If ambiguity exists:
 
 > the Runtime Spec defines the final behavior
+
+---
+
+## Validator Consistency (Important)
+
+The runtime model defined here assumes:
+
+> the validator is a role, not a location
+
+Therefore:
+
+* validation behavior must remain identical whether the validator runs:
+
+  * locally
+  * on a host
+  * or on a remote system
+
+* deployment must not change:
+
+  * event semantics
+  * validation rules
+  * canonical event history behavior
 
 ---
 
@@ -194,6 +235,7 @@ Suggested reading flow:
 ### Implementation direction
 
 * `../implementation/CrypSA_Minimal_Server_v0.1.md`
+* `../implementation/CrypSA_Local_First_Design_Pattern.md`
 
 ---
 
@@ -211,4 +253,4 @@ They are:
 
 ## One Sentence Summary
 
-The `spec/` folder defines the authoritative runtime behavior of CrypSA—how events, validation, consistency, replay, identity, snapshots, and transport work together to produce shared canonical reality.
+The `spec/` folder defines the authoritative runtime behavior of CrypSA—how events, validation, consistency, replay, identity, snapshots, and transport work together to produce shared canonical reality through validator-controlled canonical event history.
