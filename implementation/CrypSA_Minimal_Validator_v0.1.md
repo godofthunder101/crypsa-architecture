@@ -1,35 +1,233 @@
-# CrypSA Minimal Server v0.1
+# CrypSA Minimal Validator v0.1
 
-> Scope note: This document describes implementation strategy for a minimal server proof step.
+> Scope note: This document describes implementation strategy for a minimal validator proof step.
 > For authoritative runtime behavior, refer to `../spec/`.
 
 ---
 
 ## Purpose
 
-This document defines the smallest practical standalone server that can prove CrypSA’s core runtime model.
+This document defines the smallest practical standalone validator that can prove CrypSA’s core runtime model.
 
 The goal is not production readiness.
 
 The goal is to prove that CrypSA functions as a real runtime system with:
 
-* independent server authority
+* independent validation authority
 * candidate event submission
 * validation
 * canonical event history
 * canonical update distribution
 * observer reconciliation support
 
-This server is a technical proof step between the teaching prototype and a real runtime.
+This validator is a technical proof step between the teaching prototype and a full runtime system.
+
+---
+
+## Important Clarification
+
+> The minimal validator may run locally and should be treated as a valid CrypSA deployment, not just a testing tool.
+
+CrypSA defines validation as a **role**, not a machine.
+
+This means:
+
+* the validator can run locally alongside an observer
+* the validator can run as a host
+* the validator can run as a dedicated remote system
+
+All three are valid CrypSA deployments.
+
+The minimal validator represents the **simplest complete implementation of the validator role**.
+
+It is not a reduced model — it is the full model in its smallest form.
+
+---
+
+## Validator Deployment (Minimal Context)
+
+The minimal validator can run in different deployment configurations without changing system behavior.
+
+---
+
+### Local Deployment (Single Process / Offline)
+
+```mermaid
+flowchart LR
+
+A[Observer] --> B[Local Validator]
+B --> C[Canonical Event History]
+
+C --> A
+```
+
+In this configuration:
+
+* observer and validator run in the same environment
+* canonical event history is maintained locally
+* no network is required
+
+---
+
+### Remote Deployment (Networked)
+
+```mermaid
+flowchart LR
+
+A[Observer] -->|Candidate Event| B[Network]
+B --> C[Validator]
+
+C --> D[Canonical Event History]
+D -->|Canonical Update| B
+B --> A
+```
+
+In this configuration:
+
+* observers communicate with a remote validator
+* canonical event history is shared across observers
+* network latency and ordering must be handled
+
+---
+
+## Key Insight
+
+> Deployment changes where validation runs, not how validation works.
+
+---
+
+## Quick Start — Local Validator (5 Steps)
+
+This section describes the simplest way to run a CrypSA validator locally.
+
+The goal is to prove the full runtime loop in a single process.
+
+---
+
+### Step 1 — Start Validator
+
+Create a validator process that:
+
+* initializes empty canonical event history
+* initializes derived canonical state
+* listens for candidate events
+
+At this point:
+
+```text
+Canonical Event History = []
+Derived State = initial (empty world)
+```
+
+---
+
+### Step 2 — Connect Observer
+
+Create a simple observer that:
+
+* connects to the validator (or runs in same process)
+* reconstructs state (initially empty)
+* can submit candidate events
+
+---
+
+### Step 3 — Submit Candidate Event
+
+Trigger a simple action from the observer:
+
+Example:
+
+```text
+Place structure on tile_1
+```
+
+Observer creates and submits:
+
+```json
+{
+  "event_id": "evt_001",
+  "event_type": "place_structure",
+  "actor_id": "player_A",
+  "target_ids": ["tile_1"],
+  "payload": {
+    "structure_type": "basic_node"
+  },
+  "precondition_refs": {
+    "tile_1_empty": true
+  }
+}
+```
+
+---
+
+### Step 4 — Validate and Accept
+
+Validator:
+
+* checks schema
+* verifies identity
+* checks preconditions
+* enforces invariants
+
+If valid:
+
+* assigns `server_sequence = 1`
+* appends to canonical event history
+
+---
+
+### Step 5 — Broadcast and Reconcile
+
+Validator sends canonical event to observer.
+
+Observer:
+
+* applies event via replay
+* updates derived state
+* clears any pending prediction
+
+Final result:
+
+```text
+Canonical Event History = [event_1]
+Derived State = updated world
+```
+
+---
+
+## What This Proves
+
+If these five steps work:
+
+* validation is functioning
+* canonical event history is working
+* replay is working
+* observer reconciliation is working
+
+> This is a complete CrypSA runtime loop.
+
+---
+
+## Key Insight
+
+> If it works locally, it works remotely.
+
+Moving to a networked validator does not change:
+
+* event structure
+* validation logic
+* replay behavior
+
+Only transport changes.
 
 ---
 
 ## 1. Goals
 
-CrypSA Minimal Server v0.1 should prove:
+CrypSA Minimal Validator v0.1 should prove:
 
 1. observers can submit candidate events
-2. the server validates events
+2. the validator validates events
 3. events are accepted or rejected
 4. accepted events become canonical event history
 5. derived state is updated by applying accepted events
@@ -40,7 +238,7 @@ CrypSA Minimal Server v0.1 should prove:
 
 ## 2. Non-Goals
 
-This server does not attempt:
+This validator does not attempt:
 
 * scalability
 * anti-cheat systems
@@ -61,7 +259,7 @@ Keep it small.
 ```text
 Observer Action
 → Candidate Event Submission
-→ Server Validation
+→ Validator Validation
 → Accept or Reject
 → Assign server_sequence
 → Append to Canonical Event History
@@ -74,21 +272,21 @@ If this loop works, the system works.
 
 ---
 
-## 4. Server Responsibility (Critical)
+## 4. Validator Responsibility (Critical)
 
-The server:
+The validator:
 
 * validates candidate events
 * enforces invariants
 * maintains canonical event history
 
-The server does **not**:
+The validator does **not**:
 
 * simulate the world
 * predict outcomes
 * own UI or experience
 
-> The server controls truth, not simulation.
+> The validator controls truth, not simulation.
 
 ---
 
@@ -199,11 +397,6 @@ Recommended: WebSocket
 }
 ```
 
-Note:
-
-* `client_time` is informational only
-* server sequence defines ordering
-
 ---
 
 ### Acceptance
@@ -257,7 +450,7 @@ Note:
 
 ## 8. Idempotency Rule (Critical)
 
-The server must ensure:
+The validator must ensure:
 
 * duplicate `event_id` submissions
 * do not create duplicate canonical events
@@ -290,7 +483,7 @@ Minimal approach:
 
 ## 11. Success Criteria
 
-The server is successful if:
+The validator is successful if:
 
 * runs independently
 * supports multiple observers
@@ -304,7 +497,7 @@ The server is successful if:
 
 ## 12. Development Order
 
-1. server process
+1. validator process
 2. event intake
 3. canonical event history
 4. derived state
@@ -317,7 +510,7 @@ The server is successful if:
 
 ## 13. Summary
 
-This server proves:
+This validator proves:
 
 * observers do not define truth
 * events must be validated
@@ -328,6 +521,4 @@ This server proves:
 
 ## One Sentence Summary
 
-CrypSA Minimal Server v0.1 proves that validated candidate events can be recorded as canonical event history and distributed to observers as shared truth.
-
-👉 **Event Schema v0.1 (code-level, no ambiguity)**
+CrypSA Minimal Validator v0.1 proves that validated candidate events can be recorded as canonical event history and distributed to observers as shared truth.
