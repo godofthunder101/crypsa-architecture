@@ -64,8 +64,8 @@ The observer continuously:
 
 * renders experience (UI)
 * simulates locally
-* prepares data (adapters)
-* interprets meaning (lenses)
+* shapes data through adapters
+* interprets meaning through lenses
 
 This loop is:
 
@@ -73,18 +73,25 @@ This loop is:
 * responsive
 * non-authoritative
 
+It is allowed to feel immediate even when canonical truth has not yet changed.
+
 ---
 
 ### Invariant Boundary (Center)
 
-The key decision:
+The key decision is:
 
 > Does this action affect canonical event history?
+
+If no:
+
+* it remains local
 
 If yes:
 
 * it becomes a **candidate event**
 * it must cross the invariant boundary
+* it must be evaluated before becoming canonical
 
 ---
 
@@ -94,16 +101,18 @@ The validator:
 
 * evaluates candidate events
 * enforces invariants
-* accepts or rejects
+* accepts or rejects proposed canonical changes
 
 It may run:
 
-* locally
-* or remotely
+* **locally**, within the observer environment
+* **remotely**, as a separate system
 
 But:
 
 > its role does not change
+
+CrypSA defines the validator as an architectural role, not a fixed machine location.
 
 ---
 
@@ -111,12 +120,14 @@ But:
 
 If accepted:
 
+* the event is assigned canonical ordering (`server_sequence`)
 * the event is appended to canonical event history
-* canonical ordering (`server_sequence`) is assigned
 
 Canonical event history is:
 
 > the only source of truth
+
+Derived canonical state is useful, but it is reconstructed from canonical event history and is not independently authoritative.
 
 ---
 
@@ -125,12 +136,12 @@ Canonical event history is:
 From canonical event history:
 
 * derived canonical state is reconstructed
-* observers receive updates
+* observers receive canonical updates
 * local state is corrected or confirmed
 
 This ensures:
 
-> all observers converge to the same reality
+> all observers converge toward the same shared reality
 
 ---
 
@@ -160,6 +171,7 @@ This model enables:
 * clear authority boundaries
 * replayable systems
 * flexible deployment (local or remote validator)
+* persistent worlds defined by canonical history rather than continuously synchronized mutable state
 
 ---
 
@@ -176,6 +188,15 @@ CrypSA:
 ```text
 Observer → Validation → Canonical Event History → Reconstruction
 ```
+
+---
+
+## Related Reading
+
+For deployment-specific clarification, see:
+
+* `architecture/CrypSA_Validator_Deployment_Model.md`
+* `diagrams/CrypSA_Local_vs_Remote_Validator.md`
 
 ---
 
