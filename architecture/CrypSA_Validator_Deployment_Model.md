@@ -208,6 +208,3 @@ These models differ in deployment, not in behavior.
 
 > Validation defines canonical truth.
 > Deployment defines where validation runs.
----
-
-Just say 👍 and we’ll build that next.
