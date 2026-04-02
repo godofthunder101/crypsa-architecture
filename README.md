@@ -1,5 +1,7 @@
 # CrypSA — Cryptid Server Architecture
 
+
+
 CrypSA is an event-driven architecture for building persistent digital worlds.
 
 Instead of synchronizing full world state, CrypSA synchronizes **validated canonical events under invariant rules**.
@@ -151,6 +153,7 @@ For more diagrams, see:
 * Flexible client-side simulation
 * Strong invariant-based validation
 * Flexible deployment (local or remote validator)
+* Offline-capable development and local-first workflows
 * Potential for new gameplay models (observer-driven views, replay-based systems)
 
 ---
@@ -169,13 +172,35 @@ See `CrypSA_Terminology_Primer.md` for detailed explanations.
 
 ---
 
+## 🛠 Implementation Guidance (NEW)
+
+CrypSA is designed to be built **local-first**.
+
+This means:
+
+* you can run a validator locally from day one
+* your system works offline immediately
+* moving to multiplayer is a deployment change, not an architectural rewrite
+
+👉 See:
+
+```
+implementation/CrypSA_Local_First_Design_Pattern.md
+```
+
+This document explains:
+
+* why local validators matter
+* how to structure systems for offline-first development
+* how to scale from local → host → dedicated validator
+
+---
+
 ## 📁 Repository Structure
 
 ### Exploratory Foundation
 
 Conceptual framing and motivation.
-
-Exploratory background only. For the current model, prefer `CrypSA_In_5_Minutes.md`, `architecture/`, and `spec/`.
 
 ```
 exploratory/foundation/
@@ -185,9 +210,7 @@ exploratory/foundation/
 
 ### Core Concepts
 
-High-level system models.
-
-Exploratory models and earlier explanatory documents. Do not treat this folder as the current source of truth.
+High-level system models (non-authoritative).
 
 ```
 exploratory/core_concepts/
@@ -197,9 +220,7 @@ exploratory/core_concepts/
 
 ### Architecture
 
-How CrypSA operates conceptually.
-
-This is an authoritative system-explanation layer.
+How CrypSA is structured.
 
 ```
 architecture/
@@ -209,7 +230,7 @@ architecture/
 
 ### Specifications (Core Runtime Behavior)
 
-Formal system definitions.
+Authoritative system behavior.
 
 ```
 spec/
@@ -230,7 +251,7 @@ Includes:
 
 ### Design
 
-Use cases, patterns, and applicability.
+Use cases and system applicability.
 
 ```
 design/
@@ -240,9 +261,7 @@ design/
 
 ### Implementation
 
-Practical guides and prototype direction.
-
-This folder describes implementation strategy and project direction. For system behavior, prefer `spec/`.
+How to build CrypSA systems.
 
 ```
 implementation/
@@ -252,23 +271,17 @@ implementation/
 
 ### Teaching
 
-Educational materials and example implementations.
+Learning materials and prototype.
 
 ```
 teaching/
 ```
 
-Includes:
-
-* `CrypSA_teaching_prototype/` — completed teaching prototype
-
 ---
 
 ### Diagrams
 
-Visual explanations of system behavior.
-
-Supporting material only. For authoritative behavior, prefer `spec/`.
+Visual explanations (non-authoritative).
 
 ```
 diagrams/
@@ -278,7 +291,7 @@ diagrams/
 
 ### Atlas
 
-Glossary and navigation support.
+Glossary and navigation.
 
 ```
 atlas/
@@ -296,42 +309,29 @@ CrypSA is currently:
 
 Next major step:
 
-→ building a minimal validator (which may run locally or remotely) to validate the runtime model
+→ building a minimal validator (local-first, then extendable to remote)
 
 See:
 
-`implementation/CrypSA_Project_Status.md`
+```
+implementation/CrypSA_Project_Status.md
+```
 
 ---
 
 ## 🧪 Teaching Prototype
 
-CrypSA includes a completed teaching prototype located in:
+Located in:
 
-`teaching/CrypSA_teaching_prototype/`
+```
+teaching/CrypSA_teaching_prototype/
+```
 
-For authoritative prototype status, see:
+This prototype:
 
-`teaching/CrypSA_teaching_prototype/STATUS.md`
-
-This prototype is intended to:
-
-* demonstrate the CrypSA model in a live, inspectable system
-* show how canonical events, validation, replay, and observers interact
-* support learning and experimentation
-
-It is **not**:
-
-* a production runtime
-* a distributed validator implementation
-* a scalability or networking proof
-
-Status:
-
-* complete for its intended purpose
-* frozen except for bug fixes and documentation updates
-
-Future CrypSA work (such as a minimal runtime/validator) will be developed as separate programs rather than extending this prototype indefinitely.
+* demonstrates validation, replay, and observers
+* is a learning tool
+* is **not a production runtime**
 
 ---
 
@@ -368,6 +368,7 @@ Future CrypSA work (such as a minimal runtime/validator) will be developed as se
 ### 5. Move Toward Implementation
 
 9. `implementation/CrypSA_Minimal_Server_v0.1.md`
+10. `implementation/CrypSA_Local_First_Design_Pattern.md`
 
 ---
 
@@ -401,7 +402,7 @@ Creative Commons Attribution 4.0 International (CC BY 4.0)
 
 ## 📌 Citation
 
-If referencing this work, see `CITATION.cff`.
+See `CITATION.cff`.
 
 ---
 
