@@ -6,7 +6,7 @@ This document defines how the **validator role** in CrypSA can be deployed.
 
 CrypSA treats validation as an **architectural responsibility**, not a fixed machine location.
 
-This allows the same system model to operate across different deployment styles without changing how truth is defined.
+This allows the same system model to operate across different deployment styles without changing how canonical truth is defined.
 
 ---
 
@@ -26,7 +26,7 @@ This responsibility does not change based on deployment.
 
 ## Validator as a Role
 
-In CrypSA, the validator is a **logical role**.
+In CrypSA, the validator is a **logical role**, not a specific system.
 
 It is responsible for:
 
@@ -45,7 +45,7 @@ A server is simply one way to deploy a validator.
 
 CrypSA supports multiple validator deployment models.
 
-These models differ in **where the validator runs**, not in **how validation works**.
+These models differ in **where the validator runs**, not in **how validation behaves**.
 
 ---
 
@@ -76,7 +76,7 @@ Even in this model:
 
 > the validator remains a separate logical role
 
-The invariant boundary still exists.
+The invariant boundary still applies.
 
 ---
 
@@ -91,14 +91,14 @@ In this model:
 #### Characteristics
 
 * shared canonical event history
-* no dedicated external server required
-* networked observers rely on host validation
+* no dedicated external system required
+* connected observers rely on host validation
 
 #### Benefits
 
 * lower infrastructure requirements
 * suitable for small-scale multiplayer
-* easier to set up than dedicated server systems
+* easier to set up than dedicated deployments
 
 #### Tradeoffs
 
@@ -112,21 +112,21 @@ In this model:
 
 In this model:
 
-* the validator runs as a separate system (server)
-* all observers connect to it
-* canonical truth is centralized
+* the validator runs as a separate system
+* observers connect over a network
+* canonical truth is maintained independently of any observer
 
 #### Characteristics
 
 * shared canonical event history across observers
-* persistent universe support
-* independent from any single observer
+* supports persistent universes
+* independent of any single client
 
 #### Benefits
 
 * stable canonical authority
 * suitable for large-scale or persistent systems
-* easier to enforce fairness and consistency
+* clearer separation between observer and truth
 
 #### Tradeoffs
 
@@ -161,7 +161,7 @@ This progression allows:
 Across all deployment models:
 
 * the invariant boundary remains intact
-* validation rules remain the same
+* validation rules remain unchanged
 * canonical event history remains the source of truth
 
 What changes is:
@@ -183,10 +183,16 @@ Observers always:
 * propose candidate events
 * reconcile with canonical outcomes
 
-Whether the validator is local or remote:
+Regardless of deployment:
 
 * observers do not define truth
 * validation defines truth
+
+---
+
+## Key Insight
+
+> Deployment changes where validation runs, not what validation means.
 
 ---
 
@@ -202,3 +208,6 @@ These models differ in deployment, not in behavior.
 
 > Validation defines canonical truth.
 > Deployment defines where validation runs.
+---
+
+Just say 👍 and we’ll build that next.
