@@ -6,11 +6,9 @@ This document explains why CrypSA was created, not where it should be used.
 
 ## Purpose
 
-This document explains the motivation behind the CrypSA architecture.
-
 CrypSA was designed to address structural limitations in traditional multiplayer and distributed simulation architectures, particularly when building large persistent digital worlds.
 
-The goal of CrypSA is to provide a model that allows digital universes to remain:
+The goal of CrypSA is to provide a model where digital universes remain:
 
 * structurally consistent
 * scalable
@@ -23,26 +21,26 @@ without requiring centralized continuous simulation.
 
 ## The Traditional Multiplayer Model
 
-Most multiplayer systems follow a server-authoritative architecture.
+Most multiplayer systems rely on centralized authority and continuous simulation.
 
-```text
+```text id="7j5g0p"
 Players
 ↓
 Clients
 ↓
-Server
+Central Authority (Server)
 ↓
 Game Database
 ```
 
 In this model:
 
-* the server simulates the world
+* a central system simulates the world
 * clients send inputs
-* the server resolves interactions
-* the server distributes state updates
+* interactions are resolved centrally
+* state is continuously synchronized
 
-This model works well for many games, but it has structural limitations when worlds become large, persistent, and complex.
+This model works well for many games, but it has structural limitations as worlds become large, persistent, and complex.
 
 ---
 
@@ -73,13 +71,13 @@ This leads to:
 
 * network congestion
 * synchronization errors
-* complicated reconciliation logic
+* complex reconciliation logic
 
 ---
 
 ### Infrastructure Coupling
 
-When the system responsible for validation and simulation is removed, the world disappears.
+When the system responsible for maintaining canonical truth is removed, the world disappears.
 
 More precisely:
 
@@ -91,7 +89,7 @@ Persistent worlds are therefore tied to:
 * specific implementations
 * specific engine architectures
 
-This limits the long-term persistence of digital worlds.
+This limits long-term persistence.
 
 ---
 
@@ -115,23 +113,26 @@ CrypSA introduces a different architectural model.
 
 Instead of synchronizing full world simulation, CrypSA synchronizes:
 
+* canonical event history
+
+And enforces:
+
 * canonical identities
 * canonical invariants
-* canonical event history
 
 Observers reconstruct the world locally via replay.
 
-A **validator** focuses only on:
+A **validator** focuses on:
 
 * validating candidate events
 * enforcing invariants
-* preserving canonical event history
+* maintaining canonical event history
 
 ---
 
 ## Separating Experience From Truth
 
-CrypSA separates two things that are normally intertwined:
+CrypSA separates two concerns:
 
 **Observer Experience**
 vs
@@ -141,7 +142,7 @@ Observers simulate locally.
 
 Canonical event history evolves only through validated events.
 
-This dramatically reduces the need for continuous centralized simulation.
+This removes the need for continuous centralized simulation of the entire world.
 
 ---
 
@@ -149,40 +150,46 @@ This dramatically reduces the need for continuous centralized simulation.
 
 The central concept of CrypSA is the invariant boundary.
 
-Every interaction asks a single question:
+Every interaction asks:
 
 > Does this interaction affect canonical event history?
 
-If the answer is no, the interaction remains local.
+If no:
 
-If the answer is yes, the interaction becomes a candidate event that must be evaluated before becoming canonical.
+* it remains local
+
+If yes:
+
+* it becomes a candidate event
+* it must be validated before becoming canonical
 
 ---
 
 ## Event-Driven Universe Evolution
 
-Instead of continuously mutating world state, CrypSA evolves the universe through validated events.
+CrypSA evolves the universe through validated events.
 
-```text
-Canonical Event History
+```text id="z0f9vr"
+Candidate Event
 ↓
-Validated Event
+Validation
+↓
+Canonical Event
 ↓
 Canonical Event History (extended)
 ```
 
-Derived canonical state evolves as a result of replay.
+Derived canonical state evolves through replay.
 
 ---
 
 ## A More Durable World Model
 
-Because CrypSA records canonical structure rather than full simulation state, a universe built with this model can potentially persist beyond any particular deployment.
+Because CrypSA records canonical structure rather than full simulation state, a universe can persist independently of any specific deployment.
 
-The world becomes defined by:
+The world is defined by:
 
 * identities
-* genomes
 * invariants
 * canonical event history
 
@@ -202,7 +209,7 @@ CrypSA proposes an architecture that makes this possible.
 
 ## Summary
 
-CrypSA exists because traditional multiplayer architectures struggle to support large persistent digital universes.
+CrypSA exists because traditional architectures struggle to support large persistent digital universes.
 
 By separating local simulation from canonical event history and evolving the universe through validated events, CrypSA provides a scalable and durable model for shared digital worlds.
 
