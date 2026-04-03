@@ -1,8 +1,8 @@
-# Client Authority and Security in CrypSA
+# Observer Simulation and Security in CrypSA
 
 ## Purpose
 
-CrypSA allows clients (Observers) significantly more simulation freedom than traditional multiplayer architectures.
+CrypSA allows observers significantly more simulation freedom than traditional multiplayer architectures.
 
 This is intentional.
 
@@ -34,7 +34,7 @@ Traditional multiplayer systems assume:
 
 CrypSA assumes:
 
-> Clients may simulate freely → but only validated events become shared truth
+> Observers may simulate freely → but only validated events become shared truth
 
 This shifts the problem from:
 
@@ -46,9 +46,9 @@ to:
 
 ---
 
-## Clients and Simulation
+## Observers and Simulation
 
-In CrypSA, clients (Observers) may:
+In CrypSA, observers may:
 
 * simulate actions locally
 * explore hypothetical outcomes
@@ -73,9 +73,11 @@ Only validated events affect the shared world.
 
 The control point in CrypSA is the **invariant boundary**.
 
+> The invariant boundary is also the primary security boundary of the system.
+
 Any action that affects shared reality must:
 
-1. be proposed as a candidate
+1. be proposed as a candidate event
 2. be validated against invariant rules
 3. be accepted before becoming canonical
 
@@ -102,13 +104,14 @@ It must:
 * validate invariant rules
 * enforce world constraints
 * decide which events become canonical
+* assign canonical ordering (`canonical_sequence`)
 * maintain canonical event history
 
 It does not:
 
 * simulate the entire world
 * interpret meaning
-* manage client experience
+* manage observer experience
 
 > The validator controls truth, not simulation.
 
@@ -187,7 +190,7 @@ CrypSA supports multiple validation strategies depending on system needs:
 ### Lightweight Validation + Monitoring
 
 * minimal validation at acceptance
-* deeper issues detected post hoc
+* deeper issues detected after acceptance
 
 ---
 
@@ -200,14 +203,14 @@ CrypSA supports multiple validation strategies depending on system needs:
 
 ### Hybrid Simulation Validation
 
-* validator re-simulates critical actions only
+* validator re-simulates selected actions for validation purposes
 * avoids full world simulation
 
 ---
 
 ## Important Clarification
 
-CrypSA does not assume clients are trustworthy.
+CrypSA does not assume observers are trustworthy.
 
 It assumes:
 
@@ -219,7 +222,7 @@ It assumes:
 
 ### Advantages
 
-* responsive client experience
+* responsive observer experience
 * reduced validator simulation load
 * strong audit and replay capabilities
 * flexible architecture
@@ -279,4 +282,4 @@ Security in CrypSA comes from:
 * controlled canonicalization
 * and inspectable history
 
-—not from restricting client-side behavior.
+—not from restricting observer-side behavior.
