@@ -57,7 +57,7 @@ In this mode:
 * validation still occurs  
 * the full runtime model remains intact  
 
-This is not a simplified mode — it is a valid CrypSA deployment. :contentReference[oaicite:0]{index=0}
+This is not a simplified mode — it is a valid CrypSA deployment.
 
 ---
 
@@ -274,6 +274,10 @@ Without changing:
 * replay model
 * truth definition
 
+👉 For how to actually build CrypSA step-by-step, see:
+
+`implementation/CrypSA_Local_First_Development_Approach.md`
+
 ---
 
 ## Does CrypSA support real-time gameplay?
@@ -330,7 +334,7 @@ The teaching prototype:
 
 The minimal validator:
 
-* will test CrypSA as a runtime system
+* tests CrypSA as a runtime system
 * introduces networking and multi-observer interaction
 * validates behavior under real constraints
 
