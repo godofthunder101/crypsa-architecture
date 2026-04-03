@@ -13,23 +13,23 @@ It illustrates how CrypSA avoids replaying from genesis while keeping canonical 
 
 ## Diagram
 
-```mermaid id="p0v3p2"
+```mermaid id="snapshot_replay"
 flowchart LR
 
-A[Canonical Event History] --> B[Create Snapshot at Sequence N]
+A[Canonical Event History] --> B[Create Snapshot at canonical_sequence N]
 
 B --> C[Observer Connects or Reconnects]
-C --> D[Load Snapshot at Sequence N]
+C --> D[Load Snapshot at canonical_sequence N]
 
-A --> E[Fetch Events After Sequence N]
+A --> E[Fetch Events After canonical_sequence N]
 
 D --> F[Apply Snapshot State]
 E --> G[Replay Event Tail]
 
-F --> H[Reconstructed Derived Canonical State]
-G --> H
+F -->|Base State| H[Reconstructed Derived Canonical State]
+G -->|Apply Events| H
 
-H --> I[Observer Continues Simulation]
+H --> I[Observer Continues Local Simulation]
 ```
 
 ---
@@ -54,13 +54,13 @@ They are:
 
 A snapshot:
 
-* is created from canonical event history
-* captures derived canonical state at a specific sequence
+* is derived from canonical event history
+* captures derived canonical state at a specific canonical_sequence
 * is tied to a known position in history
 
 This allows:
 
-> Snapshot + event tail = current derived canonical state
+> Snapshot + event tail (events after the snapshot) = current derived canonical state
 
 ---
 
@@ -79,7 +79,7 @@ The observer fetches and applies events after the snapshot position.
 
 These events were previously accepted through validation and appended to canonical event history.
 
-Replay applies them deterministically to reconstruct current derived canonical state.
+Replay applies them deterministically in canonical_sequence order to reconstruct current derived canonical state.
 
 ---
 
@@ -127,4 +127,4 @@ This diagram maps to:
 
 ## One Sentence Summary
 
-CrypSA uses snapshots as cached reconstruction points, allowing observers to load a known state and replay only the remaining event tail, while canonical event history—produced through validation—remains the authoritative source of truth.
+CrypSA uses snapshots as cached reconstruction points, allowing observers to load a known state and replay only the remaining events in canonical_sequence order, while canonical event history—produced through validation—remains the authoritative source of truth.
