@@ -8,7 +8,7 @@ It focuses on **structure and relationships**, not step-by-step execution.
 
 This folder is part of the **authoritative architecture layer**.
 
-Other documents should not redefine the concepts described here.
+Other documents must not redefine the concepts described here.
 
 ---
 
@@ -27,12 +27,13 @@ If there is any conflict, **the spec takes precedence**.
 
 CrypSA separates multiplayer systems into:
 
-* **canonical event history and validation**
-* **observer simulation** (local reconstruction and prediction)
+* canonical event history (truth)
+* validation (authority)
+* observer simulation (local reconstruction and prediction)
 
 Rather than synchronizing full world state, CrypSA synchronizes:
 
-> **validated canonical events**
+> **validated canonical events as canonical event history**
 
 ---
 
@@ -56,7 +57,7 @@ These responsibilities define the architecture.
 The system is event-driven:
 
 * actions → candidate events
-* validation → canonical events
+* validation → canonical events (assigned canonical ordering via `canonical_sequence`)
 * canonical events → canonical event history
 
 Canonical event history defines what is true.
@@ -99,7 +100,7 @@ Instead:
 * canonical event history is authoritative
 * derived state is reconstructed from that history
 
-Replay enables reconstruction, debugging, and verification.
+Replay enables deterministic reconstruction, debugging, and verification.
 
 ---
 
@@ -107,8 +108,8 @@ Replay enables reconstruction, debugging, and verification.
 
 Adapters:
 
-* reshape canonical and runtime data
-* prepare structured outputs
+* reshape canonical and observer/runtime data
+* prepare structured data for downstream layers
 * isolate internal state from interpretation
 
 They belong to the **translation layer**.
@@ -120,7 +121,7 @@ They belong to the **translation layer**.
 Lenses:
 
 * interpret translated data
-* determine visibility and interaction
+* determine visibility and interaction relevance
 * produce observer-specific meaning
 
 They belong to the **interpretation layer**.
@@ -166,7 +167,7 @@ Separating responsibilities enables:
 
 ## Where to Go Next
 
-* `../CrypSA_Architecture_Overview.md` — system overview
+* `CrypSA_Architecture_Overview.md` — system overview
 * `../spec/CrypSA_Event_Model.md` — event structure
 * `../spec/CrypSA_Validation_Model.md` — invariant enforcement
 * `../spec/CrypSA_Replay_Model.md` — state reconstruction
