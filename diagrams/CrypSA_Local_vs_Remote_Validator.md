@@ -21,15 +21,14 @@ This is a deployment distinction, not a change to the truth model.
 
 In both models:
 
-* candidate events cross the invariant boundary before validation
 * candidate events are evaluated by a validator
-* accepted events become canonical (assigned `canonical_sequence`)
+* accepted events become canonical
 * canonical event history defines truth
 
 What changes is:
 
 * where the validator runs
-* how observers communicate with the validator
+* how the observer communicates with it
 
 What does **not** change is:
 
@@ -39,18 +38,18 @@ What does **not** change is:
 
 ## Diagram
 
-```mermaid id="local_vs_remote_validator"
+```mermaid
 flowchart TB
 
-subgraph "Case A — Local Validator"
-    A1[Observer (Local Environment)]
+subgraph Case_A["Case A - Local Validator"]
+    A1[Observer]
     A2[Validator]
     A3[Canonical Event History]
     A1 --> A2
     A2 --> A3
 end
 
-subgraph "Case B — Remote Validator"
+subgraph Case_B["Case B - Remote Validator"]
     B1[Observer]
     B2[Network]
     B3[Validator]
@@ -71,7 +70,7 @@ In this model:
 
 * the observer and validator run in the same environment
 * validation still occurs
-* canonical event history is still protected through validation and invariant enforcement
+* canonical event history is still protected
 
 This is useful for:
 
@@ -92,14 +91,14 @@ The invariant boundary still exists.
 In this model:
 
 * the observer communicates over a network
-* the validator runs as a separate system (but maintains the same role)
+* the validator runs as a separate system
 * canonical event history is maintained remotely
 
 This is useful for:
 
 * shared worlds
 * persistent multiplayer systems
-* externally hosted canonical authority
+* centralized canonical authority
 
 A remote validator is what CrypSA refers to as a **server deployment**.
 
