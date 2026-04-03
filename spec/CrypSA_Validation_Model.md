@@ -14,7 +14,7 @@ Validation is the mechanism that:
 
 In CrypSA:
 
-> Clients may simulate freely, but only validated events become part of canonical event history.
+> Observers may simulate freely, but only validated events become part of canonical event history.
 
 Validation occurs at the **Invariant Boundary**, where proposed actions transition from local simulation to canonical event history.
 
@@ -81,7 +81,7 @@ Checks include:
 
 ### 3. Precondition Validation
 
-Ensures client assumptions are still true.
+Ensures observers assumptions are still true.
 
 Checks include:
 
@@ -232,13 +232,13 @@ CrypSA reduces server load by:
 
 ## Trust Model
 
-CrypSA does not trust client simulation.
+CrypSA does not trust observer simulation.
 
 It trusts:
 
 > the validation process that determines canonical event history  
 
-Clients may propose any action, but:
+Observers may propose any action, but:
 
 * invalid actions are rejected  
 * only accepted events affect canonical event history  
@@ -285,5 +285,5 @@ CrypSA validation is:
 
 It ensures:
 
-> clients may act freely,  
+> observers may act freely,  
 > but only valid actions become part of canonical event history
