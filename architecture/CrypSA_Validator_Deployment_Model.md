@@ -29,6 +29,7 @@ Validation determines:
 
 * whether candidate events are accepted or rejected
 * what becomes part of canonical event history
+* the canonical ordering (`canonical_sequence`)
 * what is considered real within the universe
 
 This responsibility does not change based on deployment.
@@ -44,11 +45,11 @@ It is responsible for:
 * validation
 * invariant enforcement
 * canonical event recording
-* canonical update distribution
+* making canonical events available to observers
 
 The validator is **not defined by being a server**.
 
-A server is simply one way to deploy a validator.
+A server is a deployment of a validator, not the source of authority itself.
 
 ---
 
@@ -71,8 +72,8 @@ In this model:
 #### Characteristics
 
 * single observer (or isolated environment)
-* no shared canonical state across multiple observers
-* validation and simulation occur within the same environment
+* no shared canonical event history across multiple observers
+* validation and simulation occur within the same environment, but remain logically separate
 
 #### Benefits
 
@@ -125,13 +126,13 @@ In this model:
 
 * the validator runs as a separate system
 * observers connect over a network
-* canonical truth is maintained independently of any observer
+* canonical truth is maintained independently of any single observer
 
 #### Characteristics
 
 * shared canonical event history across observers
 * supports persistent universes
-* independent of any single client
+* independent of any single observer
 
 #### Benefits
 
@@ -178,7 +179,7 @@ Across all deployment models:
 What changes is:
 
 * where validation executes
-* how observers communicate with the validator
+* how observers receive canonical events from the validator
 
 What does not change is:
 
@@ -226,7 +227,7 @@ Where each step:
 See:
 
 ```
-../implementation/CrypSA_Local_First_Design_Pattern.md
+implementation/CrypSA_Local_First_Development_Approach.md
 ```
 
 ---
