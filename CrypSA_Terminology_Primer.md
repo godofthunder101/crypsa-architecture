@@ -43,8 +43,8 @@ This ensures:
 A useful way to understand CrypSA is to think in terms of four responsibilities:
 
 * **Truth** — canonical event history and validation
-* **Translation** — adapters shaping runtime data
-* **Interpretation** — lenses determining observer meaning
+* **Translation** — adapters shaping data
+* **Interpretation** — lenses defining meaning
 * **Experience** — UI and local interaction
 
 The terms below map into these responsibilities.
@@ -112,7 +112,7 @@ then **“validator” is the correct term**, not “server”.
 
 ### Validator
 
-A **validator** is the system responsible for:
+A **validator** is responsible for:
 
 * accepting or rejecting candidate events
 * enforcing invariants and rules
@@ -127,15 +127,13 @@ It may run:
 * **locally**, alongside an observer
 * **remotely**, as a shared system for multiple observers
 
-The responsibilities of the validator do not change based on where it runs.
-
-> In CrypSA, truth is defined by validation — not by where the validator is located.
+> In CrypSA, truth is defined by validation — not by where the validator runs.
 
 ---
 
 ### Local Validator
 
-A **local validator** is a validator that runs within the same environment as the observer.
+A **local validator** runs within the same environment as the observer.
 
 This may mean:
 
@@ -143,7 +141,7 @@ This may mean:
 * the same application
 * the same device
 
-A local validator is commonly used for:
+Common use cases:
 
 * single-player or offline operation
 * development and testing
@@ -158,37 +156,33 @@ The invariant boundary still exists:
 * validator accepts or rejects them
 * canonical event history is updated
 
-> Local validation does not remove the boundary between observer and truth — it changes where that boundary runs.
+> Local validation changes location, not responsibility.
 
 ---
 
 ### Remote Validator
 
-A **remote validator** is a validator that runs on a separate system from the observer.
+A **remote validator** runs on a separate system from the observer.
 
 Observers communicate with it over a network.
 
-A remote validator is commonly used for:
+Common use cases:
 
-* shared canonical truth across multiple observers
+* shared canonical truth across observers
 * persistent multiplayer environments
-* authoritative validation in distributed systems
+* distributed systems
 
-The responsibilities of the validator remain the same:
+The responsibilities remain unchanged.
 
-* validate candidate events
-* enforce invariants
-* maintain canonical event history
-
-> Moving the validator to a remote system changes deployment, not the definition of truth.
+> Deployment does not redefine truth.
 
 ---
 
 ### Server (CrypSA Context)
 
-In CrypSA, a **server** is a deployment of a validator that runs remotely.
+A **server** is a deployment of a validator that runs remotely.
 
-It is an infrastructure role, not an authority role.
+It is an infrastructure term, not an authority role.
 
 Not all validators are servers, but all servers host a validator.
 
@@ -200,7 +194,7 @@ A canonical event is an event that has been:
 
 * validated by the validator
 * accepted into canonical event history
-* assigned a canonical sequence
+* assigned a `canonical_sequence`
 * made immutable
 
 Canonical events define **truth**.
@@ -244,8 +238,8 @@ It includes:
 * invariant validation
 * rule validation
 
-If valid → it is appended to canonical event history
-If invalid → it is rejected
+If valid → appended to canonical event history
+If invalid → rejected
 
 Validation determines whether something becomes **truth**.
 
@@ -270,8 +264,6 @@ Replay is the process of:
 * applying events in canonical order
 * rebuilding derived canonical state deterministically
 
-Replay is how canonical event history is transformed into derived canonical state.
-
 ---
 
 ### Derived Canonical State
@@ -291,16 +283,11 @@ It is:
 
 ### Observer
 
-An observer is:
+An observer is a system that:
 
-* a client
-* a local simulation of the world
-
-Observers:
-
-* simulate locally
-* propose candidate events
-* reconcile with canonical event history
+* simulates the world locally
+* proposes candidate events
+* reconciles with canonical event history
 
 Observers contribute to the **experience layer**.
 
@@ -313,8 +300,6 @@ Observer reconciliation is when:
 * an observer updates its local simulation
 * to match canonical outcomes
 
-This occurs after events are accepted or rejected.
-
 ---
 
 ### Adapter
@@ -323,12 +308,12 @@ An adapter reshapes data.
 
 It:
 
-* takes canonical and observer-derived state
-* produces structured outputs for interpretation or UI
+* transforms canonical and observer data
+* produces structured outputs for other layers
 
 Adapters belong to the **translation layer**.
 
-They do not define truth.
+They change structure, not meaning.
 
 ---
 
@@ -338,13 +323,13 @@ A lens interprets data.
 
 It determines:
 
-* what is visible
-* what is interactable
-* what matters to an observer
+* meaning
+* relevance
+* context for an observer
 
 Lenses belong to the **interpretation layer**.
 
-They do not define truth or mutate state.
+They do not define truth or mutate canonical data.
 
 ---
 
@@ -356,7 +341,7 @@ The experience layer includes:
 * input
 * local feedback
 
-This is what the player interacts with directly.
+This is what the observer interacts with directly.
 
 It is responsive, but not authoritative.
 
@@ -373,7 +358,7 @@ CrypSA separates the system into four responsibilities:
 
 And critically:
 
-> validation defines canonical truth, regardless of whether the validator runs locally or remotely
+> validation defines canonical truth, regardless of deployment
 
 Understanding this separation makes the rest of CrypSA much easier to follow.
 
