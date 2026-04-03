@@ -15,6 +15,26 @@ For documentation precedence and folder roles, see `DOCS_STRUCTURE.md`.
 
 ---
 
+## 🚧 Project Status — v1.0
+
+CrypSA v1.0 defines the **core architecture and runtime model**.
+
+This version is:
+
+* stable in its core concepts
+* consistent in terminology and structure
+* ready for implementation
+
+However:
+
+* reference implementations are still in progress
+* documentation may continue to improve
+* minor refinements may be made without changing core principles
+
+> v1.0 represents a stable architectural baseline, not a finished product.
+
+---
+
 ## 📚 Document Types
 
 CrypSA documentation is organized by role.
