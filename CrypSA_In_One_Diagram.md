@@ -20,7 +20,7 @@ This is the **core mental model of CrypSA in a single view**.
 ```mermaid
 flowchart LR
 
-subgraph "Observer (Experience + Interpretation + Translation)"
+subgraph "Observer (Experience + Translation + Interpretation)"
     A[UI / Experience]
     B[Local Simulation]
     C[Adapters]
@@ -91,7 +91,7 @@ If yes:
 
 * it becomes a **candidate event**
 * it must cross the invariant boundary
-* it must be evaluated before becoming canonical
+* it must be validated before becoming canonical
 
 ---
 
@@ -120,7 +120,7 @@ CrypSA defines the validator as an architectural role, not a fixed machine locat
 
 If accepted:
 
-* the event is assigned canonical ordering (`server_sequence`)
+* the event is assigned canonical ordering (`canonical_sequence`)
 * the event is appended to canonical event history
 
 Canonical event history is:
@@ -171,7 +171,7 @@ This model enables:
 * clear authority boundaries
 * replayable systems
 * flexible deployment (local or remote validator)
-* persistent worlds defined by canonical history rather than continuously synchronized mutable state
+* persistent worlds defined by canonical history
 
 ---
 
@@ -180,7 +180,7 @@ This model enables:
 Traditional systems:
 
 ```text
-Client → Server Simulation → State Sync
+Clients → Central Authority → State Synchronization
 ```
 
 CrypSA:
@@ -204,9 +204,9 @@ For deployment-specific clarification, see:
 
 CrypSA separates:
 
-* **Experience** → local simulation and UI
-* **Interpretation** → lenses
+* **Experience** → UI and local simulation
 * **Translation** → adapters
+* **Interpretation** → lenses
 * **Truth** → validation and canonical event history
 
 The invariant boundary and validator ensure that only valid events become part of shared reality.
