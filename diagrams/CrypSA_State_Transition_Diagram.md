@@ -15,20 +15,20 @@ The universe does not evolve through continuous simulation, but through:
 ```mermaid
 flowchart TD
 
-S0[Derived Canonical State S_n]
-A[Observer Simulation]
+S0[Derived Canonical State (S_n)]
+A[Local Simulation]
 B[Invariant Boundary Check]
-C[Candidate Event]
+C[Create Candidate Event]
 D[Validation and Invariant Enforcement]
 R[Event Rejected]
 E[Event Accepted]
-O[Assign server_sequence]
-S1[Derived Canonical State S_n+1]
+O[Assign canonical_sequence]
+S1[Derived Canonical State (S_n+1)]
 
 S0 --> A
 A --> B
 
-B -->|No invariant change| A
+B -->|Does not affect canonical event history| A
 B -->|Affects canonical event history| C
 
 C --> D
@@ -118,9 +118,10 @@ Validation determines whether the proposed interaction becomes canonical.
 
 If accepted:
 
-* the validator assigns `server_sequence`
+* the validator assigns `canonical_sequence`
+* canonical_sequence defines the authoritative ordering of events for replay
 * the event is appended to canonical event history
-* the universe transitions from Sₙ → Sₙ₊₁
+* the universe transitions from Sₙ → Sₙ₊₁ via deterministic replay
 
 This is how canonical state changes in CrypSA.
 
@@ -161,7 +162,7 @@ CrypSA state transitions are:
 
 * deterministic
 * validated
-* ordered (via `server_sequence`)
+* ordered (via `canonical_sequence`)
 * reconstructable
 
 ---
@@ -181,4 +182,4 @@ Because the universe evolves through validated canonical events rather than unco
 
 ## One Sentence Summary
 
-CrypSA models the universe as a sequence of validated canonical state transitions, where each accepted event moves the system from one stable state to the next through canonical event history.
+CrypSA models the universe as a sequence of validated canonical state transitions ordered via `canonical_sequence`, where each accepted event moves the system from one stable state to the next through canonical event history.
