@@ -11,7 +11,7 @@ For a quick explanation, see:
 For the authoritative adapter and observer-model docs, see:
 
 * `architecture/CrypSA_Adapter_Model.md`
-* `architecture/CrypSA_Client_Observer_Model.md`
+* `architecture/CrypSA_Observer_Model.md`
 
 ---
 
@@ -19,10 +19,10 @@ For the authoritative adapter and observer-model docs, see:
 
 CrypSA is an event-driven architecture where:
 
-* observers simulate locally  
-* actions are proposed as candidate events  
-* a validator evaluates those events  
-* accepted events define shared reality through canonical event history  
+* observers simulate locally
+* actions are proposed as candidate events
+* a validator evaluates those events
+* accepted events define shared reality through canonical event history
 
 ---
 
@@ -36,9 +36,9 @@ CrypSA requires a **validator**, not a server.
 
 The validator may run:
 
-* locally  
-* on a host (one observer acts as validator)  
-* on a dedicated remote system (server deployment)  
+* locally
+* on a host (one observer acts as validator)
+* on a dedicated remote system (server deployment)
 
 A server is simply one way to deploy a validator.
 
@@ -52,10 +52,10 @@ CrypSA fully supports offline operation using a **local validator**.
 
 In this mode:
 
-* the observer and validator run together  
-* canonical event history is maintained locally  
-* validation still occurs  
-* the full runtime model remains intact  
+* the observer and validator run together
+* canonical event history is maintained locally
+* validation still occurs
+* the full runtime model remains intact
 
 This is not a simplified mode — it is a valid CrypSA deployment.
 
@@ -67,24 +67,24 @@ It depends on how the system is deployed.
 
 ### If using a remote validator
 
-* the observer continues local simulation  
-* no new canonical events can be accepted  
-* canonical updates stop arriving  
-* local state may temporarily diverge  
+* the observer continues local simulation
+* no new canonical events can be accepted
+* canonical updates stop arriving
+* local state may temporarily diverge
 
 When the connection is restored:
 
-* canonical updates are fetched  
-* reconciliation occurs  
-* the observer converges to canonical state  
+* canonical updates are fetched
+* reconciliation occurs
+* the observer converges to canonical state
 
 ---
 
 ### If using a local validator
 
-* the system continues operating normally  
-* validation still occurs locally  
-* canonical event history continues uninterrupted  
+* the system continues operating normally
+* validation still occurs locally
+* canonical event history continues uninterrupted
 
 ---
 
@@ -96,8 +96,8 @@ The validator does not simulate everything.
 
 Instead, it is authoritative over:
 
-* which events are accepted  
-* what becomes canonical event history  
+* which events are accepted
+* what becomes canonical event history
 
 ---
 
@@ -107,8 +107,8 @@ No.
 
 Observers can propose events, but:
 
-* all canonical changes must be validated  
-* invalid or conflicting events are rejected  
+* all canonical changes must be validated
+* invalid or conflicting events are rejected
 
 Observers have freedom to simulate, not authority to define truth.
 
@@ -118,16 +118,16 @@ Observers have freedom to simulate, not authority to define truth.
 
 CrypSA separates:
 
-* simulation (observer-side)  
-* truth (validator-controlled)  
+* simulation (observer-side)
+* truth (validator-controlled)
 
 This allows:
 
-* responsiveness  
-* flexibility  
-* reduced synchronization overhead  
+* responsiveness
+* flexibility
+* reduced synchronization overhead
 
-The validator still controls what is real.
+The validator still determines what becomes canonical.
 
 ---
 
@@ -137,9 +137,9 @@ It is similar, but not identical.
 
 CrypSA:
 
-* is designed for interactive simulations  
-* includes invariant validation as a core system  
-* explicitly models observers and reconstruction  
+* is designed for interactive simulations
+* includes invariant validation as a core system
+* explicitly models observers and reconstruction
 
 ---
 
@@ -151,9 +151,9 @@ CrypSA is **validator-based**, not strictly peer-to-peer or server-based.
 
 It can be deployed as:
 
-* local-only  
-* host-based  
-* dedicated validator  
+* local-only
+* host-based
+* dedicated validator
 
 The architecture defines **how truth is determined**, not how networking must be structured.
 
@@ -163,11 +163,11 @@ The architecture defines **how truth is determined**, not how networking must be
 
 The validator:
 
-* receives candidate events  
-* validates them  
-* enforces invariants  
-* records accepted events  
-* distributes canonical updates  
+* receives candidate events
+* validates them
+* enforces invariants
+* assigns canonical ordering (`canonical_sequence`)
+* records accepted events
 
 It does not need to simulate the entire world continuously.
 
@@ -179,9 +179,9 @@ Both actions may be submitted.
 
 The validator:
 
-* evaluates both  
-* accepts one valid event  
-* rejects the other  
+* evaluates both
+* accepts one valid event
+* rejects the other
 
 The rejected observer reconciles to canonical state.
 
@@ -191,10 +191,10 @@ The rejected observer reconciles to canonical state.
 
 If an observer predicts incorrectly:
 
-* the validator rejects the event  
-* the observer corrects its local state  
+* the validator rejects the event
+* the observer corrects its local state
 
-This is expected behavior.
+This is expected and correct behavior.
 
 ---
 
@@ -202,30 +202,30 @@ This is expected behavior.
 
 CrypSA relies on strict separation of responsibilities:
 
-* the validator defines truth  
-* adapters shape data  
-* lenses interpret meaning  
-* UI presents the result  
+* the validator defines truth
+* adapters shape data
+* lenses interpret meaning
+* UI presents the result
 
 In addition:
 
-* observers emit **typed requests** representing intent  
-* canonical changes occur only through validated events  
-* adapters prevent UI and lenses from accessing raw runtime structures  
+* observers emit requests representing intent
+* canonical changes occur only through validated events
+* adapters prevent UI and lenses from accessing raw runtime structures
 
 ---
 
 ## Is CrypSA deterministic?
 
-Yes, at the canonical level.
+Yes, at the canonical level via deterministic replay.
 
 Given the same:
 
-* canonical event history  
-* rules  
-* definitions  
+* canonical event history
+* rules
+* definitions
 
-All observers must derive the same state via replay.
+All observers must derive the same state.
 
 ---
 
@@ -233,9 +233,9 @@ All observers must derive the same state via replay.
 
 Not as truth.
 
-* canonical truth = canonical event history  
-* derived state = reconstructed via replay  
-* snapshots = reconstruction checkpoints  
+* canonical truth = canonical event history
+* derived state = reconstructed via replay
+* snapshots = reconstruction checkpoints
 
 ---
 
@@ -243,9 +243,9 @@ Not as truth.
 
 Snapshots are stored derived state used to:
 
-* speed up loading  
-* reduce replay cost  
-* support recovery  
+* speed up loading
+* reduce replay cost
+* support recovery
 
 They do not replace canonical event history.
 
@@ -259,7 +259,7 @@ CrypSA supports a **local-first development model**:
 
 ```text
 Local Validator → Host-Based → Dedicated Validator
-````
+```
 
 You can:
 
@@ -307,72 +307,6 @@ CrypSA is:
 * backed by a teaching prototype
 
 It is not yet a production system.
-
----
-
-## Is the current prototype networked?
-
-No.
-
-It is a teaching tool designed to demonstrate:
-
-* event flow
-* validation
-* canonical vs local state
-
-It demonstrates the model, not full runtime behavior.
-
----
-
-## What is the difference between the prototype and the real system?
-
-The teaching prototype:
-
-* demonstrates the CrypSA model locally
-* focuses on clarity and inspectability
-* simplifies runtime constraints
-
-The minimal validator:
-
-* tests CrypSA as a runtime system
-* introduces networking and multi-observer interaction
-* validates behavior under real constraints
-
----
-
-## Can CrypSA scale?
-
-Potentially, but not yet proven.
-
-Scaling depends on:
-
-* validation performance
-* event distribution
-* snapshot systems
-
----
-
-## What are the biggest risks?
-
-* validation complexity
-* reconciliation challenges
-* performance under load
-* networking edge cases
-* lack of production testing
-
----
-
-## Why build CrypSA?
-
-CrypSA explores a different approach:
-
-> shared reality defined by history, not synchronized state
-
-It aims to:
-
-* enable persistent systems
-* improve auditability
-* simplify some multiplayer problems
 
 ---
 
