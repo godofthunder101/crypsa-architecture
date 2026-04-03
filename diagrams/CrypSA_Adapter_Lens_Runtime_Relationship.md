@@ -25,7 +25,7 @@ subgraph "Truth Layer"
 end
 
 subgraph "Observer Local State"
-    C[Observer State]
+    C[Observer Local State]
 end
 
 subgraph "Translation Layer"
@@ -67,6 +67,7 @@ The validator:
 * accepts or rejects candidate events
 * enforces invariants
 * appends accepted events to canonical event history
+* defines canonical ordering (`canonical_sequence`)
 
 Derived canonical state is useful, but it is not more authoritative than canonical event history.
 
@@ -84,7 +85,7 @@ Observers maintain local state such as:
 
 This state is local and non-authoritative.
 
-It may be combined with canonical data when preparing information for interpretation.
+It may be combined with canonical data through adapters when preparing information for interpretation.
 
 ---
 
@@ -95,14 +96,20 @@ Adapters belong to the **translation layer**.
 They:
 
 * reshape canonical and observer data
-* combine data from different local sources
+* combine and reshape data from different sources
 * prepare structured outputs for interpretation
 
 Adapters answer:
 
 > “How should this data be structured for use?”
 
-They do not define truth, validation, or meaning.
+They do not:
+
+* define truth
+* perform validation
+* interpret meaning
+
+Adapters do not interpret data.
 
 ---
 
@@ -113,7 +120,7 @@ Lenses belong to the **interpretation layer**.
 They:
 
 * interpret adapted data
-* determine visibility
+* determine visibility and interaction relevance
 * define interaction meaning
 * produce observer-specific views
 
@@ -153,7 +160,7 @@ This separation is one of the core architectural boundaries in CrypSA.
 ## Simplified Flow
 
 ```text
-Validator → Canonical Event History → Derived Canonical State → Adapters → Lenses → Experience
+Validator → Canonical Event History → Derived Canonical State → Adapters (+ Observer Local State) → Lenses → Experience
 ```
 
 ---
@@ -168,7 +175,7 @@ This separation allows CrypSA systems to remain:
 * flexible
 * easier to evolve over time
 
-Each layer can evolve independently without breaking the others.
+Each layer can evolve independently as long as its contracts are preserved.
 
 ---
 
