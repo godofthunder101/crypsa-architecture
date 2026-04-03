@@ -10,6 +10,17 @@ For a worked example, see:
 
 ---
 
+## 📜 Specification Authority
+
+The `/spec` directory is the **authoritative definition of runtime behavior**.
+
+Architecture documents explain the system.
+The spec defines how it must behave.
+
+If there is any conflict, **the spec takes precedence**.
+
+---
+
 ## High-Level View
 
 CrypSA is best understood as four core responsibilities:
@@ -51,7 +62,7 @@ The validator:
 * receives candidate events
 * validates them against invariants
 * accepts or rejects them
-* assigns canonical ordering (`server_sequence`)
+* assigns canonical ordering (canonical sequence)
 
 The validator enforces validation and ordering.
 
@@ -72,7 +83,9 @@ Its responsibilities do not change based on deployment.
 
 A server is a deployment of a validator that runs remotely.
 
-Not all validators are servers, but all servers act as validators.
+It is an infrastructure role, not an authority role.
+
+Not all validators are servers, but all servers host a validator.
 
 ---
 
@@ -156,7 +169,7 @@ CrypSA separates them to:
 
 ## Data Flow (Simplified)
 
-```mermaid
+```mermaid id="5v8s2k"
 flowchart LR
 
 A[Canonical Event History] --> B[Derived Canonical State]
@@ -169,7 +182,7 @@ D --> E[UI / Experience]
 
 ## Intent Flow (Simplified)
 
-```mermaid
+```mermaid id="y7tq6f"
 flowchart LR
 
 A[User Action] --> B[Candidate Event]
