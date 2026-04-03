@@ -16,7 +16,7 @@ Definitions here should align with the architecture, spec, and implementation la
 
 CrypSA (Cryptid Server Architecture) is a distributed architecture for persistent digital universes.
 
-It synchronizes **validated canonical events** rather than full world state, allowing observers to reconstruct the universe locally.
+It synchronizes **canonical events** rather than full world state, allowing observers to reconstruct the universe locally.
 
 ---
 
@@ -67,7 +67,7 @@ It may run locally or remotely.
 
 A Server is a deployment of a validator that runs remotely.
 
-Not all validators are servers, but all servers act as validators.
+Not all validators are servers, but all servers host a validator.
 
 ---
 
@@ -80,7 +80,7 @@ A Canonical Object is an entity defined by:
 * identity
 * genome
 * invariant-relevant state
-* canonical event history
+* canonical event history (from which the object is derived)
 
 It can be reconstructed deterministically from canonical data.
 
@@ -118,6 +118,20 @@ A Canonical Event is a validated event that has been accepted into canonical eve
 
 ---
 
+### canonical_sequence
+
+`canonical_sequence` is the validator-assigned ordering index for canonical events.
+
+It:
+
+* defines authoritative ordering
+* enables deterministic replay
+* establishes a single canonical timeline
+
+`canonical_sequence` is assigned only by the validator.
+
+---
+
 ### Canonical Event History
 
 Canonical Event History is the ordered, append-only record of canonical events.
@@ -128,13 +142,13 @@ It defines how the universe evolves over time and is the source of truth.
 
 ### Invariant
 
-An Invariant is a rule that must always remain valid within canonical event history.
+An Invariant is a rule that must always remain valid for canonical state derived from canonical event history.
 
 ---
 
 ### Invariant Boundary
 
-The Invariant Boundary is where proposed actions are validated before becoming canonical events.
+The Invariant Boundary is where candidate events are validated before becoming canonical events.
 
 This boundary is enforced by the validator.
 
@@ -152,7 +166,7 @@ Examples:
 * physics
 * gameplay mechanics
 
-It is not authoritative.
+These simulations are non-authoritative and may be corrected during reconciliation.
 
 ---
 
@@ -207,7 +221,7 @@ A Lens interprets canonical or translated data into observer-specific meaning.
 
 ### Lens Stack
 
-A Lens Stack is a composition of lenses applied to produce interpretation.
+A Lens Stack is an ordered composition of lenses applied to produce interpretation.
 
 ---
 
@@ -229,7 +243,7 @@ It represents how the observer interacts with the universe.
 
 CrypSA separates responsibilities into:
 
-* **Truth** — canonical events and validation
+* **Truth** — canonical event history and validation
 * **Translation** — adapters
 * **Interpretation** — lenses
 * **Experience** — UI and simulation
