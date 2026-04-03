@@ -4,6 +4,19 @@
 >
 > For authoritative behavior, see `spec/`.
 
+---
+
+## 📜 Specification Authority
+
+The `/spec` directory is the **authoritative definition of runtime behavior**.
+
+This document illustrates how the system behaves.
+The spec defines how it must behave.
+
+If there is any conflict, **the spec takes precedence**.
+
+---
+
 This document walks through a complete runtime example of CrypSA.
 
 It shows how:
@@ -150,7 +163,7 @@ Canonical metadata assigned:
 
 ```
 canonical_event_id = canon_1203
-server_sequence = 1203
+canonical_sequence = 1203
 accepted_at = timestamp
 ```
 
@@ -219,6 +232,8 @@ Canonical Update → Adapter → Lens → UI
 ## Alternative Scenario — Conflict
 
 Two players attempt to place on tile_42.
+
+---
 
 ### Validator Behavior
 
