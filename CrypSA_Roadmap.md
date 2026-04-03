@@ -57,7 +57,7 @@ Focus:
 
 Success Criteria:
 
-* multiple clients can connect
+* multiple observers can connect
 * events are validated and recorded
 * canonical event history drives all state
 * observers converge on shared state
@@ -161,7 +161,7 @@ Success Criteria:
 
 CrypSA still needs to explore:
 
-* limits of client-side simulation
+* limits of observer-side simulation
 * tradeoffs between responsiveness and validation
 * handling of high-frequency interactions
 * integration with existing engine architectures
