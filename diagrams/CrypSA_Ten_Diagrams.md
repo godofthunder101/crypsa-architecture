@@ -50,7 +50,7 @@ Instead of synchronizing full state, CrypSA synchronizes:
 Every canonical object begins with the Mint:
 
 ```text
-Mint → Identity → Genome → Canonical Object
+Mint → Identity + Genome → Canonical Object
 ```
 
 The Mint defines:
@@ -78,7 +78,7 @@ This removes the need for full server-side simulation.
 Each observer operates locally:
 
 ```text
-Observer → Simulation → Prediction → Local Effects
+Observer → Simulation → Local Prediction → Local Effects
 ```
 
 Observers may temporarily diverge in local simulation.
@@ -96,7 +96,7 @@ Does this affect canonical event history?
 ```
 
 * No → remain local
-* Yes → candidate event
+* Yes → create candidate event
 
 This boundary separates simulation from canonical event history.
 
@@ -107,13 +107,13 @@ This boundary separates simulation from canonical event history.
 When an action affects canonical event history:
 
 ```text
-Candidate Event → Validation → Accepted / Rejected
+Candidate Event → Validation → Accept / Reject
 ```
 
 If accepted:
 
 ```text
-→ appended to canonical event history
+→ assigned canonical_sequence and appended to canonical event history
 ```
 
 The validator evaluates candidate events against invariants.
@@ -142,7 +142,7 @@ Lenses define:
 The universe evolves through validated events:
 
 ```text
-Sₙ → Event → Sₙ₊₁
+S_n → Event → S_n+1
 ```
 
 Each accepted event produces a deterministic transition.
@@ -151,7 +151,7 @@ Each accepted event produces a deterministic transition.
 
 ## Diagram 10 — CrypSA as a System
 
-At a high level:
+Conceptual layering (top to bottom):
 
 ```text
 Experience → Interpretation → Translation → Truth
@@ -177,7 +177,7 @@ Mint
 → Experience (Simulation/UI)
 → Invariant Boundary
 → Validation
-→ Canonical Event History
+→ Canonical Event History (ordered via canonical_sequence)
 ```
 
 ---
@@ -188,7 +188,7 @@ Mint
 
 And:
 
-> validation determines what becomes canonical truth
+> validation determines what becomes canonical truth, and ordering defines how it is applied
 
 ---
 
