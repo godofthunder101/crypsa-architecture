@@ -22,7 +22,7 @@ Translate (Adapters)
    ↓
 Interpret (Lenses)
    ↓
-Simulate
+Simulate (using observer local state)
    ↓
 Invariant Boundary Check
    ├── No → Remain Local
@@ -31,12 +31,12 @@ Invariant Boundary Check
               Validator Evaluates
                   ↓
            Accepted?
-            ├── No → Reject / Correct
-            └── Yes → Assign server_sequence
+            ├── No → Reject → Observer corrects local state
+            └── Yes → Assign canonical_sequence
                           ↓
                    Append to Canonical Event History
                           ↓
-                   Observers Reconstruct
+                   Observers reconstruct derived canonical state
 ```
 
 ---
@@ -47,6 +47,7 @@ Invariant Boundary Check
 1. OBSERVER RECONSTRUCTS WORLD
    - from canonical event history
    - identity + genome + invariant-relevant state
+   - via replay
 
         ↓
 
@@ -57,7 +58,7 @@ Invariant Boundary Check
         ↓
 
 3. INTERPRETATION (LENSES)
-   - determine meaning, visibility, interaction
+   - determine meaning, visibility, and interaction relevance
 
         ↓
 
@@ -66,7 +67,8 @@ Invariant Boundary Check
 
         ↓
 
-5. ACTION PRODUCES RESULT
+5. LOCAL RESULT / OUTCOME
+   - result of simulation or interaction
 
         ↓
 
@@ -85,12 +87,12 @@ Invariant Boundary Check
                 8. VALIDATION
                         ↓
                 ACCEPTED?
-                  ├── NO → REJECT / CORRECT
-                  └── YES → ASSIGN server_sequence
+                  ├── NO → REJECT → Observer corrects local state
+                  └── YES → ASSIGN canonical_sequence
                                       ↓
                           9. APPEND TO CANONICAL EVENT HISTORY
                                       ↓
-                          10. OBSERVERS RECONSTRUCT
+                          10. OBSERVERS RECONSTRUCT DERIVED CANONICAL STATE
 ```
 
 ---
@@ -99,7 +101,7 @@ Invariant Boundary Check
 
 ### Reconstruction
 
-Observers rebuild the world from canonical event history.
+Observers rebuild the world from canonical event history via replay.
 
 This reconstruction is based on canonical truth, not local prediction.
 
@@ -109,7 +111,7 @@ This reconstruction is based on canonical truth, not local prediction.
 
 Adapters prepare data for interpretation.
 
-They reshape canonical and observer-side data into usable structures.
+They reshape canonical and observer data into usable structures.
 
 ---
 
@@ -159,7 +161,8 @@ Validation determines whether the action becomes part of canonical truth.
 
 Accepted events:
 
-* are assigned `server_sequence`
+* are assigned `canonical_sequence`
+* canonical_sequence defines the authoritative ordering of events
 * are appended to canonical event history
 * extend the shared canonical history of the universe
 
@@ -211,7 +214,7 @@ CrypSA runtime flow is:
 * simulate
 * check invariant boundary
 * validate if needed
-* update canonical event history
+* update canonical event history (ordered via `canonical_sequence`)
 * reconstruct again
 
 ---
