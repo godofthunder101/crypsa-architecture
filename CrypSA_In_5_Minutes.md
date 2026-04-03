@@ -302,3 +302,11 @@ CrypSA is not ideal for:
 * twitch shooters
 * high-frequency combat
 * physics-heavy PvP
+
+---
+
+## Next Step
+
+Continue to:
+
+👉 `CrypSA_Terminology_Primer.md`
