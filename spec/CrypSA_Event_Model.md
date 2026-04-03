@@ -94,11 +94,12 @@ CrypSA events consist of two layers:
 #### `event_type`
 
 * defines the action type
-* examples:
 
-  * `place_object`
-  * `destroy_object`
-  * `transfer_item`
+Examples:
+
+* `place_object`
+* `destroy_object`
+* `transfer_item`
 
 ---
 
@@ -167,12 +168,12 @@ When an event is accepted, the validator assigns:
 
 ---
 
-#### `server_sequence`
+#### `canonical_sequence`
 
 * authoritative ordering index
 * defines replay order
 
-> `server_sequence` is assigned by the validator and defines canonical ordering.
+> `canonical_sequence` is assigned by the validator and defines canonical ordering.
 
 ---
 
@@ -187,7 +188,7 @@ When an event is accepted, the validator assigns:
 A canonical event is an accepted candidate event that:
 
 * has passed validation
-* has been assigned `server_sequence`
+* has been assigned `canonical_sequence`
 * has been appended to canonical event history
 * is immutable
 
@@ -220,7 +221,7 @@ Each candidate event must be processed exactly once.
 
 State must be derived by:
 
-* applying canonical events in `server_sequence` order
+* applying canonical events in `canonical_sequence` order
 
 Replay must be:
 
