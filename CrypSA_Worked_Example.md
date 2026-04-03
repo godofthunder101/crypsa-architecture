@@ -286,3 +286,11 @@ This example corresponds directly to:
 ## One Sentence Summary
 
 A local action becomes a candidate event, the validator evaluates it, accepted events are appended to canonical event history, and observers reconcile their local simulation to that shared history.
+
+---
+
+## Next Step
+
+Continue to:
+
+👉 `architecture/`
