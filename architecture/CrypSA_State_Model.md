@@ -13,6 +13,17 @@ Understanding these distinctions is critical to implementing CrypSA correctly.
 
 ---
 
+## 📜 Specification Authority
+
+The `/spec` directory is the **authoritative definition of runtime behavior**.
+
+Architecture documents explain the system.
+The spec defines how it must behave.
+
+If there is any conflict, **the spec takes precedence**.
+
+---
+
 ## Purpose
 
 CrypSA separates **canonical truth** from all other forms of state.
@@ -243,7 +254,7 @@ This state determines:
 
 The relationship between state types can be visualized as:
 
-```text
+```text id="5qk2zp"
 Canonical Event History (Truth)
         ↓ (Replay)
 Derived Canonical State
