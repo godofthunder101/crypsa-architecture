@@ -13,28 +13,28 @@ It represents the layered validation model used to determine whether an event is
 
 ## Diagram
 
-```mermaid id="validation_pipeline"
+```mermaid
 flowchart TD
 
-A[Candidate Event] --> B[Schema Validation]
+A["Candidate Event"] --> B["Schema Validation"]
 
-B -->|Fail| R1[Reject (invalid_schema)]
-B -->|Pass| C[Identity Validation]
+B -->|Fail| R1["Reject: invalid_schema"]
+B -->|Pass| C["Identity Validation"]
 
-C -->|Fail| R2[Reject (invalid_identity)]
-C -->|Pass| D[Precondition Validation]
+C -->|Fail| R2["Reject: invalid_identity"]
+C -->|Pass| D["Precondition Validation"]
 
-D -->|Fail| R3[Reject (precondition_failed)]
-D -->|Pass| E[Invariant Validation]
+D -->|Fail| R3["Reject: precondition_failed"]
+D -->|Pass| E["Invariant Validation"]
 
-E -->|Fail| R4[Reject (invariant_violation)]
-E -->|Pass| F[Rule Validation]
+E -->|Fail| R4["Reject: invariant_violation"]
+E -->|Pass| F["Rule Validation"]
 
-F -->|Fail| R5[Reject (rule_violation)]
-F -->|Pass| G[Accept and Assign canonical_sequence]
+F -->|Fail| R5["Reject: rule_violation"]
+F -->|Pass| G["Accept and Assign canonical_sequence"]
 
-G --> H[Append to Canonical Event History]
-H --> I[Canonical Events Available to Observers]
+G --> H["Append to Canonical Event History"]
+H --> I["Canonical Events Available to Observers"]
 ```
 
 ---
@@ -116,7 +116,7 @@ Examples:
 If all stages pass:
 
 * the event is assigned `canonical_sequence`
-* canonical_sequence defines the authoritative ordering of events
+* `canonical_sequence` defines the authoritative ordering of events
 * the event is appended to canonical event history
 
 ---
