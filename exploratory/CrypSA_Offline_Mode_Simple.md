@@ -204,6 +204,3 @@ This keeps the system simple while preserving CrypSA’s core guarantees.
 ## One Sentence Summary
 
 CrypSA Simple Offline Mode allows observer-local simulation while canonical event history remains exclusively controlled by the validator, and offline activity is never merged into shared history.
----
-
-If you want, I can build that next 👍
