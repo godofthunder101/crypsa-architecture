@@ -78,15 +78,6 @@ It is controlled exclusively by:
 
 ---
 
-### Properties
-
-* cannot be modified directly
-* cannot be reordered
-* cannot be partially rewritten
-* must be deterministic
-
----
-
 ### Role
 
 Canonical event history defines:
@@ -143,9 +134,8 @@ Observer local state exists within an observer.
 
 It includes:
 
-* local simulation data
-* UI state
-* temporary computation results
+* local simulation state
+* temporary runtime data
 
 ---
 
@@ -219,7 +209,6 @@ Interpreted state is what the observer **perceives**.
 
 It is produced by:
 
-* adapters (translation)
 * lenses (interpretation)
 * UI systems (experience)
 
@@ -258,10 +247,8 @@ The relationship between state types can be visualized as:
 Canonical Event History (Truth)
         ↓ (Replay)
 Derived Canonical State
-        ↓ (Used by Validator & Observers)
-Observer Local State
-        ↓ (Prediction / Interaction)
-Predicted State
+        ↓ (Used by validation and observers)
+Observer Local State (includes predicted state)
         ↓ (Adapters + Lenses)
 Interpreted / Experience State
 ```
@@ -283,7 +270,7 @@ Interpreted / Experience State
 ## Key Rules
 
 1. **Only canonical event history is truth**
-2. **All state must be derivable from canonical events**
+2. **All canonical state must be derivable from canonical events**
 3. **Observers may simulate, but not define truth**
 4. **Predicted state must reconcile with canonical outcomes**
 5. **Interpretation must not mutate canonical data**
