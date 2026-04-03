@@ -6,6 +6,38 @@ If something feels unclear, check here first.
 
 ---
 
+## 🔒 Terminology Authority
+
+This document is the **authoritative source of all core term definitions in CrypSA**.
+
+All other documents must:
+
+* use these terms consistently
+* avoid redefining terms independently
+* reference this document when introducing terminology
+
+---
+
+### Rule
+
+Terms are defined once, and used everywhere else.
+
+If a definition is needed outside this document, it must use the form:
+
+→ See: Terminology Primer → [Term]
+
+---
+
+### Purpose
+
+This ensures:
+
+* consistency across the repository
+* no drift in meaning
+* a single source of truth for terminology
+
+---
+
 ## Mental Model (Quick Anchor)
 
 A useful way to understand CrypSA is to think in terms of four responsibilities:
