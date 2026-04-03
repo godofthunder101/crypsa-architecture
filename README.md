@@ -35,6 +35,23 @@ However:
 
 ---
 
+## 🔢 Versioning Philosophy
+
+CrypSA follows **architecture-first versioning**.
+
+* v1.x → stable architecture, evolving implementations
+* v2.0 → breaking architectural changes (if ever needed)
+
+Minor updates may:
+
+* improve clarity
+* refine wording
+* add examples
+
+But will not change core principles without a major version.
+
+---
+
 ## 📚 Document Types
 
 CrypSA documentation is organized by role.
