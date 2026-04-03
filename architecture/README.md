@@ -10,7 +10,16 @@ This folder is part of the **authoritative architecture layer**.
 
 Other documents should not redefine the concepts described here.
 
-For exact runtime behavior, see `../spec/`.
+---
+
+## 📜 Specification Authority
+
+The `/spec` directory is the **authoritative definition of runtime behavior**.
+
+Architecture documents explain the system.
+The spec defines how it must behave.
+
+If there is any conflict, **the spec takes precedence**.
 
 ---
 
@@ -69,7 +78,7 @@ This provides responsiveness without sacrificing consistency.
 
 ### Validation as Authority
 
-The server operates in the **truth layer**.
+The **validator** operates in the **truth layer**.
 
 It:
 
@@ -77,7 +86,7 @@ It:
 * enforces invariants
 * determines what becomes canonical
 
-> The server controls truth, not simulation.
+> The validator controls truth, not simulation.
 
 ---
 
@@ -132,14 +141,14 @@ This is where players interact with the system.
 
 ## Layer Relationship (Simplified)
 
-```mermaid
+```mermaid id="3k7d2n"
 flowchart LR
 
 A[Canonical Event History] --> B[Derived Canonical State]
 B --> C[Adapters]
 C --> D[Lenses]
 D --> E[UI / Experience]
-````
+```
 
 ---
 
