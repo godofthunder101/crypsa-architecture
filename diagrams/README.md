@@ -12,6 +12,17 @@ Diagrams are used to:
 
 ---
 
+## 📜 Specification Authority
+
+The `/spec` directory is the **authoritative definition of runtime behavior**.
+
+Architecture documents explain the system.
+The spec defines how it must behave.
+
+If there is any conflict, **the spec takes precedence**.
+
+---
+
 ## Important
 
 Diagrams in this folder are **illustrative only**.
@@ -26,6 +37,32 @@ For authoritative definitions, refer to:
 
 * `../architecture/`
 * `../spec/`
+
+---
+
+## 📍 Diagram Context
+
+Diagrams are visual aids and must support specific documents.
+
+---
+
+### Primary References
+
+Most diagrams support:
+
+* `../CrypSA_Worked_Example.md` — step-by-step system flow
+* `../CrypSA_Architecture_Overview.md` — system structure
+
+---
+
+### Important
+
+If a diagram conflicts with:
+
+* architecture → follow architecture
+* spec → follow spec
+
+Diagrams must always align with the core documentation.
 
 ---
 
