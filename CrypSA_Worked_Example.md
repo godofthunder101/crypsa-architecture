@@ -26,8 +26,6 @@ It shows how:
 * canonical event history is updated
 * observers reconcile their local state
 
-This example focuses on clarity and uses a simple scenario.
-
 ---
 
 ## 📊 Runtime Flow Overview
@@ -106,7 +104,7 @@ payload = {
 
 precondition_refs = {
   tile_42_empty: true,
-  player_resources >= 50
+  player_resources_sufficient: true
 }
 
 event_id = evt_001
@@ -131,7 +129,7 @@ State at this moment:
 
 ## Phase 4 — Validation Pipeline (Validator)
 
-The validator processes and evaluates the event.
+The validator evaluates the event.
 
 ### 4.1 Schema Validation
 
@@ -173,7 +171,7 @@ The event is appended to canonical event history.
 
 ## Phase 6 — Replay and Derived State
 
-Replay applies the canonical event.
+Replay applies canonical events in `canonical_sequence` order.
 
 Derived canonical state updates:
 
@@ -186,7 +184,7 @@ Derived canonical state now reflects the change.
 
 ## Phase 7 — Broadcast
 
-The validator distributes the canonical event to all observers.
+The canonical event is propagated to observers.
 
 ---
 
@@ -218,12 +216,11 @@ Each observer compares:
 
 After reconciliation:
 
-* canonical and observer state are shaped through adapters
-* adapters produce structured data
-* lenses interpret that data
+* adapters reshape canonical and observer data
+* lenses interpret meaning and context
 * UI renders the result
 
-```text id="j1m8bp"
+```text id="0r9l4k"
 Canonical Update → Adapter → Lens → UI
 ```
 
@@ -273,13 +270,13 @@ Rejected observer:
 
 ## Relationship to Specs
 
-This example corresponds directly to:
+This example corresponds to:
 
-* Runtime Spec → overall flow
+* Runtime Model → overall flow
 * Event Model → candidate event structure
 * Validation Model → validation stages
 * Consistency Model → reconciliation
-* Replay Model → reconstruction from history
+* Replay Model → reconstruction
 
 ---
 
