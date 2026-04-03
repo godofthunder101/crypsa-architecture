@@ -11,7 +11,12 @@ Observers simulate the world locally, while a **validator** determines what beco
 > The validator defines canonical truth.
 > It may run locally or remotely, but its role does not change.
 
-For documentation precedence and folder roles, see `DOCS_STRUCTURE.md`.
+👉 **Want to build CrypSA? Start here:**
+`implementation/CrypSA_Minimal_Server_v0.1.md`
+
+---
+
+CrypSA enables systems that are **deterministic, replayable, and resistant to desynchronization** — without requiring full server-side simulation.
 
 ---
 
