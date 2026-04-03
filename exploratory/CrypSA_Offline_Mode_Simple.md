@@ -21,6 +21,8 @@ Observers may simulate freely while offline, but:
 
 > canonical event history exists only through the validator
 
+Offline simulation must never define canonical truth.
+
 ---
 
 ## Offline Model Overview
@@ -35,7 +37,7 @@ When reconnecting:
 
 * the observer discards or archives its local state
 * canonical event history is reloaded
-* simulation resumes from canonical state
+* simulation resumes from derived canonical state reconstructed from canonical event history
 
 ---
 
@@ -56,16 +58,18 @@ These actions:
 
 ---
 
-## Observer-Local Event History
+## Observer-Local Simulation Event History
 
-Offline play may maintain an **observer-local event history**.
+Offline play may maintain an **observer-local simulation event history**.
 
 This history:
 
-* is derived from canonical state at the time of disconnection
+* is derived from derived canonical state at the time of disconnection (reconstructed via replay)
 * records locally simulated actions
 * is not shared with other observers
 * does not become canonical
+
+This must never be confused with canonical event history.
 
 It behaves like a temporary single-observer simulation timeline.
 
@@ -77,8 +81,9 @@ When reconnecting:
 
 1. the observer requests canonical updates
 2. canonical event history is received
-3. the observer reconstructs derived canonical state via replay
-4. local simulation state is discarded or archived
+3. canonical events are applied in `canonical_sequence` order
+4. the observer reconstructs derived canonical state via replay
+5. local simulation state is discarded or archived
 
 The observer resumes from canonical event history.
 
@@ -95,6 +100,7 @@ When connected:
 When offline:
 
 * no actions cross the invariant boundary
+* no validator is available to evaluate candidate events
 * all activity remains local
 
 ---
@@ -121,7 +127,7 @@ Some implementations may include a **local Mint mirror**.
 This allows the observer to:
 
 * understand object structure
-* simulate object creation
+* simulate object creation in local simulation
 * reconstruct canonical data
 
 This is a practical approach, not a required architectural component.
@@ -180,11 +186,16 @@ The validator:
 * validates events
 * accepts or rejects them
 
+This approach must ensure that:
+
+* events are validated against current canonical event history
+* outdated assumptions are rejected
+
 ---
 
 ## Key Insight
 
-> Offline simulation is possible because canonical event history is protected by validation.
+> Offline simulation is possible because canonical truth is protected by validation and isolated from local simulation.
 
 ---
 
@@ -203,4 +214,4 @@ This keeps the system simple while preserving CrypSA’s core guarantees.
 
 ## One Sentence Summary
 
-CrypSA Simple Offline Mode allows observer-local simulation while canonical event history remains exclusively controlled by the validator, and offline activity is never merged into shared history.
+CrypSA Simple Offline Mode allows observer-local simulation while canonical event history remains exclusively controlled by the validator, and offline activity is never merged into canonical event history.
