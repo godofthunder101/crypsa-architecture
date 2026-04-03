@@ -13,33 +13,43 @@ It represents the layered validation model used to determine whether an event is
 
 ## Diagram
 
-```mermaid id="t1o4rv"
+```mermaid id="validation_pipeline"
 flowchart TD
 
 A[Candidate Event] --> B[Schema Validation]
 
-B -->|Fail| R1[Reject invalid_schema]
+B -->|Fail| R1[Reject (invalid_schema)]
 B -->|Pass| C[Identity Validation]
 
-C -->|Fail| R2[Reject invalid_identity]
+C -->|Fail| R2[Reject (invalid_identity)]
 C -->|Pass| D[Precondition Validation]
 
-D -->|Fail| R3[Reject precondition_failed]
+D -->|Fail| R3[Reject (precondition_failed)]
 D -->|Pass| E[Invariant Validation]
 
-E -->|Fail| R4[Reject invariant_violation]
+E -->|Fail| R4[Reject (invariant_violation)]
 E -->|Pass| F[Rule Validation]
 
-F -->|Fail| R5[Reject rule_violation]
-F -->|Pass| G[Accept and Assign server_sequence]
+F -->|Fail| R5[Reject (rule_violation)]
+F -->|Pass| G[Accept and Assign canonical_sequence]
 
 G --> H[Append to Canonical Event History]
-H --> I[Observers Receive Canonical Update]
+H --> I[Canonical Events Available to Observers]
 ```
 
 ---
 
 ## How to Read This
+
+### Validation Flow
+
+Validation proceeds in ordered stages.
+
+Each stage must pass before the next is evaluated.
+
+> Validation stops at the first failure and produces a rejection result.
+
+---
 
 ### 1. Schema Validation
 
@@ -79,7 +89,7 @@ Examples:
 
 ### 4. Invariant Validation
 
-The validator ensures canonical event history does not violate invariants.
+The validator ensures the proposed event does not cause canonical event history to violate invariants.
 
 Examples:
 
@@ -91,13 +101,33 @@ Examples:
 
 ### 5. Rule Validation
 
-The validator applies event-specific rules.
+The validator applies event-specific rules and constraints.
 
 Examples:
 
 * placement rules
 * upgrade constraints
 * cost validation
+
+---
+
+### Acceptance
+
+If all stages pass:
+
+* the event is assigned `canonical_sequence`
+* canonical_sequence defines the authoritative ordering of events
+* the event is appended to canonical event history
+
+---
+
+### Rejection
+
+If any stage fails:
+
+* the event is rejected
+* canonical event history does not change
+* a rejection reason is returned
 
 ---
 
@@ -135,4 +165,4 @@ This diagram maps to:
 
 ## One Sentence Summary
 
-A candidate event must pass schema, identity, precondition, invariant, and rule validation before it is assigned `server_sequence`, accepted, and recorded in canonical event history.
+A candidate event must pass schema, identity, precondition, invariant, and rule validation before it is assigned `canonical_sequence`, accepted, and recorded in canonical event history.
