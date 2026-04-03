@@ -12,22 +12,22 @@ It represents the runtime loop:
 
 ## Diagram
 
-```mermaid
+```mermaid id="r7p2m1"
 flowchart LR
 
-A[Player Action] --> B[Local Simulation]
+A[Observer Action] --> B[Local Simulation]
 B --> C[Create Candidate Event]
 C --> D[Submit to Validator]
 
 D --> E[Validation and Invariant Enforcement]
 
-E -->|Accepted| F[Assign server_sequence and Append to Canonical Event History]
-E -->|Rejected| G[Return Rejection Result]
+E -->|Accepted| F[Assign canonical_sequence and Append to Canonical Event History]
+E -->|Rejected| G[Return rejection result to observer]
 
-F --> H[Observers Receive Canonical Update]
+F --> H[Observers receive canonical events]
 H --> J[Observer Reconciliation]
 G --> J
-J --> K[Updated Derived Canonical State]
+J --> K[Derived Canonical State Updated]
 ```
 
 ---
@@ -36,7 +36,7 @@ J --> K[Updated Derived Canonical State]
 
 ### 1. Local Phase
 
-* the player performs an action
+* the observer performs an action
 * the observer simulates it immediately
 * a candidate event is created
 
@@ -54,7 +54,6 @@ At this point:
 Result:
 
 * accepted
-  or
 * rejected
 
 The validator may run locally or remotely, but its role does not change.
@@ -65,9 +64,10 @@ The validator may run locally or remotely, but its role does not change.
 
 If accepted:
 
-* the validator assigns `server_sequence` (authoritative ordering)
+* the validator assigns `canonical_sequence` (authoritative ordering)
+* canonical_sequence defines the authoritative ordering of events
 * the event is appended to canonical event history
-* observers are notified
+* canonical events are made available to observers
 
 Canonical event history is extended only through accepted events.
 
@@ -86,7 +86,7 @@ Observers:
 ## Key Insight
 
 > Actions do not directly change reality.
-> Validated events are appended to canonical event history.
+> Validated events are ordered via `canonical_sequence` and appended to canonical event history.
 
 And:
 
@@ -98,7 +98,7 @@ And:
 
 This diagram reflects:
 
-* **Truth** → validation and canonical events
+* **Truth** → validation and canonical event history
 * **Experience** → local simulation
 * **Reconciliation** → convergence of observers
 
@@ -119,4 +119,4 @@ This diagram maps to:
 
 ## One Sentence Summary
 
-A player action becomes a candidate event, the validator evaluates it against canonical event history, accepted events are recorded in canonical event history, and observers reconcile to derived canonical state.
+A local action becomes a candidate event, the validator evaluates it against canonical event history, accepted events are recorded (with ordering via `canonical_sequence`) in canonical event history, and observers reconcile to derived canonical state.
