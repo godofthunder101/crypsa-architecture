@@ -6,7 +6,18 @@ This document defines the role of the client (observer) in a CrypSA system.
 
 Observers are responsible for reconstructing canonical reality, simulating the world locally, translating runtime data through adapters, interpreting that data through lenses, and presenting the result to the player.
 
-The server validates events and maintains canonical event history.
+The validator validates events and maintains canonical event history.
+
+---
+
+## 📜 Specification Authority
+
+The `/spec` directory is the **authoritative definition of runtime behavior**.
+
+Architecture documents explain the system.
+The spec defines how it must behave.
+
+If there is any conflict, **the spec takes precedence**.
 
 ---
 
@@ -50,16 +61,16 @@ They do not control truth.
 
 A CrypSA observer operates in the following sequence:
 
-1. reconstruct derived canonical state from canonical event history  
-2. simulate the world locally  
-3. translate data through adapters  
-4. interpret data through lenses  
-5. present the world to the player  
-6. emit typed requests based on intent  
-7. execute requests locally (prediction)  
-8. reconcile with canonical event history  
+1. reconstruct derived canonical state from canonical event history
+2. simulate the world locally
+3. translate data through adapters
+4. interpret data through lenses
+5. present the world to the player
+6. emit typed requests based on intent
+7. execute requests locally (prediction)
+8. reconcile with canonical event history
 
-This mirrors server-side validation on the truth layer.
+This mirrors validator-side validation on the truth layer.
 
 ---
 
@@ -71,11 +82,11 @@ Observers reconstruct the world from canonical event history.
 
 Examples:
 
-* object existence  
-* ownership  
-* structure placement  
-* inventory contents  
-* progression state  
+* object existence
+* ownership
+* structure placement
+* inventory contents
+* progression state
 
 This produces derived canonical state for local use.
 
@@ -87,13 +98,13 @@ Observers simulate the world locally using derived canonical state as a foundati
 
 Examples:
 
-* movement  
-* physics  
-* combat  
-* AI behavior  
-* environmental interaction  
+* movement
+* physics
+* combat
+* AI behavior
+* environmental interaction
 
-This enables responsiveness without server-side simulation.
+This enables responsiveness without validator-side simulation.
 
 ---
 
@@ -103,16 +114,16 @@ Observers use adapters to shape runtime and canonical data into stable, consumab
 
 Adapters:
 
-* reshape data  
-* preserve meaning  
-* isolate internal structures  
+* reshape data
+* preserve meaning
+* isolate internal structures
 
 Examples:
 
-* world grid models  
-* timeline/event views  
-* interaction-ready structures  
-* debug/inspection outputs  
+* world grid models
+* timeline/event views
+* interaction-ready structures
+* debug/inspection outputs
 
 Adapters do not define truth or interpretation.
 
@@ -126,10 +137,10 @@ Lenses assign meaning to translated data.
 
 Examples:
 
-* visibility filtering  
-* interactable objects  
-* player-specific context  
-* presentation-layer meaning  
+* visibility filtering
+* interactable objects
+* player-specific context
+* presentation-layer meaning
 
 Different observers may apply different lenses to the same canonical event history.
 
@@ -141,13 +152,13 @@ Observers generate candidate events from player intent.
 
 Examples:
 
-* crafting  
-* trading  
-* placement  
-* destruction  
-* upgrades  
+* crafting
+* trading
+* placement
+* destruction
+* upgrades
 
-These are sent to the server for validation.
+These are sent to the validator for validation.
 
 They are not canonical until accepted.
 
@@ -159,10 +170,10 @@ Observers reconcile local simulation with canonical event history.
 
 Reconciliation occurs when:
 
-* events are accepted  
-* events are rejected  
-* new canonical events arrive  
-* corrections occur  
+* events are accepted
+* events are rejected
+* new canonical events arrive
+* corrections occur
 
 The client adjusts its simulation to remain consistent.
 
@@ -174,9 +185,9 @@ Observers may predict outcomes to maintain responsiveness.
 
 Examples:
 
-* movement prediction  
-* ability usage  
-* interaction timing  
+* movement prediction
+* ability usage
+* interaction timing
 
 Prediction is always secondary to canonical event history.
 
@@ -190,8 +201,8 @@ This is not authoritative.
 
 Canonical event history is defined by:
 
-* validated events  
-* server-enforced invariants  
+* validated events
+* validator-enforced invariants
 
 Observers must adjust whenever canonical event history changes.
 
@@ -227,9 +238,9 @@ UI, visuals, audio, and effects.
 
 Observers operate with high autonomy:
 
-* continue during latency  
-* simulate independently  
-* predict outcomes  
+* continue during latency
+* simulate independently
+* predict outcomes
 
 Observer reconciliation ensures eventual consistency.
 
@@ -239,9 +250,9 @@ Observer reconciliation ensures eventual consistency.
 
 Observers cannot:
 
-* create canonical event history directly  
-* bypass invariant validation  
-* alter shared state without server approval  
+* create canonical event history directly
+* bypass invariant validation
+* alter shared state without validator approval
 
 All canonical changes pass through validation.
 
@@ -251,18 +262,18 @@ All canonical changes pass through validation.
 
 Observers synchronize through canonical updates:
 
-* event streams  
-* polling or broadcast  
-* reconciliation cycles  
-* snapshot updates  
+* event streams
+* polling or broadcast
+* reconciliation cycles
+* snapshot updates
 
 On update:
 
-* canonical event history is extended  
-* derived canonical state is updated  
-* adapters reshape data  
-* lenses reinterpret  
-* presentation updates  
+* canonical event history is extended
+* derived canonical state is updated
+* adapters reshape data
+* lenses reinterpret
+* presentation updates
 
 ---
 
@@ -270,13 +281,13 @@ On update:
 
 If a client disconnects:
 
-* canonical event history continues  
+* canonical event history continues
 
 On reconnect:
 
-* history is replayed  
-* derived canonical state is reconstructed  
-* adapters and lenses rebuild the view  
+* history is replayed
+* derived canonical state is reconstructed
+* adapters and lenses rebuild the view
 
 ---
 
@@ -284,19 +295,19 @@ On reconnect:
 
 A CrypSA client must:
 
-1. reconstruct derived canonical state from canonical event history  
-2. simulate locally  
-3. translate data (adapters)  
-4. interpret data (lenses)  
-5. present the world  
-6. emit typed requests  
-7. reconcile with canonical event history  
+1. reconstruct derived canonical state from canonical event history
+2. simulate locally
+3. translate data (adapters)
+4. interpret data (lenses)
+5. present the world
+6. emit typed requests
+7. reconcile with canonical event history
 
 ---
 
-## Server vs Client Responsibilities
+## Validator vs Client Responsibilities
 
-| Responsibility           | Client | Server       |
+| Responsibility           | Client | Validator    |
 | ------------------------ | ------ | ------------ |
 | Canonical reconstruction | Yes    | Yes          |
 | Local simulation         | Yes    | Not required |
@@ -315,7 +326,7 @@ A CrypSA client must:
 
 Observers reconstruct canonical reality from canonical event history, simulate the world locally, translate and interpret data, and present the experience to the player.
 
-The server validates events and maintains canonical event history.
+The validator validates events and maintains canonical event history.
 
 Together, this enables a shared universe defined by event history rather than centralized simulation.
 
