@@ -31,6 +31,7 @@ The validator acts as:
 * an event validator
 * an invariant enforcer
 * a canonical event recorder
+* an assigner of canonical ordering (`canonical_sequence`)
 
 Observers simulate the world locally.
 The validator ensures all accepted events are valid.
@@ -90,7 +91,11 @@ Instead of computing the entire world, the validator:
 3. accepts or rejects them
 4. appends accepted events to canonical event history
 
-This is the minimal loop.
+This defines the minimal validator loop.
+
+All validation occurs at the invariant boundary.
+
+> The invariant boundary is the only point at which canonical event history may change.
 
 ---
 
@@ -134,6 +139,11 @@ If an event violates invariants:
 
 Accepted events are appended to canonical event history.
 
+This includes:
+
+* assignment of canonical ordering (`canonical_sequence`)
+* recording of the canonical event
+
 This history defines:
 
 * object creation
@@ -150,7 +160,7 @@ Canonical event history is the source of truth.
 The validator’s persistent data consists of:
 
 * object identities
-* genome definitions (from the Mint)
+* genome definitions
 * canonical event history
 * invariant-relevant state
 * optional snapshots
@@ -163,12 +173,12 @@ The system is **event-first**, not state-first.
 
 The minimal validator loop is:
 
-1. receive request
-2. parse into typed intent
+1. receive candidate event
+2. parse into a candidate event structure
 3. validate against canonical context
 4. accept or reject
 5. append event if accepted
-6. return result
+6. make canonical events available to observers
 
 This is sufficient to maintain shared reality.
 
@@ -225,7 +235,7 @@ At minimum, a CrypSA validator must:
 3. enforce invariants
 4. accept or reject
 5. record canonical event history
-6. expose canonical updates
+6. make canonical events available to observers
 
 ---
 
@@ -233,7 +243,7 @@ At minimum, a CrypSA validator must:
 
 | Responsibility           | Observer | Validator    |
 | ------------------------ | -------- | ------------ |
-| Canonical reconstruction | Yes      | Yes          |
+| Canonical reconstruction | Yes      | Not required |
 | Local simulation         | Yes      | Not required |
 | Translation (adapters)   | Yes      | Not required |
 | Interpretation (lenses)  | Yes      | Not required |
@@ -259,7 +269,7 @@ The following remain unchanged:
 
 * validation rules
 * invariant enforcement
-* canonical event semantics
+* canonical event structure and meaning
 * definition of truth
 
 What changes is:
