@@ -1,8 +1,8 @@
-# CrypSA Client / Observer Responsibility Model
+# CrypSA Observer Responsibility Model
 
 ## Purpose
 
-This document defines the role of the client (observer) in a CrypSA system.
+This document defines the role of the **observer** in a CrypSA system.
 
 Observers are responsible for reconstructing canonical reality, simulating the world locally, translating runtime data through adapters, interpreting that data through lenses, and presenting the result to the player.
 
@@ -23,7 +23,7 @@ If there is any conflict, **the spec takes precedence**.
 
 ## Core Principle
 
-In CrypSA, the client is not a passive renderer.
+In CrypSA, the observer is not a passive renderer.
 
 It is an **observer-simulator** of the universe.
 
@@ -66,11 +66,11 @@ A CrypSA observer operates in the following sequence:
 3. translate data through adapters
 4. interpret data through lenses
 5. present the world to the player
-6. emit typed requests based on intent
-7. execute requests locally (prediction)
+6. emit candidate events representing intent
+7. apply local prediction based on those events
 8. reconcile with canonical event history
 
-This mirrors validator-side validation on the truth layer.
+This complements validator-side validation on the truth layer.
 
 ---
 
@@ -118,13 +118,6 @@ Adapters:
 * preserve meaning
 * isolate internal structures
 
-Examples:
-
-* world grid models
-* timeline/event views
-* interaction-ready structures
-* debug/inspection outputs
-
 Adapters do not define truth or interpretation.
 
 ---
@@ -135,13 +128,6 @@ Observers interpret data through lenses.
 
 Lenses assign meaning to translated data.
 
-Examples:
-
-* visibility filtering
-* interactable objects
-* player-specific context
-* presentation-layer meaning
-
 Different observers may apply different lenses to the same canonical event history.
 
 ---
@@ -149,14 +135,6 @@ Different observers may apply different lenses to the same canonical event histo
 ### 5. Event Proposal
 
 Observers generate candidate events from player intent.
-
-Examples:
-
-* crafting
-* trading
-* placement
-* destruction
-* upgrades
 
 These are sent to the validator for validation.
 
@@ -175,7 +153,7 @@ Reconciliation occurs when:
 * new canonical events arrive
 * corrections occur
 
-The client adjusts its simulation to remain consistent.
+The observer adjusts its simulation to remain consistent.
 
 ---
 
@@ -183,19 +161,13 @@ The client adjusts its simulation to remain consistent.
 
 Observers may predict outcomes to maintain responsiveness.
 
-Examples:
-
-* movement prediction
-* ability usage
-* interaction timing
-
 Prediction is always secondary to canonical event history.
 
 ---
 
-## Client State vs Canonical Event History
+## Observer State vs Canonical Event History
 
-The client maintains a local interpretation of the world.
+Observers maintain a local interpretation of the world.
 
 This is not authoritative.
 
@@ -204,11 +176,11 @@ Canonical event history is defined by:
 * validated events
 * validator-enforced invariants
 
-Observers must adjust whenever canonical event history changes.
+Observer state must always yield to canonical truth.
 
 ---
 
-## Client Data Layers
+## Observer Data Layers
 
 Observers may maintain multiple layers of data:
 
@@ -234,7 +206,7 @@ UI, visuals, audio, and effects.
 
 ---
 
-## Client Autonomy
+## Observer Autonomy
 
 Observers operate with high autonomy:
 
@@ -242,11 +214,11 @@ Observers operate with high autonomy:
 * simulate independently
 * predict outcomes
 
-Observer reconciliation ensures eventual consistency.
+Reconciliation ensures eventual consistency.
 
 ---
 
-## Client Limitations
+## Observer Limitations
 
 Observers cannot:
 
@@ -279,7 +251,7 @@ On update:
 
 ## Failure and Recovery
 
-If a client disconnects:
+If an observer disconnects:
 
 * canonical event history continues
 
@@ -293,38 +265,38 @@ On reconnect:
 
 ## Minimal Responsibilities
 
-A CrypSA client must:
+A CrypSA observer must:
 
 1. reconstruct derived canonical state from canonical event history
 2. simulate locally
 3. translate data (adapters)
 4. interpret data (lenses)
 5. present the world
-6. emit typed requests
+6. emit candidate events
 7. reconcile with canonical event history
 
 ---
 
-## Validator vs Client Responsibilities
+## Validator vs Observer Responsibilities
 
-| Responsibility           | Client | Validator    |
-| ------------------------ | ------ | ------------ |
-| Canonical reconstruction | Yes    | Yes          |
-| Local simulation         | Yes    | Not required |
-| Translation (adapters)   | Yes    | Not required |
-| Interpretation (lenses)  | Yes    | Not required |
-| Event proposal           | Yes    | No           |
-| Event validation         | No     | Yes          |
-| Invariant enforcement    | No     | Yes          |
-| Canonical recording      | No     | Yes          |
-| Rendering                | Yes    | No           |
-| Truth authority          | No     | Yes          |
+| Responsibility           | Observer | Validator    |
+| ------------------------ | -------- | ------------ |
+| Canonical reconstruction | Yes      | Not required |
+| Local simulation         | Yes      | Not required |
+| Translation (adapters)   | Yes      | Not required |
+| Interpretation (lenses)  | Yes      | Not required |
+| Event proposal           | Yes      | No           |
+| Event validation         | No       | Yes          |
+| Invariant enforcement    | No       | Yes          |
+| Canonical recording      | No       | Yes          |
+| Rendering                | Yes      | No           |
+| Truth authority          | No       | Yes          |
 
 ---
 
 ## Summary
 
-Observers reconstruct canonical reality from canonical event history, simulate the world locally, translate and interpret data, and present the experience to the player.
+Observers reconstruct canonical reality from canonical event history, simulate the world locally, translate and interpret data, and present the experience.
 
 The validator validates events and maintains canonical event history.
 
@@ -334,6 +306,6 @@ Together, this enables a shared universe defined by event history rather than ce
 
 ## Key Idea
 
-A CrypSA client is not a renderer.
+A CrypSA observer is not a renderer.
 
-It is an observer that reconstructs, simulates, translates, interprets, and experiences a universe defined by canonical event history.
+It is a system that reconstructs, simulates, translates, interprets, and experiences a universe defined by canonical event history.
