@@ -19,6 +19,63 @@ The terms below map into these responsibilities.
 
 ---
 
+## 🔐 Validator vs Server (Critical Distinction)
+
+The **validator** is the authority over canonical truth.
+
+It is responsible for:
+
+* validating candidate events
+* enforcing invariants
+* appending accepted events to canonical event history
+
+A **server** is one possible deployment of a validator.
+
+The validator:
+
+* may run locally (same process as an observer)
+* may run remotely (as a dedicated server)
+* may run in a host-based configuration
+
+Its responsibilities do **not change** based on deployment.
+
+---
+
+### 🔒 Architectural Rule
+
+All architectural descriptions must use **validator** when referring to:
+
+* validation
+* canonical truth
+* event acceptance/rejection
+* canonical sequencing
+
+Use **server** only when referring to:
+
+* network topology
+* deployment model
+* infrastructure
+
+---
+
+### ✅ Examples
+
+| Incorrect                     | Correct                              |
+| ----------------------------- | ------------------------------------ |
+| server validates events       | validator validates events           |
+| server accepts the event      | validator accepts the event          |
+| server assigns sequence       | validator assigns canonical sequence |
+| server is the source of truth | validator is the source of truth     |
+
+---
+
+### ⚠️ Important
+
+If a sentence is still correct when the validator is running locally,
+then **“validator” is the correct term**, not “server”.
+
+---
+
 ## Core Terms
 
 ### Validator
@@ -99,7 +156,9 @@ The responsibilities of the validator remain the same:
 
 In CrypSA, a **server** is a deployment of a validator that runs remotely.
 
-Not all validators are servers, but all servers act as validators.
+It is an infrastructure role, not an authority role.
+
+Not all validators are servers, but all servers host a validator.
 
 ---
 
@@ -109,7 +168,7 @@ A canonical event is an event that has been:
 
 * validated by the validator
 * accepted into canonical event history
-* assigned canonical order (`server_sequence`)
+* assigned a canonical sequence
 * made immutable
 
 Canonical events define **truth**.
