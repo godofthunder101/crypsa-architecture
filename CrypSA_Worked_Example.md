@@ -32,7 +32,7 @@ This example focuses on clarity and uses a simple scenario.
 
 ## 📊 Runtime Flow Overview
 
-```mermaid id="bq8v2y"
+```mermaid
 flowchart LR
 
 A[Player Action] --> B[Local Simulation]
