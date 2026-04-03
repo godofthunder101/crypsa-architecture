@@ -148,7 +148,7 @@ Example:
 
 ---
 
-#### `client_time` (optional)
+#### `observer_time` (optional)
 
 * timestamp from observer
 * informational only
