@@ -16,9 +16,18 @@ Observers simulate the world locally, while a **validator** determines what beco
 👉 **Want to build CrypSA? Start here:**
 `implementation/CrypSA_Minimal_Server_v0.1.md`
 
+👉 **See it in action:**
+`CrypSA_Worked_Example.md`
+
 ---
 
 CrypSA enables systems that are **deterministic, replayable, and resistant to desynchronization** — without requiring full server-side simulation.
+
+It provides a model for building systems where:
+
+* **truth is validated, not assumed**
+* **state is derived, not synchronized**
+* **simulation is local, but authority is centralized**
 
 For documentation precedence and folder roles, see `DOCS_STRUCTURE.md`.
 
