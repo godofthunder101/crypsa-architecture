@@ -117,7 +117,7 @@ Why it struggles:
 
 * requires frame-level authority
 * latency sensitivity is extreme
-* validation is too slow for per-frame decisions
+* validation is not designed for per-frame decision-making
 
 ---
 
@@ -137,7 +137,7 @@ Why it struggles:
 
 ---
 
-### 3. Strict Validator-Controlled Competitive Systems
+### 3. Fully Authoritative Continuous Simulation Systems
 
 Examples:
 
@@ -146,7 +146,7 @@ Examples:
 
 Why it struggles:
 
-* CrypSA allows observer-side simulation
+* CrypSA allows observer-side simulation, with validation determining canonical outcomes
 * validation replaces continuous full authoritative simulation
 * requires additional security, auditing, and trust layers
 
@@ -164,7 +164,7 @@ It can coexist with traditional approaches.
 
 Examples:
 
-* CrypSA for world state + traditional real-time systems for combat
+* CrypSA for canonical world state + real-time systems for combat
 * CrypSA for economy + traditional synchronization for physics
 * CrypSA for persistence + snapshot injection into real-time systems
 
@@ -241,13 +241,3 @@ You should avoid CrypSA if your system:
 ## One Sentence Summary
 
 CrypSA is best suited for event-driven, persistent, and simulation-oriented systems, and is not currently a good fit for high-frequency, physics-heavy, or strictly real-time authoritative systems.
-
----
-
-## 🔍 What changed (quick review)
-
-* Removed implicit **server-authoritative language**
-* Replaced with **validator / validation-based authority**
-* Clarified hybrid usage without bias
-* Tightened wording for clarity and readability
-* Preserved your original intent and examples
