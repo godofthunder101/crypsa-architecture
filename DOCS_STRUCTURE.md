@@ -17,8 +17,8 @@ Start here to understand CrypSA:
 * `CrypSA_In_One_Diagram.md`
 * `CrypSA_In_5_Minutes.md`
 * `CrypSA_Terminology_Primer.md`
-* `FAQ.md`
 * `CrypSA_Worked_Example.md`
+* `FAQ.md`
 
 These documents provide:
 
@@ -31,9 +31,9 @@ These documents provide:
 
 ## System Definition (Authoritative)
 
-These define what CrypSA **is**.
+These define the system’s behavior and structure:
 
-* `spec/` — runtime behavior (highest authority)
+* `spec/` — runtime behavior (**highest authority**)
 * `architecture/` — system structure and responsibilities
 
 These documents define:
@@ -81,9 +81,8 @@ These documents are:
 
 These help explain and navigate the system:
 
-* `diagrams/` — visual representations
-* `atlas/` — glossary and navigation
-* `design/` — use cases and patterns
+* `diagrams/` — visual representations (non-authoritative)
+* `atlas/` — navigation and supporting reference material
 
 These documents:
 
@@ -117,9 +116,9 @@ If multiple documents appear to describe the same concept, the following precede
 4. `teaching/` — examples and explanation
 5. supporting and exploratory content
 
-> Lower layers must never override higher layers.
+> In case of conflict, higher-authority documents override lower-authority ones.
 
-Supporting and exploratory documents must not be treated as authoritative definitions of current CrypSA behavior.
+Supporting and exploratory documents must not be treated as authoritative definitions of CrypSA behavior.
 
 ---
 
@@ -127,9 +126,9 @@ Supporting and exploratory documents must not be treated as authoritative defini
 
 If two documents describe the same concept at the same authority level:
 
-> one must be demoted, merged, or removed
+> one must be merged, clarified, or removed
 
-No duplicate authoritative explanations are allowed.
+No duplicate authoritative definitions are allowed.
 
 ---
 
