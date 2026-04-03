@@ -205,7 +205,7 @@ event_type
 actor_id
 target_ids
 payload
-client_time
+observer_time
 precondition_refs
 ```
 
@@ -214,7 +214,7 @@ precondition_refs
 ### 5.1 Field Definitions
 
 **event_id**
-Client-generated unique identifier.
+observer-generated unique identifier.
 
 Used for:
 
@@ -244,8 +244,8 @@ Event-specific data describing the proposed state transition.
 
 ---
 
-**client_time**
-Client-local timestamp. Not authoritative.
+**observer_time**
+Observer-local timestamp. Not authoritative.
 
 ---
 
@@ -277,11 +277,11 @@ CrypSA v0.1 uses:
 
 ### 6.1 Canonical Order
 
-* validator assigns `server_sequence`
-* `server_sequence` defines authoritative ordering
-* client order is not authoritative
+* validator assigns `canonical_sequence`
+* `canonical_sequence` defines authoritative ordering
+* observer order is not authoritative
 
-> `server_sequence` is the canonical ordering assigned by the validator.
+> `canonical_sequence` is the canonical ordering assigned by the validator.
 > The name is retained for compatibility with common terminology.
 
 ---
@@ -354,7 +354,7 @@ All accepted events must produce deterministic results.
 
 * event recorded
 * derived canonical state updated
-* observers notified
+* obs notified
 
 ---
 
@@ -362,7 +362,7 @@ All accepted events must produce deterministic results.
 
 * no canonical change
 * rejection returned
-* observer reconciles
+* ob reconciles
 
 ---
 
@@ -391,7 +391,7 @@ Each event includes:
 
 * canonical_event_id
 * source_event_id
-* server_sequence
+* canonical_sequence
 * accepted_at
 
 ---
@@ -401,7 +401,7 @@ Each event includes:
 A canonical event is an accepted candidate event that:
 
 * has passed validation
-* has been assigned `server_sequence`
+* has been assigned `canonical_sequence`
 * has been appended to canonical event history
 * is immutable
 
