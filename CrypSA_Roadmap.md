@@ -41,13 +41,13 @@ Success Criteria:
 
 ## Phase 2 — Minimal Runtime Implementation
 
-(**CrypSA Minimal Server v0.1**)
+(**CrypSA Minimal Validator v0.1**)
 
 **Goal:** Prove that the architecture works in practice.
 
 Focus:
 
-* build minimal independent server
+* build minimal validator implementation
 * implement validation pipeline
 * implement canonical event history
 * implement replay system
@@ -60,7 +60,7 @@ Success Criteria:
 * multiple observers can connect
 * events are validated and recorded
 * canonical event history drives all state
-* observers converge on shared state
+* observers converge on shared canonical state
 * replay produces consistent results
 
 ---
@@ -90,7 +90,7 @@ Success Criteria:
 
 Focus:
 
-* branching timelines (advanced / future capability)
+* branching timelines (experimental, non-core capability)
 * offline progression and later reconciliation
 * richer invariant systems
 * partial world reconstruction
@@ -99,7 +99,7 @@ Focus:
 Success Criteria:
 
 * system supports more complex use cases
-* extended features remain consistent with core model
+* extended features remain consistent with the core model
 
 ---
 
@@ -134,7 +134,7 @@ Focus:
 
 Success Criteria:
 
-* system can scale beyond a single server
+* system can scale across multiple validator instances
 * performance characteristics are understood
 
 ---
