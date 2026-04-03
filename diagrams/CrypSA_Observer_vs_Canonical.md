@@ -10,23 +10,23 @@ This diagram shows the relationship between:
 It explains how CrypSA separates:
 
 > what is predicted
-> vs
+> from
 > what is real
 
 ---
 
 ## Diagram
 
-```mermaid id="1k0v8f"
+```mermaid
 flowchart LR
 
 subgraph "Observer"
-    A[Local State]
+    A[Observer Local State]
     B[Local Simulation]
-    C[Predicted Actions]
+    C[Predicted State]
 end
 
-subgraph "Validator (Truth Layer)"
+subgraph "Truth and Reconstruction"
     D[Validation and Invariant Enforcement]
     E[Canonical Event History]
     F[Derived Canonical State]
@@ -51,9 +51,9 @@ F --> A
 
 The observer maintains:
 
-* local state
+* observer local state
 * local simulation
-* predicted actions
+* predicted state
 
 These enable:
 
@@ -62,19 +62,21 @@ These enable:
 
 However:
 
-> this state is not authoritative
+> observer local state is not authoritative
 
 ---
 
-### Validator Side (Truth Layer)
+### Truth and Reconstruction
 
-The validator maintains:
+This side includes:
 
 * validation and invariant enforcement
 * canonical event history
 * derived canonical state
 
 Canonical event history defines what is real.
+
+Accepted events are ordered via `canonical_sequence` and appended to canonical event history.
 
 Derived canonical state is a computed view, not the source of truth.
 
@@ -85,8 +87,9 @@ The validator may run locally or remotely, but its role does not change.
 ### Interaction Flow
 
 1. the observer performs an action
-2. the action becomes a candidate event
-3. the validator evaluates the event
+2. the observer applies local prediction
+3. a candidate event is submitted to the validator
+4. the validator evaluates the event
 
 ---
 
@@ -94,26 +97,26 @@ The validator may run locally or remotely, but its role does not change.
 
 #### Accepted
 
-* event is appended to canonical event history
-* canonical event history changes
-* observers receive updates
+* the event is assigned `canonical_sequence`
+* the event is appended to canonical event history
+* canonical events are made available to observers
 
 ---
 
 #### Rejected
 
 * canonical event history does not change
-* observer corrects its local prediction
+* the observer corrects local prediction
 
 ---
 
 ### Reconciliation
 
-Observers update local state based on canonical event history.
+Observers update local state based on derived canonical state reconstructed from canonical event history.
 
 This ensures:
 
-> all observers converge to derived canonical state
+> all observers converge toward canonical truth
 
 ---
 
@@ -140,7 +143,7 @@ Adapters and lenses operate within the observer before and after this flow.
 
 This diagram connects to:
 
-* Runtime Spec — observer/validator roles
+* Runtime Spec — observer and validator roles
 * Validation Model — invariant enforcement
 * Consistency Model — reconciliation
 * Replay Model — canonical reconstruction
@@ -149,4 +152,4 @@ This diagram connects to:
 
 ## One Sentence Summary
 
-Observers simulate locally and predict outcomes, but only validated events are appended to canonical event history, and all observers reconcile to derived canonical state.
+Observers simulate locally and predict outcomes, but only validated events are ordered via `canonical_sequence`, appended to canonical event history, and used to reconcile all observers toward canonical truth.
