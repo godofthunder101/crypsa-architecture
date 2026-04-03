@@ -37,15 +37,17 @@ All changes to canonical event history must pass through this boundary.
 
 ## Core Definition
 
-The **invariant boundary** is the interface between:
+The **invariant boundary** is the control and validation interface between:
 
 * **observers** (which propose candidate events)
   and
 * the **validator** (which determines canonical truth)
 
+> The invariant boundary is the only entry point through which canonical event history may change.
+
 It defines:
 
-* what inputs are accepted
+* how inputs are evaluated
 * how validation is performed
 * what outputs are produced
 
@@ -88,7 +90,7 @@ Validation requires access to canonical truth.
 This may include:
 
 * current derived canonical state
-* canonical event history (directly or indirectly)
+* canonical event history (directly or via derived canonical state)
 * identity and ownership information
 
 This context is used to evaluate invariants and rules.
@@ -105,7 +107,7 @@ At the invariant boundary, the validator performs:
 * invariant enforcement
 * rule evaluation
 
-The validator must produce a **deterministic outcome** for the same input and canonical context.
+The validator must produce the same outcome given the same input and canonical context.
 
 ---
 
@@ -121,7 +123,7 @@ If validation succeeds:
 
 * the event becomes **canonical**
 * it is appended to canonical event history
-* it is assigned a **canonical sequence**
+* it is assigned a **`canonical_sequence`**
 * it becomes immutable
 
 #### Result
@@ -154,7 +156,7 @@ The rejection result should include:
 
 ## Canonical Sequence
 
-Accepted events are assigned a **canonical sequence**.
+Accepted events are assigned a **`canonical_sequence`**.
 
 This sequence:
 
@@ -162,7 +164,7 @@ This sequence:
 * enables deterministic replay
 * establishes a single authoritative timeline
 
-Canonical sequence is assigned **only by the validator**.
+`canonical_sequence` is assigned **only by the validator**.
 
 ---
 
@@ -236,7 +238,7 @@ The boundary:
 
 ## Implementation Notes (Non-Authoritative)
 
-The invariant boundary may be implemented as:
+The invariant boundary may be implemented in various ways, including:
 
 * a function call (local validator)
 * a message interface (remote validator)
