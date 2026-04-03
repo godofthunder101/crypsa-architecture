@@ -21,7 +21,7 @@ The documents in this folder define the **minimum required runtime behavior** of
 * event structure and lifecycle
 * validation and invariant enforcement
 * canonical event history rules
-* ordering (`server_sequence`)
+* ordering (`canonical_sequence`)
 * consistency and reconciliation
 * deterministic replay
 * snapshot behavior
@@ -83,7 +83,7 @@ This includes:
 * event structure
 * validation behavior
 * canonical event handling
-* ordering (`server_sequence`)
+* ordering (`canonical_sequence`)
 * consistency and reconciliation rules
 * replay and derived state behavior
 * snapshot behavior
