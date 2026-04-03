@@ -15,15 +15,15 @@ The universe does not evolve through continuous simulation, but through:
 ```mermaid
 flowchart TD
 
-S0[Derived Canonical State (S_n)]
-A[Local Simulation]
-B[Invariant Boundary Check]
-C[Create Candidate Event]
-D[Validation and Invariant Enforcement]
-R[Event Rejected]
-E[Event Accepted]
-O[Assign canonical_sequence]
-S1[Derived Canonical State (S_n+1)]
+S0["Derived Canonical State S_n"]
+A["Local Simulation"]
+B["Invariant Boundary Check"]
+C["Create Candidate Event"]
+D["Validation and Invariant Enforcement"]
+R["Event Rejected"]
+E["Event Accepted"]
+O["Assign canonical_sequence"]
+S1["Derived Canonical State S_n+1"]
 
 S0 --> A
 A --> B
