@@ -1,4 +1,4 @@
-# CrypSA Explorations
+# CrypSA Exploratory
 
 ## Purpose
 
@@ -24,7 +24,7 @@ They:
 
 * are not part of the v0.1 runtime specification
 * are not required to understand CrypSA
-* are not guaranteed to be correct or complete
+* may be incorrect, incomplete, or superseded by future work
 * may change, be rewritten, or be removed at any time
 
 They must not be treated as:
@@ -32,6 +32,8 @@ They must not be treated as:
 * architecture definitions
 * specification rules
 * implementation requirements
+
+Exploration documents must not define or modify canonical truth.
 
 ---
 
@@ -58,12 +60,14 @@ Exploration documents must not:
 
 * redefine existing architecture concepts
 * introduce conflicting terminology
+* introduce new terminology unless clearly marked as exploratory
 * override definitions in `architecture/` or `spec/`
+* redefine canonical ordering or introduce alternatives to `canonical_sequence`
 * blur the boundary between truth, translation, interpretation, and experience
 
 If a concept conflicts with the core system:
 
-> the core system is always correct
+> the definitions in `architecture/` and `spec/` take precedence
 
 ---
 
@@ -76,7 +80,7 @@ For authoritative understanding, start with:
 * `../architecture/`
 * `../spec/`
 
-Then return to this section to explore:
+After understanding the core system, return to this section to explore:
 
 * alternative approaches
 * future ideas
@@ -99,7 +103,7 @@ When that happens:
    * `spec/` (behavior)
    * `implementation/` (practical use)
 
-Exploratory documents must not become authoritative in place.
+Exploratory documents must never become authoritative without being moved and formalized in `architecture/` or `spec/`.
 
 ---
 
@@ -115,6 +119,14 @@ It allows CrypSA to evolve without destabilizing the current model.
 
 ---
 
+## Diagram Rule Alignment
+
+Any diagrams in this section must follow the rules defined in:
+
+* `../diagrams/README.md`
+
+---
+
 ## One Sentence Summary
 
-This section explores where CrypSA could go, without defining what it currently is.
+This section explores where CrypSA could go, without defining or altering the current authoritative system.
