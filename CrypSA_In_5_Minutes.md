@@ -14,7 +14,7 @@ CrypSA is a multiplayer architecture where:
 
 Instead of synchronizing everything all the time:
 
-* clients simulate locally
+* observers simulate locally
 * actions are proposed as events
 * a validator validates those events
 * accepted events are appended to canonical event history
