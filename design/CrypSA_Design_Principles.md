@@ -21,6 +21,7 @@ No component, including observers, tools, or supporting systems, may bypass vali
 CrypSA assumes:
 
 * canonical event history is authoritative
+* canonical ordering is defined by `canonical_sequence`
 * invariants define what must remain valid
 * validation protects the shared universe
 
@@ -32,7 +33,7 @@ This principle is the foundation of the architecture.
 
 CrypSA separates responsibilities into:
 
-* **Truth** — canonical events and validation
+* **Truth** — canonical event history and validation
 * **Translation** — adapters shaping data
 * **Interpretation** — lenses defining meaning
 * **Experience** — UI and local simulation
@@ -47,9 +48,9 @@ It determines what becomes canonical. It does not own:
 
 ---
 
-### 3. Simulate Locally Whenever Event History Is Not at Stake
+### 3. Simulate Locally Whenever Canonical Event History Is Not Affected
 
-Observers should simulate locally whenever doing so does not directly change canonical event history.
+Observers should simulate locally whenever doing so does not directly affect canonical event history.
 
 This includes:
 
@@ -86,9 +87,9 @@ A clear invariant boundary is essential for:
 
 ---
 
-### 5. Favor Canonical Events Over Mutable State Synchronization
+### 5. Favor Canonical Event History Over Mutable State Synchronization
 
-CrypSA systems should prefer validated canonical events as the basis of shared reality.
+CrypSA systems should prefer canonical event history as the basis of shared reality.
 
 Rather than synchronizing mutable world state:
 
@@ -110,7 +111,7 @@ Observers should be able to reconstruct relevant canonical reality from:
 * identity
 * genome or structural definition
 * canonical event history
-* derived canonical state
+* derived canonical state (via replay)
 
 This makes world evolution:
 
@@ -122,7 +123,7 @@ This makes world evolution:
 
 ### 7. Keep the Canonical Layer Minimal
 
-Canonical event history should contain only what must remain globally consistent.
+Canonical event history should contain only what must remain globally consistent and authoritative.
 
 It should avoid storing:
 
@@ -149,7 +150,7 @@ In particular:
 
 * adapters must not become validators
 * lenses must not become truth sources
-* UI must not become runtime authority
+* UI must not become a source of canonical truth
 * observer experience must not redefine canonical event history
 
 This separation preserves clarity and prevents system coupling.
@@ -188,7 +189,7 @@ This enables:
 * different observer contexts
 
 Interpretation may vary.
-Canonical event history must not.
+Canonical event history must remain consistent.
 
 ---
 
@@ -227,7 +228,7 @@ This can support:
 
 ### Deferred Investigation
 
-Some systems may defer expensive investigation when immediate rejection is not required, provided canonical event history remains protected.
+Some systems may defer expensive investigation when immediate rejection is not required, provided invariant safety is not compromised.
 
 This can balance:
 
