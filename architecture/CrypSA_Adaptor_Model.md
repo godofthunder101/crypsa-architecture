@@ -10,6 +10,17 @@ They convert runtime data into forms usable by other layers without altering mea
 
 ---
 
+## 📜 Specification Authority
+
+The `/spec` directory is the **authoritative definition of runtime behavior**.
+
+Architecture documents explain the system.
+The spec defines how it must behave.
+
+If there is any conflict, **the spec takes precedence**.
+
+---
+
 ## Core Principle
 
 Adapters **translate data without changing its meaning**.
