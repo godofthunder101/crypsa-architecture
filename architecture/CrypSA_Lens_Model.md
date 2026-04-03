@@ -10,6 +10,17 @@ They transform data derived from canonical event history into observer-specific 
 
 ---
 
+## 📜 Specification Authority
+
+The `/spec` directory is the **authoritative definition of runtime behavior**.
+
+Architecture documents explain the system.
+The spec defines how it must behave.
+
+If there is any conflict, **the spec takes precedence**.
+
+---
+
 ## Core Principle
 
 In CrypSA:
