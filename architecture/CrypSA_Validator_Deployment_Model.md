@@ -10,6 +10,17 @@ This allows the same system model to operate across different deployment styles 
 
 ---
 
+## 📜 Specification Authority
+
+The `/spec` directory is the **authoritative definition of runtime behavior**.
+
+Architecture documents explain the system.
+The spec defines how it must behave.
+
+If there is any conflict, **the spec takes precedence**.
+
+---
+
 ## Core Principle
 
 > The validator defines canonical truth, regardless of where it runs.
@@ -30,10 +41,10 @@ In CrypSA, the validator is a **logical role**, not a specific system.
 
 It is responsible for:
 
-* validation  
-* invariant enforcement  
-* canonical event recording  
-* canonical update distribution  
+* validation
+* invariant enforcement
+* canonical event recording
+* canonical update distribution
 
 The validator is **not defined by being a server**.
 
@@ -53,22 +64,22 @@ These models differ in **where the validator runs**, not in **how validation beh
 
 In this model:
 
-* the validator runs alongside the observer  
-* no external system is required  
-* the system can operate fully offline  
+* the validator runs alongside the observer
+* no external system is required
+* the system can operate fully offline
 
 #### Characteristics
 
-* single observer (or isolated environment)  
-* no shared canonical state across multiple observers  
-* validation and simulation occur within the same environment  
+* single observer (or isolated environment)
+* no shared canonical state across multiple observers
+* validation and simulation occur within the same environment
 
 #### Benefits
 
-* simple architecture  
-* ideal for development and testing  
-* supports offline-first systems  
-* resilient to network interruption  
+* simple architecture
+* ideal for development and testing
+* supports offline-first systems
+* resilient to network interruption
 
 #### Important Note
 
@@ -84,27 +95,27 @@ The invariant boundary still applies.
 
 In this model:
 
-* one observer (the host) runs the validator  
-* other observers connect to it  
-* the host acts as the canonical authority  
+* one observer (the host) runs the validator
+* other observers connect to it
+* the host acts as the canonical authority
 
 #### Characteristics
 
-* shared canonical event history  
-* no dedicated external system required  
-* connected observers rely on host validation  
+* shared canonical event history
+* no dedicated external system required
+* connected observers rely on host validation
 
 #### Benefits
 
-* lower infrastructure requirements  
-* suitable for small-scale multiplayer  
-* easier to set up than dedicated deployments  
+* lower infrastructure requirements
+* suitable for small-scale multiplayer
+* easier to set up than dedicated deployments
 
 #### Tradeoffs
 
-* host becomes a single point of failure  
-* authority is tied to a player-controlled system  
-* potential trust and fairness concerns  
+* host becomes a single point of failure
+* authority is tied to a player-controlled system
+* potential trust and fairness concerns
 
 ---
 
@@ -112,27 +123,27 @@ In this model:
 
 In this model:
 
-* the validator runs as a separate system  
-* observers connect over a network  
-* canonical truth is maintained independently of any observer  
+* the validator runs as a separate system
+* observers connect over a network
+* canonical truth is maintained independently of any observer
 
 #### Characteristics
 
-* shared canonical event history across observers  
-* supports persistent universes  
-* independent of any single client  
+* shared canonical event history across observers
+* supports persistent universes
+* independent of any single client
 
 #### Benefits
 
-* stable canonical authority  
-* suitable for large-scale or persistent systems  
-* clearer separation between observer and truth  
+* stable canonical authority
+* suitable for large-scale or persistent systems
+* clearer separation between observer and truth
 
 #### Tradeoffs
 
-* requires infrastructure  
-* network dependency  
-* increased system complexity  
+* requires infrastructure
+* network dependency
+* increased system complexity
 
 ---
 
@@ -144,9 +155,9 @@ They are different **configurations of the same architecture**.
 
 A system may transition between them:
 
-```text
+```text id="7m2d1k"
 Local → Host-Based → Dedicated Remote
-````
+```
 
 This progression allows:
 
@@ -190,7 +201,7 @@ Regardless of deployment:
 
 ---
 
-## Local-First Design Insight (NEW)
+## Local-First Design Insight
 
 CrypSA naturally supports a **local-first development model**.
 
@@ -202,7 +213,7 @@ Because the validator is a role (not a location):
 
 This enables a powerful development flow:
 
-```text
+```text id="n2qk9z"
 Local Development → Host-Based Multiplayer → Dedicated Deployment
 ```
 
