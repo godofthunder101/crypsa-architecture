@@ -16,10 +16,13 @@ Instead of synchronizing everything all the time:
 
 * observers simulate locally
 * actions are proposed as events
-* a validator validates those events
+* a validator evaluates those events
 * accepted events are appended to canonical event history
 
-A validator is the system responsible for accepting or rejecting candidate events and maintaining canonical truth.
+A validator is responsible for:
+
+* accepting or rejecting candidate events
+* maintaining canonical truth
 
 Importantly:
 
@@ -28,11 +31,11 @@ Importantly:
 It may run:
 
 * **locally**, alongside an observer
-* **remotely**, as a shared server for multiple observers
+* **remotely**, as a shared system for multiple observers
 
-This matters because CrypSA is designed so that the truth model stays the same even when deployment changes.
+This means the truth model remains stable even when deployment changes.
 
-That means a system can begin with a **local validator** for offline or resilient operation, and later move to a **remote validator** more easily without changing the core architectural model.
+A system can begin with a **local validator** and later move to a **remote validator** without changing its core architecture.
 
 ---
 
@@ -71,12 +74,12 @@ D --> E
 
 Think of CrypSA like this:
 
-* the validator determines what becomes part of canonical event history
+* the validator determines what becomes canonical
 * observers simulate what they think is happening
 * only validated actions become part of canonical event history
 * everything else is local prediction
 
-But the system becomes much clearer if you think of it as **four separate responsibilities**.
+The system becomes clearer when viewed as **four separate responsibilities**.
 
 ---
 
@@ -94,10 +97,10 @@ It includes:
 
 * canonical event history
 * validation
-* canonical ordering (`server_sequence`)
+* canonical ordering (`canonical_sequence`)
 * derived canonical state via replay
 
-This is the part of the system that defines what is real.
+This layer defines what is real.
 
 If something is not part of canonical event history:
 
@@ -105,31 +108,22 @@ If something is not part of canonical event history:
 
 This is also where the validator belongs.
 
-Whether the validator runs locally or remotely, its responsibility stays the same:
-
-* accept or reject candidate events
-* enforce invariants and rules
-* determine what crosses into canonical truth
-
 ---
 
 ### 2. Translation
 
 This is the adapter layer.
 
-Adapters take canonical and observer-side data and reshape it into forms that other layers can consume safely.
+Adapters:
 
-They do things like:
-
-* combine canonical and observer state
-* normalize structures
-* build view-ready or lens-ready data
+* reshape canonical and observer data
+* prepare structured outputs for other layers
 
 Adapters do **not** define truth.
 
 They answer:
 
-> “How should this data be structured so it can be used?”
+> “How should this data be structured?”
 
 ---
 
@@ -137,16 +131,13 @@ They answer:
 
 This is the lens layer.
 
-Lenses interpret translated data into observer-specific meaning.
+Lenses:
 
-They may determine:
+* interpret translated data
+* define meaning for an observer
+* determine relevance and context
 
-* what is visible
-* what is interactable
-* what matters to this observer
-* what should appear in a teaching/debug view
-
-Lenses do **not** define truth either.
+Lenses do **not** define truth.
 
 They answer:
 
@@ -173,91 +164,77 @@ This layer is:
 
 But:
 
-> nothing here is automatically part of canonical event history
+> nothing here becomes canonical automatically
 
 ---
 
 ## Local and Remote Validation
 
-CrypSA does not require validation to be remote from the start.
+CrypSA does not require validation to be remote.
 
-A validator may run locally, remotely, or transition between those deployment styles over time.
-
-This matters for two reasons.
+A validator may run locally, remotely, or transition between them.
 
 ### 1. Resilience
 
-A local validator can help prevent immediate dropout or hard failure during network interruptions.
-
-If validation exists locally, the system has a stronger foundation for:
+A local validator enables:
 
 * offline operation
-* degraded connectivity
+* degraded connectivity handling
 * local-first development
-* more graceful interruption handling
+
+---
 
 ### 2. Portability
 
-If the system is designed from the start around a validator boundary instead of a permanently remote server, then it is easier to move between:
+Designing around a validator boundary allows easy transition between:
 
-* offline/local validation
+* local validation
 * host-based validation
-* remote shared validation
+* remote validation
 
-In other words:
-
-> CrypSA aims to keep the truth model stable even when the deployment model changes.
+> The truth model remains stable even as deployment changes.
 
 ---
 
 ## What This Changes
 
-Traditional multiplayer systems often combine too many responsibilities together:
+Traditional systems often combine:
 
-* server simulates
-* client displays
-* state is synchronized constantly
+* simulation
+* validation
+* rendering
 
-CrypSA separates them more clearly:
+CrypSA separates them:
 
 * **truth is defined by canonical event history**
 * **validation determines what becomes canonical**
-* **translation is adapter-driven**
-* **interpretation is lens-driven**
-* **experience is local and responsive**
+* **translation structures data**
+* **interpretation defines meaning**
+* **experience remains local and responsive**
 
-This also means that “server” should not always be thought of as “the thing somewhere else on the internet.”
+The key idea is:
 
-In CrypSA, the more important concept is:
+> the validator defines canonical truth
 
-> the validator is the authority over canonical truth
-
-A remote server is one possible deployment of that role.
+A server is only one possible deployment of that role.
 
 ---
 
 ## Why This Matters
 
-This separation makes the system easier to:
+This separation makes systems easier to:
 
 * reason about
 * debug
 * persist
 * replay
-* evolve without collapsing boundaries
+* evolve without breaking boundaries
 
-It also makes the architecture more flexible.
-
-By treating validation as a role instead of a fixed machine location, CrypSA can better support:
+It also enables:
 
 * offline-first development
-* migration from local to remote validation
-* continuity during connection problems
-* cleaner architectural scaling over time
-
-The teaching prototype made this especially clear:
-
-> truth, translation, interpretation, and experience work better when kept separate
+* migration between deployment models
+* resilience during connectivity issues
 
 ---
 
@@ -274,7 +251,7 @@ It is a different way of structuring:
 * authority
 * validation
 * interpretation
-* and shared reality derived from canonical event history
+* shared reality
 
 ---
 
