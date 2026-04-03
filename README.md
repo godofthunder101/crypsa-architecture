@@ -15,6 +15,88 @@ For documentation precedence and folder roles, see `DOCS_STRUCTURE.md`.
 
 ---
 
+## 📚 Document Types
+
+CrypSA documentation is organized by role.
+
+Each document serves a specific purpose and should not duplicate others.
+
+---
+
+### Conceptual
+
+Explain ideas and mental models.
+
+* high-level understanding
+* learning-oriented
+* not authoritative
+
+---
+
+### Architecture
+
+Define system structure and relationships.
+
+* how components fit together
+* responsibilities and boundaries
+* authoritative for system design
+
+---
+
+### Spec
+
+Define **runtime behavior**.
+
+* exact rules the system must follow
+* validation logic
+* event and state behavior
+
+> The `/spec` directory is the source of truth for implementation.
+
+---
+
+### Example
+
+Illustrate how the system works in practice.
+
+* step-by-step flows
+* applied scenarios
+* learning support
+
+---
+
+### Diagram
+
+Visual explanations of the system.
+
+* support understanding
+* non-authoritative
+* must align with architecture and spec
+
+---
+
+### Exploratory
+
+Early ideas and non-final concepts.
+
+* not part of the core architecture
+* may evolve or be removed
+* not authoritative
+
+---
+
+## 🔒 Rule
+
+Documents must not redefine concepts outside their role.
+
+* Definitions → Terminology Primer
+* Structure → Architecture
+* Behavior → Spec
+
+This ensures clarity and prevents duplication.
+
+---
+
 ## 🧭 Start Here (Required Reading Order)
 
 If you are new to CrypSA, follow this order.
@@ -235,12 +317,6 @@ This means:
 implementation/CrypSA_Local_First_Development_Approach.md
 ```
 
-This explains:
-
-* why local validators are the correct starting point
-* how to structure systems for offline-first development
-* how to scale from local → host → dedicated validator
-
 ---
 
 ## 📁 Repository Structure
@@ -282,17 +358,6 @@ Authoritative system behavior
 ```
 spec/
 ```
-
-Includes:
-
-* runtime model
-* event model
-* validation model
-* consistency model
-* replay model
-* snapshot model
-* identity model
-* transport model
 
 ---
 
