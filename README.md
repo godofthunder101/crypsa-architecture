@@ -15,6 +15,20 @@ For documentation precedence and folder roles, see `DOCS_STRUCTURE.md`.
 
 ---
 
+## 🚀 What This Repo Is
+
+This repository defines the **CrypSA architecture and runtime model**.
+
+It is intended to:
+
+* be read and understood
+* guide implementation of CrypSA-based systems
+* serve as a reference for building validators and observers
+
+It is **not a ready-to-use library**, but a **blueprint for building systems** based on this architecture.
+
+---
+
 ## 🚧 Project Status — v1.0
 
 CrypSA v1.0 defines the **core architecture and runtime model**.
