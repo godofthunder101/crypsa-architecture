@@ -2,7 +2,7 @@
 
 This document provides a high-level map of how CrypSA is structured.
 
-It is intentionally focused on system structure rather than step-by-step flow.
+It focuses on system structure rather than step-by-step flow.
 
 For a worked example, see:
 
@@ -23,26 +23,26 @@ If there is any conflict, **the spec takes precedence**.
 
 ## High-Level View
 
-CrypSA is best understood as four core responsibilities:
+CrypSA is structured around four core responsibilities:
 
 * **Truth** — canonical event history and validation
-* **Translation** — adapters shaping runtime data
-* **Interpretation** — lenses determining observer meaning
+* **Translation** — adapters shaping data
+* **Interpretation** — lenses defining meaning
 * **Experience** — UI and local interaction
 
-These responsibilities are implemented across different parts of the system:
+These responsibilities are implemented across:
 
-* observers (clients)
-* the validator (which may run locally or remotely)
+* observers
+* the validator
 * adapter layer
 * lens layer
-* UI / observer experience
+* UI / experience layer
 
 ---
 
 ## Core Components
 
-### Observers (Clients)
+### Observers
 
 Observers:
 
@@ -51,7 +51,9 @@ Observers:
 * maintain local prediction
 * reconcile with canonical updates
 
-They are responsible for local simulation and parts of interpretation.
+They are responsible for local simulation and experience.
+
+Observers do **not define truth**.
 
 ---
 
@@ -62,11 +64,9 @@ The validator:
 * receives candidate events
 * validates them against invariants
 * accepts or rejects them
-* assigns canonical ordering (canonical sequence)
+* assigns canonical ordering (`canonical_sequence`)
 
-The validator enforces validation and ordering.
-
-Canonical event history defines what is true.
+Accepted events are appended to canonical event history, which defines what is true.
 
 The validator is a **logical role**, not a specific machine.
 
@@ -83,7 +83,7 @@ Its responsibilities do not change based on deployment.
 
 A server is a deployment of a validator that runs remotely.
 
-It is an infrastructure role, not an authority role.
+It is an infrastructure term, not an authority role.
 
 Not all validators are servers, but all servers host a validator.
 
@@ -93,12 +93,12 @@ Not all validators are servers, but all servers host a validator.
 
 Adapters:
 
-* reshape canonical and observer state
-* combine canonical and observer data
+* reshape canonical and observer data
 * prepare structured outputs for interpretation and UI
 
 Adapters are the **translation layer**.
 
+They change structure, not meaning.
 They do not define truth.
 
 ---
@@ -108,12 +108,12 @@ They do not define truth.
 Lenses:
 
 * interpret adapted data
-* determine what an observer sees
-* define interaction meaning
+* define meaning for an observer
+* determine how data is understood in context
 
 Lenses are the **interpretation layer**.
 
-They do not define truth or mutate runtime state.
+They do not define truth or mutate canonical data.
 
 ---
 
@@ -131,7 +131,7 @@ This is the **experience layer**.
 
 ## Architectural Separation
 
-The key idea in CrypSA is that these responsibilities remain separate:
+CrypSA enforces strict separation of responsibilities:
 
 | Responsibility | Layer                                |
 | -------------- | ------------------------------------ |
@@ -142,9 +142,9 @@ The key idea in CrypSA is that these responsibilities remain separate:
 
 This separation prevents:
 
-* UI logic leaking into runtime truth
+* UI logic leaking into canonical truth
 * validation becoming entangled with presentation
-* interpretation being confused with data shaping
+* interpretation being confused with data transformation
 
 ---
 
@@ -169,7 +169,7 @@ CrypSA separates them to:
 
 ## Data Flow (Simplified)
 
-```mermaid id="5v8s2k"
+```mermaid
 flowchart LR
 
 A[Canonical Event History] --> B[Derived Canonical State]
@@ -182,7 +182,7 @@ D --> E[UI / Experience]
 
 ## Intent Flow (Simplified)
 
-```mermaid id="y7tq6f"
+```mermaid
 flowchart LR
 
 A[User Action] --> B[Candidate Event]
@@ -199,9 +199,9 @@ CrypSA separates:
 
 * **what is true**
   from
-* **how it is seen**
+* **how it is interpreted and experienced**
 
-Truth lives in canonical event history and is established through validation.
+Truth is established through validation and recorded in canonical event history.
 
 Derived canonical state is reconstructed via replay.
 
@@ -215,9 +215,9 @@ CrypSA is structured around a clear separation of responsibilities:
 
 * validation determines what becomes canonical truth
 * canonical event history defines that truth
-* adapters translate data
+* adapters transform data
 * lenses interpret meaning
 * observers simulate and reconcile
 * UI presents the experience
 
-This separation is what makes the system predictable, debuggable, and extensible.
+This separation makes the system predictable, debuggable, and extensible.
