@@ -14,10 +14,10 @@ They transform data derived from canonical event history into observer-specific 
 
 In CrypSA:
 
-> Canonical event history defines what is real  
-> Lenses define how that reality is interpreted  
+> Canonical event history defines what is real
+> Lenses define how that reality is interpreted
 
-Lenses do not create or modify canonical event history.  
+Lenses do not create or modify canonical event history.
 They interpret it.
 
 ---
@@ -26,18 +26,18 @@ They interpret it.
 
 CrypSA separates responsibilities into:
 
-* **Truth** → canonical event history and validation  
-* **Translation** → adapters  
-* **Interpretation** → lenses  
-* **Experience** → UI and local simulation  
+* **Truth** → canonical event history and validation
+* **Translation** → adapters
+* **Interpretation** → lenses
+* **Experience** → UI and local simulation
 
 Lenses sit strictly in the **interpretation layer**.
 
 They:
 
-* consume translated or canonical-derived data  
-* produce observer-specific meaning  
-* do not influence truth or validation  
+* consume translated or canonical-derived data
+* produce observer-specific meaning
+* do not influence truth or validation
 
 ---
 
@@ -45,15 +45,15 @@ They:
 
 CrypSA separates:
 
-* **what happened**  
-* **how it is experienced**  
+* **what happened**
+* **how it is experienced**
 
 This allows:
 
-* different observers to see different views  
-* gameplay context to shape interpretation  
-* visibility and access rules to apply locally  
-* presentation to vary without affecting truth  
+* different observers to see different views
+* gameplay context to shape interpretation
+* visibility and access rules to apply locally
+* presentation to vary without affecting truth
 
 Lenses make this separation explicit.
 
@@ -65,10 +65,10 @@ A lens is an interpretation layer that transforms input data into observer-usabl
 
 It may:
 
-* filter information  
-* derive gameplay-relevant state  
-* determine visibility and interaction  
-* shape presentation-ready structures  
+* filter information
+* derive gameplay-relevant state
+* determine visibility and interaction
+* shape presentation-ready structures
 
 ---
 
@@ -76,13 +76,63 @@ It may:
 
 A lens is not:
 
-* a source of canonical event history  
-* a validation system  
-* a way to bypass invariants  
-* a controller or execution system  
-* a mutation of canonical event history  
+* a source of canonical event history
+* a validation system
+* a way to bypass invariants
+* a controller or execution system
+* a mutation of canonical event history
 
 > Lenses interpret reality. They do not define it.
+
+---
+
+## 🔍 Lenses vs Adapters (Critical Boundary)
+
+Lenses and adapters are distinct and must not overlap in responsibility.
+
+| Layer   | Responsibility                                   |
+| ------- | ------------------------------------------------ |
+| Adapter | Shapes data structure for systems                |
+| Lens    | Determines meaning or visibility for an observer |
+
+---
+
+### 🔒 Boundary Rules
+
+Adapters:
+
+* reshape data
+* preserve meaning
+* do not interpret
+
+Lenses:
+
+* interpret data
+* determine meaning
+* do not modify canonical data
+
+---
+
+### ⚠️ Hard Constraints
+
+* Adapters do not decide meaning
+* Lenses do not modify canonical data
+
+---
+
+### Example
+
+Given canonical-derived data:
+
+```json id="0n7b31"
+{ "health": 25 }
+```
+
+* Adapter → outputs `{ health: 25 }` (structured for use)
+* Lens → interprets as `"critical condition"`
+
+Adapters are neutral.
+Lenses are interpretive.
 
 ---
 
@@ -90,12 +140,12 @@ A lens is not:
 
 A lens may consume:
 
-* canonical event history  
-* derived canonical state  
-* adapter-shaped data  
-* observer identity  
-* local simulation context  
-* gameplay or visibility rules  
+* canonical event history
+* derived canonical state
+* adapter-shaped data
+* observer identity
+* local simulation context
+* gameplay or visibility rules
 
 ---
 
@@ -105,11 +155,11 @@ A lens produces interpreted, observer-specific data.
 
 Examples:
 
-* visible world state  
-* interactable objects  
-* gameplay overlays  
-* UI-ready structures  
-* debugging views  
+* visible world state
+* interactable objects
+* gameplay overlays
+* UI-ready structures
+* debugging views
 
 ---
 
@@ -117,8 +167,8 @@ Examples:
 
 In v0.1, lenses are **observer-side only**.
 
-* the server produces canonical event history  
-* observers interpret that history locally  
+* the validator produces canonical event history
+* observers interpret that history locally
 
 ---
 
@@ -126,13 +176,13 @@ In v0.1, lenses are **observer-side only**.
 
 Observers:
 
-* reconstruct canonical event history  
-* simulate locally  
-* interpret through lenses  
+* reconstruct canonical event history
+* simulate locally
+* interpret through lenses
 
 A CrypSA observer is:
 
-> canonical reconstruction + local simulation + lens-based interpretation  
+> canonical reconstruction + local simulation + lens-based interpretation
 
 ---
 
@@ -142,12 +192,12 @@ Lenses must never be mistaken for truth.
 
 Examples:
 
-* a hidden object still exists canonically  
-* an interactable object is not necessarily valid to interact with  
-* a highlighted action may still fail validation  
+* a hidden object still exists canonically
+* an interactable object is not necessarily valid to interact with
+* a highlighted action may still fail validation
 
-> Lenses shape interpretation  
-> Validation defines reality  
+> Lenses shape interpretation
+> Validation defines reality
 
 ---
 
@@ -155,9 +205,9 @@ Examples:
 
 When canonical event history changes:
 
-* observers reconstruct state  
-* lenses re-run interpretation  
-* the local experience updates  
+* observers reconstruct state
+* lenses re-run interpretation
+* the local experience updates
 
 Lenses do not perform reconciliation, but they respond to it.
 
@@ -167,9 +217,9 @@ Lenses do not perform reconciliation, but they respond to it.
 
 Lenses should be:
 
-* consistent  
-* understandable  
-* reproducible where needed  
+* consistent
+* understandable
+* reproducible where needed
 
 Gameplay-critical lenses should behave predictably.
 
@@ -207,9 +257,9 @@ These categories may overlap.
 
 At minimum:
 
-```text
+```text id="9m17ls"
 Canonical State + Observer Context → Interpreted View
-````
+```
 
 ---
 
