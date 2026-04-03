@@ -8,6 +8,17 @@ The validator is responsible for protecting the integrity of **canonical event h
 
 ---
 
+## 📜 Specification Authority
+
+The `/spec` directory is the **authoritative definition of runtime behavior**.
+
+Architecture documents explain the system.
+The spec defines how it must behave.
+
+If there is any conflict, **the spec takes precedence**.
+
+---
+
 ## Core Principle
 
 In CrypSA:
@@ -45,7 +56,7 @@ The responsibilities of the validator do not change based on where it runs.
 
 A **server** is a deployment of a validator that runs remotely.
 
-Not all validators are servers, but all servers act as validators.
+Not all validators are servers, but all servers host a validator.
 
 ---
 
