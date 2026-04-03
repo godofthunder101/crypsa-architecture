@@ -55,7 +55,7 @@ Most diagrams support:
 
 ---
 
-### Important
+### Authority Reminder
 
 If a diagram conflicts with:
 
@@ -80,7 +80,8 @@ And must reflect these core principles:
 * **validation determines canonical truth**
 * **canonical event history is the source of truth**
 * **the validator is the authority over canonical events**
-* **the invariant boundary separates local behavior from canonical change**
+* **the invariant boundary defines where candidate events are evaluated before becoming canonical**
+* **derived canonical state is not a source of truth and must be shown as reconstructed from canonical event history**
 
 Diagrams must not introduce alternative models or terminology.
 
@@ -90,9 +91,11 @@ Diagrams must not introduce alternative models or terminology.
 
 Diagrams must use consistent CrypSA terminology:
 
-* use **validator**, not “server” (unless explicitly referring to a remote deployment)
+* use **validator**, not “server”, unless explicitly describing deployment
+* “server” must never be used as a synonym for authority
 * use **candidate event**, not generic “action” when crossing the invariant boundary
 * use **canonical event history**, not “state” as a source of truth
+* use **canonical_sequence** for ordering, not server_sequence or other alternatives
 
 If “server” is used, it must be clear that:
 
@@ -108,10 +111,16 @@ Diagrams may:
 * omit implementation details
 * present high-level flows
 
+Diagrams may represent either:
+
+* flow (event flow, control flow)
+* structure (layer relationships, system stack)
+
 Diagrams must not:
 
 * redefine architecture
 * introduce new system behavior
+* introduce new concepts not defined in architecture or spec
 * specify implementation details that belong in `spec/` or `implementation/`
 
 ---
@@ -122,6 +131,7 @@ All diagrams should be compatible with GitHub’s Mermaid renderer.
 
 Recommended practices:
 
+* always wrap node labels in quotes
 * use quoted subgraph names
 * avoid parentheses in node labels
 * keep labels simple and readable
@@ -141,4 +151,4 @@ Diagrams should reflect the architecture and spec, not reinterpret them.
 
 ## One Sentence Summary
 
-Diagrams visualize CrypSA concepts to aid understanding, but authoritative definitions and behavior are defined only in the architecture and spec layers, where validation defines canonical truth.
+Diagrams visualize CrypSA concepts to aid understanding, but authoritative definitions and behavior are defined only in the architecture and spec layers, where validation defines what becomes canonical truth and canonical event history is the sole source of that truth.
