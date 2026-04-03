@@ -376,3 +376,11 @@ And critically:
 > validation defines canonical truth, regardless of whether the validator runs locally or remotely
 
 Understanding this separation makes the rest of CrypSA much easier to follow.
+
+---
+
+## Next Step
+
+Continue to:
+
+👉 `CrypSA_Worked_Example.md`
