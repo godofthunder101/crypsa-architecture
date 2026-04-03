@@ -46,8 +46,8 @@ Lenses sit strictly in the **interpretation layer**.
 
 They:
 
-* consume translated or canonical-derived data
-* produce observer-specific meaning
+* consume adapter-shaped data or derived canonical state
+* produce observer-specific meaning and context
 * do not influence truth or validation
 
 ---
@@ -78,8 +78,8 @@ It may:
 
 * filter information
 * derive gameplay-relevant state
-* determine visibility and interaction
-* shape presentation-ready structures
+* determine visibility and interaction relevance
+* define presentation context
 
 ---
 
@@ -151,8 +151,7 @@ Lenses are interpretive.
 
 A lens may consume:
 
-* canonical event history
-* derived canonical state
+* derived canonical state (from canonical event history)
 * adapter-shaped data
 * observer identity
 * local simulation context
@@ -169,14 +168,14 @@ Examples:
 * visible world state
 * interactable objects
 * gameplay overlays
-* UI-ready structures
+* UI-ready outputs
 * debugging views
 
 ---
 
 ## Where Lenses Run
 
-In v0.1, lenses are **observer-side only**.
+In v0.1, lenses run on the observer side by design.
 
 * the validator produces canonical event history
 * observers interpret that history locally
@@ -254,7 +253,7 @@ Determines interactable or relevant objects.
 
 ### Presentation Lens
 
-Shapes rendering, UI, and feedback.
+Shapes interpretation for rendering and UI.
 
 ### Tooling Lens
 
@@ -266,10 +265,8 @@ These categories may overlap.
 
 ## Minimal Lens Model (v0.1)
 
-At minimum:
-
 ```text id="9m17ls"
-Canonical State + Observer Context → Interpreted View
+Derived State + Observer Context → Interpreted View
 ```
 
 ---
