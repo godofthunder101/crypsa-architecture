@@ -15,6 +15,17 @@ This document explains:
 
 ---
 
+## 📜 Specification Authority
+
+The `/spec` directory is the **authoritative definition of runtime behavior**.
+
+Architecture documents explain the system.
+The spec defines how it must behave.
+
+If there is any conflict, **the spec takes precedence**.
+
+---
+
 ## The Core Tradeoff
 
 Traditional multiplayer systems assume:
@@ -42,7 +53,7 @@ In CrypSA, clients (Observers) may:
 * simulate actions locally
 * explore hypothetical outcomes
 * queue potential changes
-* operate without immediate server confirmation
+* operate without immediate validator confirmation
 
 This improves:
 
@@ -75,7 +86,7 @@ If validation fails:
 
 ---
 
-## Server Responsibility
+## Validator Responsibility
 
 CrypSA separates responsibilities into:
 
@@ -84,7 +95,7 @@ CrypSA separates responsibilities into:
 * **Interpretation** → lenses
 * **Experience** → UI and local simulation
 
-The server operates strictly in the **truth layer**.
+The **validator** operates strictly in the **truth layer**.
 
 It must:
 
@@ -99,7 +110,7 @@ It does not:
 * interpret meaning
 * manage client experience
 
-> The server controls truth, not simulation.
+> The validator controls truth, not simulation.
 
 ---
 
@@ -189,7 +200,7 @@ CrypSA supports multiple validation strategies depending on system needs:
 
 ### Hybrid Simulation Validation
 
-* server re-simulates critical actions only
+* validator re-simulates critical actions only
 * avoids full world simulation
 
 ---
@@ -209,7 +220,7 @@ It assumes:
 ### Advantages
 
 * responsive client experience
-* reduced server simulation load
+* reduced validator simulation load
 * strong audit and replay capabilities
 * flexible architecture
 * support for persistent worlds
@@ -256,10 +267,10 @@ CrypSA is less suited for:
 
 ## Summary
 
-CrypSA does not remove server authority.  
+CrypSA does not remove authority.
 It redefines it.
 
-> The server does not control everything that happens.  
+> The validator does not control everything that happens.
 > It controls what is allowed to become real.
 
 Security in CrypSA comes from:
