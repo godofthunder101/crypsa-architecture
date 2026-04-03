@@ -11,18 +11,65 @@ Observers simulate the world locally, while a **validator** determines what beco
 > The validator defines canonical truth.
 > It may run locally or remotely, but its role does not change.
 
-For documentation precedence and folder roles, see `DOCS_STRUCTURE.md`. 
+For documentation precedence and folder roles, see `DOCS_STRUCTURE.md`.
 
 ---
 
-## 🧭 Start Here
+## 🧭 Start Here (Required Reading Order)
 
-If you're new to CrypSA:
+If you are new to CrypSA, follow this order.
+
+Do not skip ahead — later documents assume earlier understanding.
+
+---
+
+### 1. Understand the Core Idea
 
 1. 🧭 `CrypSA_In_One_Diagram.md` — the entire system in one view
-2. 📘 `CrypSA_In_5_Minutes.md` — quick overview
-3. 📖 `CrypSA_Terminology_Primer.md` — understand the vocabulary
-4. ❓ `FAQ.md` — common questions and concerns
+2. 📘 `CrypSA_In_5_Minutes.md` — quick mental model
+3. 📖 `CrypSA_Terminology_Primer.md` — core vocabulary
+
+---
+
+### 2. Understand the Motivation
+
+4. 🧠 `Why_CrypSA_Exists.md` — problem framing and why this architecture exists
+
+---
+
+### 3. See It in Action
+
+5. 📖 `CrypSA_Worked_Example.md` — step-by-step flow of the system
+
+---
+
+### 4. Understand the Architecture
+
+6. 🧱 `architecture/` — authoritative architecture definitions
+
+---
+
+### 5. Understand the Runtime (Required for Implementation)
+
+7. ⚙️ `spec/` — **authoritative runtime behavior**
+
+> If you are implementing CrypSA, the `/spec` directory is the source of truth.
+> Architecture documents explain the system — the spec defines how it must behave.
+
+---
+
+### 6. Move Toward Implementation
+
+8. 🛠 `implementation/CrypSA_Minimal_Server_v0.1.md`
+9. 🧭 `implementation/CrypSA_Local_First_Development_Approach.md`
+
+---
+
+### 7. Explore (Optional)
+
+* ❓ `FAQ.md` — common questions
+* 📊 `diagrams/` — visual explanations (non-authoritative)
+* 🧪 `teaching/` — learning prototype (not runtime)
 
 ---
 
@@ -332,43 +379,6 @@ This prototype:
 * demonstrates validation, replay, and observers
 * is a learning tool
 * is **not a production runtime**
-
----
-
-## 🧭 Recommended Reading Path
-
-### 1. Understand the Idea
-
-1. `CrypSA_In_One_Diagram.md`
-2. `CrypSA_In_5_Minutes.md`
-3. `CrypSA_Terminology_Primer.md`
-4. `FAQ.md`
-
----
-
-### 2. See a Concrete Example
-
-5. `CrypSA_Worked_Example.md`
-
----
-
-### 3. Understand the Architecture
-
-6. `architecture/`
-7. `spec/`
-
----
-
-### 4. See the Model in Practice
-
-8. `teaching/CrypSA_teaching_prototype/`
-
----
-
-### 5. Move Toward Implementation
-
-9. `implementation/CrypSA_Minimal_Server_v0.1.md`
-10. `implementation/CrypSA_Local_First_Development_Approach.md`
 
 ---
 
