@@ -21,7 +21,7 @@ This is an **illustrative system view**, not an authoritative specification.
 
 ## Diagram
 
-```mermaid
+```mermaid id="7k1mzp"
 flowchart LR
 
 subgraph Observer
@@ -42,7 +42,7 @@ H[Canonical Event History]
 end
 
 subgraph Distribution
-I[Canonical Event Stream]
+I[Canonical Events Available to Observers]
 end
 
 subgraph Reconstruction
@@ -143,7 +143,7 @@ A **validator** evaluates candidate events using the validation pipeline:
 
 #### Accepted:
 
-* assigned `server_sequence`
+* assigned `canonical_sequence`
 * appended to canonical event history
 
 #### Rejected:
@@ -158,7 +158,7 @@ A **validator** evaluates candidate events using the validation pipeline:
 Canonical event history is:
 
 * append-only
-* ordered
+* ordered via `canonical_sequence`
 * authoritative
 
 It defines:
@@ -167,17 +167,17 @@ It defines:
 
 ---
 
-### 8. Distribution (Transport Layer)
+### 8. Distribution
 
-Canonical events are distributed to observers as a stream:
+Canonical events may be delivered to observers as a stream:
 
 * may be delayed
-* may arrive out of order
+* may arrive out of order (ordering resolved via `canonical_sequence`)
 * may contain duplicates
 
 Observers must:
 
-* reorder by `server_sequence`
+* reorder by `canonical_sequence`
 * discard duplicates
 
 ---
@@ -212,8 +212,8 @@ They:
 
 ## Full Lifecycle Summary
 
-```text
-Reconstruct → Simulate → Act → Check Boundary → Validate → Append → Distribute → Replay → Reconcile → Repeat
+```text id="lifecycle_summary"
+Reconstruct → Simulate → Act → Check Boundary → Validate → Append to Canonical Event History → Distribute → Replay → Reconcile → Repeat
 ```
 
 ---
@@ -225,7 +225,7 @@ Reconstruct → Simulate → Act → Check Boundary → Validate → Append → 
 The system advances through:
 
 * validated events
-* canonical ordering
+* canonical ordering (via `canonical_sequence`)
 * deterministic replay
 
 ---
@@ -235,8 +235,8 @@ The system advances through:
 This diagram spans all four responsibilities:
 
 * **Truth** → validation + canonical event history
-* **Translation** → (implicit in reconstruction pipeline)
-* **Interpretation** → (implicit via observer processing)
+* **Translation** → adapters shape data during reconstruction and reconciliation
+* **Interpretation** → lenses interpret reconstructed and adapted data
 * **Experience** → local simulation and UI
 
 ---
@@ -268,4 +268,4 @@ It is the **mental model that ties everything together**.
 
 ## One Sentence Summary
 
-CrypSA operates as a continuous lifecycle where observers simulate locally, candidate events are validated, accepted events extend canonical event history, and all observers reconstruct and reconcile through deterministic replay.
+CrypSA operates as a continuous lifecycle where observers simulate locally, candidate events are validated, accepted events extend canonical event history (ordered via `canonical_sequence`), and all observers reconstruct and reconcile through deterministic replay.
