@@ -13,7 +13,7 @@ Examples of conflict scope include:
 
 In CrypSA v0.1:
 
-> the first valid accepted event wins within the conflict scope
+> the first valid event within the conflict scope is accepted
 
 ---
 
@@ -22,7 +22,7 @@ In CrypSA v0.1:
 ```mermaid
 flowchart TD
 
-A[Observer A submits candidate event] --> C[Validator identifies conflict scope]
+A[Observer A submits candidate event] --> C[Validator evaluates conflict scope]
 B[Observer B submits candidate event] --> C
 
 C --> D[Evaluate against canonical event history]
@@ -32,7 +32,7 @@ D --> E[Validate candidate event]
 E -->|Valid and first| G[Accept event]
 E -->|Invalid| R1[Reject event]
 
-G --> H[Assign server_sequence]
+G --> H[Assign canonical_sequence]
 H --> I[Append to canonical event history]
 I --> J[Observers receive canonical update]
 
@@ -60,12 +60,12 @@ Examples:
 
 ### 2. Evaluation Uses Canonical Event History
 
-The validator evaluates events against canonical event history at validation time.
+The validator evaluates events against canonical event history at the moment of validation.
 
 This ensures:
 
-* no simultaneous conflicting acceptance
-* validation is based on a stable and ordered history
+* no two conflicting events are accepted for the same scope
+* validation is based on a stable and ordered history defined by `canonical_sequence`
 
 ---
 
@@ -74,7 +74,7 @@ This ensures:
 In v0.1:
 
 * the first valid event within the scope is accepted
-* the validator assigns `server_sequence`
+* acceptance is determined by validation order recorded via `canonical_sequence`
 * later conflicting events are rejected
 
 ---
@@ -89,7 +89,7 @@ Rejected events may fail because:
 
 Typical results include:
 
-* `conflict_lost`
+* `conflict_lost` (another event already resolved the conflict scope)
 * `precondition_failed`
 
 ---
@@ -126,4 +126,4 @@ This diagram maps to:
 
 ## One Sentence Summary
 
-When multiple observers submit conflicting actions, the validator evaluates them against canonical event history, assigns ordering via `server_sequence`, accepts one valid event within the conflict scope, rejects the others, and observers reconcile to the resulting derived canonical state.
+When multiple observers submit conflicting actions, the validator evaluates them against canonical event history, assigns ordering via `canonical_sequence`, accepts one valid event within the conflict scope, rejects the others, and observers reconcile to the resulting derived canonical state.
