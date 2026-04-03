@@ -13,6 +13,8 @@ It acts as a **navigation layer**, helping readers understand:
 This document does not redefine concepts.
 It organizes them.
 
+This document is non-authoritative and should not be used to define system behavior.
+
 ---
 
 ## Core Idea
@@ -25,7 +27,7 @@ CrypSA describes how persistent digital universes can be built using:
 
 Rather than synchronizing world state, CrypSA synchronizes:
 
-> validated canonical events
+> validated canonical events forming canonical event history (ordered via `canonical_sequence`)
 
 ---
 
@@ -33,7 +35,7 @@ Rather than synchronizing world state, CrypSA synchronizes:
 
 CrypSA separates responsibilities into four layers:
 
-* **Truth** — canonical events and validation
+* **Truth** — canonical event history and validation
 * **Translation** — adapters shaping data
 * **Interpretation** — lenses defining meaning
 * **Experience** — UI and local simulation
@@ -48,7 +50,7 @@ At a high level:
 
 * the **validator** operates in the truth layer
 * the **observer** operates across translation, interpretation, and experience
-* canonical events define shared reality
+* canonical event history defines shared reality
 * observers reconstruct and simulate locally
 
 The validator determines what becomes canonical truth.
@@ -68,7 +70,7 @@ The following concepts are defined in dedicated documents:
 
 ### Mint
 
-Defines valid object structure and identity.
+Defines valid object structure and identity (see Terminology Primer).
 
 ---
 
@@ -128,7 +130,7 @@ The system operates as:
 
 * observers propose candidate events
 * the validator evaluates them
-* accepted events become canonical
+* accepted events become canonical (assigned `canonical_sequence`)
 * observers reconstruct updated reality
 
 For detailed behavior, see `../spec/`.
@@ -177,13 +179,13 @@ Contains non-authoritative or experimental ideas.
 * Teaching demonstrates the system
 * Exploratory extends ideas
 
-Each concept should be defined authoritatively in only one place.
+Each concept must be defined authoritatively in only one place.
 
 ---
 
 ## Evolution
 
-CrypSA is an evolving architecture.
+CrypSA is a stable architecture that will continue to evolve.
 
 Future work may expand:
 
@@ -207,4 +209,4 @@ CrypSA enables persistent digital universes by separating:
 
 The validator protects truth.
 Observers simulate and interpret locally.
-Canonical events define the shared universe.
+Canonical event history defines the shared universe.
