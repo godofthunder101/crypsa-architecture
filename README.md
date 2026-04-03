@@ -285,6 +285,79 @@ For more diagrams:
 
 ---
 
+## ❌ What CrypSA Is Not
+
+CrypSA is often misunderstood if mapped onto familiar systems.
+
+It is important to clarify what it is **not**.
+
+---
+
+CrypSA is **not**:
+
+### A Game Engine
+
+CrypSA does not provide:
+
+* rendering
+* physics
+* asset pipelines
+* scene management
+
+It defines how **truth and simulation are structured**, not how games are built.
+
+---
+
+### A Networking Library
+
+CrypSA does not prescribe:
+
+* transport protocols
+* connection handling
+* packet formats
+
+It defines **what is communicated**, not how it is transmitted.
+
+---
+
+### A State Replication System
+
+CrypSA does not synchronize full world state.
+
+Instead:
+
+* it synchronizes **validated canonical events**
+* state is reconstructed locally via replay
+
+---
+
+### An ECS Framework
+
+CrypSA does not define:
+
+* entity-component storage
+* system execution models
+* data-oriented design patterns
+
+It is compatible with ECS, but does not require or implement it.
+
+---
+
+## 🧠 Key Distinction
+
+CrypSA is an **architecture for defining and agreeing on truth** in a system.
+
+It can be combined with:
+
+* game engines
+* networking layers
+* ECS frameworks
+* simulation systems
+
+—but it replaces none of them.
+
+---
+
 ## 🧩 Key Concepts
 
 * **Validator** — determines what becomes canonical truth
