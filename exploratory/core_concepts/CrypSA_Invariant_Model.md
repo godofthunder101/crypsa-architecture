@@ -14,7 +14,7 @@
 
 This document describes the role of invariants in a CrypSA system.
 
-Invariants define rules that must remain true within canonical reality as represented by canonical event history. The server enforces these rules when validating candidate events.
+Invariants define rules that must remain true within canonical reality as represented by canonical event history. The validator enforces these rules when validating candidate events.
 
 This document provides a conceptual view of invariants, not a formal specification.
 
@@ -58,7 +58,7 @@ By enforcing invariants, CrypSA ensures canonical event history remains logicall
 
 ## Where Invariants Are Enforced
 
-Invariants are enforced during server validation.
+Invariants are enforced during validator validation.
 
 Conceptually:
 
@@ -68,7 +68,7 @@ Observer Action
 → Candidate Event
 → Validation (Invariant Enforcement)
 → Accepted Event (Canonical Event)
-→ Assign server_sequence
+→ Assign canonical_sequence
 → Append to Canonical Event History
 → Observer Reconciliation
 ````
@@ -160,9 +160,9 @@ Invariants ensure that candidate events affecting those objects follow valid rul
 
 ---
 
-## Client vs Server Responsibility
+## Observer vs Validator Responsibility
 
-Clients may perform local checks for user experience.
+Observerss may perform local checks for user experience.
 
 Examples:
 
@@ -172,7 +172,7 @@ Examples:
 
 These checks are not authoritative.
 
-Only the server enforces invariants for canonical event history.
+Only the validator enforces invariants for canonical event history.
 
 ---
 
@@ -228,7 +228,7 @@ Different systems emphasize different invariant sets.
 
 Invariants define the rules that must remain true in canonical reality.
 
-The server enforces these rules during validation, ensuring that all accepted events preserve consistency before being recorded in canonical event history.
+The validator enforces these rules during validation, ensuring that all accepted events preserve consistency before being recorded in canonical event history.
 
 ---
 
