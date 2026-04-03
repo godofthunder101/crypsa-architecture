@@ -29,6 +29,17 @@ It is **not a ready-to-use library**, but a **blueprint for building systems** b
 
 ---
 
+## 🔒 Core Rules
+
+The following must always hold:
+
+* Only the **validator** may modify canonical event history
+* All canonical changes must pass **validation**
+* All changes must cross the **invariant boundary**
+* Observers may simulate freely, but **never define truth**
+
+---
+
 ## 🚧 Project Status — v1.0
 
 CrypSA v1.0 defines the **core architecture and runtime model**.
@@ -198,6 +209,16 @@ Do not skip ahead — later documents assume earlier understanding.
 
 ---
 
+### 🚀 Start Building
+
+👉 If you want to implement CrypSA:
+
+Start here:
+
+`implementation/CrypSA_Minimal_Server_v0.1.md`
+
+---
+
 ### 7. Explore (Optional)
 
 * ❓ `FAQ.md` — common questions
@@ -302,40 +323,6 @@ Instead of synchronizing state, it:
 * records canonical history
 * reconstructs reality deterministically
 
-This creates a system that is:
-
-* easier to reason about
-* replayable by design
-* flexible in deployment (local or remote validator)
-* naturally aligned with persistent worlds
-
----
-
-## 🧠 For Technical Readers
-
-If you want to understand how CrypSA actually works:
-
-1. `spec/CrypSA_Runtime_Spec_v0.1.md`
-2. `spec/CrypSA_Spec_Index.md` (spec reading order)
-3. `implementation/CrypSA_Minimal_Server_v0.1.md`
-
----
-
-## 🔄 The Core Idea
-
-Traditional multiplayer systems:
-
-* server simulates the world
-* clients receive state updates
-
-CrypSA:
-
-* observers simulate locally
-* actions become candidate events
-* a validator evaluates events
-* accepted events are appended to canonical event history
-* derived canonical state is reconstructed via replay
-
 ---
 
 ## 📊 How CrypSA Works (Visual Overview)
@@ -379,51 +366,38 @@ G --> K
 
 CrypSA is often misunderstood if mapped onto familiar systems.
 
-It is important to clarify what it is **not**.
-
 ---
 
 CrypSA is **not**:
 
 ### A Game Engine
 
-CrypSA does not provide:
-
-* rendering
-* physics
-* asset pipelines
-* scene management
+* no rendering
+* no physics
+* no asset pipelines
+* no scene management
 
 ---
 
 ### A Networking Library
 
-CrypSA does not prescribe:
-
-* transport protocols
-* connection handling
-* packet formats
+* no transport layer
+* no connection handling
+* no packet definitions
 
 ---
 
 ### A State Replication System
 
-CrypSA does not synchronize full world state.
-
-Instead:
-
-* it synchronizes **validated canonical events**
-* state is reconstructed locally via replay
+* does not sync full world state
+* synchronizes **validated canonical events only**
 
 ---
 
 ### An ECS Framework
 
-CrypSA does not define:
-
-* entity-component storage
-* system execution models
-* data-oriented design patterns
+* no entity/component model
+* no system execution layer
 
 ---
 
