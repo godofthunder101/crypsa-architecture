@@ -32,7 +32,7 @@ They do not:
 * execute logic
 * mutate canonical state
 
-They exist to ensure that:
+They exist to ensure:
 
 * systems remain decoupled
 * data remains consistent
@@ -53,7 +53,7 @@ Adapters sit strictly in the **translation layer**.
 
 They:
 
-* consume canonical event history, derived canonical state, or observer/runtime data
+* consume derived canonical state or observer/runtime data
 * reshape it for other systems
 * do not influence truth or interpretation
 
@@ -65,22 +65,22 @@ Adapters perform **pure data transformation**.
 
 Typical responsibilities include:
 
-* reshaping canonical data into UI-friendly structures
+* reshaping canonical data into structures suitable for presentation layers
 * converting runtime data into lens-ready inputs
 * formatting data for debugging or external tools
 * mapping between internal representations and transport formats
 
 Examples:
 
-* converting derived canonical state into a UI view model
+* converting derived canonical state into a view model
 * transforming canonical event history into a structured feed
 * exposing validation context in a readable format
-* mapping network payloads into typed requests
+* mapping network payloads into structured request objects
 
 Adapters are:
 
 * deterministic
-* stateless (or effectively stateless)
+* stateless or dependent only on explicit inputs
 * side-effect free
 
 ---
@@ -94,7 +94,7 @@ Adapters must never:
 * execute gameplay or domain logic
 * act as controllers or coordinators
 * interpret meaning (this is the role of lenses)
-* assign canonical ordering or authority (e.g. canonical sequence)
+* assign canonical ordering or authority (e.g. canonical_sequence)
 
 If an adapter begins making decisions about meaning or rules, it is no longer an adapter.
 
@@ -104,10 +104,10 @@ If an adapter begins making decisions about meaning or rules, it is no longer an
 
 Adapters and lenses are distinct and must not overlap in responsibility.
 
-| Layer   | Responsibility                                   |
-| ------- | ------------------------------------------------ |
-| Adapter | Shapes data structure for systems                |
-| Lens    | Determines meaning or visibility for an observer |
+| Layer   | Responsibility                                  |
+| ------- | ----------------------------------------------- |
+| Adapter | Shapes data structure for systems               |
+| Lens    | Determines meaning or relevance for an observer |
 
 ---
 
@@ -155,8 +155,8 @@ Lenses are interpretive.
 Adapters should follow these rules:
 
 * **No logic creep**
-  No conditionals that encode gameplay or meaning
-  Structural transformation logic is allowed, but semantic or rule-based decisions are not
+  No conditionals that encode gameplay rules or meaning
+  Structural transformation logic is allowed
 
 * **No mutation of source data**
   They do not change canonical or runtime state
@@ -178,7 +178,7 @@ Adapters may exist in different contexts:
 
 ### UI Adapters
 
-Prepare data for display layers.
+Prepare data for presentation layers.
 
 ---
 
@@ -190,7 +190,7 @@ Shape data into forms expected by lenses.
 
 ### Transport Adapters
 
-Convert between wire formats and internal structures.
+Transform data between transport formats and internal structures.
 
 ---
 
@@ -210,7 +210,7 @@ Truth is:
 * stored in canonical event history
 * reconstructed into derived canonical state
 
-Adapters operate on data around truth boundaries, but do not define or modify canonical truth.
+Adapters operate on data around truth boundaries, without affecting canonical truth.
 
 ---
 
