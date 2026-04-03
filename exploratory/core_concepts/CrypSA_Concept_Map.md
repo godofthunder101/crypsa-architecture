@@ -24,8 +24,7 @@ It helps illustrate how core ideas connect, but does not define architecture or 
 
 ```text
 Mint
-→ Identity
-→ Genome
+→ (Identity + Genome)
 → Canonical Object
 → Invariants
 → Observer Reconstruction
@@ -35,8 +34,8 @@ Mint
 → Invariant Boundary
 → Candidate Event
 → Validation
-→ Canonical Event History
-→ Reconstructed State
+→ Canonical Event History (ordered via canonical_sequence)
+→ Derived Canonical State
 ```
 
 ---
@@ -73,15 +72,15 @@ This document should not be used to redefine those layers.
 
 ### Mint, Identity, Genome
 
-These describe how objects are structurally defined.
+These define canonical structure within the truth model.
 
-They exist in the **truth layer**, but are presented here in sequence for clarity.
+They are presented here in sequence for conceptual clarity.
 
 ---
 
 ### Observer Reconstruction
 
-Observers rebuild canonical reality locally from:
+Observers rebuild canonical reality locally via replay from:
 
 * identity
 * genome
@@ -104,7 +103,7 @@ Local simulation and UI form the observer’s experience.
 
 ### Invariant Boundary
 
-This determines whether an action:
+This determines whether an action affects canonical event history:
 
 * remains local
 * becomes a candidate event
@@ -113,7 +112,7 @@ This determines whether an action:
 
 ### Validation and Canonical Events
 
-The server validates candidate events.
+The validator validates candidate events.
 
 Accepted events:
 
@@ -124,7 +123,7 @@ Accepted events:
 
 ### Reconstruction Loop
 
-Observers reconstruct updated state from canonical history.
+Observers reconstruct updated state from canonical event history in canonical_sequence order.
 
 This forms a continuous loop between:
 
@@ -136,7 +135,7 @@ This forms a continuous loop between:
 
 ## Key Insight
 
-> CrypSA can be understood as a cycle of reconstruction, simulation, validation, and canonical update.
+> CrypSA can be understood as a cycle of reconstruction, local simulation, validation, and canonical event history updates.
 
 ---
 
@@ -152,4 +151,4 @@ This conceptual map helps:
 
 ## One Sentence Summary
 
-CrypSA can be viewed as a cycle where deterministic object definitions, local simulation, and invariant-protected validation work together to produce and maintain canonical shared reality.
+CrypSA can be viewed as a cycle where deterministic object definitions and canonical event history, combined with local simulation and invariant-protected validation, work together to produce and maintain canonical shared reality.
