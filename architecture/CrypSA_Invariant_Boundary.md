@@ -12,6 +12,17 @@ This is the **only place where canonical truth may change**.
 
 ---
 
+## 📜 Specification Authority
+
+The `/spec` directory is the **authoritative definition of runtime behavior**.
+
+Architecture documents explain the system.
+The spec defines how it must behave.
+
+If there is any conflict, **the spec takes precedence**.
+
+---
+
 ## Purpose
 
 The invariant boundary exists to:
