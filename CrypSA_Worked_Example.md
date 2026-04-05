@@ -1,7 +1,6 @@
 # CrypSA Worked Example
 
 > Illustrative note: This document is illustrative.
->
 > For authoritative behavior, see `spec/`.
 
 ---
@@ -12,9 +11,10 @@ This example uses concepts from:
 → CrypSA_Terminology_Primer.md
 
 You should be familiar with:
-- validator
-- canonical event history
-- observer
+
+* validator
+* canonical event history
+* observer
 
 ---
 
@@ -22,21 +22,23 @@ You should be familiar with:
 
 The `/spec` directory is the **authoritative definition of runtime behavior**.
 
-This document illustrates how the system behaves.
+This document shows how the system behaves.
 The spec defines how it must behave.
 
 If there is any conflict, **the spec takes precedence**.
 
 ---
 
-This document walks through a complete runtime example of CrypSA.
+## What This Example Shows
 
-It shows how:
+This walkthrough follows a complete event lifecycle:
 
-* a local action becomes a candidate event
-* the validator evaluates that event
-* canonical event history is updated
-* observers reconcile their local state
+* a local action
+* becomes a candidate event
+* crosses the invariant boundary
+* becomes canonical (or is rejected)
+* updates canonical event history
+* and is reconciled by observers
 
 ---
 
@@ -72,7 +74,7 @@ A player places a mining station on an empty tile.
 
 ## Initial Canonical State
 
-Derived canonical state (via replay):
+Derived via replay:
 
 * tile_42 → empty
 * player_A → resources = 100
@@ -81,7 +83,7 @@ Observers have reconstructed this state locally.
 
 ---
 
-## Phase 1 — Local Action (Observer)
+# Phase 1 — Local Action (Observer)
 
 The player performs:
 
@@ -96,13 +98,13 @@ The observer:
 At this point:
 
 * local state ≠ canonical state
-* no shared change has occurred yet
+* no shared change has occurred
 
 ---
 
-## Phase 2 — Candidate Event Creation
+# Phase 2 — Candidate Event Creation
 
-The observer creates a candidate event:
+The observer creates a **candidate event**:
 
 ```
 event_type = place_structure
@@ -122,11 +124,11 @@ precondition_refs = {
 event_id = evt_001
 ```
 
-This event represents an **intent**, not a canonical change.
+This event represents **intent**, not reality.
 
 ---
 
-## Phase 3 — Submission
+# Phase 3 — Submission
 
 The observer submits the event to the validator.
 
@@ -139,37 +141,39 @@ State at this moment:
 
 ---
 
-## Phase 4 — Validation Pipeline (Validator)
+# Phase 4 — Validation Pipeline (Validator)
 
-The validator evaluates the event.
+The event crosses the **invariant boundary**.
 
-### 4.1 Schema Validation
+The validator evaluates:
 
-✅ pass
-
-### 4.2 Identity Validation
+### Schema Validation
 
 ✅ pass
 
-### 4.3 Precondition Validation
+### Identity Validation
 
 ✅ pass
 
-### 4.4 Invariant Validation
+### Precondition Validation
 
 ✅ pass
 
-### 4.5 Rule Validation
+### Invariant Validation
+
+✅ pass
+
+### Rule Validation
 
 ✅ pass
 
 ---
 
-## Phase 5 — Acceptance
+# Phase 5 — Acceptance
 
 The validator accepts the event.
 
-Canonical metadata assigned:
+Canonical metadata is assigned:
 
 ```
 canonical_event_id = canon_1203
@@ -177,11 +181,13 @@ canonical_sequence = 1203
 accepted_at = timestamp
 ```
 
-The event is appended to canonical event history.
+The event is appended to **canonical event history**.
+
+> This is the moment the action becomes real.
 
 ---
 
-## Phase 6 — Replay and Derived State
+# Phase 6 — Replay and Derived State
 
 Replay applies canonical events in `canonical_sequence` order.
 
@@ -190,17 +196,17 @@ Derived canonical state updates:
 * tile_42 → mining_station
 * player_A resources → 50
 
-Derived canonical state now reflects the change.
+> State is not stored as truth — it is derived from events.
 
 ---
 
-## Phase 7 — Broadcast
+# Phase 7 — Broadcast
 
 The canonical event is propagated to observers.
 
 ---
 
-## Phase 8 — Observer Reconciliation
+# Phase 8 — Observer Reconciliation
 
 Each observer compares:
 
@@ -209,14 +215,14 @@ Each observer compares:
 
 ---
 
-### Case A — Prediction Matches
+## Case A — Prediction Matches
 
 * no visible change
 * pending marker cleared
 
 ---
 
-### Case B — Prediction Differs
+## Case B — Prediction Differs
 
 * local state is corrected
 * invalid objects removed
@@ -224,27 +230,27 @@ Each observer compares:
 
 ---
 
-### Adapter and Lens Interpretation
+## Adapter and Lens Interpretation
 
 After reconciliation:
 
-* adapters reshape canonical and observer data
-* lenses interpret meaning and context
+* adapters reshape data
+* lenses interpret meaning
 * UI renders the result
 
-```text id="0r9l4k"
+```text
 Canonical Update → Adapter → Lens → UI
 ```
 
 ---
 
-## Alternative Scenario — Conflict
+# Alternative Scenario — Conflict
 
 Two players attempt to place on tile_42.
 
 ---
 
-### Validator Behavior
+## Validator Behavior
 
 * evaluates both candidate events
 * accepts the first valid event
@@ -252,7 +258,7 @@ Two players attempt to place on tile_42.
 
 ---
 
-### Rejection Result
+## Rejection Result
 
 ```
 result = rejected
@@ -261,7 +267,7 @@ reason = precondition_failed
 
 ---
 
-### Observer Reconciliation
+## Observer Reconciliation
 
 Rejected observer:
 
@@ -270,17 +276,17 @@ Rejected observer:
 
 ---
 
-## What This Demonstrates
+# What This Demonstrates
 
 * actions are proposals, not guarantees
-* validation determines reality
-* canonical event history defines what is true
+* validation defines reality
+* canonical event history is truth
 * observers may temporarily diverge
 * reconciliation restores consistency
 
 ---
 
-## Relationship to Specs
+# Relationship to Specs
 
 This example corresponds to:
 
@@ -292,7 +298,7 @@ This example corresponds to:
 
 ---
 
-## One Sentence Summary
+# One Sentence Summary
 
 A local action becomes a candidate event, the validator evaluates it, accepted events are appended to canonical event history, and observers reconcile their local simulation to that shared history.
 
