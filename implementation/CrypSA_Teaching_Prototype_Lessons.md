@@ -33,13 +33,13 @@ The teaching prototype confirmed that several core CrypSA design decisions are n
 
 Separating the runtime into clear modules was essential.
 
-Key boundaries include:
+Key implementation boundaries included:
 
 * validation
 * canonical event application
 * observer reconciliation
 * replay
-* request dispatch
+* candidate event submission
 * runtime coordination
 
 Without these separations:
@@ -68,16 +68,18 @@ This separation allowed:
 
 It also made it clear that:
 
-> state is derived, not stored
+> truth is recorded as canonical event history, and derived canonical state is reconstructed from it
+
+The prototype also reinforced that ordered event application is essential for reliable replay.
 
 ---
 
-## 3. Adapter + Request Architecture Is Critical
+## 3. Adapter + Intent Boundary Architecture Is Critical
 
 The combination of:
 
 * adapters (translation boundary)
-* typed requests (intent boundary)
+* explicit intent handling at the invariant boundary
 
 proved to be one of the most important structural decisions.
 
@@ -142,7 +144,7 @@ Tests covering:
 * canonical event application
 * replay
 * observer reconciliation
-* request dispatch
+* candidate event submission
 * adapter outputs
 
 helped:
@@ -186,7 +188,7 @@ Those require a real runtime system.
 
 The next phase of CrypSA is:
 
-* building a minimal server/runtime
+* building a minimal validator/runtime
 
 This will test whether the same architectural principles hold under:
 
