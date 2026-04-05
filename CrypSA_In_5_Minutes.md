@@ -30,6 +30,7 @@ In CrypSA:
 * canonical events are appended to **canonical event history**
 
 > The shared world is defined by accepted events, not continuously synchronized state.
+> Canonical event history is the source of truth.
 
 ---
 
@@ -40,9 +41,8 @@ Everything in CrypSA follows this flow:
 1. An observer simulates locally
 2. The observer proposes a **candidate event**
 3. The **validator** checks invariants
-4. If accepted → the event becomes **canonical**
-5. The event is appended to **canonical event history**
-6. Observers reconcile to canonical truth
+4. If accepted → the event becomes **canonical and is appended to canonical event history**
+5. Observers reconcile to canonical truth
 
 This is the boundary between:
 
@@ -59,7 +59,7 @@ The validator is responsible for:
 * enforcing invariants
 * maintaining canonical event history
 
-> The validator defines what becomes real.
+> The validator defines what becomes canonical.
 
 Importantly:
 
@@ -205,9 +205,7 @@ But:
 
 ## Derived State
 
-State is never stored as truth.
-
-> All state is derived from canonical event history.
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
 ---
 
