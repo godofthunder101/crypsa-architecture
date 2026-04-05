@@ -10,7 +10,7 @@ The core idea is:
 
 This approach reduces implementation complexity while preserving the full CrypSA model from the start.
 
-It is an implementation strategy, not a runtime specification. 
+It is an implementation strategy, not a runtime specification.
 
 ---
 
@@ -22,7 +22,7 @@ Because of this, a system can begin with:
 
 * an observer
 * a validator
-* canonical event history
+* canonical event history (ordered via canonical_sequence)
 
 all running locally, while still following the real architecture.
 
@@ -49,11 +49,9 @@ It lets builders first prove:
 
 * candidate events are correctly formed
 * validation behaves correctly
-* canonical event history is correct and append-only
-* replay produces deterministic results
+* canonical event history is correct, append-only, and ordered via canonical_sequence
+* replay produces deterministic results based on canonical ordering
 * observers reconcile properly
-
-Only after these are correct should transport and remote deployment be introduced.
 
 ---
 
@@ -67,6 +65,7 @@ Begin with a minimal local deployment:
 * canonical event history stored locally
 * replay and derived state functioning normally
 * validation fully active
+* invariant boundary explicitly enforced
 
 At this stage, the goal is to prove the **actual runtime loop**, not simulate one.
 
@@ -74,7 +73,7 @@ You should already have:
 
 * explicit candidate events
 * explicit validation
-* append-only canonical event history
+* append-only canonical event history ordered via canonical_sequence
 * deterministic replay
 * observer reconciliation
 
@@ -89,12 +88,10 @@ This means proving:
 * local simulation does not define truth
 * candidate events cross the invariant boundary
 * the validator determines accept/reject
-* accepted events become canonical
+* accepted events become canonical and are assigned canonical_sequence
 * replay produces consistent derived canonical state
 * rejected events correctly roll back or adjust local state
 * snapshot and reconnect logic can be reasoned about
-
-If this is not stable locally, adding networking will increase complexity and obscure problems.
 
 ---
 
@@ -120,6 +117,7 @@ What must not change:
 * event structure
 * validation semantics
 * canonical event history behavior
+* canonical ordering via canonical_sequence
 * replay behavior
 * observer reconciliation model
 
@@ -132,7 +130,8 @@ A correct CrypSA implementation preserves the following across deployment change
 * observers submit candidate events
 * validator determines truth
 * canonical event history remains append-only
-* replay remains deterministic
+* canonical event history remains ordered via canonical_sequence
+* replay remains deterministic and ordered via canonical_sequence
 * derived canonical state remains reconstructable
 * invariant boundary remains explicit
 
@@ -191,11 +190,16 @@ Examples of incorrect approaches:
 * bypassing validation because everything is local
 * mutating canonical state directly
 * skipping replay
+* ignoring canonical_sequence or relying on local ordering
 * letting observer/UI logic define truth
 
 This is not CrypSA.
 
-A local validator must behave exactly like a real validator.
+A local validator must behave exactly like a real validator, including:
+
+* enforcing invariants
+* assigning canonical_sequence
+* maintaining canonical event history
 
 ---
 
@@ -207,19 +211,13 @@ This document complements:
 * `implementation/CrypSA_Minimal_Validator_v0.1.md`
 * `implementation/CrypSA_Local_First_Design_Pattern.md`
 
-These describe:
-
-* validator deployment options
-* minimal validator structure
-* local-first system design
-
 This document defines the **recommended development path**.
 
 ---
 
 ## Key Insight
 
-> First prove CrypSA locally. Then move the validator, not the architecture.
+> First prove CrypSA locally. Then move the validator, not the architecture or canonical ordering model.
 
 ---
 
@@ -237,4 +235,4 @@ This keeps the truth model stable while allowing complexity to be introduced in 
 
 ## One Sentence Summary
 
-CrypSA should be built local-first: start with a real local validator, prove validation and replay locally, then move to host-based or remote deployment without changing the architecture.
+CrypSA should be built local-first: start with a real local validator, prove validation and replay locally, then move to host-based or remote deployment without changing canonical truth or canonical ordering.
