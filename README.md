@@ -10,9 +10,6 @@ Observers simulate locally, while a validator defines what becomes canonical.
 The validator defines what becomes canonical.
 It may run locally or remotely, but its role does not change.
 
-
-
-
 ---
 
 🚀 Start Here
@@ -30,9 +27,6 @@ If you're new to CrypSA, follow this path:
 
 4. 📖 CrypSA_Worked_Example.md — see it in action
 
-
-
-
 ---
 
 🛠 Build CrypSA
@@ -44,7 +38,6 @@ Start implementing with the minimal validator:
 Then follow:
 
 👉 implementation/CrypSA_Local_First_Development_Approach.md
-
 
 ---
 
@@ -69,8 +62,6 @@ replayable
 
 resistant to desynchronization
 
-
-
 ---
 
 ❌ What CrypSA Is Not
@@ -90,9 +81,6 @@ an ECS framework
 
 > CrypSA defines truth agreement, not rendering, transport, or simulation.
 
-
-
-
 ---
 
 🔒 Core Rules
@@ -106,8 +94,6 @@ All canonical changes must pass validation
 All changes must cross the invariant boundary
 
 Observers may simulate freely, but never define canonical truth
-
-
 
 ---
 
@@ -131,7 +117,6 @@ I --> J[Broadcast]
 J --> K[Observer Reconciliation]
 G --> K
 
-
 ---
 
 📚 Documentation Guide
@@ -149,7 +134,6 @@ Exploratory	Non-final ideas
 
 
 👉 Full structure: DOCS_STRUCTURE.md
-
 
 ---
 
@@ -190,8 +174,6 @@ Implementation
 
 implementation/
 
-
-
 ---
 
 👥 Who This Is For
@@ -203,8 +185,6 @@ Start with:
 CrypSA_In_5_Minutes.md
 
 CrypSA_Worked_Example.md
-
-
 
 ---
 
@@ -218,9 +198,6 @@ minimal validator docs
 
 
 > The spec defines behavior — your implementation must follow it.
-
-
-
 
 ---
 
@@ -242,8 +219,6 @@ do not redefine terminology
 do not duplicate definitions
 
 do not introduce behavior outside the spec
-
-
 
 ---
 
@@ -269,9 +244,6 @@ documentation refinement
 
 > v1.0 is a stable architectural baseline, not a finished product.
 
-
-
-
 ---
 
 🔢 Versioning Philosophy
@@ -279,8 +251,6 @@ documentation refinement
 v1.x → stable architecture, evolving implementations
 
 v2.0 → breaking architectural changes
-
-
 
 ---
 
@@ -302,8 +272,6 @@ appends to canonical event history
 
 reconstructs reality deterministically
 
-
-
 ---
 
 🧩 Key Concepts
@@ -323,7 +291,6 @@ See:
 
 👉 CrypSA_Terminology_Primer.md
 
-
 ---
 
 📁 Repository Structure
@@ -342,14 +309,11 @@ teaching/
 
 atlas/
 
-
-
 ---
 
 👤 Author
 
 Beau Wells
-
 
 ---
 
