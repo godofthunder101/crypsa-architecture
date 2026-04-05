@@ -56,6 +56,8 @@ All contributors must follow the terminology defined in:
 
 👉 `CrypSA_Terminology_Primer.md`
 
+---
+
 ### Key requirements
 
 * Do not redefine existing terms
@@ -108,6 +110,44 @@ Avoid vague terms like:
 * “history”
 
 unless clearly scoped
+
+---
+
+## 🔐 Canonical Phrasing Rules
+
+The following phrases are **canonical** and must be used exactly as written.
+
+Do not rephrase, simplify, or substitute them.
+
+---
+
+### Validator Authority
+
+> The validator defines what becomes canonical.
+
+---
+
+### Event Lifecycle
+
+> If accepted, an event becomes canonical and is appended to canonical event history.
+
+---
+
+### Source of Truth
+
+> Canonical event history is the source of truth.
+
+---
+
+### Derived State
+
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
+
+---
+
+These phrases define the core model.
+
+They must remain identical across all documentation.
 
 ---
 
