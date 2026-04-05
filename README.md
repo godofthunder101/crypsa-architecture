@@ -1,88 +1,116 @@
-# CrypSA — Cryptid Server Architecture
+CrypSA — Cryptid Server Architecture
 
 CrypSA is an event-driven architecture for building persistent digital worlds.
 
-Instead of synchronizing full world state, CrypSA synchronizes **validated canonical events under invariant rules**.
+Instead of synchronizing full world state, CrypSA synchronizes validated canonical events under invariant rules.
 
-Observers simulate locally, while a **validator** determines what becomes canonical truth.
+Observers simulate locally, while a validator evaluates events.
 
-> Reality is not synchronized — it is agreed upon through validated events.
+> The validator defines what becomes canonical.
 
-> The validator defines canonical truth.
-> It may run locally or remotely, but its role does not change.
+
+
+Canonical events form canonical event history, which is the source of truth.
+
+Reality is not synchronized — it is agreed upon through validated events.
+
+The validator may run locally or remotely, but its role does not change.
+
 
 ---
 
-## 🚀 Start Here
+🚀 Start Here
 
 If you're new to CrypSA, follow this path:
 
-1. 🧭 `CrypSA_In_One_Diagram.md` — see the system at a glance
-2. 📘 `CrypSA_In_5_Minutes.md` — understand the core idea
-3. 📖 `CrypSA_Terminology_Primer.md` — learn the language
-4. 📖 `CrypSA_Worked_Example.md` — see it in action
+🧭 CrypSA_In_One_Diagram.md — see the system at a glance
+
+📘 CrypSA_In_5_Minutes.md — understand the core idea
+
+📖 CrypSA_Terminology_Primer.md — learn the language
+
+📖 CrypSA_Worked_Example.md — see it in action
+
+
 
 ---
 
-## 🛠 Build CrypSA
+🛠 Build CrypSA
 
 Start implementing with the minimal validator:
 
-👉 `implementation/minimal_validator/CrypSA_Minimal_Validator_v0.1.md`
+👉 implementation/minimal_validator/CrypSA_Minimal_Validator_v0.1.md
 
 Then follow:
 
-👉 `implementation/CrypSA_Local_First_Development_Approach.md`
+👉 implementation/CrypSA_Local_First_Development_Approach.md
+
 
 ---
 
-## 🧠 What CrypSA Is
+🧠 What CrypSA Is
 
 CrypSA defines how systems agree on truth.
 
 It provides a model where:
 
-* **truth is validated, not assumed**
-* **state is derived, not synchronized**
-* **simulation is local, but authority is centralized**
+truth is validated, not assumed
+
+state is derived from canonical event history, not synchronized
+
+simulation is local, but authority is centralized
+
 
 This enables systems that are:
 
-* deterministic
-* replayable
-* resistant to desynchronization
+deterministic
+
+replayable
+
+resistant to desynchronization
+
+
 
 ---
 
-## ❌ What CrypSA Is Not
+❌ What CrypSA Is Not
 
 CrypSA does not replace engines or networking stacks.
 
-It is **not**:
+It is not:
 
-* a game engine
-* a networking library
-* a state replication system
-* an ECS framework
+a game engine
 
-> CrypSA defines **truth agreement**, not rendering, transport, or simulation.
+a networking library
+
+a state replication system
+
+an ECS framework
+
+
+CrypSA defines truth agreement, not rendering, transport, or simulation.
+
 
 ---
 
-## 🔒 Core Rules
+🔒 Core Rules
 
 The following must always hold:
 
-* Only the **validator** may modify canonical event history
-* All canonical changes must pass **validation**
-* All changes must cross the **invariant boundary**
-* Observers may simulate freely, but **never define truth**
+Only the validator may modify canonical event history
+
+All canonical changes must pass validation
+
+All changes must cross the invariant boundary
+
+Observers may simulate freely, but never define truth
+
+
 
 ---
 
-## ⚙️ How CrypSA Works
+⚙️ How CrypSA Works
 
-```mermaid
 flowchart LR
 
 A[Player Action] --> B[Local Simulation]
@@ -100,179 +128,225 @@ I --> J[Broadcast]
 
 J --> K[Observer Reconciliation]
 G --> K
-```
+
 
 ---
 
-## 📚 Documentation Guide
+📚 Documentation Guide
 
 CrypSA documentation is structured by role:
 
-| Type         | Purpose                                 |
-| ------------ | --------------------------------------- |
-| Conceptual   | Mental models and explanations          |
-| Architecture | System structure and boundaries         |
-| Spec         | **Authoritative runtime behavior**      |
-| Example      | Concrete walkthroughs                   |
-| Diagram      | Visual explanations (non-authoritative) |
-| Exploratory  | Non-final ideas                         |
+Type	Purpose
 
-👉 Full structure: `DOCS_STRUCTURE.md`
+Conceptual	Mental models and explanations
+Architecture	System structure and boundaries
+Spec	Authoritative runtime behavior
+Example	Concrete walkthroughs
+Diagram	Visual explanations (non-authoritative)
+Exploratory	Non-final ideas
+
+
+👉 Full structure: DOCS_STRUCTURE.md
+
 
 ---
 
-## 🧭 Full Reading Path
+🧭 Full Reading Path
 
 If you want deeper understanding:
 
-### Foundation
+Foundation
 
-* `CrypSA_In_One_Diagram.md`
-* `CrypSA_In_5_Minutes.md`
-* `CrypSA_Terminology_Primer.md`
+CrypSA_In_One_Diagram.md
 
-### Motivation
+CrypSA_In_5_Minutes.md
 
-* `CrypSA_Why_It_Exists.md`
+CrypSA_Terminology_Primer.md
 
-### Example
 
-* `CrypSA_Worked_Example.md`
+Motivation
 
-### Architecture
+CrypSA_Why_It_Exists.md
 
-* `architecture/`
 
-### Runtime (Required for Implementation)
+Example
 
-* `spec/`
+CrypSA_Worked_Example.md
 
-### Implementation
 
-* `implementation/`
+Architecture
+
+architecture/
+
+
+Runtime (Required for Implementation)
+
+spec/
+
+
+Implementation
+
+implementation/
+
+
 
 ---
 
-## 👥 Who This Is For
+👥 Who This Is For
 
-### 🧠 Learners
+🧠 Learners
 
 Start with:
 
-* `CrypSA_In_5_Minutes.md`
-* `CrypSA_Worked_Example.md`
+CrypSA_In_5_Minutes.md
+
+CrypSA_Worked_Example.md
+
+
 
 ---
 
-### ⚙️ Implementers
+⚙️ Implementers
 
 Focus on:
 
-* `spec/`
-* minimal validator docs
+spec/
 
-> The spec defines behavior — your implementation must follow it.
+minimal validator docs
+
+
+The spec defines behavior — your implementation must follow it.
+
 
 ---
 
-### 🧱 Contributors
+🧱 Contributors
 
 Read:
 
-* terminology primer
-* architecture
-* spec
+terminology primer
+
+architecture
+
+spec
+
 
 Follow:
 
-* do not redefine terminology
-* do not duplicate definitions
-* do not introduce behavior outside the spec
+do not redefine terminology
+
+do not duplicate definitions
+
+do not introduce behavior outside the spec
+
+
 
 ---
 
-## 🚧 Project Status — v1.0
+🚧 Project Status — v1.0
 
 CrypSA v1.0 defines the core architecture and runtime model.
 
 It is:
 
-* stable in its core concepts
-* consistent in terminology and structure
-* ready for implementation
+stable in its core concepts
+
+consistent in terminology and structure
+
+ready for implementation
+
 
 Ongoing work includes:
 
-* reference implementations
-* documentation refinement
+reference implementations
 
-> v1.0 is a stable architectural baseline, not a finished product.
+documentation refinement
 
----
 
-## 🔢 Versioning Philosophy
+v1.0 is a stable architectural baseline, not a finished product.
 
-* v1.x → stable architecture, evolving implementations
-* v2.0 → breaking architectural changes
 
 ---
 
-## 🧠 Why CrypSA Exists
+🔢 Versioning Philosophy
+
+v1.x → stable architecture, evolving implementations
+
+v2.0 → breaking architectural changes
+
+
+
+---
+
+🧠 Why CrypSA Exists
 
 Traditional systems:
 
-```text
 Client → Server → State Sync
-```
 
 CrypSA:
 
-```text
 Observer → Validation → Canonical Event History → Reconstruction
-```
 
 Instead of synchronizing state, it:
 
-* validates events
-* records canonical history
-* reconstructs reality deterministically
+validates events
+
+records canonical event history
+
+reconstructs reality deterministically
+
+
 
 ---
 
-## 🧩 Key Concepts
+🧩 Key Concepts
 
-* Validator
-* Canonical Events
-* Invariants
-* Observers
-* Lenses
+Validator
+
+Canonical Events
+
+Invariants
+
+Observers
+
+Lenses
+
 
 See:
 
-`CrypSA_Terminology_Primer.md`
+👉 CrypSA_Terminology_Primer.md
+
 
 ---
 
-## 📁 Repository Structure
+📁 Repository Structure
 
-```
 architecture/
+
 spec/
+
 implementation/
+
 diagrams/
+
 exploratory/
+
 teaching/
+
 atlas/
-```
+
+
 
 ---
 
-## 👤 Author
+👤 Author
 
 Beau Wells
 
+
 ---
 
-## One Sentence Summary
+One Sentence Summary
 
 CrypSA defines how systems agree on truth through validated canonical events.
