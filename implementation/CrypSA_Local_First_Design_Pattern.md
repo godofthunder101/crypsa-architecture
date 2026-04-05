@@ -21,18 +21,7 @@ This is a design pattern, not a runtime specification.
 
 A local-first design keeps the architecture stable across different deployment stages.
 
-This means the system can evolve from:
-
-```text
-Local Validator → Host-Based Validator → Dedicated Remote Validator
-```
-
-without redefining:
-
-* truth
-* validation
-* canonical event history
-* observer reconciliation
+Canonical event history must remain ordered via `canonical_sequence`, even in local deployments.
 
 ---
 
@@ -63,8 +52,6 @@ If validation can run locally, the system is less fragile under:
 * degraded connectivity
 * partial deployment environments
 
-This does not eliminate all networking challenges, but it avoids making the architecture depend on permanent remote connectivity from the beginning.
-
 ---
 
 ### 3. Practical Development
@@ -76,13 +63,9 @@ A local validator allows developers to:
 * debug the invariant boundary without networking complexity
 * evolve toward multiplayer incrementally
 
-This makes CrypSA easier to implement and verify.
-
 ---
 
 ## The Pattern
-
-The local-first CrypSA pattern is:
 
 ### Step 1 — Define the Validator Boundary
 
@@ -92,7 +75,7 @@ Design the system so that:
 * a validator evaluates them
 * canonical event history is updated only through validation
 
-This boundary must exist even if the validator runs in the same process as the observer.
+The invariant boundary must remain explicit, even in local execution.
 
 ---
 
@@ -100,7 +83,7 @@ This boundary must exist even if the validator runs in the same process as the o
 
 In the first implementation:
 
-* the observer and validator may run in one application
+* the observer and validator may run in one application, but remain separate logical roles
 * candidate events still flow through validation
 * canonical event history is still distinct from local simulation
 
@@ -116,9 +99,8 @@ Even in a local-only implementation:
 
 * local simulation must not directly define truth
 * canonical event history must remain the source of truth
-* derived canonical state must remain reconstructable by replay
-
-This preserves the architecture.
+* canonical event history must never be directly mutated by local simulation
+* derived canonical state must remain deterministically reconstructable by replay
 
 ---
 
@@ -142,11 +124,10 @@ A system is following the local-first CrypSA pattern only if these remain stable
 
 * candidate events are always validated
 * canonical event history is always the source of truth
+* canonical event history remains ordered via canonical_sequence
 * observers always reconcile to canonical outcomes
 * replay remains deterministic
 * the invariant boundary remains explicit
-
-If these change between local and remote modes, the architecture is drifting.
 
 ---
 
@@ -161,7 +142,7 @@ These things may change as the system grows:
 * authentication and security layers
 * infrastructure scaling strategy
 
-These are deployment and implementation concerns, not changes to the core CrypSA model.
+These are deployment concerns, not architectural changes.
 
 ---
 
@@ -173,12 +154,6 @@ These are deployment and implementation concerns, not changes to the core CrypSA
 * local canonical event history
 * replay and snapshots tested locally
 
-Useful for:
-
-* proving the architecture
-* debugging validation
-* testing replay correctness
-
 ---
 
 ### Stage 2 — Host-Based Multiplayer
@@ -186,12 +161,6 @@ Useful for:
 * one observer runs the validator
 * other observers connect to it
 * shared canonical event history introduced
-
-Useful for:
-
-* small-scale multiplayer
-* LAN or cooperative testing
-* early networked validation
 
 ---
 
@@ -201,53 +170,31 @@ Useful for:
 * observers connect over a network
 * canonical truth is maintained remotely
 
-Useful for:
-
-* persistent worlds
-* scalable multiplayer
-* infrastructure-backed deployments
-
 ---
 
 ## Design Rules for Local-First CrypSA
 
 ### 1. Never bypass validation just because everything is local
 
-If a local build lets simulation directly modify canonical truth, it is not preserving the CrypSA model.
-
 ---
 
 ### 2. Keep candidate events explicit
-
-Do not let local mode collapse into hidden direct state mutation.
-
-The same candidate event structure should exist from the beginning.
 
 ---
 
 ### 3. Reconstruct from canonical event history even in local mode
 
-Replay should be real, not simulated or faked.
-
-This is how you verify that the architecture actually works.
+Replay must be deterministic and based on canonical event history ordered by canonical_sequence.
 
 ---
 
 ### 4. Keep transport replaceable
 
-Local mode may use function calls or in-process messaging.
-
-Later modes may use network transport.
-
-The event contract should survive both.
+The candidate event contract and validation behavior must remain identical across transport layers.
 
 ---
 
 ### 5. Treat local validator as a first-class deployment
-
-Do not frame it as “temporary cheating” or “not real CrypSA.”
-
-It is a valid deployment of the same architecture.
 
 ---
 
@@ -255,82 +202,46 @@ It is a valid deployment of the same architecture.
 
 ### Hidden Direct State Mutation
 
-Problem:
-
-* local prototype updates canonical state directly
-* validator boundary becomes decorative
-
-Result:
-
-* later multiplayer migration becomes painful
-* architecture is no longer truly CrypSA
-
 ---
 
 ### Local and Remote Modes Behave Differently
-
-Problem:
-
-* local mode accepts actions differently
-* remote mode changes event semantics
-
-Result:
-
-* truth model forks
-* bugs and conceptual drift appear
 
 ---
 
 ### Replay Is Skipped in Local Mode
 
+---
+
+### Canonical Ordering Drift
+
 Problem:
 
-* local mode uses mutable state directly
-* canonical replay is not actually exercised
+* local mode does not enforce canonical_sequence
+* ordering differs between environments
 
 Result:
 
-* replay bugs only appear later
-* architecture is not validated early
+* replay divergence
+* inconsistent derived canonical state
+* non-deterministic behavior
 
 ---
 
 ## Relationship to Validator Deployment Model
-
-This design pattern is the practical application of:
-
-* `architecture/CrypSA_Validator_Deployment_Model.md`
-
-That document explains **what deployment models exist**.
-
-This document explains:
-
-> how to build in a way that can move between them cleanly
 
 ---
 
 ## Key Insight
 
 > Local-first CrypSA is not about avoiding servers.
-> It is about preserving the validator boundary from the start.
-
-That is what makes later deployment changes architectural extensions instead of architectural rewrites.
+> It is about preserving the validator boundary and canonical event ordering from the start.
 
 ---
 
 ## Summary
 
-The local-first CrypSA design pattern means:
-
-* start with a local validator
-* preserve validation as the authority boundary
-* keep canonical event history separate from local simulation
-* scale outward without changing the truth model
-
-This makes CrypSA easier to build, test, and evolve.
-
 ---
 
 ## One Sentence Summary
 
-A local-first CrypSA system starts with a local validator while preserving the full validator boundary, allowing the architecture to scale from offline or single-observer use to host-based or remote deployment without changing how canonical truth is defined.
+A local-first CrypSA system starts with a local validator while preserving the full validator boundary, allowing the architecture to scale from offline or single-observer use to host-based or remote deployment without changing how canonical truth and canonical ordering are defined.
