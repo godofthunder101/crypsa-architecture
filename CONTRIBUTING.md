@@ -275,6 +275,7 @@ You should:
 ## 🔍 Documentation Linting
 
 Before submitting any change, contributors should run:
+The strict docs gate may print exact replacement suggestions for non-canonical phrasing. Apply those suggestions directly unless a broader wording change is required.
 
 → `docs/DOCS_LINT_CHECKLIST.md`
 
