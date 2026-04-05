@@ -113,7 +113,7 @@ Observers may simulate freely, but never define truth
 
 ⚙️ How CrypSA Works
 
-flowchart LR  
+```mermaid flowchart LR  
   
 A[Player Action] --> B[Local Simulation]  
 B --> C[Create Candidate Event]  
@@ -130,6 +130,7 @@ I --> J[Broadcast]
   
 J --> K[Observer Reconciliation]  
 G --> K
+```
 
 
 ---
