@@ -75,13 +75,13 @@ All contributors must follow the terminology defined in:
 
 ✔ Correct:
 
-```
+```id="tr8wq5"
 validator validates events
 ```
 
 ❌ Incorrect:
 
-```
+```id="83nmq2"
 server validates events
 ```
 
@@ -113,11 +113,20 @@ unless clearly scoped
 
 ---
 
+### Core Authority Concept
+
+> The validator defines what becomes canonical.
+
+---
+
 ## 🔐 Canonical Phrasing Rules
 
 The following phrases are **canonical** and must be used exactly as written.
 
-Do not rephrase, simplify, or substitute them.
+Do not rephrase, simplify, substitute, or partially restate these phrases.
+
+If a sentence expresses one of these concepts, it must use the canonical phrasing exactly.
+Near matches are not acceptable.
 
 ---
 
@@ -191,7 +200,7 @@ Do not blur these boundaries in contributions.
 
 2. Reference it elsewhere:
 
-```
+```id="f6o525"
 See: Terminology Primer → [Term]
 ```
 
@@ -260,6 +269,22 @@ You should:
    * what is changing
    * why it is needed
    * how it affects the model
+
+---
+
+## 🔍 Documentation Linting
+
+Before submitting any change, contributors should run:
+
+→ `docs/DOCS_LINT_CHECKLIST.md`
+
+This ensures:
+
+* terminology consistency
+* canonical phrasing correctness
+* architectural boundary integrity
+
+Pull requests may be rejected if they do not pass this checklist.
 
 ---
 
