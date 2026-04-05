@@ -1,0 +1,37 @@
+name: CrypSA Docs Check
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Post Docs Reminder Comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `
+🧠 **CrypSA Docs Check**
+
+Before submitting this PR, please confirm:
+
+- You ran: \`docs/DOCS_LINT_CHECKLIST.md\`
+- You used canonical phrasing exactly:
+
+  - "The validator defines what becomes canonical."
+  - "If accepted, an event becomes canonical and is appended to canonical event history."
+  - "Canonical event history is the source of truth."
+  - "Derived canonical state is a projection of canonical event history. It is not the source of truth."
+
+- You followed \`CONTRIBUTING.md\`
+
+This check does not block your PR, but reviewers will enforce these rules.
+`
+            })
