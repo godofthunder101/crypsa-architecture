@@ -1,116 +1,91 @@
-#CrypSA — Cryptid Server Architecture
+# CrypSA — Cryptid Server Architecture
 
 CrypSA is an event-driven architecture for building persistent digital worlds.
 
-Instead of synchronizing full world state, CrypSA synchronizes validated canonical events under invariant rules.
+Instead of synchronizing full world state, CrypSA synchronizes **validated canonical events** under invariant rules.
 
 Observers simulate locally, while a validator evaluates events.
 
-> The validator defines what becomes canonical.
+> **The validator defines what becomes canonical.**
 
-
-
-Canonical events form canonical event history, which is the source of truth.
+Canonical events form **canonical event history**, which is the **source of truth**.
 
 Reality is not synchronized — it is agreed upon through validated events.
 
 The validator may run locally or remotely, but its role does not change.
 
-
 ---
 
-🚀 Start Here
+# 🚀 Start Here
 
 If you're new to CrypSA, follow this path:
 
-🧭 CrypSA_In_One_Diagram.md — see the system at a glance
-
-📘 CrypSA_In_5_Minutes.md — understand the core idea
-
-📖 CrypSA_Terminology_Primer.md — learn the language
-
-📖 CrypSA_Worked_Example.md — see it in action
-
-
+- 🧭 CrypSA_In_One_Diagram.md — see the system at a glance  
+- 📘 CrypSA_In_5_Minutes.md — understand the core idea  
+- 📖 CrypSA_Terminology_Primer.md — learn the language  
+- 📖 CrypSA_Worked_Example.md — see it in action  
 
 ---
 
-🛠 Build CrypSA
+# 🛠 Build CrypSA
 
 Start implementing with the minimal validator:
 
-👉 implementation/minimal_validator/CrypSA_Minimal_Validator_v0.1.md
+👉 implementation/minimal_validator/CrypSA_Minimal_Validator_v0.1.md  
 
 Then follow:
 
-👉 implementation/CrypSA_Local_First_Development_Approach.md
-
+👉 implementation/CrypSA_Local_First_Development_Approach.md  
 
 ---
 
-🧠 What CrypSA Is
+# 🧠 What CrypSA Is
 
 CrypSA defines how systems agree on truth.
 
 It provides a model where:
 
-truth is validated, not assumed
-
-state is derived from canonical event history, not synchronized
-
-simulation is local, but authority is centralized
-
+- truth is validated, not assumed  
+- state is derived from canonical event history, not synchronized  
+- simulation is local, but authority is centralized  
 
 This enables systems that are:
 
-deterministic
-
-replayable
-
-resistant to desynchronization
-
-
+- deterministic  
+- replayable  
+- resistant to desynchronization  
 
 ---
 
-❌ What CrypSA Is Not
+# ❌ What CrypSA Is Not
 
 CrypSA does not replace engines or networking stacks.
 
 It is not:
 
-a game engine
+- a game engine  
+- a networking library  
+- a state replication system  
+- an ECS framework  
 
-a networking library
-
-a state replication system
-
-an ECS framework
-
-
-CrypSA defines truth agreement, not rendering, transport, or simulation.
-
+CrypSA defines **truth agreement**, not rendering, transport, or simulation.
 
 ---
 
-🔒 Core Rules
+# 🔒 Core Rules
 
 The following must always hold:
 
-Only the validator may modify canonical event history
-
-All canonical changes must pass validation
-
-All changes must cross the invariant boundary
-
-Observers may simulate freely, but never define truth
-
-
+- Only the validator may modify canonical event history  
+- All canonical changes must pass validation  
+- All changes must cross the invariant boundary  
+- Observers may simulate freely, but never define truth  
 
 ---
 
-⚙️ How CrypSA Works
+# ⚙️ How CrypSA Works
 
+```mermaid
 flowchart LR
 
 A[Player Action] --> B[Local Simulation]
