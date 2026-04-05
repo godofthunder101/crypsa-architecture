@@ -322,3 +322,5 @@ It is not yet a production system.
 ## One Sentence Summary
 
 CrypSA is a system where observers simulate locally, a validator evaluates events, and shared reality is defined by canonical event history.
+
+validation defines reality
