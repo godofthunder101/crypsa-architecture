@@ -1,37 +1,33 @@
-name: CrypSA Docs Check
+name: CrypSA Docs Gate
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, edited, synchronize, reopened]
+  push:
+    branches: [main]
 
 jobs:
-  comment:
+  docs-gate:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Post Docs Reminder Comment
-        uses: actions/github-script@v7
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `
-🧠 **CrypSA Docs Check**
+          fetch-depth: 0
 
-Before submitting this PR, please confirm:
+      - name: Determine base ref
+        id: base
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "ref=origin/${{ github.base_ref }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "ref=HEAD~1" >> "$GITHUB_OUTPUT"
+          fi
 
-- You ran: \`docs/DOCS_LINT_CHECKLIST.md\`
-- You used canonical phrasing exactly:
-
-  - "The validator defines what becomes canonical."
-  - "If accepted, an event becomes canonical and is appended to canonical event history."
-  - "Canonical event history is the source of truth."
-  - "Derived canonical state is a projection of canonical event history. It is not the source of truth."
-
-- You followed \`CONTRIBUTING.md\`
-
-This check does not block your PR, but reviewers will enforce these rules.
-`
-            })
+      - name: Run CrypSA docs gate
+        shell: bash
+        run: |
+          chmod +x scripts/docs_gate.sh
+          scripts/docs_gate.sh "${{ steps.base.outputs.ref }}"
