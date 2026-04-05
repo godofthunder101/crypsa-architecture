@@ -25,26 +25,42 @@ If there is any conflict, **the spec takes precedence**.
 
 ## Core Idea
 
-CrypSA separates multiplayer systems into:
+CrypSA structures multiplayer systems around **validated events as truth**.
 
-* canonical event history (truth)
-* validation (authority)
-* observer simulation (local reconstruction and prediction)
+* actions become **candidate events**
+* the **validator** determines what becomes canonical
+* accepted events form **canonical event history**
 
-Rather than synchronizing full world state, CrypSA synchronizes:
+> **The shared world is defined by canonical event history, not synchronized state.**
 
-> **validated canonical events as canonical event history**
+---
+
+## System Flow (High-Level)
+
+At a system level, everything follows this flow:
+
+1. Observer simulates locally
+2. Observer proposes a **candidate event**
+3. Validator evaluates the event
+4. Accepted events become **canonical**
+5. Canonical events are appended to **canonical event history**
+6. Observers reconcile to canonical truth
+
+This defines the boundary between:
+
+* local simulation
+* canonical reality
 
 ---
 
 ## Four Responsibilities (Mental Model)
 
-CrypSA can be understood through four responsibilities:
+CrypSA is organized into four responsibilities:
 
-* **Truth** — canonical event history and validation
-* **Translation** — adapters shaping runtime data
-* **Interpretation** — lenses determining meaning
-* **Experience** — UI and local simulation
+* **Truth** → canonical event history and validation
+* **Translation** → adapters shaping runtime data
+* **Interpretation** → lenses determining meaning
+* **Experience** → UI and local simulation
 
 These responsibilities define the architecture.
 
@@ -52,15 +68,33 @@ These responsibilities define the architecture.
 
 ## Key Architectural Ideas
 
+---
+
 ### Event-Based Truth
 
-The system is event-driven:
+CrypSA is event-driven:
 
 * actions → candidate events
-* validation → canonical events (assigned canonical ordering via `canonical_sequence`)
+* validation → canonical events (assigned `canonical_sequence`)
 * canonical events → canonical event history
 
-Canonical event history defines what is true.
+Canonical event history defines **truth**.
+
+---
+
+### Validation as Authority
+
+The **validator** operates in the **truth layer**.
+
+It:
+
+* validates candidate events
+* enforces invariants
+* determines what becomes canonical
+
+> The validator defines truth.
+
+It is a **role**, not a location.
 
 ---
 
@@ -77,30 +111,18 @@ This provides responsiveness without sacrificing consistency.
 
 ---
 
-### Validation as Authority
-
-The **validator** operates in the **truth layer**.
-
-It:
-
-* validates candidate events
-* enforces invariants
-* determines what becomes canonical
-
-> The validator controls truth, not simulation.
-
----
-
 ### Replay as State
 
-World state is not the primary source of truth.
-
-Instead:
+State is not stored as truth.
 
 * canonical event history is authoritative
-* derived state is reconstructed from that history
+* state is reconstructed via replay
 
-Replay enables deterministic reconstruction, debugging, and verification.
+Replay enables:
+
+* deterministic reconstruction
+* debugging
+* verification
 
 ---
 
@@ -109,8 +131,8 @@ Replay enables deterministic reconstruction, debugging, and verification.
 Adapters:
 
 * reshape canonical and observer/runtime data
-* prepare structured data for downstream layers
-* isolate internal state from interpretation
+* prepare structured outputs
+* isolate internal data from interpretation
 
 They belong to the **translation layer**.
 
@@ -121,8 +143,8 @@ They belong to the **translation layer**.
 Lenses:
 
 * interpret translated data
-* determine visibility and interaction relevance
-* produce observer-specific meaning
+* determine meaning, relevance, and context
+* produce observer-specific views
 
 They belong to the **interpretation layer**.
 
@@ -134,15 +156,19 @@ The experience layer:
 
 * renders the world
 * handles input
-* provides feedback
+* provides immediate feedback
 
-This is where players interact with the system.
+It is:
+
+* responsive
+* local
+* non-authoritative
 
 ---
 
 ## Layer Relationship (Simplified)
 
-```mermaid id="3k7d2n"
+```mermaid id="f1y8qk"
 flowchart LR
 
 A[Canonical Event History] --> B[Derived Canonical State]
@@ -162,6 +188,18 @@ Separating responsibilities enables:
 * clear debugging via event history
 * multiple observer perspectives
 * independent evolution of layers
+
+---
+
+## Relationship to Other Documents
+
+This document defines **structure and relationships**.
+
+For other aspects:
+
+* Runtime behavior → `/spec/`
+* Concepts and definitions → Terminology Primer
+* End-to-end flow → Worked Example
 
 ---
 
