@@ -6,6 +6,15 @@ If something feels unclear, check here first.
 
 ---
 
+This document defines terms used in:
+
+→ CrypSA_In_One_Diagram.md
+→ CrypSA_In_5_Minutes.md
+
+If something here feels abstract, refer back to those docs.
+
+---
+
 ## 🔒 Terminology Authority
 
 This document is the **authoritative source of all core term definitions in CrypSA**.
