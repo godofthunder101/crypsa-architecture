@@ -49,7 +49,7 @@ Example:
 ```text
 Object Identity: sword_1001
 Genome: sword_type_A
-````
+```
 
 The Mint (or equivalent system) defines:
 
@@ -94,7 +94,7 @@ Example structure:
 CanonicalEvent
 --------------
 canonical_event_id
-server_sequence
+canonical_sequence
 event_type
 actor_id
 target_ids
@@ -105,6 +105,7 @@ accepted_at
 The system should:
 
 * append events in order
+* maintain strict ordering via canonical_sequence
 * avoid mutating history
 * keep events inspectable
 
@@ -116,7 +117,7 @@ Avoid:
 
 ## Step 4 — Maintain Derived Canonical State
 
-The server maintains a derived canonical state (typically cached) for:
+The validator maintains a derived canonical state (typically cached) for:
 
 * validation
 * querying
@@ -133,7 +134,7 @@ Important:
 
 > derived canonical state is a computed view, not the source of truth
 
-It is updated by applying accepted events.
+It is updated by applying accepted events in canonical_sequence order.
 
 ---
 
@@ -144,7 +145,7 @@ Observers reconstruct the world locally using:
 * identity
 * genome
 * canonical event history
-* snapshot + canonical event history replay
+* snapshot + canonical event history replay (ordered via canonical_sequence)
 
 Observers:
 
@@ -160,6 +161,8 @@ Observers:
 Every interaction must answer:
 
 > Does this affect canonical event history?
+
+All canonical changes must pass through the invariant boundary.
 
 Example:
 
@@ -197,14 +200,17 @@ client_time
 Notes:
 
 * `event_id` must be unique (used for idempotency)
+* duplicate event_ids must not produce multiple canonical events
 * `client_time` is informational only
-* ordering is determined by the server
+* ordering is determined by canonical_sequence assigned by the validator
 
 ---
 
 ## Step 8 — Validate on the Server
 
-The server evaluates candidate events through a validation pipeline.
+The validator evaluates candidate events through a validation pipeline.
+
+Validation must be deterministic for the same input and canonical context.
 
 Typical stages:
 
@@ -242,7 +248,7 @@ def validate_event(event):
 
 If validation succeeds:
 
-* assign canonical metadata (including `server_sequence`)
+* assign canonical metadata (including `canonical_sequence`)
 * append to canonical event history
 * update derived canonical state
 * notify observers
@@ -251,7 +257,7 @@ Example:
 
 ```python
 def accept_event(event):
-    canonical_event = assign_canonical_metadata(event)  # assigns server_sequence
+    canonical_event = assign_canonical_metadata(event)  # assigns canonical_sequence
     append_to_event_history(canonical_event)
     apply_to_derived_state(canonical_event)
     notify_observers(canonical_event)
@@ -284,8 +290,8 @@ Reconstruct world
 → Interaction occurs
 → Invariant boundary check
 → Candidate event submission
-→ Server validation
-→ Assign server_sequence
+→ Validator validation
+→ Assign canonical_sequence
 → Canonical event history updated
 → Derived canonical state updated
 → Observer reconciliation
@@ -293,21 +299,21 @@ Reconstruct world
 
 ---
 
-## Server Responsibility (Important)
+## Validator Responsibility (Important)
 
-The server:
+The validator:
 
 * validates candidate events
 * enforces invariants
 * maintains canonical event history
 
-The server does **not**:
+The validator does **not**:
 
 * simulate the world
 * predict outcomes
 * control user experience
 
-> The server controls truth, not simulation
+> The validator controls truth, not simulation
 
 ---
 
@@ -359,7 +365,7 @@ A minimal CrypSA system requires:
 * derived canonical state
 * observer reconstruction
 * invariant boundary checks
-* server-side validation
+* validator-side validation
 
 With these, a persistent event-driven universe can be built.
 
@@ -367,4 +373,4 @@ With these, a persistent event-driven universe can be built.
 
 ## One Sentence Summary
 
-A minimal CrypSA system allows observers to simulate locally while a server validates candidate events, records accepted events as canonical event history, and distributes that shared history back to all observers.
+A minimal CrypSA system allows observers to simulate locally while a validator validates candidate events, records accepted events as canonical event history ordered via canonical_sequence, and distributes that shared history back to all observers.
