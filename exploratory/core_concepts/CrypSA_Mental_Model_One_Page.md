@@ -36,10 +36,10 @@ Validation
       ↓
 Accepted Event (Canonical Event)
       ↓
-Canonical Event History Updated
+Canonical Event History Updated (ordered by canonical_sequence)
       ↓
 Observers Reconstruct
-````
+```
 
 ---
 
@@ -106,7 +106,7 @@ Invariants are enforced during validation.
 
 ### 5. Events
 
-Events represent proposed changes to canonical reality.
+Events represent proposed changes that cross the invariant boundary.
 
 Examples:
 
@@ -134,12 +134,12 @@ The invariant boundary determines:
 When an interaction crosses the boundary:
 
 * a candidate event is submitted
-* the server validates it
+* the validator validates it
 * invariants and rules are enforced
 
 Result:
 
-* accepted → becomes a canonical event → canonical event history updated
+* accepted → becomes a canonical event → assigned canonical_sequence → canonical event history updated
 * rejected → local simulation corrected
 
 ---
@@ -149,7 +149,7 @@ Result:
 The universe evolves through validated canonical events:
 
 ```text
-Sₙ → Event → Sₙ₊₁
+Sₙ → Event (ordered by canonical_sequence) → Sₙ₊₁
 ```
 
 ---
@@ -159,7 +159,7 @@ Sₙ → Event → Sₙ₊₁
 Observers rebuild the world from canonical data:
 
 ```text
-Identity + Genome + Canonical Event History → World State
+Identity + Genome + Canonical Event History (in canonical_sequence order) → Derived Canonical State
 ```
 
 This ensures consistent shared reality.
@@ -174,7 +174,7 @@ Reconstruct
 → Interact
 → Boundary Check
 → Validate
-→ Append to Canonical Event History
+→ Append to Canonical Event History (ordered by canonical_sequence)
 → Reconstruct
 ```
 
@@ -208,10 +208,10 @@ Instead:
 
 ## Key Insight
 
-> CrypSA allows local freedom while protecting shared reality through validation of canonical events recorded in canonical event history.
+> CrypSA allows local freedom while protecting shared reality through validation of canonical events ordered and recorded in canonical event history.
 
 ---
 
 ## One Sentence Summary
 
-CrypSA is an architecture where observers simulate locally, but only validated candidate events that become canonical events are recorded in canonical event history and shape the shared universe.
+CrypSA is an architecture where observers simulate locally, but only validated candidate events that become canonical events are assigned canonical_sequence, recorded in canonical event history, and shape the shared universe.
