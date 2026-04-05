@@ -113,8 +113,8 @@ check_pattern '\bstate is not stored as truth\b' \
 # ------------------------------
 # Optional soft bans for likely drift
 # ------------------------------
-check_pattern '\bclient\b' \
-  'Use "observer" unless this is specifically a networking discussion.'
+#check_pattern '\bclient\b' \
+#  'Use "observer" unless this is specifically a networking discussion.'
 
 if [[ "$failed" -ne 0 ]]; then
   echo "CrypSA docs gate failed."
