@@ -20,30 +20,30 @@ It is intended as a high-level mental model, not a formal specification.
 
 ## Conceptual Flow
 
-```text
+```text id="l4f6sy"
 Observer Action
 → Local Simulation
-→ Candidate Event
+→ Candidate Event (if invariant boundary is crossed)
 → Validation
 → Accepted Event (Canonical Event)
 → Canonical Event History Updated
 → Observer Reconstruction
-````
+```
 
 ---
 
 ## Simplified Diagram
 
-```text
+```text id="xpnr3n"
 Observer Action
       ↓
 Local Simulation
       ↓
-Candidate Event
+Candidate Event (if invariant boundary is crossed)
       ↓
 Validation
    ├── Reject → Local Correction
-   └── Accept → Assign server_sequence → Canonical Event → Canonical Event History Updated
+   └── Accept → Assign canonical_sequence → Canonical Event → Canonical Event History Updated
                          ↓
                Observer Reconstruction
 ```
@@ -66,6 +66,8 @@ The action is simulated locally:
 * prediction
 * temporary effects
 
+If the action crosses the invariant boundary, it becomes a candidate event.
+
 ---
 
 ### Candidate Event
@@ -80,7 +82,7 @@ If the action affects canonical event history:
 
 ### Validation
 
-The server evaluates the event:
+The validator evaluates the event:
 
 * invariants
 * rules
@@ -98,7 +100,8 @@ Result:
 
 If accepted:
 
-* the server assigns `server_sequence` (authoritative ordering)
+* the validator assigns `canonical_sequence` (authoritative ordering)
+* canonical_sequence defines the authoritative ordering of events for replay
 * the event becomes a **canonical event**
 * the event is appended to canonical event history
 
@@ -114,14 +117,14 @@ If rejected:
 Observers:
 
 * receive canonical updates
-* rebuild affected state
+* rebuild affected state via replay of canonical event history in canonical_sequence order
 * align with canonical event history
 
 ---
 
 ## Key Insight
 
-> CrypSA systems evolve through validated canonical events recorded in canonical event history, not continuous synchronized simulation.
+> CrypSA systems evolve through validated canonical events ordered and recorded in canonical event history, not continuous synchronized simulation.
 
 ---
 
@@ -138,4 +141,4 @@ It provides a simplified view of the same concepts.
 
 ## One Sentence Summary
 
-CrypSA models interaction flow as a progression from local simulation to validated canonical events, where accepted events are ordered, recorded in canonical event history, and used to reconstruct shared reality.
+CrypSA models interaction flow as a progression from local simulation to validated canonical events, where accepted events are assigned canonical_sequence, recorded in canonical event history, and used to reconstruct shared reality.
