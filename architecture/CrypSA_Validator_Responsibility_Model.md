@@ -24,14 +24,16 @@ If there is any conflict, **the spec takes precedence**.
 In CrypSA:
 
 > The validator does not simulate the world.
-> It controls what becomes real.
+> The validator defines what becomes canonical.
+
+Canonical event history is the source of truth.
 
 The validator acts as:
 
 * an event validator
 * an invariant enforcer
 * a canonical event recorder
-* an assigner of canonical ordering (`canonical_sequence`)
+* an assigner of canonical ordering (`canonical_sequence`), where accepted events become canonical and are appended to canonical event history
 
 Observers simulate the world locally.
 The validator ensures all accepted events are valid.
@@ -49,7 +51,7 @@ It may run:
 
 The responsibilities of the validator do not change based on where it runs.
 
-> Validation defines canonical truth, regardless of deployment.
+> The validator defines what becomes canonical, regardless of deployment.
 
 ---
 
@@ -89,11 +91,11 @@ Instead of computing the entire world, the validator:
 1. receives candidate events
 2. validates them
 3. accepts or rejects them
-4. appends accepted events to canonical event history
+4. accepted events become canonical and are appended to canonical event history
 
 This defines the minimal validator loop.
 
-All validation occurs at the invariant boundary.
+All candidate events cross the invariant boundary, where they become canonical or are rejected.
 
 > The invariant boundary is the only point at which canonical event history may change.
 
@@ -137,7 +139,7 @@ If an event violates invariants:
 
 ### 3. Canonical Event Recording
 
-Accepted events are appended to canonical event history.
+Accepted events become canonical and are appended to canonical event history.
 
 This includes:
 
@@ -166,6 +168,10 @@ The validator’s persistent data consists of:
 * optional snapshots
 
 The system is **event-first**, not state-first.
+
+Derived canonical state is reconstructed via replay.
+
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
 ---
 
