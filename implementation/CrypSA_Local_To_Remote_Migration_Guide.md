@@ -13,6 +13,7 @@ The goal is to ensure that:
 * the runtime model remains correct
 * validation behavior remains identical
 * canonical event history remains consistent
+* canonical ordering remains consistent
 * replay and reconciliation continue to function
 
 This is a **deployment migration**, not an architectural change.
@@ -53,7 +54,7 @@ You must have:
 
 * candidate event submission
 * validation pipeline
-* canonical event history (append-only)
+* canonical event history (append-only, ordered via canonical_sequence)
 * deterministic replay
 * derived canonical state
 * observer reconciliation
@@ -61,7 +62,7 @@ You must have:
 ### Required Guarantee
 
 ```text
-Same input → same canonical history → same derived state
+Same input → same canonical history (ordered via canonical_sequence) → same derived state
 ```
 
 If this is not true locally:
@@ -92,6 +93,7 @@ Prove that:
 * observer and validator can run independently
 * communication boundaries are clean
 * validator does not depend on observer internals
+* invariant boundary remains explicit and enforced
 
 ---
 
@@ -121,6 +123,10 @@ You must now handle:
 * duplicate messages
 * delayed messages
 
+And critically:
+
+* canonical ordering must only come from canonical_sequence, never from transport ordering
+
 ---
 
 ## Stage 4 — Remote Validator
@@ -135,7 +141,7 @@ At this stage:
 
 * validator is fully remote
 * multiple observers can connect
-* canonical event history is shared
+* canonical event history is shared and remains strictly ordered via canonical_sequence
 
 ---
 
@@ -166,7 +172,7 @@ same event + same state → same outcome
 ### 3. Canonical Event History
 
 * append-only
-* strictly ordered (`server_sequence`)
+* strictly ordered (`canonical_sequence`)
 * identical regardless of deployment
 
 ---
@@ -176,7 +182,7 @@ same event + same state → same outcome
 Replay must produce identical derived state:
 
 ```text
-same history → same world
+same history (ordered via canonical_sequence) → same world
 ```
 
 ---
@@ -196,6 +202,12 @@ Observers must still:
 * predict locally
 * receive canonical updates
 * reconcile differences
+
+---
+
+### 7. Canonical Ordering
+
+Canonical ordering must remain defined exclusively by canonical_sequence.
 
 ---
 
@@ -232,7 +244,7 @@ Transport may deliver messages:
 Observers must reorder using:
 
 ```text
-server_sequence
+canonical_sequence
 ```
 
 ---
@@ -269,6 +281,14 @@ Transport must not:
 
 ---
 
+### ❌ Letting Transport Reorder Reality
+
+Transport delivery order must never define canonical ordering.
+
+Only canonical_sequence defines ordering.
+
+---
+
 ### ❌ Skipping Replay
 
 Do not shortcut replay with direct state mutation.
@@ -294,7 +314,7 @@ Network transport is not guaranteed to be ordered.
 Always rely on:
 
 ```text
-server_sequence
+canonical_sequence
 ```
 
 ---
@@ -315,8 +335,8 @@ Run:
 Compare:
 
 ```text
-canonical event history → identical
-derived state → identical
+canonical event history → identical  
+derived state → identical  
 ```
 
 ---
@@ -357,6 +377,15 @@ Verify:
 
 ---
 
+### 5. Ordering Integrity
+
+Verify:
+
+* canonical events are ordered consistently via canonical_sequence
+* no transport-level ordering affects replay
+
+---
+
 ## Migration Strategy (Recommended)
 
 Do not jump directly to remote deployment.
@@ -376,7 +405,7 @@ Each step should fully work before moving forward.
 
 ## Key Insight
 
-> The validator moves. The architecture does not.
+> The validator moves. The architecture and canonical ordering model do not.
 
 ---
 
@@ -399,6 +428,7 @@ It should:
 
 * preserve validation behavior
 * preserve canonical event history
+* preserve canonical ordering
 * preserve replay correctness
 * preserve observer reconciliation
 
@@ -408,4 +438,4 @@ Only transport and deployment should change.
 
 ## One Sentence Summary
 
-CrypSA migration from local to remote moves the validator across a network boundary while preserving identical validation, canonical event history, and replay behavior.
+CrypSA migration from local to remote moves the validator across a network boundary while preserving identical validation, canonical event history, canonical ordering, and replay behavior.
