@@ -42,6 +42,8 @@ These responsibilities are implemented across:
 
 ## Core Components
 
+---
+
 ### Observers
 
 Observers:
@@ -66,7 +68,9 @@ The validator:
 * accepts or rejects them
 * assigns canonical ordering (`canonical_sequence`)
 
-Accepted events are appended to canonical event history, which defines what is true.
+Accepted events become canonical and are appended to canonical event history, which defines what is true.
+
+> Canonical event history is the source of truth.
 
 The validator is a **logical role**, not a specific machine.
 
@@ -169,7 +173,7 @@ CrypSA separates them to:
 
 ## Data Flow (Simplified)
 
-```mermaid
+```mermaid id="e9z2gk"
 flowchart LR
 
 A[Canonical Event History] --> B[Derived Canonical State]
@@ -182,7 +186,7 @@ D --> E[UI / Experience]
 
 ## Intent Flow (Simplified)
 
-```mermaid
+```mermaid id="n3b6rq"
 flowchart LR
 
 A[User Action] --> B[Candidate Event]
@@ -205,6 +209,8 @@ Truth is established through validation and recorded in canonical event history.
 
 Derived canonical state is reconstructed via replay.
 
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
+
 Everything else builds on that.
 
 ---
@@ -213,8 +219,8 @@ Everything else builds on that.
 
 CrypSA is structured around a clear separation of responsibilities:
 
-* validation determines what becomes canonical truth
-* canonical event history defines that truth
+* the validator defines what becomes canonical
+* canonical event history is the source of truth
 * adapters transform data
 * lenses interpret meaning
 * observers simulate and reconcile
