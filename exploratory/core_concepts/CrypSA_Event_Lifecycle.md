@@ -29,13 +29,14 @@ Instead:
 ```text
 Observer Action
 → Local Simulation
+→ Invariant Boundary Check
 → Candidate Event
 → Validation
 → Accepted Event (Canonical Event)
-→ Assign server_sequence
+→ Assign canonical_sequence
 → Canonical Event History Update
 → Observer Reconciliation
-````
+```
 
 Only accepted events affect shared reality.
 
@@ -43,7 +44,7 @@ Only accepted events affect shared reality.
 
 ## Conceptual Lifecycle
 
-```text id="lifecycle_flow_fixed"
+```text
 Observer Action
       ↓
 Local Simulation
@@ -52,7 +53,7 @@ Invariant Boundary Check
       ├── Remain Local
       └── Candidate Event
                 ↓
-         Event Submission
+  Submit Candidate Event to Validator
                 ↓
              Validation
          ├── Reject → Local Correction
@@ -60,7 +61,7 @@ Invariant Boundary Check
                 ↓
         Canonical Event Created
                 ↓
-        Assign server_sequence
+        Assign canonical_sequence
                 ↓
   Append to Canonical Event History
                 ↓
@@ -112,7 +113,7 @@ The system determines:
 
 ### 4. Candidate Event
 
-If canonical event history is affected:
+If the action crosses the invariant boundary:
 
 * a candidate event is created
 * it represents a proposed change
@@ -131,13 +132,13 @@ Additional metadata may exist depending on implementation.
 
 ### 5. Event Submission
 
-The candidate event is sent to the server.
+The candidate event is submitted to the validator.
 
 ---
 
 ### 6. Validation
 
-The server evaluates the event:
+The validator evaluates the event:
 
 * schema validation
 * identity validation
@@ -158,7 +159,8 @@ The event is:
 If accepted:
 
 * the event becomes a **canonical event**
-* the server assigns `server_sequence` (authoritative ordering)
+* the validator assigns `canonical_sequence` (authoritative ordering)
+* canonical_sequence defines the authoritative ordering of events for replay
 * the event is appended to canonical event history
 
 If rejected:
@@ -173,7 +175,7 @@ If rejected:
 Observers receive updates and:
 
 * confirm or correct local simulation
-* rebuild affected objects via replay
+* rebuild affected objects via replay in canonical_sequence order
 * align with canonical event history
 
 ---
@@ -210,7 +212,7 @@ payload = mining_station
 
 ### Validation
 
-The server checks:
+The validator checks:
 
 * tile exists
 * tile is valid
@@ -247,7 +249,7 @@ After canonical updates:
 
 ## Key Insight
 
-> CrypSA systems evolve through validated canonical events recorded in canonical event history rather than continuous synchronized simulation.
+> CrypSA systems evolve through validated canonical events ordered and recorded in canonical event history rather than continuous synchronized simulation.
 
 ---
 
@@ -285,4 +287,4 @@ CrypSA systems:
 
 ## One Sentence Summary
 
-CrypSA models world evolution as a lifecycle where local actions become candidate events, validated events become canonical events, and accepted events are recorded in canonical event history for deterministic reconstruction by observers.
+CrypSA models world evolution as a lifecycle where local actions become candidate events, validated events become canonical events, and accepted events are assigned canonical_sequence, recorded in canonical event history, and used for deterministic reconstruction by observers.
