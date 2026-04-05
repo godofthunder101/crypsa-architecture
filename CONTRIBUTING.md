@@ -2,7 +2,7 @@
 
 Thank you for your interest in contributing to CrypSA.
 
-This repository defines a **software architecture**, not just a codebase.
+This repository defines a **software architecture**, not just a codebase.  
 Clarity, consistency, and correctness are critical.
 
 Before contributing, please read this document carefully.
@@ -44,7 +44,7 @@ The repository is structured by document authority:
 
 If there is any conflict:
 
-> The `spec/` directory is the source of truth
+> The `spec/` directory is the source of truth.
 
 ---
 
@@ -75,9 +75,9 @@ All contributors must follow the terminology defined in:
 
 ✔ Correct:
 
-```id="tr8wq5"
+``` id="tr8wq5"
 validator validates events
-```
+````
 
 ❌ Incorrect:
 
@@ -284,7 +284,9 @@ This ensures:
 * canonical phrasing correctness
 * architectural boundary integrity
 
-Pull requests may be rejected if they do not pass this checklist.
+The repository also enforces a strict docs gate in CI.
+
+Pull requests that introduce banned terminology drift or non-canonical phrasing in changed documentation may fail automatically.
 
 ---
 
