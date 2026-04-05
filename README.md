@@ -1,4 +1,4 @@
-CrypSA — Cryptid Server Architecture
+#CrypSA — Cryptid Server Architecture
 
 CrypSA is an event-driven architecture for building persistent digital worlds.
 
