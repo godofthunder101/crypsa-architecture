@@ -28,6 +28,11 @@ CrypSA is currently:
 * backed by a completed teaching prototype
 * not yet a production runtime
 
+CrypSA is:
+
+* architecturally complete
+* runtime incomplete
+
 The project has moved beyond a conceptual idea and now includes:
 
 * formal specifications
@@ -45,9 +50,11 @@ CrypSA separates responsibilities into four layers:
 * **Interpretation** — lenses determining observer meaning
 * **Experience** — UI and local simulation
 
-The server controls truth.
+The validator controls truth.
 
 Observers simulate locally.
+
+* canonical event history is ordered via canonical_sequence
 
 ---
 
@@ -82,10 +89,10 @@ The repository currently defines CrypSA through:
 Together, these define:
 
 * the observer model
-* the server role in validation and canonical event handling
-* event-driven world evolution
+* the validator role in validation and canonical event handling
+* validated canonical event-driven world evolution
 * invariant-based validation
-* reconstruction from canonical event history
+* reconstruction from canonical event history ordered via canonical_sequence
 
 ---
 
@@ -116,6 +123,7 @@ Current coverage includes:
 * snapshot model
 * identity model
 * transport model
+* canonical ordering model (canonical_sequence)
 
 These documents define how CrypSA is expected to function as a system.
 
@@ -135,6 +143,7 @@ It demonstrates:
 
 * canonical event flow
 * validation and invariant boundaries
+* explicit invariant boundary enforcement
 * canonical vs observer-local state
 * replay-derived state
 * adapter and lens separation
@@ -160,9 +169,10 @@ A minimal server design has been defined in:
 
 This document describes:
 
-* the smallest viable independent server
+* the smallest viable independent validator
 * validation pipeline structure
-* canonical event handling
+* invariant boundary enforcement
+* canonical event handling and ordering (canonical_sequence)
 * observer interaction
 
 ---
@@ -179,6 +189,7 @@ The following are **not yet implemented**:
 * advanced anti-cheat systems
 * cryptographic validation or trust systems
 * branch merging or offline synchronization
+* verified canonical ordering under distributed conditions
 
 ---
 
@@ -202,10 +213,11 @@ It exists to:
 
 CrypSA is currently focused on proving:
 
-1. that canonical event-driven truth is viable
+1. that canonical event-driven truth with deterministic ordering is viable
 2. that invariant-based validation can replace full server simulation
 3. that observers can reconstruct shared state from canonical event history
 4. that observer reconciliation is manageable
+5. that deterministic reconstruction from canonical event history ordered via canonical_sequence is reliable
 
 The goal is to validate the architecture, not optimize it.
 
@@ -221,10 +233,10 @@ The minimal server will test CrypSA as a runtime system.
 
 This introduces:
 
-* an independent server process
+* an independent validator process
 * real event submission over a network
 * validation pipeline execution
-* canonical event history
+* canonical event history (ordered via canonical_sequence)
 * derived state updates
 * multi-observer interaction
 
@@ -246,6 +258,7 @@ Immediate priorities:
 3. test validation and conflict resolution
 4. validate replay and reconstruction
 5. test reconnect and snapshot recovery
+6. validate canonical ordering under network conditions
 
 ---
 
@@ -301,4 +314,4 @@ Use these for background only, not as the current source of truth.
 
 ## One Sentence Summary
 
-CrypSA is a defined architecture with formal specifications and a completed teaching prototype, now moving toward its first real runtime implementation through a minimal independent server.
+CrypSA is a defined architecture with formal specifications and a completed teaching prototype, now moving toward its first real runtime implementation through a minimal independent validator while preserving canonical truth, ordering, and deterministic reconstruction.
