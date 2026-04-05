@@ -275,7 +275,6 @@ You should:
 ## 🔍 Documentation Linting
 
 Before submitting any change, contributors should run:
-The strict docs gate may print exact replacement suggestions for non-canonical phrasing. Apply those suggestions directly unless a broader wording change is required.
 
 → `docs/DOCS_LINT_CHECKLIST.md`
 
@@ -288,6 +287,8 @@ This ensures:
 The repository also enforces a strict docs gate in CI.
 
 Pull requests that introduce banned terminology drift or non-canonical phrasing in changed documentation may fail automatically.
+
+The strict docs gate may print exact replacement suggestions for non-canonical phrasing. Apply those suggestions directly unless a broader wording change is required.
 
 ---
 
