@@ -24,12 +24,13 @@ The CrypSA teaching prototype is:
 
 It demonstrates:
 
-* canonical event history as the source of truth
+* canonical event history as the source of truth (ordered via canonical_sequence)
 * validation against invariants
-* state derived from canonical event history (via replay)
+* derived canonical state (via replay)
 * observer-side simulation and observer reconciliation
 * separation of truth, translation, interpretation, and experience
-* adapter and request boundaries in practice
+* adapter boundaries and invariant boundary handling in practice
+* the invariant boundary as the transition between local simulation and canonical validation
 
 Its goal is to make the architecture understandable and tangible.
 
@@ -42,7 +43,7 @@ This prototype is not:
 * a production runtime
 * a distributed or networked system
 * a scalability or performance proof
-* a final reference implementation of CrypSA
+* a reference runtime implementation of CrypSA
 
 It simplifies or omits:
 
@@ -53,7 +54,7 @@ It simplifies or omits:
 
 Important:
 
-> This prototype does not include an independent server or real networked authority.
+> This prototype does not include an independent validator deployment or real networked authority.
 
 ---
 
@@ -69,7 +70,7 @@ The prototype:
 
 It is now:
 
-> frozen except for bug fixes and documentation updates
+> frozen except for bug fixes and documentation updates, and will not evolve into a runtime system
 
 ---
 
@@ -110,7 +111,7 @@ The next phase of CrypSA is not to extend this prototype.
 
 Instead, future work should focus on:
 
-* building a minimal server/runtime
+* building a minimal validator/runtime
 * testing distributed behavior
 * validating synchronization and transport models
 * exploring multi-observer and network scenarios
@@ -125,7 +126,7 @@ Use this prototype to:
 
 * understand the CrypSA model
 * explore canonical event flow
-* inspect replay and derived state
+* inspect replay and derived canonical state
 * experiment with local simulation and observer reconciliation
 * study adapter and lens boundaries
 
