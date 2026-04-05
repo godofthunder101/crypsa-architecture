@@ -6,9 +6,11 @@ This folder contains implementation strategy, build direction, project status, a
 
 These documents describe:
 
-* how the system may be structured and built in code  
-* how components may be organized in practice  
-* how architectural ideas translate into implementation  
+* how the system may be implemented in code
+* how components may be organized in practice
+* how architectural ideas translate into implementation
+
+Implementation must treat the validator as the authority over canonical event history.
 
 ---
 
@@ -18,16 +20,19 @@ Documents in this folder are **not authoritative**.
 
 They:
 
-* do not define runtime behavior  
-* do not define validation rules  
-* do not define truth  
+* do not define runtime behavior
+* do not define validation rules
+* do not define truth
 
 They must not be treated as:
 
-* specification documents  
-* architecture definitions  
+* specification documents
+* architecture definitions
 
-Examples and code patterns in this folder are illustrative and must not be treated as authoritative behavior.
+Implementation must not treat derived state or local simulation as authoritative.
+Canonical event history remains the sole source of truth.
+
+Examples and code patterns are illustrative and must not be treated as normative or complete implementations.
 
 ---
 
@@ -47,13 +52,13 @@ For conceptual system structure, refer to:
 
 CrypSA separates documentation responsibilities across three layers:
 
-* **Architecture** → what the system is  
-* **Spec** → how the system behaves  
-* **Implementation** → how the system is built  
+* **Architecture** → what the system is
+* **Spec** → how the system behaves
+* **Implementation** → how the system is built
 
 This folder exists only in the **implementation layer**.
 
-Implementation must never override or reinterpret behavior defined in the spec.
+Implementation must never override, reinterpret, or bypass behavior defined in the spec.
 
 ---
 
@@ -61,14 +66,15 @@ Implementation must never override or reinterpret behavior defined in the spec.
 
 Documents in this folder must not:
 
-* redefine validation logic  
-* redefine event structure  
-* redefine invariants  
-* introduce conflicting terminology  
+* redefine validation logic
+* redefine event structure
+* redefine invariants
+* redefine invariant boundary behavior
+* introduce conflicting terminology
 
 If a conflict exists:
 
-> the spec and architecture always take precedence  
+> the spec and architecture always take precedence
 
 ---
 
@@ -78,9 +84,11 @@ Implementation guidance may evolve as the system is built.
 
 If implementation patterns become stable and necessary:
 
-* behavioral rules must move to `spec/`  
-* structural definitions must move to `architecture/`  
-* this folder must remain non-authoritative  
+* behavioral rules must move to `spec/`
+* structural definitions must move to `architecture/`
+* this folder must remain non-authoritative
+
+No behavioral rule should remain only in implementation documentation.
 
 Implementation documents should not become authoritative definitions.
 
@@ -88,4 +96,4 @@ Implementation documents should not become authoritative definitions.
 
 ## One Sentence Summary
 
-This folder explains how CrypSA can be built in practice, but the authoritative system definition lives in the specification and architecture layers.
+This folder provides practical guidance for building CrypSA systems, while authoritative behavior and structure are defined in the specification and architecture layers.
