@@ -24,14 +24,14 @@ This document provides a conceptual view of invariants, not a formal specificati
 
 An invariant is a rule that must always remain true in canonical reality.
 
-Canonical reality is defined by canonical event history.
+Canonical reality is defined by canonical event history, and derived canonical state is a computed view of that history.
 
 Examples:
 
-* an object cannot exist in two locations simultaneously  
-* an item cannot be owned by multiple actors at the same time  
-* a structure cannot occupy an invalid location  
-* an upgrade cannot be applied to a non-existent item  
+* an object cannot exist in two locations simultaneously
+* an item cannot be owned by multiple actors at the same time
+* a structure cannot occupy an invalid location
+* an upgrade cannot be applied to a non-existent item
 
 If a proposed event would violate an invariant:
 
@@ -47,10 +47,10 @@ Invariants protect the structural integrity of the universe.
 
 Without invariants, systems could produce:
 
-* duplicated unique objects  
-* impossible states  
-* invalid geometry  
-* inconsistent ownership  
+* duplicated unique objects
+* impossible states
+* invalid geometry
+* inconsistent ownership
 
 By enforcing invariants, CrypSA ensures canonical event history remains logically consistent.
 
@@ -62,21 +62,21 @@ Invariants are enforced during validator validation.
 
 Conceptually:
 
-```text
+```text id="m3g0f1"
 Observer Action
 → Local Simulation
+→ Invariant Boundary Check
 → Candidate Event
 → Validation (Invariant Enforcement)
 → Accepted Event (Canonical Event)
 → Assign canonical_sequence
 → Append to Canonical Event History
 → Observer Reconciliation
-````
+```
 
-The invariant boundary separates:
+canonical_sequence defines the authoritative ordering of events for deterministic replay.
 
-* local simulation freedom
-* canonical authority
+The invariant boundary defines the point where actions that affect canonical event history must be validated before becoming canonical.
 
 ---
 
@@ -90,7 +90,7 @@ Examples:
 
 * identities are unique
 * objects cannot duplicate
-* destroyed objects cannot reappear without a valid event
+* destroyed objects cannot reappear without a canonical event
 
 ---
 
@@ -126,7 +126,7 @@ Examples:
 
 * an object must exist before being modified
 * invalid transitions are disallowed
-* order of operations is preserved
+* order of operations is preserved via canonical_sequence
 
 ---
 
@@ -162,7 +162,7 @@ Invariants ensure that candidate events affecting those objects follow valid rul
 
 ## Observer vs Validator Responsibility
 
-Observerss may perform local checks for user experience.
+Observers may perform local checks for user experience.
 
 Examples:
 
@@ -197,7 +197,7 @@ Example:
 Because all accepted events satisfy invariants:
 
 * canonical event history remains consistent
-* reconstruction via replay is reliable
+* reconstruction via replay in canonical_sequence order is reliable
 * contradictions do not occur
 
 ---
@@ -234,4 +234,4 @@ The validator enforces these rules during validation, ensuring that all accepted
 
 ## One Sentence Summary
 
-CrypSA invariants define the rules of canonical reality and are enforced during validation so that only events that preserve consistency become part of canonical event history.
+CrypSA invariants define the rules of canonical reality and are enforced during validation so that only events that preserve consistency are assigned canonical_sequence and become part of canonical event history.
