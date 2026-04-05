@@ -6,9 +6,8 @@ Instead of synchronizing full world state, CrypSA synchronizes **validated canon
 
 Observers simulate locally, while a **validator** determines what becomes canonical truth.
 
-> Reality is not synchronized — it is agreed upon through validated events.
-
-> The validator defines canonical truth.
+> Reality is not synchronized — it is agreed upon through validated events.  
+> The validator defines canonical truth.  
 > It may run locally or remotely, but its role does not change.
 
 ---
@@ -17,10 +16,10 @@ Observers simulate locally, while a **validator** determines what becomes canoni
 
 If you're new to CrypSA, follow this path:
 
-1. 🧭 `CrypSA_In_One_Diagram.md` — see the system at a glance
-2. 📘 `CrypSA_In_5_Minutes.md` — understand the core idea
-3. 📖 `CrypSA_Terminology_Primer.md` — learn the language
-4. 📖 `CrypSA_Worked_Example.md` — see it in action
+1. 🧭 `CrypSA_In_One_Diagram.md` — see the system at a glance  
+2. 📘 `CrypSA_In_5_Minutes.md` — understand the core idea  
+3. 📖 `CrypSA_Terminology_Primer.md` — learn the language  
+4. 📖 `CrypSA_Worked_Example.md` — see it in action  
 
 ---
 
@@ -42,15 +41,15 @@ CrypSA defines how systems agree on truth.
 
 It provides a model where:
 
-* **truth is validated, not assumed**
-* **state is derived, not synchronized**
-* **simulation is local, but authority is centralized**
+- **truth is validated, not assumed**  
+- **state is derived, not synchronized**  
+- **simulation is local, but authority is centralized**  
 
 This enables systems that are:
 
-* deterministic
-* replayable
-* resistant to desynchronization
+- deterministic  
+- replayable  
+- resistant to desynchronization  
 
 ---
 
@@ -60,10 +59,10 @@ CrypSA does not replace engines or networking stacks.
 
 It is **not**:
 
-* a game engine
-* a networking library
-* a state replication system
-* an ECS framework
+- a game engine  
+- a networking library  
+- a state replication system  
+- an ECS framework  
 
 > CrypSA defines **truth agreement**, not rendering, transport, or simulation.
 
@@ -73,10 +72,10 @@ It is **not**:
 
 The following must always hold:
 
-* Only the **validator** may modify canonical event history
-* All canonical changes must pass **validation**
-* All changes must cross the **invariant boundary**
-* Observers may simulate freely, but **never define truth**
+- Only the **validator** may modify canonical event history  
+- All canonical changes must pass **validation**  
+- All changes must cross the **invariant boundary**  
+- Observers may simulate freely, but **never define truth**  
 
 ---
 
@@ -319,3 +318,5 @@ Beau Wells
 One Sentence Summary
 
 CrypSA defines how systems agree on truth through validated canonical events.
+
+---
