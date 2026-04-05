@@ -10,17 +10,19 @@ These documents are intended to:
 * explore early or alternative ideas
 * capture conceptual thinking
 
+This folder is part of the broader `exploratory/` layer and follows the same non-authoritative rules.
+
 ---
 
 ## Important
 
-Documents in this folder are **not authoritative**.
+Documents in this folder are **non-authoritative**.
 
 They:
 
 * do not define the current architecture
 * do not define system behavior
-* may be incomplete, outdated, or simplified
+* may be incomplete, evolving, or simplified
 
 They must not be treated as:
 
@@ -38,7 +40,11 @@ For the current CrypSA model, refer to:
 * `../../architecture/`
 * `../../spec/`
 
-These define the authoritative structure and behavior of the system.
+These define the authoritative structure and runtime behavior of the system.
+
+If there is any conflict between documents:
+
+> the `/spec` layer takes precedence
 
 ---
 
@@ -49,6 +55,11 @@ Documents in this folder must not:
 * redefine core architectural concepts
 * introduce conflicting terminology
 * override definitions in `architecture/` or `spec/`
+
+Documents in this folder must also:
+
+* use **validator**, not “server” (unless referring to deployment)
+* use canonical terminology (e.g. canonical event history, candidate event, invariant boundary)
 
 If a conflict exists:
 
@@ -68,10 +79,10 @@ If a concept from this folder becomes stable:
    * `spec/` (behavior)
    * `implementation/` (practical guidance)
 
-Concepts should not become authoritative while remaining in this folder.
+Concepts must not become authoritative while remaining in this folder.
 
 ---
 
 ## One Sentence Summary
 
-This folder captures conceptual models and early ideas for CrypSA, but the authoritative system definition lives in the architecture and spec layers.
+This folder captures conceptual models and early ideas for CrypSA, while the authoritative system definition lives in the architecture and spec layers.
