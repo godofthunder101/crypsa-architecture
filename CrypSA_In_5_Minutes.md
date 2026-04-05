@@ -6,6 +6,13 @@ If you only read one document, read this.
 
 ---
 
+Before reading this, you should have seen:
+→ CrypSA_In_One_Diagram.md
+
+This document explains the same system in words.
+
+---
+
 ## The Core Idea
 
 CrypSA is a multiplayer architecture where:
