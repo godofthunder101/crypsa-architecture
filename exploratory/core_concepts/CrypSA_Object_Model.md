@@ -22,7 +22,7 @@ Instead, objects are reconstructed deterministically from:
 * genome
 * canonical event history
 
-Derived state is computed from this information.
+Derived canonical state is computed from this information.
 
 ---
 
@@ -32,11 +32,11 @@ A CrypSA object is not defined by its current state alone.
 
 Instead:
 
-> A CrypSA object is a deterministic reconstruction of identity, genome, and validated event history.
+> A CrypSA object is a deterministic reconstruction of identity, genome, and validated canonical event history.
 
 Canonical event history is the source of truth.
 
-Derived state is a computed result.
+Derived canonical state is a computed result.
 
 ---
 
@@ -101,14 +101,14 @@ The event history defines how the object evolves over time.
 
 Examples:
 
-```text
-mint → upgrade → transfer → upgrade → damage
+```text id="m0k7hf"
+mint → upgrade → transfer → upgrade → damage (ordered via canonical_sequence)
 ```
 
 This history is:
 
-* canonical (server-validated)
-* ordered
+* canonical (validator-validated)
+* ordered (via canonical_sequence)
 * append-only (conceptually)
 
 This is the authoritative source of truth.
@@ -117,7 +117,7 @@ This is the authoritative source of truth.
 
 ### 4. Derived Canonical State
 
-Derived state represents the current observable state of the object.
+Derived canonical state represents the current observable state of the object.
 
 Examples:
 
@@ -137,8 +137,8 @@ This state:
 
 Observers reconstruct objects using:
 
-```text
-identity + genome + canonical event history → derived state
+```text id="c6g1rb"
+identity + genome + canonical event history → derived canonical state
 ```
 
 This enables:
@@ -163,7 +163,7 @@ genome: sword_type_A
 
 Event:
 
-```text
+```text id="w8szr4"
 upgrade → +sharpness
 ```
 
@@ -173,7 +173,7 @@ upgrade → +sharpness
 
 Event:
 
-```text
+```text id="c8czb1"
 transfer → player_B
 ```
 
@@ -186,7 +186,7 @@ Any observer reconstructs:
 * identity → sword_1001
 * genome → sword_type_A
 * history → [mint, upgrade, transfer]
-* derived state → computed from history
+* derived canonical state → computed from history
 
 All observers reach the same result.
 
@@ -229,15 +229,15 @@ The object model relies on invariants to ensure event history remains valid.
 
 Objects evolve through events:
 
-```text
-Event → validated → appended → affects derived state
+```text id="j93j2x"
+Event → validated → assigned canonical_sequence → appended → affects derived canonical state
 ```
 
 The object model is the result of this process.
 
 ---
 
-## Client vs Server Perspective
+## Client vs Validator Perspective
 
 **Client (Observer)**
 
@@ -245,7 +245,7 @@ The object model is the result of this process.
 * simulates interactions
 * predicts outcomes
 
-**Server (Truth Layer)**
+**Validator (Truth Layer)**
 
 * validates events
 * enforces invariants
@@ -288,13 +288,13 @@ At minimum, a CrypSA object requires:
 * genome
 * canonical event history
 
-Derived state can always be computed.
+Derived canonical state can always be computed.
 
 ---
 
 ## Key Insight
 
-> CrypSA objects are derived from validated history, not stored as mutable state.
+> CrypSA objects are derived from validated canonical event history, not stored as mutable state.
 
 ---
 
@@ -308,4 +308,4 @@ This allows consistent shared worlds without requiring centralized simulation or
 
 ## One Sentence Summary
 
-A CrypSA object is a deterministic reconstruction of identity, genome, and validated event history, with current state derived from that history.
+A CrypSA object is a deterministic reconstruction of identity, genome, and validated canonical event history, with current state derived from that history.
