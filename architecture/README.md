@@ -28,10 +28,11 @@ If there is any conflict, **the spec takes precedence**.
 CrypSA structures multiplayer systems around **validated events as truth**.
 
 * actions become **candidate events**
-* the **validator** determines what becomes canonical
+* the **validator** defines what becomes canonical
 * accepted events form **canonical event history**
 
 > **The shared world is defined by canonical event history, not synchronized state.**
+> Canonical event history is the source of truth.
 
 ---
 
@@ -42,9 +43,8 @@ At a system level, everything follows this flow:
 1. Observer simulates locally
 2. Observer proposes a **candidate event**
 3. Validator evaluates the event
-4. Accepted events become **canonical**
-5. Canonical events are appended to **canonical event history**
-6. Observers reconcile to canonical truth
+4. Accepted events become canonical and are appended to canonical event history
+5. Observers reconcile to canonical truth
 
 This defines the boundary between:
 
@@ -92,7 +92,9 @@ It:
 * enforces invariants
 * determines what becomes canonical
 
-> The validator defines truth.
+> The validator defines what becomes canonical.
+
+The validator enforces the invariant boundary — where candidate events become canonical or are rejected.
 
 It is a **role**, not a location.
 
@@ -116,7 +118,9 @@ This provides responsiveness without sacrificing consistency.
 State is not stored as truth.
 
 * canonical event history is authoritative
-* state is reconstructed via replay
+* derived canonical state is reconstructed via replay
+
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
 Replay enables:
 
@@ -168,7 +172,7 @@ It is:
 
 ## Layer Relationship (Simplified)
 
-```mermaid id="f1y8qk"
+```mermaid id="z8y4tq"
 flowchart LR
 
 A[Canonical Event History] --> B[Derived Canonical State]
