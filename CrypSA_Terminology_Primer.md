@@ -248,7 +248,7 @@ It includes:
 
 Result:
 
-* valid → appended to canonical event history
+* valid → becomes canonical and is appended to canonical event history
 * invalid → rejected
 
 Validation determines what becomes **truth**.
@@ -261,6 +261,8 @@ The **canonical event history** is:
 
 * the ordered sequence of canonical events
 * the authoritative record of what has happened
+
+> Canonical event history is the source of truth.
 
 Everything else is derived from this.
 
@@ -288,7 +290,7 @@ It is:
 * not stored as truth
 * always reconstructable
 
-> It is a projection of truth, not the source of truth.
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
 ---
 
@@ -371,12 +373,4 @@ CrypSA separates the system into four responsibilities:
 
 And critically:
 
-> validation defines canonical truth, regardless of deployment
-
----
-
-## Next Step
-
-Continue to:
-
-👉 `CrypSA_Worked_Example.md`
+> the validator defines what becomes canonical, regardless of deployment
