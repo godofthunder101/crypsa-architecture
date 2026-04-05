@@ -29,5 +29,5 @@ jobs:
       - name: Run CrypSA docs gate
         shell: bash
         run: |
-          chmod +x scripts/docs_gate.sh
-          scripts/docs_gate.sh "${{ steps.base.outputs.ref }}"
+          chmod +x .github/scripts/docs_gate.sh
+          .github/scripts/docs_gate.sh "${{ steps.base.outputs.ref }}"
