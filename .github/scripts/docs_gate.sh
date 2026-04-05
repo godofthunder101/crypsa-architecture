@@ -3,7 +3,10 @@ set -euo pipefail
 
 BASE_REF="${1:-origin/main}"
 
-# Get unified=0 diff so only changed lines are shown with minimal context.
+echo "🧠 CrypSA Docs Gate (v3)"
+echo
+
+# Get diff with file names and line numbers
 diff_output="$(git diff --unified=0 "$BASE_REF"...HEAD -- '*.md' '*.MD' || true)"
 
 if [[ -z "$diff_output" ]]; then
@@ -11,114 +14,129 @@ if [[ -z "$diff_output" ]]; then
   exit 0
 fi
 
-# Collect only added lines from markdown diffs.
-# Ignore file headers (+++) and diff hunk markers.
-added_lines="$(printf '%s\n' "$diff_output" | grep -E '^\+' | grep -vE '^\+\+\+' || true)"
-
-if [[ -z "$added_lines" ]]; then
-  echo "No added markdown lines to check."
-  exit 0
-fi
-
-echo "Checking added markdown lines only..."
-echo
-
 failed=0
 
-check_pattern() {
-  local pattern="$1"
-  local message="$2"
+current_file=""
 
-  local matches
-  matches="$(printf '%s\n' "$added_lines" | grep -nEi "$pattern" || true)"
+print_error() {
+  local file="$1"
+  local line="$2"
+  local content="$3"
+  local message="$4"
 
-  if [[ -n "$matches" ]]; then
-    echo "$matches"
-    echo
-    echo "ERROR: $message"
-    echo
+  echo "❌ $file:$line"
+  echo "   $content"
+  echo
+  echo "   → $message"
+  echo
+}
+
+check_line() {
+  local file="$1"
+  local line="$2"
+  local content="$3"
+
+  # ------------------------------
+  # Validator vs server drift
+  # ------------------------------
+  if [[ "$content" =~ \bserver\ validates\ events\b ]]; then
+    print_error "$file" "$line" "$content" \
+      'Use "validator validates events", not "server validates events".'
+    failed=1
+  fi
+
+  if [[ "$content" =~ \bserver\ accepts ]]; then
+    print_error "$file" "$line" "$content" \
+      'Use "validator accepts the event", not "server accepts the event".'
+    failed=1
+  fi
+
+  if [[ "$content" =~ \bserver\ assigns ]]; then
+    print_error "$file" "$line" "$content" \
+      'Use "validator assigns canonical sequence", not "server assigns sequence".'
+    failed=1
+  fi
+
+  # ------------------------------
+  # Canonical authority drift
+  # ------------------------------
+  if [[ "$content" =~ validator\ defines\ truth ]]; then
+    print_error "$file" "$line" "$content" \
+      'Use: "The validator defines what becomes canonical."'
+    failed=1
+  fi
+
+  if [[ "$content" =~ validation\ defines ]]; then
+    print_error "$file" "$line" "$content" \
+      'Use: "The validator defines what becomes canonical."'
+    failed=1
+  fi
+
+  if [[ "$content" =~ becomes\ real ]]; then
+    print_error "$file" "$line" "$content" \
+      'Use: "The validator defines what becomes canonical."'
+    failed=1
+  fi
+
+  # ------------------------------
+  # Event lifecycle drift
+  # ------------------------------
+  if [[ "$content" =~ appended\ to\ canonical\ event\ history ]]; then
+    if [[ ! "$content" =~ becomes\ canonical ]]; then
+      print_error "$file" "$line" "$content" \
+        'Use: "If accepted, an event becomes canonical and is appended to canonical event history."'
+      failed=1
+    fi
+  fi
+
+  # ------------------------------
+  # Source of truth drift
+  # ------------------------------
+  if [[ "$content" =~ canonical\ event\ history\ is\ truth ]]; then
+    print_error "$file" "$line" "$content" \
+      'Use: "Canonical event history is the source of truth."'
+    failed=1
+  fi
+
+  # ------------------------------
+  # Derived state drift
+  # ------------------------------
+  if [[ "$content" =~ projection\ of\ truth ]]; then
+    print_error "$file" "$line" "$content" \
+      'Use the canonical derived state phrase.'
     failed=1
   fi
 }
 
-# ------------------------------
-# Validator vs server drift
-# ------------------------------
-check_pattern '\bserver validates events\b' \
-  'Use "validator validates events", not "server validates events".'
+line_number=0
 
-check_pattern '\bserver accepts( the)? event\b' \
-  'Use "validator accepts the event", not "server accepts the event".'
+while IFS= read -r line; do
+  # Track file names
+  if [[ "$line" =~ ^diff\ --git ]]; then
+    current_file="$(echo "$line" | awk '{print $4}' | sed 's|b/||')"
+    continue
+  fi
 
-check_pattern '\bserver assigns( canonical)? sequence\b' \
-  'Use "validator assigns canonical sequence", not "server assigns sequence".'
+  # Track line numbers
+  if [[ "$line" =~ ^@@ ]]; then
+    line_number="$(echo "$line" | sed -E 's/^@@ .* \+([0-9]+).*/\1/')"
+    continue
+  fi
 
-check_pattern '\bserver is the source of truth\b' \
-  'Use "Canonical event history is the source of truth" and "The validator defines what becomes canonical."'
+  # Only check added lines
+  if [[ "$line" =~ ^\+ && ! "$line" =~ ^\+\+\+ ]]; then
+    content="${line:1}"
 
-# ------------------------------
-# Canonical authority drift
-# ------------------------------
-check_pattern '\bvalidator defines truth\b' \
-  'Use the canonical phrase: "The validator defines what becomes canonical."'
+    check_line "$current_file" "$line_number" "$content"
 
-check_pattern '\bvalidation defines canonical truth\b' \
-  'Use the canonical phrase: "The validator defines what becomes canonical."'
+    ((line_number++))
+  fi
 
-check_pattern '\bvalidation defines truth\b' \
-  'Use the canonical phrase: "The validator defines what becomes canonical."'
-
-check_pattern '\bvalidation defines reality\b' \
-  'Use the canonical phrase: "The validator defines what becomes canonical."'
-
-check_pattern '\bcontrols what becomes real\b' \
-  'Use the canonical phrase: "The validator defines what becomes canonical."'
-
-check_pattern '\bdefines what becomes real\b' \
-  'Use the canonical phrase: "The validator defines what becomes canonical."'
-
-# ------------------------------
-# Event lifecycle drift
-# ------------------------------
-check_pattern '\bevent is appended to canonical event history\b' \
-  'Use the canonical phrase: "If accepted, an event becomes canonical and is appended to canonical event history."'
-
-check_pattern '\baccepted events are appended to canonical event history\b' \
-  'Use the canonical phrase: "If accepted, an event becomes canonical and is appended to canonical event history."'
-
-check_pattern '\baccepted events form canonical event history\b' \
-  'Prefer the canonical lifecycle phrasing when describing acceptance.'
-
-# ------------------------------
-# Source of truth drift
-# ------------------------------
-check_pattern '\bcanonical event history is truth\b' \
-  'Use the canonical phrase: "Canonical event history is the source of truth."'
-
-check_pattern '\bdefines what is true\b' \
-  'Prefer the canonical phrase: "Canonical event history is the source of truth."'
-
-# ------------------------------
-# Derived state drift
-# ------------------------------
-check_pattern '\bprojection of truth\b' \
-  'Use the canonical phrase: "Derived canonical state is a projection of canonical event history. It is not the source of truth."'
-
-check_pattern '\bstate is not stored as truth — it is derived from events\b' \
-  'Use the canonical derived-state phrase instead.'
-
-check_pattern '\bstate is not stored as truth\b' \
-  'When defining derived state, use: "Derived canonical state is a projection of canonical event history. It is not the source of truth."'
-
-# ------------------------------
-# Optional soft bans for likely drift
-# ------------------------------
-#check_pattern '\bclient\b' \
-#  'Use "observer" unless this is specifically a networking discussion.'
+done <<< "$diff_output"
 
 if [[ "$failed" -ne 0 ]]; then
-  echo "CrypSA docs gate failed."
+  echo "❌ CrypSA docs gate failed."
   exit 1
 fi
 
-echo "CrypSA docs gate passed."
+echo "✅ CrypSA docs gate passed."
