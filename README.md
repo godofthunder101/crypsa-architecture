@@ -99,8 +99,7 @@ I --> J[Broadcast]
 
 J --> K[Observer Reconciliation]
 G --> K
-
-
+```
 ---
 
 📚 Documentation Guide
@@ -318,5 +317,3 @@ Beau Wells
 One Sentence Summary
 
 CrypSA defines how systems agree on truth through validated canonical events.
-
----
