@@ -4,7 +4,7 @@ CrypSA is an event-driven architecture for building persistent digital worlds.
 
 Instead of synchronizing full world state, CrypSA synchronizes **validated canonical events under invariant rules**.
 
-Observers simulate locally, while the validator defines what becomes canonical.
+Observers simulate locally. The validator defines what becomes canonical.
 
 > Reality is not synchronized — it is agreed upon through validated events.
 > The validator defines what becomes canonical.
@@ -22,6 +22,23 @@ If you're new to CrypSA, follow this path:
 2. 📘 CrypSA_In_5_Minutes.md — understand the core idea
 3. 📖 CrypSA_Terminology_Primer.md — learn the language
 4. 📖 CrypSA_Worked_Example.md — see it in action
+
+---
+
+## ⚙️ System Model (At a Glance)
+
+CrypSA follows a consistent event lifecycle:
+
+1. Observer simulates locally
+2. Observer proposes a **candidate event**
+3. Validator evaluates the event
+4. If accepted, the event becomes canonical and is appended to canonical event history
+5. Observers reconcile to canonical truth
+
+This defines the boundary between:
+
+* local simulation
+* canonical reality
 
 ---
 
@@ -46,6 +63,8 @@ It provides a model where:
 * truth is validated, not assumed
 * state is derived, not synchronized
 * simulation is local, but authority is centralized
+
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
 This enables systems that are:
 
@@ -83,7 +102,7 @@ The following must always hold:
 
 ## ⚙️ How CrypSA Works
 
-```mermaid
+```mermaid id="crypsa_root_flow"
 flowchart LR  
 
 A[Player Action] --> B[Local Simulation]  
@@ -183,6 +202,11 @@ Read:
 * terminology primer
 * architecture
 * spec
+* CONTRIBUTING.md
+
+Before submitting:
+
+→ run: `docs/DOCS_LINT_CHECKLIST.md`
 
 Follow:
 
