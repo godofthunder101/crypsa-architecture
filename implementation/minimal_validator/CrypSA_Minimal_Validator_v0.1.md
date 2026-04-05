@@ -1,7 +1,7 @@
 # CrypSA Minimal Validator v0.1
 
 > Scope note: This document describes implementation strategy for a minimal validator proof step.
-> For authoritative runtime behavior, refer to `../spec/`. 
+> For authoritative runtime behavior, refer to `../spec/`.
 
 ---
 
@@ -181,7 +181,7 @@ Validator:
 
 If valid:
 
-* assigns `server_sequence = 1`
+* assigns `canonical_sequence = 1`
 * appends to canonical event history
 
 ---
@@ -218,15 +218,7 @@ If this loop works:
 
 ## Key Insight
 
-> If it works locally, it will work remotely.
-
-Moving to networked deployment should not change:
-
-* event structure
-* validation logic
-* replay behavior
-
-Only transport changes.
+> If it works locally, it will work remotely — provided transport does not define ordering and canonical_sequence remains authoritative.
 
 ---
 
@@ -267,9 +259,10 @@ This validator intentionally excludes:
 ```text
 Observer Action
 → Candidate Event
+→ Invariant Boundary
 → Validation
 → Accept or Reject
-→ Assign server_sequence
+→ Assign canonical_sequence
 → Append to Canonical Event History
 → Replay
 → Notify Observers
@@ -352,7 +345,7 @@ Handles:
 ### Canonical Event History
 
 * append-only
-* assign `server_sequence`
+* assign `canonical_sequence`
 * source of truth
 
 ---
@@ -399,7 +392,7 @@ Handles:
 {
   "type": "event_result",
   "result": "accepted",
-  "server_sequence": 14
+  "canonical_sequence": 14
 }
 ```
 
@@ -430,8 +423,14 @@ Handles:
 
 ## 8. Idempotency Rule (Critical)
 
-* each `event_id` processed once
+* each `event_id` must be processed exactly once
 * duplicates must not create duplicate canonical events
+
+If a duplicate `event_id` is received:
+
+* the validator must return the original result (accepted or rejected)
+* no new canonical event must be created
+* canonical_sequence must not change
 
 ---
 
@@ -494,4 +493,4 @@ This validator proves:
 
 ## One Sentence Summary
 
-CrypSA Minimal Validator v0.1 is the smallest complete implementation of the validator role, proving that validated events can form canonical event history and drive shared reality through replay.
+CrypSA Minimal Validator v0.1 is the smallest complete implementation of the validator role, proving that validated events—ordered by canonical_sequence—form canonical event history and drive shared reality through deterministic replay.
