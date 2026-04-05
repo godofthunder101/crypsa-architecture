@@ -15,21 +15,51 @@ This document explains the same system in words.
 
 ## The Core Idea
 
-CrypSA is a multiplayer architecture where:
+CrypSA is a system where:
+
+* nothing is true until it is validated
+* truth is stored as a sequence of events
+* all state is derived from those events
+
+In CrypSA:
+
+* **observers** simulate locally
+* actions are proposed as **candidate events**
+* a **validator** evaluates those events
+* accepted events become **canonical events**
+* canonical events are appended to **canonical event history**
 
 > The shared world is defined by accepted events, not continuously synchronized state.
 
-Instead of synchronizing everything all the time:
+---
 
-* observers simulate locally
-* actions are proposed as events
-* a validator evaluates those events
-* accepted events are appended to canonical event history
+## The Event Flow
 
-A validator is responsible for:
+Everything in CrypSA follows this flow:
+
+1. An observer simulates locally
+2. The observer proposes a **candidate event**
+3. The **validator** checks invariants
+4. If accepted → the event becomes **canonical**
+5. The event is appended to **canonical event history**
+6. Observers reconcile to canonical truth
+
+This is the boundary between:
+
+* local possibility
+* canonical reality
+
+---
+
+## The Validator
+
+The validator is responsible for:
 
 * accepting or rejecting candidate events
-* maintaining canonical truth
+* enforcing invariants
+* maintaining canonical event history
+
+> The validator defines what becomes real.
 
 Importantly:
 
@@ -38,11 +68,11 @@ Importantly:
 It may run:
 
 * **locally**, alongside an observer
-* **remotely**, as a shared system for multiple observers
+* **remotely**, as a shared system
 
 This means the truth model remains stable even when deployment changes.
 
-A system can begin with a **local validator** and later move to a **remote validator** without changing its core architecture.
+A system can begin with a **local validator** and later move to a **remote validator** without changing its architecture.
 
 ---
 
@@ -83,16 +113,14 @@ Think of CrypSA like this:
 
 * the validator determines what becomes canonical
 * observers simulate what they think is happening
-* only validated actions become part of canonical event history
+* only validated events become part of canonical history
 * everything else is local prediction
 
-The system becomes clearer when viewed as **four separate responsibilities**.
+The system is easiest to understand as **four separate responsibilities**.
 
 ---
 
 ## The Four Responsibilities
-
-CrypSA is easiest to understand as four layers:
 
 ---
 
@@ -113,7 +141,7 @@ If something is not part of canonical event history:
 
 > it did not happen
 
-This is also where the validator belongs.
+This is where the validator operates.
 
 ---
 
@@ -124,9 +152,9 @@ This is the adapter layer.
 Adapters:
 
 * reshape canonical and observer data
-* prepare structured outputs for other layers
+* prepare structured outputs
 
-Adapters do **not** define truth.
+They do not define truth.
 
 They answer:
 
@@ -144,7 +172,7 @@ Lenses:
 * define meaning for an observer
 * determine relevance and context
 
-Lenses do **not** define truth.
+They do not define truth.
 
 They answer:
 
@@ -175,13 +203,21 @@ But:
 
 ---
 
+## Derived State
+
+State is never stored as truth.
+
+> All state is derived from canonical event history.
+
+---
+
 ## Local and Remote Validation
 
 CrypSA does not require validation to be remote.
 
 A validator may run locally, remotely, or transition between them.
 
-### 1. Resilience
+### Resilience
 
 A local validator enables:
 
@@ -189,9 +225,7 @@ A local validator enables:
 * degraded connectivity handling
 * local-first development
 
----
-
-### 2. Portability
+### Portability
 
 Designing around a validator boundary allows easy transition between:
 
@@ -218,12 +252,6 @@ CrypSA separates them:
 * **translation structures data**
 * **interpretation defines meaning**
 * **experience remains local and responsive**
-
-The key idea is:
-
-> the validator defines canonical truth
-
-A server is only one possible deployment of that role.
 
 ---
 
@@ -253,7 +281,7 @@ CrypSA is not:
 * a solution for every type of game
 * a way to eliminate latency
 
-It is a different way of structuring:
+It is a way of structuring:
 
 * authority
 * validation
@@ -289,8 +317,10 @@ CrypSA is not ideal for:
 
 ---
 
-## Next Step
+## If You Understand This, You Understand CrypSA
 
-Continue to:
-
-👉 `CrypSA_Terminology_Primer.md`
+* events become truth only after validation
+* truth is an append-only history
+* state is derived, not stored
+* observers simulate locally and reconcile
+* the validator defines canonical reality
