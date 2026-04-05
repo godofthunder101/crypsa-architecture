@@ -44,7 +44,7 @@ This walkthrough follows a complete event lifecycle:
 
 ## 📊 Runtime Flow Overview
 
-```mermaid
+```mermaid id="c3w1n8"
 flowchart LR
 
 A[Player Action] --> B[Local Simulation]
@@ -106,7 +106,7 @@ At this point:
 
 The observer creates a **candidate event**:
 
-```
+```id="v4dq6z"
 event_type = place_structure
 actor_id = player_A
 target_ids = [tile_42]
@@ -175,15 +175,15 @@ The validator accepts the event.
 
 Canonical metadata is assigned:
 
-```
+```id="f0w3px"
 canonical_event_id = canon_1203
 canonical_sequence = 1203
 accepted_at = timestamp
 ```
 
-The event is appended to **canonical event history**.
+The event becomes canonical and is appended to **canonical event history**.
 
-> This is the moment the action becomes real.
+> This is the moment the action becomes canonical.
 
 ---
 
@@ -196,7 +196,7 @@ Derived canonical state updates:
 * tile_42 → mining_station
 * player_A resources → 50
 
-> State is not stored as truth — it is derived from events.
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
 ---
 
@@ -238,7 +238,7 @@ After reconciliation:
 * lenses interpret meaning
 * UI renders the result
 
-```text
+```text id="9tb7mq"
 Canonical Update → Adapter → Lens → UI
 ```
 
@@ -260,7 +260,7 @@ Two players attempt to place on tile_42.
 
 ## Rejection Result
 
-```
+```id="sx9k2u"
 result = rejected
 reason = precondition_failed
 ```
@@ -279,8 +279,8 @@ Rejected observer:
 # What This Demonstrates
 
 * actions are proposals, not guarantees
-* validation defines reality
-* canonical event history is truth
+* the validator defines what becomes canonical
+* canonical event history is the source of truth
 * observers may temporarily diverge
 * reconciliation restores consistency
 
@@ -300,12 +300,4 @@ This example corresponds to:
 
 # One Sentence Summary
 
-A local action becomes a candidate event, the validator evaluates it, accepted events are appended to canonical event history, and observers reconcile their local simulation to that shared history.
-
----
-
-## Next Step
-
-Continue to:
-
-👉 `architecture/`
+A local action becomes a candidate event, the validator evaluates it, accepted events become canonical and are appended to canonical event history, and observers reconcile their local simulation to that shared history.
