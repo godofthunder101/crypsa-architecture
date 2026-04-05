@@ -6,6 +6,18 @@
 
 ---
 
+This example uses concepts from:
+
+→ CrypSA_In_5_Minutes.md
+→ CrypSA_Terminology_Primer.md
+
+You should be familiar with:
+- validator
+- canonical event history
+- observer
+
+---
+
 ## 📜 Specification Authority
 
 The `/spec` directory is the **authoritative definition of runtime behavior**.
