@@ -76,7 +76,7 @@ CrypSA uses a hybrid consistency model:
 
 Canonical event history is strictly ordered by:
 
-* `server_sequence`
+* `canonical_sequence`
 
 This ordering is:
 
@@ -84,7 +84,7 @@ This ordering is:
 * global within a validator instance
 * used for replay and reconstruction
 
-> `server_sequence` is assigned by the validator and defines canonical ordering.
+> `canonical_sequence` is assigned by the validator and defines canonical ordering.
 
 ---
 
@@ -201,7 +201,7 @@ Snapshots represent derived state at a specific canonical sequence.
 
 To remain consistent:
 
-* snapshots must correspond to a specific `server_sequence`
+* snapshots must correspond to a specific `canonical_sequence`
 * replaying events after the snapshot must produce the same result as full replay
 
 ---
