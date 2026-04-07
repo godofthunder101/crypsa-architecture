@@ -52,7 +52,7 @@ CrypSA uses a hybrid consistency model:
 
 * The validator is authoritative over event acceptance
 * All candidate events must cross the invariant boundary before becoming canonical
-* Only accepted events become canonical and enter canonical event history
+* Only accepted events become canonical and are appended to canonical event history
 * Canonical event history is the source of truth
 
 ---
@@ -132,7 +132,7 @@ Given:
 
 The result must be:
 
-> identical (accept or reject)
+> identical (accept or reject) given identical inputs
 
 ---
 
@@ -261,7 +261,7 @@ CrypSA prioritizes:
 CrypSA consistency is:
 
 * event-driven
-* validator-controlled
+* validator-defined canonical authority
 * canonically ordered
 * eventually convergent
 
