@@ -2,7 +2,7 @@
 
 CrypSA is an event-driven architecture for building persistent digital worlds.
 
-Instead of synchronizing full world state, CrypSA synchronizes **validated canonical events under invariant rules**.
+Rather than synchronizing full world state, CrypSA synchronizes **validated canonical events under invariant rules**.
 
 Observers simulate locally. The validator defines what becomes canonical.
 
@@ -120,7 +120,7 @@ I --> J[Broadcast]
 
 J --> K[Observer Reconciliation]  
 G --> K
-````
+```
 
 > If accepted, an event becomes canonical and is appended to canonical event history.
 
@@ -251,7 +251,7 @@ Client → Server → State Sync
 
 CrypSA:
 
-Observer → Validation → Canonical Event History → Reconstruction  
+Observer → Validator → Canonical Event History → Reconstruction  
 
 Instead of synchronizing state, it:
 
