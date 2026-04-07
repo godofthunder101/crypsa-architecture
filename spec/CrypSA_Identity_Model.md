@@ -15,7 +15,7 @@ The identity model ensures that:
 
 In CrypSA:
 
-> Identity is permanent.
+> Identity is persistent and immutable.
 > Definition may evolve.
 > History must remain valid.
 
@@ -25,7 +25,7 @@ In CrypSA:
 
 CrypSA separates:
 
-* **Identity** → “what this object is”
+* **Identity** → “which object this is”
 * **Definition (Genome)** → “how this object behaves”
 
 ---
@@ -57,9 +57,9 @@ Objects are created through **canonical mint events**.
 
 A mint event creates:
 
-* a new unique identity (`object_id`)
+* a new unique identity (`object_id`) within canonical event history
 * an initial genome reference (`genome_id`)
-* initial state
+* initial state (defined through canonical event payload)
 
 ---
 
@@ -78,7 +78,7 @@ payload = {
 
 ### Requirements
 
-* `object_id` must be globally unique within the canonical domain
+* `object_id` must be unique within canonical event history
 * mint events must be accepted as canonical before the object exists
 * no object exists without a canonical mint event
 
@@ -90,10 +90,10 @@ Objects follow this lifecycle:
 
 ```text id="cz2b8k"
 non-existent
-→ minted
+→ minted (canonical)
 → active
-→ modified (via events)
-→ possibly destroyed or archived
+→ modified (via canonical events)
+→ destroyed or archived
 ```
 
 ---
@@ -126,10 +126,9 @@ Each object references a **genome**.
 ### Genome Purpose
 
 Defines:
-
 * structure
 * allowed state transitions
-* validation rules
+* validation constraints
 * event compatibility
 
 ---
@@ -151,7 +150,7 @@ mining_station_v2
 
 Replay must remain deterministic.
 
-Objects must remain compatible with their genome definition.
+Objects must remain compatible with the genome version they reference during replay.
 
 ---
 
@@ -180,7 +179,7 @@ All canonical events must reference identities explicitly.
 ### Requirements
 
 * all target objects must exist at validation time
-* identity must be valid within canonical event history
+* identity must exist in canonical event history at validation time
 * destroyed objects cannot be modified
 
 ---
@@ -194,7 +193,7 @@ This registry contains:
 * object_id
 * genome reference
 * lifecycle status
-* derived state (materialized from canonical event history)
+* derived canonical state (a projection of canonical event history)
 
 This registry is:
 
@@ -219,13 +218,13 @@ Replay relies on identity stability.
 
 ## Identity Scope
 
-Identity must be unique within the canonical system.
+Identity must be unique within canonical event history.
 
 ---
 
 ### v0.1 Assumption
 
-* global uniqueness within a single canonical domain
+* global uniqueness within canonical event history
 
 ---
 
@@ -241,7 +240,7 @@ Identity must be unique within the canonical system.
 
 In v0.1:
 
-* observers may propose `object_id`
+* observers may propose `object_id` values in candidate events
 * the validator must validate uniqueness
 
 ---
@@ -306,9 +305,9 @@ Identity validation must ensure:
 
 CrypSA identity model ensures:
 
-* objects have permanent identities
+* objects have persistent and immutable identities
 * definitions are versioned and controlled
-* events safely reference objects
+* canonical events safely reference objects
 * replay remains deterministic
 
 ---
