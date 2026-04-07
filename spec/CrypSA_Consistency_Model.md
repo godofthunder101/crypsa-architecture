@@ -51,8 +51,9 @@ CrypSA uses a hybrid consistency model:
 ### 1. Event-Level Authority
 
 * The validator is authoritative over event acceptance
+* All candidate events must cross the invariant boundary before becoming canonical
 * Only accepted events become canonical and enter canonical event history
-* Canonical event history defines shared truth
+* Canonical event history is the source of truth
 
 ---
 
@@ -116,7 +117,7 @@ Conflicts occur when:
 The validator resolves conflicts during validation:
 
 * events are evaluated atomically within the relevant conflict scope
-* only valid outcomes may become canonical
+* only valid outcomes can become canonical
 * rejected events do not enter canonical event history
 
 ---
@@ -171,7 +172,7 @@ When events span partitions:
 
 * coordination may be required
 * validation may involve multiple scopes
-* temporary inconsistency may occur during reconciliation
+* temporary inconsistency is expected during reconciliation
 
 Possible strategies include:
 
@@ -215,7 +216,7 @@ The system must ensure:
 
 * duplicate candidate events do not produce duplicate canonical events
 
-Repeated submission of the same `event_id` must not create more than one canonical event.
+Repeated submission of the same `event_id` must not result in more than one canonical event.
 
 ---
 
@@ -227,7 +228,7 @@ The system must handle:
 * out-of-order delivery
 * missing events
 * conflicting submissions
-* incomplete observer history
+* incomplete observer history (missing canonical events)
 
 Consistency must still converge under these conditions.
 
