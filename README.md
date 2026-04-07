@@ -6,8 +6,8 @@ Instead of synchronizing full world state, CrypSA synchronizes **validated canon
 
 Observers simulate locally. The validator defines what becomes canonical.
 
-> Reality is not synchronized — it is agreed upon through validated events.
-> The validator defines what becomes canonical.
+> Reality is not synchronized — it is agreed upon through validated events.  
+> The validator defines what becomes canonical.  
 > Canonical event history is the source of truth.
 
 The validator may run locally or remotely, but its role does not change.
@@ -18,10 +18,10 @@ The validator may run locally or remotely, but its role does not change.
 
 If you're new to CrypSA, follow this path:
 
-1. 🧭 CrypSA_In_One_Diagram.md — see the system at a glance
-2. 📘 CrypSA_In_5_Minutes.md — understand the core idea
-3. 📖 CrypSA_Terminology_Primer.md — learn the language
-4. 📖 CrypSA_Worked_Example.md — see it in action
+1. 🧭 CrypSA_In_One_Diagram.md — see the system at a glance  
+2. 📘 CrypSA_In_5_Minutes.md — understand the core idea  
+3. 📖 CrypSA_Terminology_Primer.md — learn the language  
+4. 📖 CrypSA_Worked_Example.md — see it in action  
 
 ---
 
@@ -29,16 +29,16 @@ If you're new to CrypSA, follow this path:
 
 CrypSA follows a consistent event lifecycle:
 
-1. Observer simulates locally
-2. Observer proposes a **candidate event**
-3. Validator evaluates the event
-4. If accepted, the event becomes canonical and is appended to canonical event history
-5. Observers reconcile to canonical truth
+1. Observer simulates locally  
+2. Observer proposes a **candidate event**  
+3. Validator evaluates the event  
+4. If accepted, an event becomes canonical and is appended to canonical event history  
+5. Observers reconcile to canonical truth  
 
 This defines the boundary between:
 
-* local simulation
-* canonical reality
+* local simulation  
+* canonical reality  
 
 ---
 
@@ -46,11 +46,11 @@ This defines the boundary between:
 
 Start implementing with the minimal validator:
 
-👉 implementation/minimal_validator/CrypSA_Minimal_Validator_v0.1.md
+👉 implementation/minimal_validator/CrypSA_Minimal_Validator_v0.1.md  
 
 Then follow:
 
-👉 implementation/CrypSA_Local_First_Development_Approach.md
+👉 implementation/CrypSA_Local_First_Development_Approach.md  
 
 ---
 
@@ -60,17 +60,17 @@ CrypSA defines how systems establish canonical truth.
 
 It provides a model where:
 
-* truth is validated, not assumed
-* state is derived, not synchronized
-* simulation is local, but authority is centralized
+* truth is validated, not assumed  
+* state is derived, not synchronized  
+* simulation is local, but canonical authority is enforced by the validator  
 
 > Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
 This enables systems that are:
 
-* deterministic
-* replayable
-* resistant to desynchronization
+* deterministic  
+* replayable  
+* resistant to desynchronization  
 
 ---
 
@@ -80,10 +80,10 @@ CrypSA does not replace engines or networking stacks.
 
 It is not:
 
-* a game engine
-* a networking library
-* a state replication system
-* an ECS framework
+* a game engine  
+* a networking library  
+* a state replication system  
+* an ECS framework  
 
 > CrypSA defines truth agreement, not rendering, transport, or simulation.
 
@@ -93,16 +93,16 @@ It is not:
 
 The following must always hold:
 
-* Only the validator may modify canonical event history
-* All canonical changes must pass validation
-* All candidate events must cross the invariant boundary
-* Observers may simulate freely, but never define truth
+* Only the validator may modify canonical event history  
+* All canonical changes must pass validation  
+* All candidate events must cross the invariant boundary  
+* Observers may simulate freely, but never define truth  
 
 ---
 
 ## ⚙️ How CrypSA Works
 
-```mermaid id="crypsa_root_flow"
+```mermaid
 flowchart LR  
 
 A[Player Action] --> B[Local Simulation]  
@@ -120,7 +120,7 @@ I --> J[Broadcast]
 
 J --> K[Observer Reconciliation]  
 G --> K
-```
+````
 
 > If accepted, an event becomes canonical and is appended to canonical event history.
 
@@ -147,29 +147,29 @@ CrypSA documentation is structured by role:
 
 ### Foundation
 
-* CrypSA_In_One_Diagram.md
-* CrypSA_In_5_Minutes.md
-* CrypSA_Terminology_Primer.md
+* CrypSA_In_One_Diagram.md  
+* CrypSA_In_5_Minutes.md  
+* CrypSA_Terminology_Primer.md  
 
 ### Motivation
 
-* CrypSA_Why_It_Exists.md
+* CrypSA_Why_It_Exists.md  
 
 ### Example
 
-* CrypSA_Worked_Example.md
+* CrypSA_Worked_Example.md  
 
 ### Architecture
 
-* architecture/
+* architecture/  
 
 ### Runtime (Required for Implementation)
 
-* spec/
+* spec/  
 
 ### Implementation
 
-* implementation/
+* implementation/  
 
 ---
 
@@ -179,8 +179,8 @@ CrypSA documentation is structured by role:
 
 Start with:
 
-* CrypSA_In_5_Minutes.md
-* CrypSA_Worked_Example.md
+* CrypSA_In_5_Minutes.md  
+* CrypSA_Worked_Example.md  
 
 ---
 
@@ -188,8 +188,8 @@ Start with:
 
 Focus on:
 
-* spec/
-* minimal validator docs
+* spec/  
+* minimal validator docs  
 
 > The spec defines behavior — your implementation must follow it.
 
@@ -199,20 +199,21 @@ Focus on:
 
 Read:
 
-* terminology primer
-* architecture
-* spec
-* CONTRIBUTING.md
+* terminology primer  
+* architecture  
+* spec  
+* CONTRIBUTING.md  
 
 Before submitting:
 
-→ run: `docs/DOCS_LINT_CHECKLIST.md`
+→ run: `docs/DOCS_LINT_CHECKLIST.md`  
+→ ensure the docs gate will pass  
 
 Follow:
 
-* do not redefine terminology
-* do not duplicate definitions
-* do not introduce behavior outside the spec
+* do not redefine terminology  
+* do not duplicate definitions  
+* do not introduce behavior outside the spec  
 
 ---
 
@@ -222,14 +223,14 @@ CrypSA v1.0 defines the core architecture and runtime model.
 
 It is:
 
-* stable in its core concepts
-* consistent in terminology and structure
-* ready for implementation
+* stable in its core concepts  
+* consistent in terminology and structure  
+* ready for implementation  
 
 Ongoing work includes:
 
-* reference implementations
-* documentation refinement
+* reference implementations  
+* documentation refinement  
 
 > v1.0 is a stable architectural baseline, not a finished product.
 
@@ -237,8 +238,8 @@ Ongoing work includes:
 
 ## 🔢 Versioning Philosophy
 
-* v1.x → stable architecture, evolving implementations
-* v2.0 → breaking architectural changes
+* v1.x → stable architecture, evolving implementations  
+* v2.0 → breaking architectural changes  
 
 ---
 
@@ -246,49 +247,49 @@ Ongoing work includes:
 
 Traditional systems:
 
-Client → Server → State Sync
+Client → Server → State Sync  
 
 CrypSA:
 
-Observer → Validation → Canonical Event History → Reconstruction
+Observer → Validation → Canonical Event History → Reconstruction  
 
 Instead of synchronizing state, it:
 
-* validates events
-* records canonical history
-* reconstructs reality deterministically
+* validates events  
+* records canonical history  
+* reconstructs reality deterministically  
 
 ---
 
 ## 🧩 Key Concepts
 
-* Validator
-* Canonical Events
-* Invariants
-* Observers
-* Lenses
+* Validator  
+* Canonical Events  
+* Invariants  
+* Observers  
+* Lenses  
 
 See:
 
-CrypSA_Terminology_Primer.md
+CrypSA_Terminology_Primer.md  
 
 ---
 
 ## 📁 Repository Structure
 
-* architecture/
-* spec/
-* implementation/
-* diagrams/
-* exploratory/
-* teaching/
-* atlas/
+* architecture/  
+* spec/  
+* implementation/  
+* diagrams/  
+* exploratory/  
+* teaching/  
+* atlas/  
 
 ---
 
 ## 👤 Author
 
-Beau Wells
+Beau Wells  
 
 ---
 
