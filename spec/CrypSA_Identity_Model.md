@@ -21,6 +21,11 @@ In CrypSA:
 
 ---
 
+> Canonical event history is the source of truth.  
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
+
+---
+
 ## Identity vs Definition
 
 CrypSA separates:
