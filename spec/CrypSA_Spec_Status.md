@@ -4,6 +4,11 @@ This document describes the maturity of each specification in the `spec/` folder
 
 ---
 
+> Canonical event history is the source of truth.  
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
+
+---
+
 ## Status Levels
 
 ### Draft
@@ -12,7 +17,7 @@ Conceptual and may change significantly.
 
 * not fully aligned with the overall system
 * terminology or behavior may still evolve
-* not ready for reliable implementation
+* not yet suitable for reliable implementation
 
 ---
 
@@ -53,9 +58,9 @@ Considered reliable for production use.
 
 | Spec              | Status   |
 | ----------------- | -------- |
-| Runtime Spec      | Testable |
+| Runtime Spec      | Defined  |
 | Event Model       | Defined  |
-| Validation Model  | Defined  |
+| Validation Model  | Defined (pending final review) |
 | Consistency Model | Defined  |
 | Replay Model      | Defined  |
 | Snapshot Model    | Defined  |
@@ -63,10 +68,14 @@ Considered reliable for production use.
 | Transport Model   | Draft    |
 
 ---
+Transport Model is non-authoritative for canonical behavior and describes optional communication mechanisms.
+---
+
+---
 
 ## Interpretation
 
-* **Defined** → structurally complete and aligned
+* **Defined** → structurally complete and aligned with other spec documents
 * **Testable** → ready to implement and validate
 * **Draft** → still evolving and not yet implementation-ready
 
@@ -86,7 +95,7 @@ Status reflects **maturity**, not authority.
 
 CrypSA is currently transitioning from:
 
-> Defined → Testable
+> **Defined → Testable**
 
 This phase involves:
 
@@ -105,7 +114,7 @@ Specifications are expected to move through:
 Draft → Defined → Testable → Stable
 ```
 
-Progression is achieved by:
+Progression is achieved through:
 
 * refining definitions
 * removing ambiguity
