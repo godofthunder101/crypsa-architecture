@@ -31,10 +31,10 @@ The validation pipeline follows this sequence:
    Action becomes a candidate event  
 
 3. **Submission**  
-   Event is sent to the server  
+   Event is sent to the validator  
 
 4. **Validation**  
-   Server evaluates the event  
+   Validator evaluates the event  
 
 5. **Decision**
 
@@ -42,7 +42,7 @@ The validation pipeline follows this sequence:
    * rejected → discarded  
 
 6. **Canonical Update**  
-   Accepted events are assigned `server_sequence` and appended to canonical event history  
+   Accepted events are assigned `canonical_sequence` and appended to canonical event history  
 
 7. **Observer Reconciliation**  
    Observers update local state based on canonical events  
@@ -156,7 +156,7 @@ Each candidate results in:
 ### Accepted
 
 * event is valid  
-* assigned `server_sequence`  
+* assigned `canonical_sequence`  
 * appended to canonical event history  
 * becomes part of canonical event history  
 
