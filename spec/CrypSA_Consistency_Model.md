@@ -23,6 +23,11 @@ Observers may temporarily diverge, but must eventually converge on the same cano
 
 ---
 
+> Canonical event history is the source of truth.  
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
+
+---
+
 ## Consistency Goals
 
 CrypSA provides:
