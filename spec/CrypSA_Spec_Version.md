@@ -4,11 +4,16 @@ This document defines how CrypSA specifications are versioned.
 
 ---
 
+> Canonical event history is the source of truth.  
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
+
+---
+
 ## Current Version
 
 CrypSA Specification Set:
 
-> v0.1
+> **v0.1**
 
 All documents in the `spec/` folder are part of this version unless explicitly stated otherwise.
 
@@ -20,13 +25,13 @@ All documents in the `spec/` folder are part of this version unless explicitly s
 
 * concepts are stabilizing
 * breaking changes are expected
-* specifications may evolve rapidly
+* specifications may evolve rapidly during development
 * not production-ready
 
 Behavior defined in v0.x:
 
 * is authoritative within the version
-* is not guaranteed to remain compatible across minor revisions
+* is not guaranteed to remain compatible across minor version revisions
 
 ---
 
