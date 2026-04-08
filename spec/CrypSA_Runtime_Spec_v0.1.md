@@ -57,7 +57,7 @@ This v0.1 spec does **not fully define**:
 
 A process that:
 
-* reconstructs canonical objects locally
+* reconstructs derived canonical state locally
 * simulates local experience
 * proposes candidate events
 * performs observer reconciliation
@@ -111,7 +111,7 @@ Supporting runtime structures may include:
 * indexes
 * object identity registries
 * genome references
-* derived canonical state (materialized views)
+* derived canonical state (materialized projection of canonical event history)
 
 These structures exist to enable:
 
@@ -128,6 +128,9 @@ They do **not define truth**.
 
 ## 3. Core Runtime Principle
 
+> Canonical event history is the source of truth.  
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
+
 An observer action does **not directly modify canonical event history**.
 
 Instead:
@@ -137,7 +140,7 @@ Local Action
 → Candidate Event
 → Validation
 → Accept or Reject
-→ Canonical Event History Update
+→ Canonical Event Appended to Canonical Event History
 → Observer Reconciliation
 ```
 
@@ -161,7 +164,7 @@ If an action does not cross the invariant boundary:
 
 ---
 
-## 4. Event Classes
+## 4. Action Classes
 
 ### 4.1 Local-Only Actions
 
@@ -282,7 +285,6 @@ CrypSA v0.1 uses:
 * observer order is not authoritative
 
 > `canonical_sequence` is the canonical ordering assigned by the validator.
-> The name is retained for compatibility with common terminology.
 
 ---
 
@@ -299,7 +301,7 @@ Conflicts are resolved within:
 
 ### 6.3 Conflict Resolution
 
-* first valid accepted event wins
+* the first event accepted by the validator becomes canonical
 * later conflicting events are rejected
 
 ---
@@ -353,8 +355,8 @@ All accepted events must produce deterministic results.
 ### Accepted
 
 * event recorded
-* derived canonical state updated
-* obs notified
+* derived canonical state updated via deterministic replay of canonical events
+* observer notified
 
 ---
 
@@ -362,7 +364,7 @@ All accepted events must produce deterministic results.
 
 * no canonical change
 * rejection returned
-* ob reconciles
+* observer reconciles
 
 ---
 
@@ -477,13 +479,15 @@ System must handle:
 * retries
 * duplicates
 
+* ordering must be enforced by `canonical_sequence`, not network delivery
+
 ---
 
 ## 14. Idempotency Requirement
 
 The system must ensure that duplicate `event_id` submissions do not create duplicate canonical events.
 
-Each event must be processed exactly once.
+Repeated submission of the same `event_id` must not result in more than one canonical event.
 
 ---
 
