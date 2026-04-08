@@ -14,7 +14,7 @@ Validation is the mechanism that:
 
 In CrypSA:
 
-> Observers may simulate freely, but only validated events become part of canonical event history.
+> Observers may simulate freely, but only validated events become canonical and are appended to canonical event history
 
 Validation occurs at the **Invariant Boundary**, where proposed actions transition from local simulation to canonical event history.
 
@@ -86,11 +86,11 @@ Checks include:
 
 ### 3. Precondition Validation
 
-Ensures observers assumptions are still true.
+Ensures observers assumptions are still valid.
 
 Checks include:
 
-* expected state matches canonical state  
+* expected state matches derived canonical state  
 * required resources exist  
 * required conditions hold  
 
@@ -147,7 +147,7 @@ These are not required for v0.1 runtime behavior.
 Validation must be:
 
 * deterministic  
-* atomic within conflict scope  
+* atomic within the relevant conflict scope  
 * based on canonical event history and derived canonical state  
 
 ---
@@ -221,13 +221,13 @@ Examples:
 | ---------------- | --------------- |
 | Local simulation | Not validated   |
 | UI interaction   | Not validated   |
-| Canonical events | Fully validated |
+| Candidate events | Fully validated |
 
 ---
 
 ## Performance Considerations
 
-CrypSA reduces server load by:
+CrypSA reduces validator load by:
 
 * avoiding full simulation  
 * validating only boundary-crossing actions  
@@ -241,7 +241,7 @@ CrypSA does not trust observer simulation.
 
 It trusts:
 
-> the validation process that determines canonical event history  
+> the validation process that determines what becomes canonical 
 
 Observers may propose any action, but:
 
@@ -263,7 +263,7 @@ Strategies include:
 
 * idempotency checks  
 * conflict resolution  
-* ordering rules  
+* ordering rules based on `canonical_sequence`
 
 ---
 
@@ -291,4 +291,4 @@ CrypSA validation is:
 It ensures:
 
 > observers may act freely,  
-> but only valid actions become part of canonical event history
+> only validated actions become canonical and are appended to canonical event history
