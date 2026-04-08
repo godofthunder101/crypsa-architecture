@@ -20,6 +20,11 @@ Validation occurs at the **Invariant Boundary**, where proposed actions transiti
 
 ---
 
+> Canonical event history is the source of truth.  
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
+
+---
+
 ## Validation Flow
 
 The validation pipeline follows this sequence:
