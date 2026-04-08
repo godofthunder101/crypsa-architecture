@@ -19,6 +19,11 @@ CrypSA is event-driven.
 
 ---
 
+> Canonical event history is the source of truth.  
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
+
+---
+
 ## Event Types
 
 CrypSA defines two primary event types:
