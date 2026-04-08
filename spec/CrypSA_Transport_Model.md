@@ -18,7 +18,7 @@ This is a minimal transport model for CrypSA v0.1.
 
 CrypSA transport is designed around:
 
-> reliable agreement on canonical events, not perfect real-time synchronization
+> reliable agreement on canonical event history, not perfect real-time synchronization
 
 The system prioritizes:
 
@@ -27,6 +27,11 @@ The system prioritizes:
 * idempotent communication
 
 over strict real-time guarantees.
+
+---
+
+> Canonical event history is the source of truth.  
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
 ---
 
@@ -82,7 +87,7 @@ The validator must treat `event_id` as idempotent.
 
 If the same event is submitted multiple times:
 
-* it must be processed once
+* it must not result in more than one canonical event
 * duplicates must be ignored or mapped to the same result
 
 ---
@@ -102,7 +107,7 @@ The observer must be informed of the outcome.
 
 The validator should provide:
 
-* acknowledgment of receipt (optional in v0.1)
+* acknowledgment of receipt (optional optimization in v0.1)
 * final validation outcome (required)
 
 Observers must track:
@@ -124,7 +129,7 @@ The validator distributes accepted canonical events to observers.
 Canonical events must be:
 
 * eventually delivered to all relevant observers
-* complete and consistent with canonical event history ordering (`server_sequence`)
+* complete and consistent with canonical ordering defined by `canonical_sequence`
 
 ---
 
@@ -134,18 +139,18 @@ Transport does **not** guarantee ordering.
 
 Canonical ordering is defined by:
 
-* `server_sequence` assigned by the validator
+> `canonical_sequence` is assigned by the validator and defines canonical ordering.
 
 Observers must:
 
 * reorder events as needed
-* apply events strictly in `server_sequence` order
+* apply events strictly in `canonical_sequence` order
 
 ---
 
-## Event Stream Model
+## Canonical Event Stream Model
 
-Observers receive a stream of canonical events.
+Observers receive canonical events as a stream derived from canonical event history.
 
 This stream may:
 
@@ -155,7 +160,7 @@ This stream may:
 
 Observers must:
 
-* reorder events using `server_sequence`
+* reorder events using `canonical_sequence`
 * discard duplicates
 * apply events deterministically
 
@@ -211,7 +216,7 @@ Observers must support resynchronization.
 
 ### Minimum Mechanism
 
-* request canonical events since last known `server_sequence`
+* request canonical events since last known `canonical_sequence`
 * optionally load snapshot
 * replay event tail
 
@@ -226,7 +231,7 @@ Transport may provide:
 
 Reconstruction:
 
-> Snapshot + Event Stream → Current Derived Canonical State
+> Snapshot + Canonical Event Tail → Derived Canonical State
 
 ---
 
@@ -316,7 +321,7 @@ It does not:
 
 * validate events
 * define canonical event history
-* simulate world state
+* simulate derived canonical state
 
 ---
 
@@ -333,7 +338,7 @@ It ensures:
 
 > candidate events reach the validator,
 > canonical events reach observers,
-> and all participants converge on shared history
+> and all participants converge on canonical event history
 
 ---
 
