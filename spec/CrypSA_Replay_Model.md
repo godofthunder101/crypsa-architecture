@@ -14,10 +14,20 @@ Replay is the mechanism that turns:
 
 In CrypSA:
 
-> Canonical event history is the source of truth.  
+> Canonical event history is the source of truth.
 > Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
 Derived canonical state is reconstructed by replaying canonical event history.
+
+---
+
+## Replay Authority
+
+Replay is authoritative for derived canonical state.
+
+All derived canonical state must be produced via replay from canonical event history.
+
+Any optimization must produce results equivalent to replay.
 
 ---
 
@@ -38,14 +48,15 @@ Replay requires:
 * canonical event history
 * authoritative ordering defined by `canonical_sequence`
 * event payloads
-* invariant rules defined by the validation model
-* object definitions (genomes and canonical mint events)
+* interpretation logic used to derive canonical state
 
 ---
 
 ## Replay Base
 
 Replay can begin from:
+
+---
 
 ### 1. Genesis
 
@@ -65,6 +76,8 @@ Replay can begin from:
 
 Replay order is defined by:
 
+---
+
 ### Canonical Ordering
 
 * events must be applied strictly in `canonical_sequence` order
@@ -72,7 +85,7 @@ Replay order is defined by:
 * this ordering is authoritative
 * all observers must use the same ordering
 
-> `canonical_sequence` is assigned by the validator and defines canonical ordering.
+> `canonical_sequence` defines a total canonical order across canonical events.
 
 ---
 
@@ -83,7 +96,7 @@ Each canonical event modifies derived canonical state according to:
 * its `event_type`
 * its `payload`
 * the current derived canonical state
-* invariant rules defined by the validation model
+* interpretation logic
 
 ---
 
@@ -103,9 +116,10 @@ Event application must only affect:
 
 ## Determinism Requirements
 
-Replay must produce identical results given the same inputs.
+Replay must produce equivalent derived canonical state given the same:
 
-This requires:
+* canonical event history
+* interpretation logic
 
 ---
 
@@ -130,7 +144,7 @@ Avoid:
 
 ### 3. Stable Definitions
 
-* genomes must be versioned or frozen
+* object definitions must be versioned or frozen
 * historical events must resolve against correct definitions
 
 ---
@@ -165,6 +179,20 @@ Idempotency ensures robustness in:
 
 ---
 
+## Replay Scope
+
+Replay can occur at different levels:
+
+* full world replay
+* region replay
+* object-specific replay
+
+Replay scope does not change correctness requirements.
+
+All scoped replay must produce results equivalent to full replay for the same canonical event history subset.
+
+---
+
 ## Partial Replay
 
 Replay does not always require full history.
@@ -177,34 +205,18 @@ Possible strategies:
 
 ---
 
-## Replay Scope
-
-Replay can occur at different levels:
-
-* full world replay
-* region replay
-* object-specific replay
-
-This depends on system design.
-
----
-
 ## Observer Reconciliation
 
-Observers use replay to reconcile:
+Observers reconcile by:
 
-* local predictions vs canonical state
-* rejected candidate events
-* late-arriving canonical events
+* applying canonical events from canonical event history in `canonical_sequence` order
+* updating derived canonical state via replay
 
----
+Reconciliation may also involve:
 
-### Reconciliation Process
-
-1. receive canonical event
-2. compare with local state
-3. correct divergence
-4. continue simulation
+* correcting local state
+* re-running simulation
+* discarding invalid predictions
 
 ---
 
@@ -214,7 +226,7 @@ Divergence occurs when:
 
 * local simulation differs from canonical outcome
 * events are rejected
-* canonical updates arrive after local prediction
+* canonical events arrive after local prediction
 
 Replay ensures:
 
@@ -241,7 +253,7 @@ Snapshots improve replay performance.
 Replay must handle:
 
 * evolving event schemas
-* changing object definitions (genomes)
+* changing object definitions
 
 ---
 
@@ -262,6 +274,11 @@ Replay systems must handle:
 * inconsistent ordering
 * partial snapshots
 
+Recovery from failure requires:
+
+* restoring canonical event history
+* replaying canonical events to reconstruct derived canonical state
+
 ---
 
 ## Performance Considerations
@@ -279,6 +296,14 @@ Replay cost depends on:
 * snapshotting
 * incremental replay
 * partitioned replay
+
+---
+
+### Correctness Requirement
+
+All replay optimizations must preserve correctness.
+
+Optimized replay must produce results equivalent to full replay from canonical event history.
 
 ---
 
@@ -307,8 +332,8 @@ CrypSA replay is:
 
 It ensures that:
 
-> given the same canonical event history,
-> all observers derive the same derived canonical state
+> given the same canonical event history and the same interpretation logic,
+> all observers derive equivalent derived canonical state
 
 ---
 
