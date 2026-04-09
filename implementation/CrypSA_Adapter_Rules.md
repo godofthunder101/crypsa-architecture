@@ -1,16 +1,12 @@
 # CrypSA Adapter Rules
 
-> Scope note: This document provides implementation guidance for adapters.
->
-> For authoritative system behavior, refer to `../spec/` and `../architecture/`.
-
 ---
 
 ## ⚠️ Implementation Guidance (Non-Authoritative)
 
 This document provides example implementation approaches for CrypSA.
 
-👉 These patterns are not required.
+👉 These patterns are not required, but are recommended to maintain clear architectural boundaries.
 
 👉 CrypSA defines invariants and behavior through the `/spec` directory.
 
@@ -22,7 +18,7 @@ This document illustrates one possible way to structure a system that conforms t
 
 ## Purpose
 
-This document defines practical engineering rules for adapters in CrypSA.
+This document provides practical engineering guidance and example rules for implementing adapters in CrypSA.
 
 Adapters are part of the **translation layer** and exist to shape runtime and canonical data for consumption by:
 
@@ -31,7 +27,7 @@ Adapters are part of the **translation layer** and exist to shape runtime and ca
 * tools
 * debugging systems
 
-These rules exist to prevent adapters from becoming:
+These guidelines exist to prevent adapters from becoming:
 
 * hidden controllers
 * validation layers
