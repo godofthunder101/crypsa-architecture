@@ -27,6 +27,12 @@ All other documents must:
 
 ---
 
+## ⚖️ Core Rule
+
+Only accepted events become canonical and are appended to canonical event history.
+
+---
+
 ### Rule
 
 Terms are defined once, and used everywhere else.
@@ -56,7 +62,36 @@ CrypSA can be understood as four responsibilities:
 * **Interpretation** → lenses defining meaning
 * **Experience** → UI and local interaction
 
+These responsibilities do not overlap.
+
+> Canonical event history is the source of truth.
+
 All terms below map into one of these responsibilities.
+
+---
+
+## 📌 Canonical Scope Rule
+
+The term “canonical” applies only to:
+
+* canonical events
+* canonical event history
+
+It does not apply to stored state.
+
+Derived canonical state is a projection of canonical event history. It is not the source of truth.
+
+---
+
+## 🔁 Replay Terminology
+
+Replay refers to:
+
+→ reconstruction via canonical event replay
+
+It means applying canonical events from canonical event history in canonical_sequence order to reconstruct derived canonical state.
+
+Replay is deterministic.
 
 ---
 
@@ -68,7 +103,7 @@ It:
 
 * validates candidate events
 * enforces invariants
-* appends accepted events to canonical event history
+* if accepted, an event becomes canonical and is appended to canonical event history
 
 A **server** is a deployment of a validator.
 
@@ -138,7 +173,20 @@ It may run:
 * locally (alongside an observer)
 * remotely (shared across observers)
 
-> In CrypSA, truth is defined by validation — not by location.
+> The validator defines what becomes canonical.
+
+---
+
+## Invariant Boundary
+
+The invariant boundary is where candidate events are evaluated by the validator.
+
+It separates:
+
+* observer-proposed events
+* canonical truth
+
+Only events that pass validation cross this boundary and become canonical.
 
 ---
 
@@ -198,14 +246,15 @@ All servers host a validator.
 
 ## Canonical Event
 
-A **canonical event** is an event that has been:
+A **canonical event** is an event that has become canonical through validation.
 
-* validated
-* accepted
-* assigned a `canonical_sequence`
-* made immutable
+If accepted, an event becomes canonical and is appended to canonical event history.
 
-Canonical events define **truth**.
+Canonical events:
+
+* are immutable  
+* have a `canonical_sequence`  
+* define truth  
 
 ---
 
@@ -217,26 +266,26 @@ A **candidate event** is:
 * not yet validated
 * subject to rejection
 
-It represents **intent**, not truth.
+It represents **intent**, not truth, and does not affect canonical event history unless accepted.
 
 ---
 
 ## Invariant
 
-An **invariant** is a rule that must always hold.
+An **invariant** is a rule that must always hold for canonical truth.
 
 Examples:
 
 * a player cannot have negative resources
 * two objects cannot occupy the same exclusive space
 
-Invariants protect **canonical truth**.
+Invariants protect canonical truth.
 
 ---
 
 ## Validation
 
-**Validation** is the process of evaluating a candidate event.
+**Validation** is the process performed by the validator to evaluate a candidate event.
 
 It includes:
 
@@ -248,10 +297,8 @@ It includes:
 
 Result:
 
-* valid → becomes canonical and is appended to canonical event history
-* invalid → rejected
-
-Validation determines what becomes **truth**.
+* If accepted, an event becomes canonical and is appended to canonical event history
+* If rejected, the event does not become canonical
 
 ---
 
@@ -265,15 +312,6 @@ The **canonical event history** is:
 > Canonical event history is the source of truth.
 
 Everything else is derived from this.
-
----
-
-## Replay
-
-**Replay** is the process of:
-
-* applying canonical events in order
-* reconstructing derived canonical state deterministically
 
 ---
 
@@ -304,6 +342,8 @@ An **observer**:
 
 Observers operate in the **experience layer**.
 
+Observers do not define truth.
+
 ---
 
 ## Observer Reconciliation
@@ -312,6 +352,10 @@ Observers operate in the **experience layer**.
 
 * local simulation is updated
 * to match canonical outcomes
+
+This occurs via canonical event replay, aligning local derived state with canonical outcomes.
+
+Observers do not modify canonical event history directly.
 
 ---
 
@@ -326,7 +370,7 @@ It:
 
 Adapters belong to the **translation layer**.
 
-They change structure, not meaning.
+Adapters reshape data without changing meaning or truth.
 
 ---
 
@@ -342,7 +386,7 @@ It determines:
 
 Lenses belong to the **interpretation layer**.
 
-They do not define truth or modify canonical data.
+Lenses interpret data but do not modify canonical data or define truth.
 
 ---
 
@@ -362,6 +406,12 @@ It is:
 
 ---
 
+## Replay
+
+**Replay** reconstructs derived canonical state via canonical event replay.
+
+---
+
 # Summary
 
 CrypSA separates the system into four responsibilities:
@@ -373,4 +423,4 @@ CrypSA separates the system into four responsibilities:
 
 And critically:
 
-> the validator defines what becomes canonical, regardless of deployment
+> The validator defines what becomes canonical, regardless of deployment.
