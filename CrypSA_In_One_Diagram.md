@@ -8,8 +8,8 @@ It shows how:
 
 * observers simulate locally
 * candidate events cross the invariant boundary
-* the validator determines canonical truth
-* canonical event history drives reconstruction
+* the validator determines what becomes canonical
+* canonical event history drives reconstruction via replay
 
 This is the **core mental model of CrypSA in a single view**.
 
@@ -33,7 +33,7 @@ end
 
 subgraph "Truth Layer"
     V[Validator]
-    F[Validation and Invariant Enforcement]
+    F[Validation Pipeline]
     G[Canonical Event History]
     H[Derived Canonical State]
 end
@@ -50,7 +50,7 @@ V --> F
 F -->|Accepted| G
 F -->|Rejected| B
 
-G --> H
+G -->|Replay| H
 H --> C
 ```
 
@@ -93,6 +93,10 @@ If yes:
 * it must cross the invariant boundary
 * it must be validated before becoming canonical
 
+If accepted:
+
+* If accepted, an event becomes canonical and is appended to canonical event history
+
 ---
 
 ### Validator (Truth Authority)
@@ -101,7 +105,7 @@ The validator:
 
 * evaluates candidate events
 * enforces invariants
-* accepts or rejects proposed canonical changes
+* determines whether an event becomes canonical
 
 It may run:
 
@@ -120,14 +124,14 @@ CrypSA defines the validator as an architectural role, not a fixed machine locat
 
 If accepted:
 
-* the event is assigned canonical ordering (`canonical_sequence`)
-* the event is appended to canonical event history
+* If accepted, an event becomes canonical and is appended to canonical event history
+* `canonical_sequence` is assigned by the validator
 
 Canonical event history is:
 
 > the only source of truth
 
-Derived canonical state is useful, but it is reconstructed from canonical event history and is not independently authoritative.
+Derived canonical state is useful, but it is reconstructed from canonical event history via replay and is not independently authoritative.
 
 ---
 
@@ -135,13 +139,13 @@ Derived canonical state is useful, but it is reconstructed from canonical event 
 
 From canonical event history:
 
-* derived canonical state is reconstructed
+* derived canonical state is reconstructed via replay
 * observers receive canonical updates
 * local state is corrected or confirmed
 
 This ensures:
 
-> all observers converge toward the same shared reality
+> all observers converge toward equivalent derived canonical state
 
 ---
 
@@ -152,13 +156,13 @@ This ensures:
 
 And:
 
-> validation determines what becomes real
+> validation determines what becomes canonical
 
 ---
 
 ## The Entire System in One Sentence
 
-Observers simulate locally, propose candidate events across the invariant boundary, the validator determines which events become canonical, and canonical event history drives reconstruction of shared reality.
+Observers simulate locally, propose candidate events across the invariant boundary, the validator determines which events become canonical, and canonical event history drives reconstruction of derived canonical state via replay.
 
 ---
 
@@ -171,7 +175,7 @@ This model enables:
 * clear authority boundaries
 * replayable systems
 * flexible deployment (local or remote validator)
-* persistent worlds defined by canonical history
+* persistent worlds defined by canonical event history
 
 ---
 
@@ -186,7 +190,7 @@ Clients → Central Authority → State Synchronization
 CrypSA:
 
 ```text
-Observer → Validation → Canonical Event History → Reconstruction
+Observer → Validation → Canonical Event History → Replay → Reconstruction
 ```
 
 ---
@@ -209,4 +213,4 @@ CrypSA separates:
 * **Interpretation** → lenses
 * **Truth** → validation and canonical event history
 
-The invariant boundary and validator ensure that only valid events become part of shared reality.
+The invariant boundary and validator ensure that only valid events become part of canonical event history.
