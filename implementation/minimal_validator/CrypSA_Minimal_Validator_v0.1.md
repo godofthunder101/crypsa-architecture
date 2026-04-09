@@ -1,13 +1,13 @@
 # CrypSA Minimal Validator v0.1
 
-> Scope note: This document describes implementation strategy for a minimal validator proof step.
+> This document outlines the smallest practical standalone validator for proving the CrypSA runtime model.
 > For authoritative runtime behavior, refer to `../spec/`.
 
 ---
 
 ## Purpose
 
-This document defines the smallest practical standalone validator that can prove CrypSA’s core runtime model.
+This document describes the smallest practical standalone validator that can prove CrypSA’s core runtime model.
 
 The goal is not production readiness.
 
@@ -76,7 +76,7 @@ The minimal validator supports multiple deployment configurations **without chan
 flowchart LR
 
 A[Observer] --> B[Local Validator]
-B --> C[Canonical Event History]
+B --> C[canonical Event History]
 
 C --> A
 ```
@@ -87,7 +87,7 @@ In this configuration:
 * canonical event history is maintained locally
 * no network is required
 
-> This is the **recommended starting point for all implementations**.
+> This is a recommended starting point for implementations
 
 ---
 
@@ -99,8 +99,8 @@ flowchart LR
 A[Observer] -->|Candidate Event| B[Network]
 B --> C[Validator]
 
-C --> D[Canonical Event History]
-D -->|Canonical Update| B
+C --> D[canonical Event History]
+D -->|canonical Update| B
 B --> A
 ```
 
@@ -224,7 +224,7 @@ If this loop works:
 
 ## 1. Goals
 
-The minimal validator must prove:
+The minimal validator should demonstrate:
 
 1. observers submit candidate events
 2. validator validates events
@@ -263,7 +263,7 @@ Observer Action
 → Validation
 → Accept or Reject
 → Assign canonical_sequence
-→ Append to Canonical Event History
+→ Append to canonical Event History
 → Replay
 → Notify Observers
 → Reconciliation
@@ -423,7 +423,7 @@ Handles:
 
 ## 8. Idempotency Rule (Critical)
 
-* each `event_id` must be processed exactly once
+* each event_id is expected to be processed exactly once
 * duplicates must not create duplicate canonical events
 
 If a duplicate `event_id` is received:
@@ -455,7 +455,7 @@ Minimal approach:
 
 ## 11. Success Criteria
 
-The validator is complete when:
+The validator can be considered complete when:
 
 * runs independently
 * supports multiple observers
