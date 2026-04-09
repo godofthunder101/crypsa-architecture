@@ -1,9 +1,5 @@
 # CrypSA Quick Start for Engineers
 
-> Scope note: This document is an implementation-oriented starting point.
->
-> For authoritative runtime behavior, refer to `../spec/`.
->
 > Intended audience: engineers who understand the core CrypSA idea and want to build a minimal working system.
 
 ---
@@ -31,14 +27,14 @@ It is not a full introduction to CrypSA.
 It focuses on:
 
 * the smallest viable runtime loop
-* the minimum required components
+* the core components of a minimal CrypSA system
 * how to go from concept → working system
 
 ---
 
 ## Minimal CrypSA System
 
-A minimal CrypSA implementation requires only:
+A minimal CrypSA implementation can be built with:
 
 * identity and object definitions
 * canonical event history
@@ -50,7 +46,7 @@ Each part exists to protect canonical event history while allowing local simulat
 
 ---
 
-## Step 1 — Define Identity and Object Structure
+## Step 1 — Define Identity and Object Structure (Example Approach)
 
 Every canonical object must have:
 
@@ -372,7 +368,7 @@ Why:
 
 ## Summary
 
-A minimal CrypSA system requires:
+A minimal CrypSA system typically includes:
 
 * identity and structural definitions
 * canonical event history
