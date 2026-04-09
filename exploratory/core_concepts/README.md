@@ -1,5 +1,12 @@
 # Core Concepts
 
+---
+
+“Terminology in this document may not match current CrypSA definitions.
+Refer to the Terminology Primer for authoritative meaning.”
+
+---
+
 ## Purpose
 
 This folder contains exploratory concept documents and early explanatory models of CrypSA.
