@@ -10,7 +10,7 @@ They transform data derived from canonical event history into observer-specific 
 
 ---
 
-## 📜 Specification Authority
+## 📜 Authority Level
 
 The `/spec` directory is the **authoritative definition of runtime behavior**.
 
