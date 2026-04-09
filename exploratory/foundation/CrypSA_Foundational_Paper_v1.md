@@ -1,5 +1,13 @@
 # CrypSA: A Distributed Architecture for Persistent Digital Universes
 
+---
+
+“Terminology in this document may not match current CrypSA definitions.
+Refer to the Terminology Primer for authoritative meaning.”
+
+---
+
+
 > Exploratory note: This document represents early conceptual framing.
 >
 > It reflects the evolution of CrypSA and may contain terminology or structure that differs from the current model.
