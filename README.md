@@ -1,10 +1,14 @@
 # CrypSA — Cryptid Server Architecture
 
-CrypSA is an event-driven architecture for building persistent digital worlds.
+CrypSA defines how systems agree on truth through validated canonical events.
 
-Rather than synchronizing full world state, CrypSA synchronizes **validated canonical events under invariant rules**.
+It is an event-driven architecture for building persistent digital worlds.
 
-Observers simulate locally. The validator defines what becomes canonical.
+Rather than synchronizing full world state, CrypSA synchronizes validated canonical events under invariant rules.
+
+All canonical changes pass through the invariant boundary, where system invariants are enforced.
+
+Observers simulate locally. The validator defines what becomes canonical—and therefore what becomes shared reality.
 
 > Reality is not synchronized — it is agreed upon through validated events.  
 > The validator defines what becomes canonical.  
@@ -25,6 +29,14 @@ If you're new to CrypSA, follow this path:
 
 ---
 
+## 📘 How to Navigate This Repo
+
+If you want to understand how to navigate CrypSA based on your goal and role:
+
+👉 docs/How_To_Read_CrypSA.md
+
+---
+
 ## ⚙️ System Model (At a Glance)
 
 CrypSA follows a consistent event lifecycle:
@@ -37,14 +49,18 @@ CrypSA follows a consistent event lifecycle:
 
 This defines the boundary between:
 
-* local simulation  
-* canonical reality  
+* local simulation (non-authoritative)  
+* canonical reality (validator-defined)
+
+Canonical event history is an append-only log that defines the shared reality of the system.
+
+All derived state must be consistent with this history.
 
 ---
 
 ## 🛠 Build CrypSA
 
-Start implementing with the minimal validator:
+Start implementing a CrypSA system with the minimal validator:
 
 👉 implementation/minimal_validator/CrypSA_Minimal_Validator_v0.1.md  
 
@@ -54,9 +70,9 @@ Then follow:
 
 ---
 
-## 🧠 What CrypSA Is
+## 🧠 What CrypSA Is (and Is Not)
 
-CrypSA defines how systems establish canonical truth.
+CrypSA defines how systems establish and maintain canonical truth over time through validated events.
 
 It provides a model where:
 
@@ -66,20 +82,33 @@ It provides a model where:
 
 > Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
-This enables systems that are:
+---
 
-* deterministic  
-* replayable  
-* resistant to desynchronization  
+### ✅ CrypSA Is
+
+CrypSA is:
+
+* a structured architecture model  
+* a set of invariants around truth, validation, and canonical event history  
+* a framework for building replayable, consistent systems  
+
+It defines:
+
+👉 what must be true for a system to maintain canonical agreement
+
+CrypSA is typically integrated alongside existing systems such as game engines, simulation layers, and networking stacks.
+
+Systems built with CrypSA are inherently replayable from canonical event history.
 
 ---
 
-## ❌ What CrypSA Is Not
+### ❌ CrypSA Is NOT
 
-CrypSA does not replace engines or networking stacks.
+CrypSA is not:
 
-It is not:
-
+* a fixed networking architecture  
+* a required client-server topology  
+* a one-size-fits-all implementation  
 * a game engine  
 * a networking library  
 * a state replication system  
@@ -89,16 +118,34 @@ It is not:
 
 ---
 
-## 🔒 Core Rules
+### 🧭 What CrypSA Defines vs Leaves Open
 
-The following must always hold:
+CrypSA defines:
 
-* Only the validator may modify canonical event history  
-* All canonical changes must pass validation  
-* All candidate events must cross the invariant boundary  
-* Observers may simulate freely, but never define truth  
+* how events become canonical  
+* how truth is established  
+* how state is derived from canonical event history  
+
+CrypSA intentionally leaves open:
+
+* how systems are structured at runtime  
+* how networking is implemented  
+* how reconciliation and prediction are handled  
+* how systems are shaped to meet product goals  
+
+👉 CrypSA defines invariants and structure, not a single implementation.
+
+👉 CrypSA provides a structured design space for making these decisions.
+
+👉 Implementers are expected to choose these based on product requirements.
 
 ---
+
+### 📘 Learn More
+
+For a full breakdown of invariants and product-dependent design:
+
+👉 architecture/CrypSA_Invariants_and_Design_Space.md — defines invariants and guides product-level design decisions
 
 ## ⚙️ How CrypSA Works
 
