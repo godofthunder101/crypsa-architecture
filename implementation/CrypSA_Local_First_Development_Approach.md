@@ -12,10 +12,6 @@ This document provides example implementation approaches for CrypSA.
 
 👉 Implementation details may vary based on product requirements.
 
-This document provides a recommended development approach for building CrypSA systems.
-
-It illustrates one practical way to apply CrypSA during development, without prescribing a required implementation.
-
 ---
 
 ## Purpose
@@ -32,6 +28,16 @@ It is an implementation strategy, not a runtime specification.
 
 ---
 
+## Relationship to Minimal Validator
+
+This document assumes you are building:
+
+→ `implementation/CrypSA_Minimal_Validator_v0.1.md`
+
+Follow this document alongside the minimal validator implementation.
+
+---
+
 ## Core Principle
 
 CrypSA defines the validator as a **role**, not a location.
@@ -40,7 +46,7 @@ Because of this, a system can begin with:
 
 * an observer
 * a validator
-* canonical event history (ordered via canonical_sequence)
+* canonical event history (ordered via `canonical_sequence`)
 
 all running locally, while still following the real architecture.
 
@@ -67,7 +73,7 @@ It lets builders first prove:
 
 * candidate events are correctly formed
 * validation behaves correctly
-* canonical event history is correct, append-only, and ordered via canonical_sequence
+* canonical event history is correct, append-only, and ordered via `canonical_sequence`
 * replay produces deterministic results based on canonical ordering
 * observers reconcile properly
 
@@ -75,25 +81,44 @@ It lets builders first prove:
 
 ## The Recommended Sequence
 
+Local Phase:
+
+Observer → Validator → Canonical Event History → Replay → Observer
+
+Remote Phase:
+
+Observer → Network → Validator → Canonical Event History → Network → Observer
+
+---
+
 ### Step 1 — Start with a Local Validator
 
 Begin with a minimal local deployment:
 
 * observer and validator in the same process or machine
 * canonical event history stored locally
-* replay and derived state functioning normally
+* replay and derived canonical state functioning normally
 * validation fully active
 * invariant boundary explicitly enforced
 
-At this stage, the goal is to prove the **actual runtime loop**, not simulate one.
+#### You should implement:
 
-You should already have:
+* an in-process validator
+* an append-only canonical event history
+* a validation pipeline:
 
-* explicit candidate events
-* explicit validation
-* append-only canonical event history ordered via canonical_sequence
-* deterministic replay
-* observer reconciliation
+  * schema → identity → preconditions → invariants → rules
+* deterministic replay that produces derived canonical state
+* a simple observer that can submit candidate events
+
+#### Result
+
+At the end of this step, you should have:
+
+* a working validator running locally  
+* a canonical event history that can append events  
+* replay producing derived canonical state  
+* an observer capable of submitting candidate events  
 
 ---
 
@@ -101,15 +126,14 @@ You should already have:
 
 Before introducing networking, confirm that the CrypSA model works locally.
 
-This means proving:
+#### You should verify:
 
-* local simulation does not define truth
-* candidate events cross the invariant boundary
-* the validator determines accept/reject
-* accepted events become canonical and are assigned canonical_sequence
-* replay produces consistent derived canonical state
-* rejected events correctly roll back or adjust local state
-* snapshot and reconnect logic can be reasoned about
+* submitting a candidate event triggers validation
+* If accepted, an event becomes canonical and is appended to canonical event history
+* `canonical_sequence` is assigned correctly
+* replay produces the same derived canonical state every time
+* rejected events do not affect canonical event history
+* observer reconciliation corrects local prediction
 
 ---
 
@@ -122,22 +146,12 @@ This may involve:
 * host-based deployment
 * or a dedicated remote validator
 
-At this stage, the architecture must remain unchanged.
+#### You should implement:
 
-What changes:
-
-* process separation
-* transport mechanism
-* observer ↔ validator communication
-
-What must not change:
-
-* event structure
-* validation semantics
-* canonical event history behavior
-* canonical ordering via canonical_sequence
-* replay behavior
-* observer reconciliation model
+* a transport layer between observer and validator
+* message-based submission of candidate events
+* broadcast of canonical events
+* replay-based synchronization on reconnect
 
 ---
 
@@ -147,15 +161,28 @@ A correct CrypSA implementation preserves the following across deployment change
 
 * observers submit candidate events
 * validator determines truth
+* If accepted, an event becomes canonical and is appended to canonical event history
 * canonical event history remains append-only
-* canonical event history remains ordered via canonical_sequence
-* replay remains deterministic and ordered via canonical_sequence
+* canonical event history remains ordered via `canonical_sequence`
+* replay remains deterministic and ordered via `canonical_sequence`
 * derived canonical state remains reconstructable
 * invariant boundary remains explicit
 
 If these change when moving to a remote validator:
 
 > the architecture is drifting
+
+---
+
+## Definition of Done (Local Phase)
+
+You have successfully completed local-first development when:
+
+* a candidate event can be submitted
+* If accepted, an event becomes canonical and is appended to canonical event history
+* `canonical_sequence` is assigned correctly
+* replay produces deterministic derived canonical state
+* observers reconcile correctly
 
 ---
 
@@ -208,7 +235,7 @@ Examples of incorrect approaches:
 * bypassing validation because everything is local
 * mutating canonical state directly
 * skipping replay
-* ignoring canonical_sequence or relying on local ordering
+* ignoring `canonical_sequence` or relying on local ordering
 * letting observer/UI logic define truth
 
 This does not align with CrypSA.
@@ -216,7 +243,7 @@ This does not align with CrypSA.
 A local validator must behave exactly like a real validator, including:
 
 * enforcing invariants
-* assigning canonical_sequence
+* assigning `canonical_sequence`
 * maintaining canonical event history
 
 ---
