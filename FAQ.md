@@ -22,7 +22,7 @@ CrypSA is an event-driven architecture where:
 * observers simulate locally
 * actions are proposed as candidate events
 * a validator evaluates those events
-* if accepted, an event becomes canonical and is appended to canonical event history
+* If accepted, an event becomes canonical and is appended to canonical event history
 
 👉 Canonical event history is the source of truth.
 
@@ -78,7 +78,7 @@ When the connection is restored:
 
 * canonical updates are fetched
 * canonical event history is synchronized
-* reconstruction via canonical event replay occurs
+* reconstruction via replay of canonical event history occurs
 * the observer converges to derived canonical state
 
 ---
@@ -119,7 +119,7 @@ Observers can propose events, but:
 
 Observers simulate freely, but:
 
-> Only accepted events become canonical and are appended to canonical event history.
+> If accepted, an event becomes canonical and is appended to canonical event history.
 
 Observers do not define truth.
 
@@ -152,9 +152,10 @@ Event sourcing:
 
 CrypSA:
 
-* uses validated events to define shared reality
+* uses validated events to define canonical event history
 * includes invariant enforcement as a core responsibility
 * explicitly models observers and reconstruction via canonical event replay
+* reconstructs derived canonical state via replay
 
 ---
 
@@ -181,8 +182,9 @@ The validator:
 * receives candidate events
 * validates them
 * enforces invariants
+* determines whether an event becomes canonical
 * assigns canonical ordering (`canonical_sequence`)
-* if accepted, an event becomes canonical and is appended to canonical event history
+* If accepted, an event becomes canonical and is appended to canonical event history
 
 It does not need to simulate the entire world continuously.
 
@@ -198,7 +200,7 @@ The validator:
 * accepts one valid event
 * rejects the other
 
-Only the accepted event becomes canonical.
+If accepted, an event becomes canonical and is appended to canonical event history.
 
 The rejected observer reconciles via canonical event replay.
 
@@ -209,7 +211,7 @@ The rejected observer reconciles via canonical event replay.
 If an observer predicts incorrectly:
 
 * the validator rejects the event
-* the observer corrects its local state via canonical event replay
+* the observer corrects its local state via replay of canonical event history
 
 This is expected and correct behavior.
 
@@ -238,10 +240,9 @@ Yes — at the canonical level.
 Given the same:
 
 * canonical event history
-* validation rules
 * interpretation logic
 
-All observers must derive equivalent state via canonical event replay.
+all observers must derive equivalent derived canonical state via replay of canonical event history.
 
 ---
 
@@ -250,14 +251,14 @@ All observers must derive equivalent state via canonical event replay.
 Not as truth.
 
 * canonical truth = canonical event history
-* derived state = reconstructed via replay
+* derived canonical state = reconstructed via replay
 * snapshots = reconstruction checkpoints
 
 ---
 
 ## What are snapshots?
 
-Snapshots are stored derived state used to:
+Snapshots are stored derived canonical state used to:
 
 * speed up loading
 * reduce replay cost
@@ -273,7 +274,7 @@ Yes — this is a core design goal.
 
 CrypSA supports a **local-first development model**:
 
-```text
+```text id="v42c9u"
 Local Validator → Host-Based → Dedicated Validator
 ```
 
@@ -337,4 +338,4 @@ It does not yet include a full reference implementation or minimal validator.
 
 ## One Sentence Summary
 
-CrypSA is a system where observers simulate locally, a validator evaluates candidate events, and canonical event history defines shared reality.
+CrypSA is a system where observers simulate locally, a validator evaluates candidate events, and canonical event history is the source of truth.
