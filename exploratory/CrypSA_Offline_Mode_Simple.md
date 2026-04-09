@@ -1,5 +1,12 @@
 # CrypSA Offline Mode — Simple
 
+---
+
+“Terminology in this document may not match current CrypSA definitions.
+Refer to the Terminology Primer for authoritative meaning.”
+
+---
+
 ## Purpose
 
 This document describes a simple offline mode model for CrypSA systems.
