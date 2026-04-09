@@ -15,6 +15,37 @@ Different readers should approach the repo differently.
 
 ---
 
+## Defines
+
+- Navigation paths through the CrypSA repository
+- How the repository is structured and layered
+- How to use the repo correctly
+
+---
+
+## Does Not Define
+
+- System behavior or architecture
+- CrypSA invariants or specifications
+
+---
+
+## Authority Level
+
+This document provides guidance for navigating the repository.  
+It does not define system behavior or architecture.
+
+---
+
+## Related Documents
+
+- `README.md` — project overview
+- `architecture/` — system structure and responsibilities
+- `spec/` — authoritative runtime behavior
+- `CrypSA_Terminology_Primer.md` — CrypSA language and terms
+
+---
+
 ## Core Principle
 
 👉 CrypSA is not meant to be read linearly.

@@ -12,7 +12,7 @@ This is the **only place where canonical truth may change**.
 
 ---
 
-## 📜 Specification Authority
+## Authority Level
 
 The `/spec` directory is the **authoritative definition of runtime behavior**.
 
@@ -32,6 +32,30 @@ The invariant boundary exists to:
 * separate observer simulation from authoritative validation
 
 All changes to canonical event history must pass through this boundary.
+
+---
+
+## Defines
+
+- The **invariant boundary** as the structural interface between observer-proposed events and validator authority
+- The rules, inputs, outputs, and guarantees of boundary validation
+- The authority constraint that only the validator may change canonical event history
+
+---
+
+## Does Not Define
+
+- Authoritative runtime behavior (defined in `/spec`)
+- Implementation strategies for the validator or boundary
+- Observer-side simulation behavior beyond event proposal
+
+---
+
+## Related Documents
+
+- `spec/CrypSA_Validation_Model.md` — authoritative runtime validation behavior
+- `architecture/CrypSA_Observer_Model.md` — observer responsibilities and state model
+- `architecture/CrypSA_Invariants_and_Design_Space.md` — CrypSA invariants and design space
 
 ---
 

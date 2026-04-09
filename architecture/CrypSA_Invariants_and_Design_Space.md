@@ -14,6 +14,39 @@ Its goal is to clarify that CrypSA is:
 
 ---
 
+## Defines
+
+- The non-negotiable invariants of CrypSA
+- The product-dependent design space intentionally left open to implementers
+- Structured design axes for reasoning about implementation choices
+
+---
+
+## Does Not Define
+
+- A single required implementation strategy
+- Authoritative runtime behavior (defined in `/spec`)
+- Observer-side or validator-side implementation details
+
+---
+
+## Authority Level
+
+This document defines system structure and responsibilities.  
+It does not define runtime behavior.  
+The `/spec` directory is the authoritative source of behavior.
+
+---
+
+## Related Documents
+
+- `spec/CrypSA_Validation_Model.md` — authoritative runtime validation behavior
+- `architecture/CrypSA_Invariant_Boundary.md` — the invariant boundary
+- `architecture/CrypSA_Observer_Model.md` — observer responsibilities
+- `architecture/CrypSA_Validator_Responsibility_Model.md` — validator responsibilities
+
+---
+
 ## Core Principle
 
 👉 CrypSA defines **what must be true**,  

@@ -10,7 +10,23 @@ The validator validates events and maintains canonical event history.
 
 ---
 
-## 📜 Specification Authority
+## Defines
+
+- The observer's architectural role within a CrypSA system
+- Observer responsibilities: canonical state reconstruction, local simulation, adapters, lenses, event proposal, prediction, and reconciliation
+- The observer-side state model and its relationship to canonical truth
+
+---
+
+## Does Not Define
+
+- Canonical truth or validation authority (owned by the validator)
+- Authoritative runtime behavior (defined in `/spec`)
+- A single required implementation pattern for observers
+
+---
+
+## Authority Level
 
 The `/spec` directory is the **authoritative definition of runtime behavior**.
 
@@ -18,6 +34,16 @@ Architecture documents explain the system.
 The spec defines how it must behave.
 
 If there is any conflict, **the spec takes precedence**.
+
+---
+
+## Related Documents
+
+- `spec/CrypSA_Validation_Model.md` — authoritative runtime validation behavior
+- `architecture/CrypSA_Invariant_Boundary.md` — the invariant boundary the observer interacts with
+- `architecture/CrypSA_Invariants_and_Design_Space.md` — CrypSA invariants and design space
+- `architecture/CrypSA_Adapter_Model.md` — adapter responsibilities
+- `architecture/CrypSA_Lens_Model.md` — lens responsibilities
 
 ---
 
