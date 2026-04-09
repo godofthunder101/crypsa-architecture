@@ -26,7 +26,7 @@ The validator validates events and maintains canonical event history.
 
 ---
 
-## Authority Level
+## 📜 Authority Level
 
 This document defines system structure and responsibilities.  
 It does not define runtime behavior.  
