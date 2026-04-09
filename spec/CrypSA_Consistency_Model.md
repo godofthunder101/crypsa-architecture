@@ -16,14 +16,14 @@ CrypSA does not rely on global state synchronization.
 
 Instead:
 
-> Consistency is achieved through agreement on canonical event history and deterministic replay.  
+> Consistency is achieved through agreement on canonical event history and deterministic replay.
 > Canonical event history is the source of truth.
 
-Observers may temporarily diverge, but must eventually converge on the same canonical history.
+Observers may temporarily diverge, but must eventually converge on the same canonical event history.
 
 ---
 
-> Canonical event history is the source of truth.  
+> Canonical event history is the source of truth.
 > Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
 ---
@@ -32,13 +32,13 @@ Observers may temporarily diverge, but must eventually converge on the same cano
 
 CrypSA provides:
 
-* **Canonical Consistency**  
-  All observers agree on accepted canonical events
+* **Canonical Consistency**
+  All observers agree on canonical events
 
-* **Replay Consistency**  
-  Given the same canonical event history, all observers derive the same state
+* **Replay Consistency**
+  Given the same canonical event history and the same interpretation logic, observers derive equivalent derived canonical state
 
-* **Eventual Convergence**  
+* **Eventual Convergence**
   Temporary divergence is allowed, but must resolve
 
 CrypSA does **not guarantee**:
@@ -51,13 +51,15 @@ CrypSA does **not guarantee**:
 
 ## Consistency Model
 
-CrypSA uses a hybrid consistency model:
+CrypSA uses validator-defined canonical consistency with observer-local flexibility.
+
+---
 
 ### 1. Event-Level Authority
 
 * The validator is authoritative over event acceptance
 * All candidate events must cross the invariant boundary before becoming canonical
-* Only accepted events become canonical and are appended to canonical event history
+* If accepted, an event becomes canonical and is appended to canonical event history
 * Canonical event history is the source of truth
 
 ---
@@ -66,13 +68,13 @@ CrypSA uses a hybrid consistency model:
 
 * Observers simulate locally
 * Observers may temporarily diverge
-* Observers reconcile when canonical updates are received
+* Observers reconcile when canonical events are received
 
 ---
 
 ### 3. Eventual Convergence
 
-* All observers converge once canonical history is aligned
+* All observers converge once canonical event history is aligned
 * Divergence is temporary and expected
 
 ---
@@ -91,7 +93,7 @@ This ordering is:
 * defined by the validator
 * used for replay and reconstruction
 
-> `canonical_sequence` is assigned by the validator and defines canonical ordering.
+> `canonical_sequence` defines a total canonical order across canonical events.
 
 ---
 
@@ -104,7 +106,17 @@ Implementations may reason about events within scopes such as:
 
 However:
 
-> canonical ordering remains defined by validator-assigned `canonical_sequence`
+> canonical ordering remains defined by validator-assigned `canonical_sequence`.
+
+---
+
+## Replay Relationship
+
+Consistency is maintained by:
+
+* aligning canonical event history
+* replaying canonical events in `canonical_sequence` order
+* reconstructing equivalent derived canonical state
 
 ---
 
@@ -123,7 +135,8 @@ The validator resolves conflicts during validation:
 
 * events are evaluated atomically within the relevant conflict scope
 * only valid outcomes can become canonical
-* rejected events do not enter canonical event history
+* If accepted, an event becomes canonical and is appended to canonical event history
+* rejected events do not become canonical and do not enter canonical event history
 
 ---
 
@@ -135,7 +148,7 @@ Given:
 * the same candidate event
 * the same validation rules
 
-The result must be:
+the result must be:
 
 > identical (accept or reject) given identical inputs
 
@@ -191,12 +204,12 @@ These are implementation strategies, not core consistency requirements.
 
 ## Observer Reconciliation
 
-Observers reconcile when:
+Observers reconcile by:
 
-* canonical events differ from local prediction
-* rejected events invalidate local assumptions
+* applying canonical events from canonical event history in `canonical_sequence` order
+* updating derived canonical state via replay
 
-Reconciliation may involve:
+Reconciliation may also involve:
 
 * correcting local state
 * re-running simulation
@@ -206,7 +219,7 @@ Reconciliation may involve:
 
 ## Snapshot Consistency
 
-Snapshots represent derived state at a specific `canonical_sequence`.
+Snapshots represent derived canonical state at a specific `canonical_sequence`.
 
 To remain consistent:
 
@@ -234,6 +247,11 @@ The system must handle:
 * missing events
 * conflicting submissions
 * incomplete observer history (missing canonical events)
+
+Observers must recover consistency by:
+
+* obtaining missing canonical events
+* replaying canonical event history
 
 Consistency must still converge under these conditions.
 
@@ -270,11 +288,11 @@ CrypSA consistency is:
 * canonically ordered
 * eventually convergent
 
-> Observers may disagree temporarily,  
+> Observers may disagree temporarily,
 > but canonical event history ensures they eventually agree.
 
 ---
 
 ## One Sentence Summary
 
-CrypSA ensures consistency through validator-controlled event acceptance, canonical ordering, and deterministic replay, allowing temporary divergence while guaranteeing eventual convergence.
+CrypSA ensures consistency through validator-controlled event acceptance, canonical ordering, and deterministic replay, allowing temporary divergence while guaranteeing eventual convergence on equivalent derived canonical state.
