@@ -29,6 +29,14 @@ If you're new to CrypSA, follow this path:
 
 ---
 
+## 📘 How to Navigate This Repo
+
+If you want to understand how to navigate CrypSA based on your goal and role:
+
+👉 docs/How_To_Read_CrypSA.md
+
+---
+
 ## ⚙️ System Model (At a Glance)
 
 CrypSA follows a consistent event lifecycle:
