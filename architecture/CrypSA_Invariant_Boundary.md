@@ -12,7 +12,7 @@ This is the **only place where canonical truth may change**.
 
 ---
 
-## Authority Level
+## 📜 Authority Level
 
 This document defines system structure and responsibilities.  
 It does not define runtime behavior.  
