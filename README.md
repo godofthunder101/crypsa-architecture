@@ -1,3 +1,6 @@
+> ⚠️ This repository defines an architecture model.  
+> If you are reviewing it, please read REVIEWER_GUIDE.md first.
+
 # CrypSA — Cryptid Server Architecture
 
 CrypSA defines how systems agree on truth through validated canonical events.
