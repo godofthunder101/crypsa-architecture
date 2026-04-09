@@ -8,7 +8,7 @@ The validator is responsible for protecting the integrity of **canonical event h
 
 ---
 
-## 📜 Specification Authority
+## 📜 Authority Level
 
 The `/spec` directory is the **authoritative definition of runtime behavior**.
 
