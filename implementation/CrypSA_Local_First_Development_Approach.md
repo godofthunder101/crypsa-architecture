@@ -12,13 +12,15 @@ This document provides example implementation approaches for CrypSA.
 
 👉 Implementation details may vary based on product requirements.
 
-This document illustrates one possible way to structure a system that conforms to CrypSA.
+This document provides a recommended development approach for building CrypSA systems.
+
+It illustrates one practical way to apply CrypSA during development, without prescribing a required implementation.
 
 ---
 
 ## Purpose
 
-This document defines the recommended development approach for building CrypSA systems.
+This document provides a recommended development approach for building CrypSA systems.
 
 The core idea is:
 
@@ -209,7 +211,7 @@ Examples of incorrect approaches:
 * ignoring canonical_sequence or relying on local ordering
 * letting observer/UI logic define truth
 
-This is not CrypSA.
+This does not align with CrypSA.
 
 A local validator must behave exactly like a real validator, including:
 
