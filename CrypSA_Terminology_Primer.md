@@ -15,7 +15,7 @@ If something here feels abstract, refer back to those documents.
 
 ---
 
-## 📜 Authority Level
+## 📜 Terminology Authority
 
 This document is the **authoritative source of all core term definitions in CrypSA**.
 
