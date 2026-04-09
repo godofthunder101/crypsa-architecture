@@ -1,5 +1,12 @@
 # Traditional Multiplayer vs CrypSA Architecture
 
+---
+
+“Terminology in this document may not match current CrypSA definitions.
+Refer to the Terminology Primer for authoritative meaning.”
+
+---
+
 > Exploratory note: This document represents early conceptual framing.
 >
 > For the current CrypSA model, refer to:
