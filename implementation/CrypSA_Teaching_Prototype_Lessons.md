@@ -90,7 +90,7 @@ Together, they prevented:
 * interpretation logic from spreading across layers
 * control logic from leaking into presentation
 
-This confirmed that:
+This demonstrated that:
 
 > data shaping and intent handling must be explicit and separated
 
@@ -153,7 +153,7 @@ helped:
 * protect boundaries
 * verify assumptions
 
-This reinforced that:
+This showed that:
 
 > tests should protect architecture, not just behavior
 
