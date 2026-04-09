@@ -283,7 +283,7 @@ You must now handle:
 
 If validation changes between local and remote:
 
-> you have broken CrypSA
+> the implementation no longer conforms to CrypSA
 
 ---
 
