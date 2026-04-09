@@ -76,7 +76,7 @@ The minimal validator supports multiple deployment configurations **without chan
 flowchart LR
 
 A[Observer] --> B[Local Validator]
-B --> C[canonical Event History]
+B --> C[canonical event history]
 
 C --> A
 ```
@@ -99,8 +99,8 @@ flowchart LR
 A[Observer] -->|Candidate Event| B[Network]
 B --> C[Validator]
 
-C --> D[canonical Event History]
-D -->|canonical Update| B
+C --> D[canonical event history]
+D -->|canonical update| B
 B --> A
 ```
 
@@ -133,7 +133,7 @@ Create a validator that:
 * listens for candidate events
 
 ```text
-Canonical Event History = []
+canonical event history = []
 Derived State = initial
 ```
 
@@ -197,7 +197,7 @@ Observer:
 * clears prediction
 
 ```text
-Canonical Event History = [event_1]
+canonical event history = [event_1]
 Derived State = updated
 ```
 
@@ -263,7 +263,7 @@ Observer Action
 → Validation
 → Accept or Reject
 → Assign canonical_sequence
-→ Append to canonical Event History
+→ Append to canonical event history
 → Replay
 → Notify Observers
 → Reconciliation
