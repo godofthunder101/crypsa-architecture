@@ -117,21 +117,19 @@ check_line() {
     failed=1
   fi
 
-  # ------------------------------
+    # ------------------------------
   # Event lifecycle drift
   # ------------------------------
-  if [[ "$content" =~ appended\ to\ canonical\ event\ history ]]; then
-    if [[ ! "$content" =~ becomes\ canonical ]]; then
-      print_error "$file" "$line" "$content" \
-        'Use the canonical event lifecycle phrase exactly.' \
-        'If accepted, an event becomes canonical and is appended to canonical event history.'
-      failed=1
-    fi
+  if [[ "$content" =~ accepted\ \-\>\ becomes\ canonical$ ]]; then
+    print_error "$file" "$line" "$content" \
+      'Use the full canonical lifecycle phrase when stating the acceptance rule.' \
+      'If accepted, an event becomes canonical and is appended to canonical event history.'
+    failed=1
   fi
 
-  if [[ "$content" =~ accepted\ events\ are\ appended\ to\ canonical\ event\ history ]]; then
+  if [[ "$content" =~ event\ becomes\ canonical$ ]]; then
     print_error "$file" "$line" "$content" \
-      'Use the canonical event lifecycle phrase exactly.' \
+      'Use the full canonical lifecycle phrase when stating the acceptance rule.' \
       'If accepted, an event becomes canonical and is appended to canonical event history.'
     failed=1
   fi
