@@ -8,6 +8,20 @@
 
 ---
 
+## ⚠️ Implementation Guidance (Non-Authoritative)
+
+This document provides example implementation approaches for CrypSA.
+
+👉 These patterns are not required.
+
+👉 CrypSA defines invariants and behavior through the `/spec` directory.
+
+👉 Implementation details may vary based on product requirements.
+
+This document illustrates one possible way to structure a system that conforms to CrypSA.
+
+---
+
 ## Purpose
 
 This document provides a concise guide for building a minimal CrypSA-based system.
