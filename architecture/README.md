@@ -12,7 +12,7 @@ Other documents must not redefine the concepts described here.
 
 ---
 
-## 📜 Specification Authority
+## 📜 Authority Level
 
 The `/spec` directory is the **authoritative definition of runtime behavior**.
 
