@@ -47,9 +47,10 @@ The **invariant boundary** is the control and validation interface between:
 
 It defines:
 
-* how inputs are evaluated
-* how validation is performed
-* what outputs are produced
+* how inputs are evaluated  
+* how validation is performed  
+* what outputs are produced  
+* how canonical events are created or rejected  
 
 ---
 
@@ -59,6 +60,21 @@ It defines:
 2. The validator is the **only authority** over canonical event history
 3. No system component may bypass the invariant boundary
 4. All canonical events must originate from successful validation
+
+---
+
+## Guarantees
+
+The invariant boundary guarantees:
+
+* **No observer authority leakage**  
+  Observers cannot directly affect canonical event history.
+
+* **Deterministic canonicalization**  
+  Given the same candidate event and canonical context, the validator produces the same result.
+
+* **Atomic validation within conflict scope**  
+  Each candidate event is evaluated as a single unit of validation and either fully accepted or rejected.
 
 ---
 
@@ -106,6 +122,9 @@ At the invariant boundary, the validator performs:
 * precondition checks
 * invariant enforcement
 * rule evaluation
+
+These stages may be structured differently depending on the implementation,
+but must produce consistent results for the same input and context.
 
 The validator must produce the same outcome given the same input and canonical context.
 
