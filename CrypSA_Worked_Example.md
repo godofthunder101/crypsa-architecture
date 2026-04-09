@@ -44,11 +44,11 @@ This walkthrough follows a complete event lifecycle:
 
 ## 📊 Runtime Flow Overview
 
-```mermaid id="c3w1n8"
+```mermaid
 flowchart LR
 
 A[Player Action] --> B[Local Simulation]
-B --> C[Create Candidate Event]
+B --> C[Observer Creates Candidate Event]
 C --> D[Submit to Validator]
 
 D --> E[Validation Pipeline]
@@ -104,9 +104,9 @@ At this point:
 
 # Phase 2 — Candidate Event Creation
 
-The observer creates a **candidate event**:
+The observer creates a **candidate event** (not yet canonical):
 
-```id="v4dq6z"
+```text
 event_type = place_structure
 actor_id = player_A
 target_ids = [tile_42]
@@ -130,7 +130,7 @@ This event represents **intent**, not reality.
 
 # Phase 3 — Submission
 
-The observer submits the event to the validator.
+The observer submits the candidate event to the validator.
 
 State at this moment:
 
@@ -145,7 +145,7 @@ State at this moment:
 
 The event crosses the **invariant boundary**.
 
-The validator evaluates:
+The validator evaluates the candidate event through validation layers:
 
 ### Schema Validation
 
@@ -169,27 +169,27 @@ The validator evaluates:
 
 ---
 
-# Phase 5 — Acceptance
+# Phase 5 — Validation Outcome (Accepted)
 
-The validator accepts the event.
+The validator accepts the event after all validation layers pass.
+
+If accepted, an event becomes canonical and is appended to canonical event history.
 
 Canonical metadata is assigned:
 
-```id="f0w3px"
+```text
 canonical_event_id = canon_1203
 canonical_sequence = 1203
 accepted_at = timestamp
 ```
 
-The event becomes canonical and is appended to **canonical event history**.
-
-> This is the moment the action becomes canonical.
+This event is now **canonical**.
 
 ---
 
 # Phase 6 — Replay and Derived State
 
-Replay applies canonical events in `canonical_sequence` order.
+Replay applies canonical events from canonical event history in `canonical_sequence` order.
 
 Derived canonical state updates:
 
@@ -238,7 +238,7 @@ After reconciliation:
 * lenses interpret meaning
 * UI renders the result
 
-```text id="9tb7mq"
+```text
 Canonical Update → Adapter → Lens → UI
 ```
 
@@ -254,13 +254,13 @@ Two players attempt to place on tile_42.
 
 * evaluates both candidate events
 * accepts the first valid event
-* rejects the second
+* the second event does not become canonical and does not enter canonical event history
 
 ---
 
 ## Rejection Result
 
-```id="sx9k2u"
+```text
 result = rejected
 reason = precondition_failed
 ```
@@ -272,7 +272,7 @@ reason = precondition_failed
 Rejected observer:
 
 * removes predicted structure
-* updates to canonical state
+* updates to canonical state via replay
 
 ---
 
@@ -300,4 +300,4 @@ This example corresponds to:
 
 # One Sentence Summary
 
-A local action becomes a candidate event, the validator evaluates it, accepted events become canonical and are appended to canonical event history, and observers reconcile their local simulation to that shared history.
+A local action becomes a candidate event, the validator evaluates it, if accepted, an event becomes canonical and is appended to canonical event history, and observers reconcile their local simulation to that shared history.
