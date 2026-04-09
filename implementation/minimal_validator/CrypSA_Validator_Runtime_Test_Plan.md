@@ -1,8 +1,22 @@
 # Validator Runtime Test Plan
 
+---
+
+## ⚠️ Implementation Guidance (Non-Authoritative)
+
+This document outlines a testing strategy for a CrypSA validator implementation.
+
+👉 These tests are not authoritative definitions of system behavior, and must not be treated as such.
+
+👉 They are derived from runtime invariants and are intended to help validate correctness.
+
+👉 For authoritative definitions of behavior, refer to the `/spec` directory.
+
+---
+
 ## Purpose
 
-This document defines the test strategy for **CrypSA Minimal Validator v0.1**.
+This document outlines the test strategy for **CrypSA Minimal Validator v0.1**.
 
 It ensures the validator implementation:
 
@@ -22,7 +36,7 @@ It is a **runtime correctness test plan**, directly derived from:
 
 ## Core Principle
 
-> Tests must protect the architecture, not just the behavior.
+> Tests protect the architecture, not just the behavior.
 
 A validator that "works" but violates invariants is incorrect.
 
@@ -30,7 +44,7 @@ A validator that "works" but violates invariants is incorrect.
 
 ## Test Categories
 
-The validator must be tested across the following categories:
+The validator should be tested across the following categories:
 
 1. Validation correctness
 2. Canonical event history correctness
