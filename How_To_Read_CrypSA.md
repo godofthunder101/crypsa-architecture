@@ -15,7 +15,7 @@ Different readers should approach the repo differently.
 
 ---
 
-## Authority Level
+## 📜 Authority Level
 
 This document provides guidance for navigating the repository.  
 It does not define system behavior or architecture.
