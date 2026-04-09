@@ -29,7 +29,7 @@ Its goal is to clarify that CrypSA is:
 
 ---
 
-## Authority Level
+## 📜 Authority Level
 
 This document defines system structure and responsibilities.  
 It does not define runtime behavior.  
