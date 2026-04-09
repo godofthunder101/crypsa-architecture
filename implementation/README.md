@@ -1,5 +1,21 @@
 # Implementation
 
+---
+
+## ⚠️ Implementation Guidance (Non-Authoritative)
+
+This folder provides example implementation approaches for CrypSA.
+
+👉 These patterns are not required, but are recommended to maintain clear architectural boundaries.
+
+👉 CrypSA defines invariants and behavior through the `/spec` directory.
+
+👉 Implementation details may vary based on product requirements.
+
+Documents in this folder illustrate possible ways to structure systems that conform to CrypSA.
+
+---
+
 ## Purpose
 
 This folder contains implementation strategy, build direction, project status, and practical engineering guidance for CrypSA.
