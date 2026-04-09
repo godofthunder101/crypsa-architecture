@@ -16,7 +16,7 @@ the `spec/` folder defines:
 
 ## 🧭 Purpose of This Folder
 
-The documents in this folder define the **minimum required runtime behavior** of CrypSA, including:
+The documents in this folder define the **minimum required runtime behavior** of the CrypSA system, including:
 
 * event structure and lifecycle
 * validation and invariant enforcement
@@ -28,11 +28,11 @@ The documents in this folder define the **minimum required runtime behavior** of
 * identity and object lifecycle
 * observer ↔ validator communication
 
-These specifications make CrypSA:
+These specifications make CrypSA systems:
 
 * implementable
 * testable
-* technically reviewable
+* technically verifiable
 
 They do **not** define full production systems.
 
@@ -40,14 +40,15 @@ They do **not** define full production systems.
 
 ## ⚙️ Core Runtime Principle
 
-> Canonical truth is defined by validated canonical events — not by synchronized state.
+> Canonical event history is the source of truth.  
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
 At runtime:
 
 * observers propose candidate events
 * the validator evaluates them
 * accepted events are appended to canonical event history
-* derived canonical state is reconstructed via deterministic replay
+* derived canonical state is reconstructed by deterministic replay of canonical event history
 
 This model applies regardless of validator deployment:
 
@@ -82,10 +83,10 @@ This includes:
 
 * event structure
 * validation behavior
-* canonical event handling
+* canonical event lifecycle and handling
 * ordering (`canonical_sequence`)
 * consistency and reconciliation rules
-* replay and derived state behavior
+* replay and derived canonical state behavior
 * snapshot behavior
 * identity and minting
 * transport expectations
@@ -150,7 +151,7 @@ All documents in this folder must:
 
 If ambiguity exists:
 
-> the Runtime Model defines final behavior
+> the Runtime Model defines authoritative runtime behavior
 
 ---
 
@@ -243,4 +244,4 @@ These specifications are:
 
 ## One Sentence Summary
 
-The `spec/` folder defines the authoritative runtime behavior of CrypSA—how events, validation, consistency, replay, identity, snapshots, and transport work together to produce shared canonical reality through validator-controlled canonical event history.
+The `spec/` folder defines the authoritative runtime behavior of CrypSA—how events, validation, consistency, replay, identity, snapshots, and transport work together to produce shared canonical reality defined by canonical event history.

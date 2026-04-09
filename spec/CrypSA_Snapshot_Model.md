@@ -14,7 +14,8 @@ Snapshots are used to:
 
 In CrypSA:
 
-> Canonical event history is the source of truth.
+> Canonical event history is the source of truth.  
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.  
 > Snapshots are derived performance artifacts.
 
 Snapshots do not replace canonical event history.
@@ -28,7 +29,7 @@ They are cached representations of derived canonical state at a specific point i
 A snapshot is:
 
 * derived canonical state
-* tied to a specific canonical sequence position
+* tied to a specific `canonical_sequence`
 * used as a starting point for replay
 
 ---
@@ -37,7 +38,7 @@ A snapshot is:
 
 Every snapshot must reference:
 
-* `server_sequence`
+* `canonical_sequence`
 
 It may also include:
 
@@ -47,7 +48,7 @@ This ensures:
 
 > replay from snapshot + subsequent canonical events produces the same result as full replay
 
-> `server_sequence` is assigned by the validator and defines canonical ordering.
+> `canonical_sequence` is assigned by the validator and defines canonical ordering.
 
 ---
 
@@ -56,8 +57,8 @@ This ensures:
 A snapshot contains:
 
 * derived canonical state
-* relevant system state required for reconstruction
-* snapshot position (`server_sequence`)
+* relevant derived canonical state required for reconstruction
+* snapshot position (`canonical_sequence`)
 * version metadata
 
 Snapshots must not contain:
@@ -157,10 +158,16 @@ Snapshots are used for:
 Replay using snapshots follows this process:
 
 1. load snapshot state
-2. read snapshot `server_sequence`
+2. read snapshot `canonical_sequence`
 3. fetch canonical events after that sequence
-4. apply events in `server_sequence` order
+4. apply events in `canonical_sequence` order
 5. produce current derived canonical state
+
+---
+
+### Reconstruction Rule
+
+Snapshot (at canonical_sequence N) + Canonical Event Tail (N+1 → latest) → Derived Canonical State
 
 ---
 
@@ -169,9 +176,9 @@ Replay using snapshots follows this process:
 Snapshots must satisfy all of the following:
 
 * derived from valid canonical event history
-* tied to a specific `server_sequence`
+* tied to a specific position `canonical_sequence`
 * reproducible via replay
-* equivalent to replaying history up to that sequence
+* equivalent to replaying canonical event history up to that `canonical_sequence`
 
 ---
 
@@ -179,7 +186,7 @@ Snapshots must satisfy all of the following:
 
 Snapshots should be verified by:
 
-* comparing replay results against snapshot contents
+* comparing replay-derived canonical state against snapshot contents
 * periodic consistency checks
 * optional checksum or hash validation
 
@@ -259,7 +266,7 @@ Snapshot performance depends on:
 
 Snapshots must:
 
-* contain only canonical-derived data
+* contain only data derived from canonical event history
 * be verifiable against canonical event history
 * never override canonical event history in the event of mismatch
 
@@ -306,7 +313,7 @@ CrypSA snapshots are:
 
 * derived
 * versioned
-* sequence-aware
+* canonical-sequence-aware
 * replay-compatible
 
 They make event-driven worlds practical to operate without changing the source of truth.
@@ -315,4 +322,4 @@ They make event-driven worlds practical to operate without changing the source o
 
 ## One Sentence Summary
 
-CrypSA snapshots are derived, sequence-bound representations of canonical state that accelerate replay while preserving canonical event history as the sole source of truth.
+CrypSA snapshots are derived, sequence-bound representations of derived canonical state that accelerate replay while preserving canonical event history as the sole source of truth.

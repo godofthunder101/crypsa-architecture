@@ -1,6 +1,6 @@
 # CrypSA Replay Model Spec v0.1
 
-This document defines how CrypSA reconstructs world state from canonical event history.
+This document defines how CrypSA reconstructs derived canonical state from canonical event history.
 
 Replay is the mechanism that turns:
 
@@ -14,9 +14,10 @@ Replay is the mechanism that turns:
 
 In CrypSA:
 
-> The world is not stored — it is reconstructed.
+> Canonical event history is the source of truth.  
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
-Canonical state is always derived by replaying canonical event history.
+Derived canonical state is reconstructed by replaying canonical event history.
 
 ---
 
@@ -24,7 +25,7 @@ Canonical state is always derived by replaying canonical event history.
 
 Replay is the process of:
 
-1. starting from a known base state (genesis or snapshot)
+1. starting from a known derived canonical state (genesis or snapshot state)
 2. applying canonical events in order
 3. producing a deterministic derived canonical state
 
@@ -35,10 +36,10 @@ Replay is the process of:
 Replay requires:
 
 * canonical event history
-* authoritative ordering (`server_sequence`)
+* authoritative ordering defined by `canonical_sequence`
 * event payloads
-* invariant rules
-* object definitions (genomes / mint)
+* invariant rules defined by the validation model
+* object definitions (genomes and canonical mint events)
 
 ---
 
@@ -48,14 +49,14 @@ Replay can begin from:
 
 ### 1. Genesis
 
-* empty or initial world state
+* empty or initial derived canonical state
 * all events are applied
 
 ---
 
 ### 2. Snapshot (Recommended)
 
-* precomputed derived canonical state at a known sequence
+* precomputed derived canonical state at a known `canonical_sequence`
 * replay resumes from snapshot forward
 
 ---
@@ -66,11 +67,12 @@ Replay order is defined by:
 
 ### Canonical Ordering
 
-* events must be applied strictly in `server_sequence` order
+* events must be applied strictly in `canonical_sequence` order
+* no reordering is permitted
 * this ordering is authoritative
 * all observers must use the same ordering
 
-> `server_sequence` is assigned by the validator and defines canonical ordering.
+> `canonical_sequence` is assigned by the validator and defines canonical ordering.
 
 ---
 
@@ -81,7 +83,7 @@ Each canonical event modifies derived canonical state according to:
 * its `event_type`
 * its `payload`
 * the current derived canonical state
-* invariant rules
+* invariant rules defined by the validation model
 
 ---
 
@@ -141,7 +143,7 @@ Replay must be safe under repeated or partial application.
 
 ### Requirements
 
-* canonical events must not produce different results if applied multiple times in the same sequence position
+* canonical events must produce the same result when applied at the same `canonical_sequence`
 * event identity must uniquely identify each canonical event
 * replay systems must prevent duplicate application within the same sequence
 
@@ -153,7 +155,7 @@ Replay is not defined as arbitrary reapplication.
 
 Instead:
 
-> replay is deterministic application of a canonical sequence
+> replay is the deterministic application of a canonical sequence
 
 Idempotency ensures robustness in:
 
@@ -228,8 +230,8 @@ Snapshots improve replay performance.
 
 ### Requirements
 
-* snapshot must correspond to a specific `server_sequence`
-* snapshot must be reproducible from canonical event history
+* snapshot must correspond to a specific `canonical_sequence`
+* snapshot must be reproducible from canonical event history via deterministic replay
 * replay after snapshot must produce identical results to full replay
 
 ---
@@ -301,12 +303,12 @@ CrypSA replay is:
 * deterministic
 * event-driven
 * reconstructive
-* validator-aligned
+* validator-defined canonical ordering
 
 It ensures that:
 
 > given the same canonical event history,
-> all observers derive the same world
+> all observers derive the same derived canonical state
 
 ---
 
