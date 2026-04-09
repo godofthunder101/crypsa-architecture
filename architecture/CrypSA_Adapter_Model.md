@@ -10,7 +10,7 @@ They convert runtime data into forms usable by other layers without altering mea
 
 ---
 
-## 📜 Specification Authority
+## 📜 Authority Level
 
 The `/spec` directory is the **authoritative definition of runtime behavior**.
 
