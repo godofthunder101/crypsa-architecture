@@ -1,9 +1,5 @@
 # CrypSA Project Status
 
-> Scope note: This document describes project status and implementation direction.
->
-> For authoritative runtime behavior, refer to `../spec/`.
-
 ---
 
 ## ⚠️ Implementation Guidance (Non-Authoritative)
@@ -100,7 +96,7 @@ The repository currently defines CrypSA through:
 * `../architecture/` — system structure and architectural boundaries
 * `../spec/` — runtime behavior and implementation-facing system contracts
 
-Together, these define:
+Together, these describe:
 
 * the observer model
 * the validator role in validation and canonical event handling
@@ -239,7 +235,7 @@ The goal is to validate the architecture, not optimize it.
 
 ## Next Major Step
 
-## CrypSA Minimal Server v0.1
+### CrypSA Minimal Server v0.1
 
 The teaching prototype demonstrates the model.
 
