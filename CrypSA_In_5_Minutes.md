@@ -26,10 +26,8 @@ In CrypSA:
 * **observers** simulate locally
 * actions are proposed as **candidate events**
 * a **validator** evaluates those events
-* accepted events become **canonical events**
-* canonical events are appended to **canonical event history**
+* If accepted, an event becomes canonical and is appended to canonical event history
 
-> The shared world is defined by accepted events, not continuously synchronized state.
 > Canonical event history is the source of truth.
 
 ---
@@ -41,8 +39,9 @@ Everything in CrypSA follows this flow:
 1. An observer simulates locally
 2. The observer proposes a **candidate event**
 3. The **validator** checks invariants
-4. If accepted → the event becomes **canonical and is appended to canonical event history**
-5. Observers reconcile to canonical truth
+4. If accepted, an event becomes canonical and is appended to canonical event history
+5. canonical events are replayed to reconstruct derived canonical state
+6. observers reconcile to derived canonical state
 
 This is the boundary between:
 
@@ -57,6 +56,7 @@ The validator is responsible for:
 
 * accepting or rejecting candidate events
 * enforcing invariants
+* determining whether an event becomes canonical
 * maintaining canonical event history
 
 > The validator defines what becomes canonical.
@@ -113,7 +113,7 @@ Think of CrypSA like this:
 
 * the validator determines what becomes canonical
 * observers simulate what they think is happening
-* only validated events become part of canonical history
+* only validated events become part of canonical event history
 * everything else is local prediction
 
 The system is easiest to understand as **four separate responsibilities**.
@@ -206,6 +206,18 @@ But:
 ## Derived State
 
 > Derived canonical state is a projection of canonical event history. It is not the source of truth.
+> Derived canonical state is reconstructed via replay.
+
+---
+
+## Determinism
+
+Given the same:
+
+* canonical event history
+* interpretation logic
+
+all observers derive equivalent derived canonical state via replay.
 
 ---
 
@@ -284,7 +296,7 @@ It is a way of structuring:
 * authority
 * validation
 * interpretation
-* shared reality
+* shared system behavior
 
 ---
 
@@ -317,8 +329,8 @@ CrypSA is not ideal for:
 
 ## If You Understand This, You Understand CrypSA
 
-* events become truth only after validation
-* truth is an append-only history
-* state is derived, not stored
+* events become canonical only after validation
+* canonical event history is the source of truth
+* derived canonical state is reconstructed via replay
 * observers simulate locally and reconcile
-* the validator defines canonical reality
+* the validator defines what becomes canonical
