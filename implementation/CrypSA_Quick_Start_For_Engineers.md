@@ -12,7 +12,7 @@
 
 This document provides example implementation approaches for CrypSA.
 
-👉 These patterns are not required.
+👉 These patterns are not required, but are recommended to maintain clear architectural boundaries.
 
 👉 CrypSA defines invariants and behavior through the `/spec` directory.
 
