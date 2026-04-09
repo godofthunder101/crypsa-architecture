@@ -1,8 +1,20 @@
 # Validator Runtime Invariants
 
+---
+
+## ⚠️ Implementation Guidance (Non-Authoritative)
+
+This document outlines runtime invariants that a CrypSA validator implementation is expected to preserve.
+
+👉 These invariants reflect architectural requirements but are not authoritative definitions of system behavior.
+
+👉 For authoritative definitions, refer to the `/spec` directory.
+
+---
+
 ## Purpose
 
-This document defines the runtime invariants that must always hold inside **CrypSA Minimal Validator v0.1**.
+This document outlines the runtime invariants that are expected to hold inside **CrypSA Minimal Validator v0.1**.
 
 These are not gameplay invariants.
 
