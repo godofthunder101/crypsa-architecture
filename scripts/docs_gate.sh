@@ -3,7 +3,7 @@ set -euo pipefail
 
 BASE_REF="${1:-origin/main}"
 
-echo "🧠 CrypSA Docs Gate (v3.1)"
+echo "🧠 CrypSA Docs Gate (v3.2)"
 echo
 
 diff_output="$(git diff --unified=0 "$BASE_REF"...HEAD -- '*.md' '*.MD' || true)"
@@ -16,6 +16,7 @@ fi
 failed=0
 current_file=""
 line_number=0
+in_code_block=0
 
 print_error() {
   local file="$1"
@@ -117,7 +118,7 @@ check_line() {
     failed=1
   fi
 
-    # ------------------------------
+  # ------------------------------
   # Event lifecycle drift
   # ------------------------------
   if [[ "$content" =~ accepted\ \-\>\ becomes\ canonical$ ]]; then
@@ -182,7 +183,21 @@ while IFS= read -r line; do
 
   if [[ "$line" =~ ^\+ && ! "$line" =~ ^\+\+\+ ]]; then
     content="${line:1}"
-    check_line "$current_file" "$line_number" "$content"
+
+    if [[ "$content" =~ ^\`\`\` ]]; then
+      if [[ "$in_code_block" -eq 0 ]]; then
+        in_code_block=1
+      else
+        in_code_block=0
+      fi
+      ((line_number++))
+      continue
+    fi
+
+    if [[ "$in_code_block" -eq 0 ]]; then
+      check_line "$current_file" "$line_number" "$content"
+    fi
+
     ((line_number++))
   fi
 done <<< "$diff_output"
