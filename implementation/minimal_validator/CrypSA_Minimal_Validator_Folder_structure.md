@@ -1,8 +1,22 @@
 # CrypSA Minimal Validator Folder Structure
 
+---
+
+## ⚠️ Implementation Guidance (Non-Authoritative)
+
+This document provides one possible file and module structure for a CrypSA minimal validator.
+
+👉 This structure is not required, but is designed to maintain clear architectural boundaries.
+
+👉 CrypSA defines invariants and behavior through the `/spec` directory.
+
+👉 Alternative structures may be used, as long as CrypSA invariants are preserved.
+
+---
+
 ## Purpose
 
-This document defines a clean file and module structure for building **CrypSA Minimal Validator v0.1**.
+This document provides a clean file and module structure for building **CrypSA Minimal Validator v0.1**.
 
 Its goal is to make the minimal validator:
 
@@ -29,11 +43,11 @@ The minimal validator should reflect the same core runtime boundaries that exist
 * observer/session coordination
 * replay and snapshots
 
-The file structure should reinforce those boundaries.
+The file structure is intended to reinforce those boundaries.
 
 ---
 
-## Recommended Top-Level Structure
+## Recommended Top-Level Structure (Example)
 
 ```text
 minimal-validator/
@@ -140,7 +154,7 @@ These files handle communication with observers.
 
 ### `src/transport/websocket-server.ts`
 
-Responsible for:
+May handle:
 
 * accepting observer connections
 * receiving inbound messages
@@ -166,7 +180,7 @@ This keeps message contracts explicit.
 
 ### `src/transport/session-manager.ts`
 
-Responsible for:
+Typically responsible for:
 
 * tracking connected observers
 * storing last known `server_sequence`
@@ -212,7 +226,7 @@ Examples:
 
 ### `src/events/event-intake.ts`
 
-Responsible for:
+May Handle:
 
 * parsing incoming event messages
 * checking required fields exist
@@ -224,7 +238,7 @@ This is intake preparation, not full validation.
 
 ### `src/events/event-idempotency.ts`
 
-Responsible for:
+May Handle:
 
 * tracking processed `event_id`s
 * preventing duplicate canonicalization
@@ -318,7 +332,7 @@ Examples:
 
 ### `src/validation/conflict-scope-resolver.ts`
 
-Responsible for:
+Typically responsible for:
 
 * identifying affected conflict scope
 * locking or isolating validation context
@@ -336,7 +350,7 @@ These files maintain canonical truth.
 
 ### `src/history/canonical-event-history.ts`
 
-Responsible for:
+May handle:
 
 * appending canonical events
 * reading ordered history
@@ -359,7 +373,7 @@ Keep sequence assignment explicit and isolated.
 
 ### `src/history/event-store.ts`
 
-Responsible for:
+Typically responsible for:
 
 * writing canonical events to storage
 * reading persisted canonical events from disk
@@ -404,7 +418,7 @@ Keep read logic separate from mutation logic.
 
 ### `src/state/state-apply-event.ts`
 
-Responsible for:
+May handle:
 
 * applying one canonical event to derived canonical state
 * ensuring deterministic state transitions
@@ -433,7 +447,7 @@ These files reconstruct derived state from canonical history.
 
 ### `src/replay/replay-engine.ts`
 
-Responsible for:
+Typically responsible for:
 
 * reconstructing derived state from history
 * replaying events in `server_sequence` order
@@ -472,7 +486,7 @@ Examples:
 
 ### `src/snapshots/snapshot-store.ts`
 
-Responsible for:
+Typically responsible for:
 
 * reading and writing snapshots
 * managing snapshot file storage
@@ -481,7 +495,7 @@ Responsible for:
 
 ### `src/snapshots/snapshot-generator.ts`
 
-Responsible for:
+May handle:
 
 * creating snapshots from current derived canonical state
 * tagging them with `server_sequence`
@@ -648,9 +662,9 @@ Prove:
 
 ---
 
-## Minimal Build Order
+## Example Build Order
 
-If you want to implement this incrementally:
+If you want to implement this incrementally, one possible sequence is:
 
 1. `candidate-event-types.ts`
 2. `canonical-event-types.ts`
