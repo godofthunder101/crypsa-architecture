@@ -17,7 +17,7 @@ The goal is to prove that CrypSA functions as a real runtime system with:
 * candidate event submission
 * validation
 * canonical event history
-* canonical update distribution
+* canonical event distribution
 * observer reconciliation support
 
 This validator is a **technical proof step** between the teaching prototype and a full runtime system.
@@ -100,7 +100,7 @@ A[Observer] -->|Candidate Event| B[Network]
 B --> C[Validator]
 
 C --> D[canonical event history]
-D -->|canonical update| B
+D -->|canonical event| B
 B --> A
 ```
 
@@ -134,7 +134,7 @@ Create a validator that:
 
 ```text
 canonical event history = []
-Derived State = initial
+derived canonical state = initial
 ```
 
 ---
@@ -143,7 +143,7 @@ Derived State = initial
 
 Create an observer that:
 
-* reconstructs state
+* reconstructs derived canonical state
 * can submit candidate events
 * optionally runs in the same process
 
@@ -170,35 +170,36 @@ Example:
 
 ---
 
-### Step 4 — Validate and Accept
+### Step 4 — Validation and Decision
 
-Validator:
+The validator evaluates the candidate event:
 
-* checks schema
-* verifies identity
-* checks preconditions
-* enforces invariants
+* schema validation
+* identity validation
+* precondition validation
+* invariant validation
+* rule validation
 
-If valid:
+Decision:
 
-* assigns `canonical_sequence = 1`
-* appends to canonical event history
+* If accepted, an event becomes canonical and is appended to canonical event history
+* If rejected, the event does not become canonical and does not enter canonical event history
 
 ---
 
 ### Step 5 — Broadcast and Reconcile
 
-Validator sends canonical event.
+The validator broadcasts the canonical event.
 
-Observer:
+Observers:
 
-* replays event
-* updates derived state
-* clears prediction
+* replay canonical events
+* update derived canonical state
+* reconcile local prediction
 
 ```text
 canonical event history = [event_1]
-Derived State = updated
+derived canonical state = updated
 ```
 
 ---
@@ -229,8 +230,8 @@ The minimal validator should demonstrate:
 1. observers submit candidate events
 2. validator validates events
 3. events are accepted or rejected
-4. accepted events become canonical
-5. derived state updates via replay
+4. If accepted, an event becomes canonical and is appended to canonical event history
+5. derived canonical state updates via replay
 6. observers reconcile correctly
 7. reconnect works via snapshot + event tail
 
@@ -261,12 +262,12 @@ Observer Action
 → Candidate Event
 → Invariant Boundary
 → Validation
-→ Accept or Reject
+→ Decision
+→ If accepted, an event becomes canonical and is appended to canonical event history
 → Assign canonical_sequence
-→ Append to canonical event history
+→ Broadcast canonical event
 → Replay
-→ Notify Observers
-→ Reconciliation
+→ Observer Reconciliation
 ```
 
 ---
@@ -285,7 +286,7 @@ The validator does **not**:
 * predict outcomes
 * manage UI or experience
 
-> The validator controls truth, not simulation.
+> The validator controls truth, not simulation. Derived canonical state is reconstructed via replay.
 
 ---
 
@@ -304,12 +305,12 @@ Start extremely small:
 
 ## 6. Minimal Components
 
-### Transport Layer
+### Submission and Distribution Layer
 
 Handles:
 
 * receiving candidate events
-* sending results
+* sending validation results
 * broadcasting canonical events
 
 (Local-first: this can be in-process)
@@ -350,7 +351,7 @@ Handles:
 
 ---
 
-### Derived State Cache
+### Derived Canonical State Cache
 
 * materialized state
 * updated via replay
@@ -373,64 +374,62 @@ Handles:
 
 ---
 
-## 7. Data Flow Examples
+## 7. Minimal Data Structures
 
-### Submission
+### Candidate Event
 
-```json
-{
-  "type": "candidate_event",
-  "event": { ... }
-}
-```
-
----
-
-### Acceptance
-
-```json
-{
-  "type": "event_result",
-  "result": "accepted",
-  "canonical_sequence": 14
-}
-```
+* `event_id`
+* `event_type`
+* `actor_id`
+* `target_ids`
+* `payload`
+* `precondition_refs`
+* optional `observer_time`
 
 ---
 
-### Rejection
+### Canonical Event
 
-```json
-{
-  "type": "event_result",
-  "result": "rejected",
-  "reason": "conflict_lost"
-}
-```
+* candidate event fields
+* `canonical_event_id`
+* `canonical_sequence`
+* `accepted_at`
 
 ---
 
-### Canonical Update
+### Canonical Event History
 
-```json
-{
-  "type": "canonical_event",
-  "event": { ... }
-}
-```
+* append-only ordered sequence of canonical events
+* authoritative source of truth
+
+---
+
+### Derived Canonical State
+
+* reconstructed via replay
+* not authoritative
+* used for validation and queries
+
+---
+
+### Validation Result
+
+* accepted or rejected
+* optional rejection reason
+* canonical metadata if accepted
 
 ---
 
 ## 8. Idempotency Rule (Critical)
 
-* each event_id is expected to be processed exactly once
+* each `event_id` must be processed exactly once
 * duplicates must not create duplicate canonical events
 
 If a duplicate `event_id` is received:
 
-* the validator must return the original result (accepted or rejected)
-* no new canonical event must be created
-* canonical_sequence must not change
+* return the original result (accepted or rejected)
+* do not create a new canonical event
+* do not modify canonical event history
 
 ---
 
@@ -438,8 +437,8 @@ If a duplicate `event_id` is received:
 
 Within a conflict scope:
 
-* validate + accept atomically
-* reject conflicting events
+* validation and decision must be atomic
+* conflicting events must not both become canonical
 
 ---
 
@@ -448,7 +447,7 @@ Within a conflict scope:
 Minimal approach:
 
 * append-only event log
-* in-memory derived state
+* in-memory derived canonical state
 * periodic snapshots
 
 ---
@@ -460,8 +459,8 @@ The validator can be considered complete when:
 * runs independently
 * supports multiple observers
 * validates correctly
-* maintains canonical history
-* updates derived state
+* appends canonical events in canonical_sequence order
+* updates derived canonical state via replay
 * supports reconnect
 * enforces idempotency
 
@@ -472,7 +471,7 @@ The validator can be considered complete when:
 1. validator process
 2. event intake
 3. canonical event history
-4. derived state
+4. derived canonical state
 5. validation
 6. broadcast
 7. reconnect
@@ -493,4 +492,4 @@ This validator proves:
 
 ## One Sentence Summary
 
-CrypSA Minimal Validator v0.1 is the smallest complete implementation of the validator role, proving that validated events—ordered by canonical_sequence—form canonical event history and drive shared reality through deterministic replay.
+CrypSA Minimal Validator v0.1 is the smallest complete implementation of the validator role, proving that if accepted, an event becomes canonical and is appended to canonical event history, and shared reality is reconstructed via deterministic replay.
