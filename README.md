@@ -2,16 +2,19 @@
 
 CrypSA defines how systems agree on truth through validated canonical events.
 
+In CrypSA:
+
+* the validator defines what becomes canonical  
+* canonical event history is the source of truth  
+* derived canonical state is reconstructed via replay  
+
 It is an event-driven architecture for building persistent digital worlds.
 
-Rather than synchronizing full world state, CrypSA synchronizes validated canonical events under invariant rules.
+Rather than synchronizing world state, CrypSA synchronizes validated canonical events under invariant rules.
 
-All canonical changes pass through the invariant boundary, where system invariants are enforced.
-
-Observers simulate locally. The validator defines what becomes canonical—and therefore what becomes shared reality.
+All canonical changes pass through the invariant boundary, where invariants are enforced. Observers simulate locally.
 
 > Reality is not synchronized — it is agreed upon through validated events.  
-> The validator defines what becomes canonical.  
 > Canonical event history is the source of truth.
 
 The validator may run locally or remotely, but its role does not change.
@@ -20,7 +23,7 @@ The validator may run locally or remotely, but its role does not change.
 
 ## 🚀 Start Here
 
-If you're new to CrypSA, follow this path:
+If you're new to CrypSA, follow this path in order:
 
 1. 🧭 CrypSA_In_One_Diagram.md — see the system at a glance  
 2. 📘 CrypSA_In_5_Minutes.md — understand the core idea  
@@ -42,10 +45,10 @@ If you want to understand how to navigate CrypSA based on your goal and role:
 CrypSA follows a consistent event lifecycle:
 
 1. Observer simulates locally  
-2. Observer proposes a **candidate event**  
+2. Observer creates a **candidate event**  
 3. Validator evaluates the event  
 4. If accepted, an event becomes canonical and is appended to canonical event history  
-5. Observers reconcile to canonical truth  
+5. Observers reconstruct derived canonical state via canonical event replay
 
 This defines the boundary between:
 
@@ -56,11 +59,13 @@ Canonical event history is an append-only log that defines the shared reality of
 
 All derived state must be consistent with this history.
 
+Canonical event history is the source of truth.
+
 ---
 
 ## 🛠 Build CrypSA
 
-Start implementing a CrypSA system with the minimal validator:
+Start implementing a CrypSA system with the minimal validator (conceptual guide):
 
 👉 implementation/minimal_validator/CrypSA_Minimal_Validator_v0.1.md  
 
@@ -72,13 +77,14 @@ Then follow:
 
 ## 🧠 What CrypSA Is (and Is Not)
 
-CrypSA defines how systems establish and maintain canonical truth over time through validated events.
+CrypSA defines how systems establish and maintain canonical truth through validated canonical events.
 
 It provides a model where:
 
-* truth is validated, not assumed  
-* state is derived, not synchronized  
-* simulation is local, but canonical authority is enforced by the validator  
+* truth is validated, not assumed
+* the validator defines what becomes canonical  
+* state is derived, not synchronized
+* simulation is local, but canonical authority is enforced by the validator
 
 > Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
@@ -106,13 +112,14 @@ Systems built with CrypSA are inherently replayable from canonical event history
 
 CrypSA is not:
 
-* a fixed networking architecture  
-* a required client-server topology  
-* a one-size-fits-all implementation  
-* a game engine  
-* a networking library  
-* a state replication system  
-* an ECS framework  
+* a fixed networking architecture
+* a required client-server topology
+* a one-size-fits-all implementation
+* a game engine
+* a networking library
+* a state replication system
+* an ECS framework
+* a state synchronization model
 
 > CrypSA defines truth agreement, not rendering, transport, or simulation.
 
@@ -153,7 +160,7 @@ For a full breakdown of invariants and product-dependent design:
 flowchart LR  
 
 A[Player Action] --> B[Local Simulation]  
-B --> C[Create Candidate Event]  
+B --> C[Observer Creates Candidate Event]  
 C --> D[Submit to Validator]  
 
 D --> E[Validation Pipeline]  
@@ -304,7 +311,7 @@ Instead of synchronizing state, it:
 
 * validates events  
 * records canonical history  
-* reconstructs reality deterministically  
+* reconstructs derived canonical state deterministically
 
 ---
 
