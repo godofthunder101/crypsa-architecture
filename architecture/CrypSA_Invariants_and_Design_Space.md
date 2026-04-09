@@ -54,7 +54,8 @@ If these are not preserved, the system is no longer a CrypSA system.
 ## 1. The Validator Defines What Becomes Canonical
 
 - All candidate events must be evaluated by a validator
-- Only the validator determines whether an event becomes canonical
+- The validator defines what becomes canonical.
+- If accepted, an event becomes canonical and is appended to canonical event history.
 
 👉 Observers do not define truth
 
@@ -68,16 +69,7 @@ If these are not preserved, the system is no longer a CrypSA system.
 
 ---
 
-## 3. If Accepted, an Event Becomes Canonical and Is Appended to Canonical Event History
-
-- Events are proposed as candidates
-- If accepted:
-  - they are assigned canonical sequence
-  - they are appended to canonical event history
-
----
-
-## 4. Derived State Is Not Truth
+## 3. Derived State Is Not Truth
 
 - All state is derived from canonical event history
 - Derived state is a projection
@@ -87,16 +79,16 @@ If these are not preserved, the system is no longer a CrypSA system.
 
 ---
 
-## 5. All Shared Reality Changes Cross the Invariant Boundary
+## 4. All Shared Reality Changes Cross the Invariant Boundary
 
 - Any change that affects shared reality must:
   - be represented as a candidate event
-  - pass through validation
-  - be accepted to become canonical
+  - pass through the invariant boundary
+  - If accepted, an event becomes canonical and is appended to canonical event history.
 
 ---
 
-## 6. Observers Are Non-Authoritative
+## 5. Observers Are Non-Authoritative
 
 Observers:
 
@@ -110,7 +102,7 @@ But:
 
 ---
 
-## 7. Replay Is a First-Class Capability
+## 6. Replay Is a First-Class Capability
 
 - Systems must be able to reconstruct derived state from canonical event history
 - Replay is not optional
