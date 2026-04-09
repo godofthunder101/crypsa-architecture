@@ -16,8 +16,7 @@ Its goal is to clarify that CrypSA is:
 
 ## Defines
 
-- The non-negotiable invariants of CrypSA
-- The product-dependent design space intentionally left open to implementers
+- CrypSA's non-negotiable invariants and the product-dependent design space
 - Structured design axes for reasoning about implementation choices
 
 ---

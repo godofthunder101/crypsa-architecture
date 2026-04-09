@@ -15,21 +15,6 @@ Different readers should approach the repo differently.
 
 ---
 
-## Defines
-
-- Navigation paths through the CrypSA repository
-- How the repository is structured and layered
-- How to use the repo correctly
-
----
-
-## Does Not Define
-
-- System behavior or architecture
-- CrypSA invariants or specifications
-
----
-
 ## Authority Level
 
 This document provides guidance for navigating the repository.  

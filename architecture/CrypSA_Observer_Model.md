@@ -13,7 +13,7 @@ The validator validates events and maintains canonical event history.
 ## Defines
 
 - The observer's architectural role within a CrypSA system
-- Observer responsibilities: canonical state reconstruction, local simulation, adapters, lenses, event proposal, prediction, and reconciliation
+- Observer responsibilities and capabilities
 - The observer-side state model and its relationship to canonical truth
 
 ---
@@ -28,10 +28,9 @@ The validator validates events and maintains canonical event history.
 
 ## Authority Level
 
+This document defines system structure and responsibilities.  
+It does not define runtime behavior.  
 The `/spec` directory is the **authoritative definition of runtime behavior**.
-
-Architecture documents explain the system.  
-The spec defines how it must behave.
 
 If there is any conflict, **the spec takes precedence**.
 
