@@ -36,7 +36,7 @@ This v0.1 runtime spec covers:
 * validation of candidate events
 * event acceptance and rejection
 * canonical event recording
-* canonical update distribution
+* canonical event distribution
 * observer reconciliation
 * snapshot-assisted reconstruction
 
@@ -71,8 +71,8 @@ A process that:
 * receives candidate events
 * validates them
 * enforces invariants
-* records accepted canonical events
-* distributes canonical updates
+* records canonical events
+* distributes canonical events
 
 The validator does **not**:
 
@@ -128,7 +128,7 @@ They do **not define truth**.
 
 ## 3. Core Runtime Principle
 
-> Canonical event history is the source of truth.  
+> Canonical event history is the source of truth.
 > Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
 An observer action does **not directly modify canonical event history**.
@@ -139,12 +139,11 @@ Instead:
 Local Action
 → Candidate Event
 → Validation
-→ Accept or Reject
-→ Canonical Event Appended to Canonical Event History
+→ Decision
+→ If accepted, an event becomes canonical and is appended to canonical event history
+→ Replay
 → Observer Reconciliation
 ```
-
-Only accepted events become canonical.
 
 ---
 
@@ -281,10 +280,8 @@ CrypSA v0.1 uses:
 ### 6.1 Canonical Order
 
 * validator assigns `canonical_sequence`
-* `canonical_sequence` defines authoritative ordering
+* `canonical_sequence` defines a total canonical order across canonical events
 * observer order is not authoritative
-
-> `canonical_sequence` is the canonical ordering assigned by the validator.
 
 ---
 
@@ -337,16 +334,22 @@ E -->|Fail| R4[Reject: invariant_violation]
 E -->|Pass| F[Rule Validation]
 
 F -->|Fail| R5[Reject: rule_violation]
-F -->|Pass| G[Accept Event]
+F -->|Pass| G[Decision]
 
-G --> H[Canonical Event History Update]
+G -->|Accepted| H[Canonical Event History Append]
+G -->|Rejected| R6[Rejection Result]
 ```
 
 ---
 
 ### 7.1 Determinism Requirement
 
-All accepted events must produce deterministic results.
+Given the same:
+
+* canonical event history
+* interpretation logic
+
+replay must produce equivalent derived canonical state.
 
 ---
 
@@ -354,15 +357,17 @@ All accepted events must produce deterministic results.
 
 ### Accepted
 
-* event recorded
-* derived canonical state updated via deterministic replay of canonical events
-* observer notified
+* If accepted, an event becomes canonical and is appended to canonical event history
+* `canonical_sequence` is assigned
+* canonical events are replayed to update derived canonical state
+* observers are notified
 
 ---
 
 ### Rejected
 
-* no canonical change
+* the event does not become canonical
+* the event does not enter canonical event history
 * rejection returned
 * observer reconciles
 
@@ -400,12 +405,15 @@ Each event includes:
 
 ### 9.1 Canonical Event Definition
 
-A canonical event is an accepted candidate event that:
+A canonical event is an event that has become canonical through validation.
 
-* has passed validation
-* has been assigned `canonical_sequence`
-* has been appended to canonical event history
-* is immutable
+> If accepted, an event becomes canonical and is appended to canonical event history.
+
+Canonical events:
+
+* have assigned `canonical_sequence`
+* are immutable
+* define truth
 
 ---
 
@@ -413,9 +421,8 @@ A canonical event is an accepted candidate event that:
 
 After a canonical event is appended:
 
-* the event must be applied to derived canonical state
-* the application must follow deterministic rules defined by the event type
-* the result must match replay behavior
+* the event must be applied to derived canonical state via replay
+* the result must match deterministic replay behavior
 
 This ensures consistency between:
 
@@ -440,8 +447,8 @@ Derived canonical state must be a deterministic function of canonical event hist
 
 At any time, it must be possible to:
 
-* discard derived state
-* reconstruct it solely from canonical event history
+* discard derived canonical state
+* reconstruct it solely from canonical event history via replay
 
 ---
 
@@ -462,11 +469,16 @@ At any time, it must be possible to:
 
 ## 12. Observer Reconciliation
 
-Observers must:
+Observers reconcile by:
 
-* detect accepted/rejected events
+* applying canonical events from canonical event history in `canonical_sequence` order
+* updating derived canonical state via replay
+
+They may also:
+
 * correct local state
-* rebuild derived canonical state from canonical event history
+* re-run simulation
+* discard invalid predictions
 
 ---
 
@@ -475,8 +487,11 @@ Observers must:
 System must handle:
 
 * delays
+
 * out-of-order delivery
+
 * retries
+
 * duplicates
 
 * ordering must be enforced by `canonical_sequence`, not network delivery
@@ -535,10 +550,11 @@ CrypSA runtime:
 * observers simulate locally
 * validator validates events
 * canonical event history defines truth
+* replay reconstructs state
 * observers reconcile
 
 ---
 
 ## One Sentence Summary
 
-CrypSA Runtime v0.1 defines how observer actions become validated canonical events and how derived canonical state emerges from canonical event history.
+CrypSA Runtime v0.1 defines how observer actions become validated canonical events and how derived canonical state is reconstructed via deterministic replay from canonical event history.
