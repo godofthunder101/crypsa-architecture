@@ -89,6 +89,8 @@ The validator is a **role**, not a location.
 * it may run locally or remotely
 * it defines what becomes canonical
 
+👉 The validator defines what becomes canonical and therefore controls canonical truth.
+
 ---
 
 ### Canonical Event History
@@ -110,7 +112,7 @@ This is the core rule of the system.
 
 ### Replay
 
-Replay is fundamental.
+Replay is a required mechanism.
 
 * derived canonical state is reconstructed via replay
 * replay must be deterministic
@@ -151,7 +153,7 @@ This repository is:
 
 * **architecturally complete**
 * **spec-complete**
-* **implementation-ready**
+* **implementation-ready (with minimal validator as the first execution step)**
 
 The next step is:
 
@@ -169,4 +171,4 @@ CrypSA does not synchronize state.
 
 ## One Sentence Summary
 
-CrypSA is an architecture model where a validator determines canonical events, canonical event history is the source of truth, and derived canonical state is reconstructed via deterministic replay.
+CrypSA is an architecture model where a validator determines what becomes canonical, canonical event history is the source of truth, and derived canonical state is reconstructed via deterministic replay.
