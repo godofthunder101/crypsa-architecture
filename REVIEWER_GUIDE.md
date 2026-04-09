@@ -1,6 +1,8 @@
-# 🧠 Reviewer Guide
+# 🧠 CrypSA Reviewer Guide
 
-Before reviewing this repository, please read this section to ensure the project is evaluated using the correct context.
+This document provides important context for reviewing the CrypSA repository.
+
+Reading this ensures the project is evaluated using the correct expectations.
 
 ---
 
@@ -53,8 +55,7 @@ The goal of this repo is **architectural correctness**, not implementation compl
 👉 The `/spec` directory defines authoritative runtime behavior.
 
 * If any document appears inconsistent:
-
-  * the spec is correct
+  → the spec is correct
 * Architecture documents define structure
 * Implementation documents provide guidance
 
@@ -62,7 +63,7 @@ The goal of this repo is **architectural correctness**, not implementation compl
 
 ## How to Read the Repository
 
-This repository is **layered**, not linear.
+CrypSA is **layered**, not linear.
 
 Recommended entry path:
 
@@ -130,7 +131,7 @@ They do **not define truth**.
 
 ## Design Philosophy
 
-CrypSA intentionally separates:
+CrypSA separates:
 
 * **what must be true** (invariants)
 * **how systems are built** (design space)
