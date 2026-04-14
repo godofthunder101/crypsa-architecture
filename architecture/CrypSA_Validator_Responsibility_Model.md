@@ -14,12 +14,17 @@ The validator is responsible for protecting the integrity of **canonical event h
 
 ## 📜 Authority Level
 
-The `/spec` directory is the **authoritative definition of runtime behavior**.
+This document defines system structure and responsibilities.  
+It does not define runtime behavior.
 
-Architecture documents explain the system.
-The spec defines how it must behave.
+CrypSA documentation is structured across layers:
 
-If there is any conflict, **the spec takes precedence**.
+* `/spec` — authoritative definition of runtime behavior
+* `/architecture` — system structure and conceptual models
+
+If there is any conflict:
+
+* spec takes precedence over architecture
 
 ---
 
@@ -37,10 +42,14 @@ The validator acts as:
 * an event validator  
 * an invariant enforcer  
 * a canonical event recorder  
-* an assigner of canonical ordering (`canonical_sequence`), where accepted events become canonical and are appended to canonical event history  
+* an assigner of canonical ordering (`canonical_sequence`), where if accepted, an event becomes canonical and is appended to canonical event history  
 
 Observers simulate the world locally.  
 The validator ensures all accepted events are valid.
+
+For formal responsibility boundaries, see:
+
+→ `CrypSA_Boundary_Definitions.md`
 
 ---
 
@@ -84,9 +93,15 @@ It does not:
 * interpret meaning  
 * manage presentation  
 
+For strict separation of these responsibilities, see:
+
+→ `CrypSA_Boundary_Definitions.md`
+
 ---
 
 ## The Validator Model
+
+This is a conceptual model, not a strict execution definition.
 
 CrypSA replaces centralized simulation with **canonical event validation**.
 
@@ -95,11 +110,15 @@ Instead of computing the entire world, the validator:
 1. receives candidate events  
 2. validates them  
 3. accepts or rejects them  
-4. accepted events become canonical and are appended to canonical event history  
+4. if accepted, an event becomes canonical and is appended to canonical event history  
 
 This defines the minimal validator loop.
 
 All candidate events cross the invariant boundary, where they become canonical or are rejected.
+
+The invariant boundary is defined in:
+
+→ `CrypSA_Boundary_Definitions.md`
 
 > The invariant boundary is the only point at which canonical event history may change.
 
@@ -143,7 +162,7 @@ If an event violates invariants:
 
 ### 3. Canonical Event Recording
 
-Accepted events become canonical and are appended to canonical event history.
+If accepted, an event becomes canonical and is appended to canonical event history.
 
 This includes:
 
@@ -208,6 +227,10 @@ The validator does not need to:
 * render or predict gameplay  
 
 Observers handle simulation and experience.
+
+For boundaries between simulation, validation, and interpretation, see:
+
+→ `CrypSA_Boundary_Definitions.md`
 
 ---
 
