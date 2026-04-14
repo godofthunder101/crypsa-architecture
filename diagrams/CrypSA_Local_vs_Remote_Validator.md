@@ -15,6 +15,10 @@ CrypSA can operate with validation running:
 
 This is a deployment distinction, not a change to the truth model.
 
+For the authoritative conceptual flow of the system, see:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
 ---
 
 ## Core Principle
@@ -38,6 +42,11 @@ What does **not** change is:
 
 ## Diagram
 
+> This diagram illustrates deployment configurations within the CrypSA runtime model.
+> It does not define runtime behavior or event flow.
+> For the authoritative conceptual flow, see:
+> → ../architecture/CrypSA_Runtime_Model.md
+
 ```mermaid
 flowchart TB
 
@@ -58,7 +67,7 @@ subgraph Case_B["Case B - Remote Validator"]
     B2 --> B3
     B3 --> B4
 end
-```
+````
 
 ---
 
