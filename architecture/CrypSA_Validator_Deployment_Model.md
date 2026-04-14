@@ -4,6 +4,10 @@
 
 This document defines how the **validator role** in CrypSA can be deployed.
 
+Validator behavior within the system is defined in the runtime model:
+
+→ CrypSA_Runtime_Model.md
+
 CrypSA treats validation as an **architectural responsibility**, not a fixed machine location.
 
 This allows the same system model to operate across different deployment styles without changing how canonical truth is defined.
