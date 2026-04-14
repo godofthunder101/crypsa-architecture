@@ -4,6 +4,10 @@ This document defines the structure, behavior, and lifecycle of events in CrypSA
 
 Events are the foundation of the system.
 
+For a conceptual overview of how events flow through the system, see:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
 > Canonical event history is the source of truth.
 > Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
@@ -70,6 +74,10 @@ An event may exist in one of the following states:
 
 ## Event Lifecycle
 
+This lifecycle is part of the runtime model described in:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
 Every event follows this lifecycle:
 
 1. **Creation**
@@ -87,10 +95,10 @@ Every event follows this lifecycle:
    * If rejected, the event does not become canonical and does not enter canonical event history
 
 5. **Propagation**
-   Observers receive the canonical event
+   Observers receive the canonical event as part of the runtime model
 
 6. **Replay**
-   Observers reconstruct derived canonical state via canonical event replay
+   Observers reconstruct derived canonical state via canonical event replay in canonical_sequence order
 
 ---
 
@@ -146,12 +154,12 @@ Examples:
 
 Example:
 
-```json id="c4qk0t"
+```json
 {
   "position": [10, 5],
   "object_kind": "house"
 }
-```
+````
 
 ---
 
@@ -162,7 +170,7 @@ Example:
 
 Example:
 
-```json id="p0znrj"
+```json
 {
   "tile_42_empty": true
 }
