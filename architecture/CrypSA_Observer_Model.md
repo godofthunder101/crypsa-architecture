@@ -4,6 +4,10 @@
 
 This document defines the role of the **observer** in a CrypSA system.
 
+Observer behavior within the system is defined in the runtime model:
+
+→ CrypSA_Runtime_Model.md
+
 Observers are responsible for reconstructing canonical reality from canonical event history, simulating the world locally, translating runtime data through adapters, interpreting that data through lenses, and presenting the result to the player.
 
 The validator validates events and maintains canonical event history.
@@ -85,6 +89,10 @@ They do not operate in the truth layer.
 ---
 
 ## Observer-Side Flow
+
+This flow operates within the runtime model described in:
+
+→ CrypSA_Runtime_Model.md
 
 A CrypSA observer operates in the following sequence:
 
