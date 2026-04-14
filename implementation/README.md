@@ -10,23 +10,57 @@ This folder provides example implementation approaches for CrypSA.
 
 👉 CrypSA defines invariants and behavior through the `/spec` directory.
 
-👉 Implementation details may vary based on product requirements.
+👉 Implementation details will vary based on product requirements.
 
-Documents in this folder illustrate possible ways to structure systems that conform to CrypSA.
+Documents in this folder illustrate possible implementation approaches to structure systems that conform to CrypSA.
 
 ---
 
 ## Purpose
 
-This folder contains implementation strategy, build direction, project status, and practical engineering guidance for CrypSA.
+This folder contains implementation strategy, build direction, and practical engineering guidance for CrypSA.
 
 These documents describe:
 
 * how the system may be implemented in code
 * how components may be organized in practice
-* how architectural ideas translate into implementation
+* how architectural ideas are proven through implementation
 
-Implementation must treat the validator as the authority over canonical event history.
+👉 Implementation exists to **prove the CrypSA runtime model through executable systems**.
+
+Implementation must treat the validator as the component that defines what becomes canonical.
+
+---
+
+## Where to Start
+
+The recommended starting point is:
+
+👉 `CrypSA_Minimal_Runtime_Walkthrough.md`
+
+This document defines:
+
+* the smallest possible working CrypSA system
+* the minimal runtime loop
+* the components required to prove the architecture
+
+👉 Implementation should begin by proving this minimal runtime, not by building a full system.
+
+---
+
+## Implementation Approach
+
+CrypSA development follows a **proof-first approach**:
+
+1. implement the minimal runtime loop
+2. verify canonical event flow
+3. prove deterministic replay
+4. validate reconciliation behavior
+5. expand system scope incrementally
+
+👉 A full system should only be built after the minimal runtime has been proven.
+
+👉 The goal is to validate the architecture through working systems, not speculative design.
 
 ---
 
@@ -46,9 +80,12 @@ They must not be treated as:
 * architecture definitions
 
 Implementation must not treat derived state or local simulation as authoritative.
+
 Canonical event history remains the sole source of truth.
 
 Examples and code patterns are illustrative and must not be treated as normative or complete implementations.
+
+Implementation choices must not redefine or reinterpret CrypSA behavior.
 
 ---
 
@@ -70,9 +107,11 @@ CrypSA separates documentation responsibilities across three layers:
 
 * **Architecture** → what the system is
 * **Spec** → how the system behaves
-* **Implementation** → how the system is built
+* **Implementation** → how the system is built and proven
 
 This folder exists only in the **implementation layer**.
+
+👉 Implementation must prove architecture and strictly conform to the spec.
 
 Implementation must never override, reinterpret, or bypass behavior defined in the spec.
 
@@ -106,10 +145,10 @@ If implementation patterns become stable and necessary:
 
 No behavioral rule should remain only in implementation documentation.
 
-Implementation documents should not become authoritative definitions.
+Implementation documents must not become authoritative definitions.
 
 ---
 
 ## One Sentence Summary
 
-This folder provides practical guidance for building CrypSA systems, while authoritative behavior and structure are defined in the specification and architecture layers.
+This folder provides practical guidance for proving and building CrypSA systems, while authoritative behavior and structure are defined in the specification and architecture layers.
