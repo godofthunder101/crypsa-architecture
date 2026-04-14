@@ -11,6 +11,10 @@ Before reading this, you should have seen:
 
 This document explains the same system in words.
 
+For a complete end-to-end explanation of how CrypSA operates at runtime, see:
+
+→ architecture/CrypSA_Runtime_Model.md
+
 ---
 
 ## The Core Idea
@@ -32,21 +36,23 @@ In CrypSA:
 
 ---
 
-## The Event Flow
+## The Event Flow (Conceptual)
 
-Everything in CrypSA follows this flow:
+Everything in CrypSA follows a consistent event-driven process:
 
-1. An observer simulates locally
-2. The observer proposes a **candidate event**
-3. The **validator** checks invariants
-4. If accepted, an event becomes canonical and is appended to canonical event history
-5. canonical events are replayed to reconstruct derived canonical state
-6. observers reconcile to derived canonical state
+* observers simulate locally
+* candidate events are proposed
+* the validator evaluates events against invariants
+* if accepted, events become canonical and are appended to canonical event history
+* observers derive state through replay and reconcile with canonical event history
 
-This is the boundary between:
+👉 For the exact runtime flow, see:
+→ architecture/CrypSA_Runtime_Model.md
 
-* local possibility
-* canonical reality
+This defines the boundary between:
+
+* local possibility  
+* canonical reality  
 
 ---
 
@@ -103,7 +109,7 @@ A --> B
 B --> C
 C --> D
 D --> E
-```
+````
 
 ---
 
