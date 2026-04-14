@@ -28,10 +28,11 @@ The validator may run locally or remotely, but its role does not change.
 
 If you're new to CrypSA, follow this path in order:
 
-1. 🧭 CrypSA_In_One_Diagram.md — see the system at a glance
-2. 📘 CrypSA_In_5_Minutes.md — understand the core idea
-3. 📖 CrypSA_Terminology_Primer.md — learn the language
-4. 📖 CrypSA_Worked_Example.md — see it in action
+1. 🧭 CrypSA_In_One_Diagram.md — see the system at a glance  
+2. 📘 CrypSA_In_5_Minutes.md — understand the core idea  
+3. ⚙️ architecture/CrypSA_Runtime_Model.md — understand how the system operates end-to-end  
+4. 📖 CrypSA_Terminology_Primer.md — learn the language  
+5. 📖 CrypSA_Worked_Example.md — see it in action  
 
 ---
 
@@ -45,18 +46,21 @@ If you want to understand how to navigate CrypSA based on your goal and role:
 
 ## ⚙️ Canonical Event Lifecycle (At a Glance)
 
-CrypSA follows a consistent event lifecycle:
+The canonical event lifecycle is defined by the CrypSA runtime model:
 
-1. Observer simulates locally
-2. Observer creates a **candidate event**
-3. Validator evaluates the event
-4. If accepted, an event becomes canonical and is appended to canonical event history
-5. Observers reconstruct derived canonical state via canonical event replay
+👉 architecture/CrypSA_Runtime_Model.md
+
+At a high level:
+
+1. Observers create candidate events  
+2. Events are validated by the validator  
+3. If accepted, events become canonical and are appended to canonical event history  
+4. Observers derive state through replay and reconciliation  
 
 This defines the boundary between:
 
-* local simulation (non-authoritative)
-* canonical reality (validator-defined)
+* local simulation (non-authoritative)  
+* canonical reality (validator-defined)  
 
 Canonical event history is an append-only log.
 
@@ -179,9 +183,13 @@ I --> J[Broadcast]
 
 J --> K[Observer Reconciliation]  
 G --> K
-```
+````
 
 > If accepted, an event becomes canonical and is appended to canonical event history.
+
+For the full runtime flow, see:
+
+👉 architecture/CrypSA_Runtime_Model.md
 
 ---
 
@@ -208,6 +216,7 @@ CrypSA documentation is structured by role:
 
 * CrypSA_In_One_Diagram.md
 * CrypSA_In_5_Minutes.md
+* architecture/CrypSA_Runtime_Model.md
 * CrypSA_Terminology_Primer.md
 
 ### Motivation
@@ -239,6 +248,7 @@ CrypSA documentation is structured by role:
 Start with:
 
 * CrypSA_In_5_Minutes.md
+* architecture/CrypSA_Runtime_Model.md
 * CrypSA_Worked_Example.md
 
 ---
