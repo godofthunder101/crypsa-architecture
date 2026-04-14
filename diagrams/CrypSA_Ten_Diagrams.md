@@ -8,7 +8,15 @@ Each diagram highlights a key idea.
 
 Together, they provide a high-level understanding of how CrypSA works as a system for persistent digital universes.
 
+For the authoritative conceptual flow and system behavior, see:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
+This document is a simplified conceptual walkthrough built on top of that model.
+
 This document is **illustrative**, not authoritative.
+
+It simplifies and visualizes concepts defined in the runtime model and specification.
 
 ---
 
@@ -18,7 +26,7 @@ Most online games use a server-authoritative model:
 
 ```text
 Clients → Server → Database
-```
+````
 
 The server:
 
