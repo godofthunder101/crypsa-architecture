@@ -8,9 +8,18 @@ The universe does not evolve through continuous simulation, but through:
 
 > validated canonical events that transition the universe between stable states
 
+For the authoritative conceptual flow of the system, see:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
 ---
 
 ## Diagram
+
+> This diagram illustrates state transitions within the CrypSA runtime model.
+> It does not define runtime behavior or event flow.
+> For the authoritative conceptual flow, see:
+> → ../architecture/CrypSA_Runtime_Model.md
 
 ```mermaid
 flowchart TD
@@ -41,7 +50,7 @@ E --> O
 O --> S1
 
 S1 --> A
-```
+````
 
 ---
 
