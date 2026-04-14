@@ -14,12 +14,18 @@ Diagrams are used to:
 
 ## 📜 Authority Model
 
-The `/spec` directory is the **authoritative definition of runtime behavior**.
+The CrypSA documentation is structured across three layers:
 
-Architecture documents explain the system.
-The spec defines how it must behave.
+* `/spec` — **authoritative definition of runtime behavior**
+* `/architecture` — **system structure and conceptual models**
+* `/diagrams` — **visual representations of those models**
 
-If there is any conflict, **the spec takes precedence**.
+The runtime model (`architecture/CrypSA_Runtime_Model.md`) defines the authoritative conceptual flow of the system.
+
+If there is any conflict:
+
+* spec takes precedence over architecture
+* architecture takes precedence over diagrams
 
 ---
 
@@ -32,6 +38,7 @@ They:
 * do not define authoritative behavior
 * do not introduce new rules
 * do not override architecture or specification
+* must align with the runtime model
 
 For authoritative definitions, refer to:
 
@@ -50,7 +57,8 @@ Diagrams are visual aids and must support specific documents without redefining 
 
 Most diagrams support:
 
-* `../CrypSA_Worked_Example.md` — step-by-step system flow
+* `../architecture/CrypSA_Runtime_Model.md` — authoritative conceptual flow
+* `../CrypSA_Worked_Example.md` — step-by-step system walkthrough
 * `../CrypSA_Architecture_Overview.md` — system structure
 
 ---
@@ -152,4 +160,4 @@ Diagrams should reflect the architecture and spec, not reinterpret them.
 
 ## One Sentence Summary
 
-Diagrams visualize CrypSA concepts to aid understanding, but authoritative definitions and behavior are defined only in the architecture and spec layers, where the validator defines what becomes canonical and canonical event history is the sole source of truth.
+Diagrams visualize CrypSA concepts to aid understanding, but authoritative definitions and behavior are defined in the runtime model and spec, where the validator defines what becomes canonical and canonical event history is the sole source of truth.
