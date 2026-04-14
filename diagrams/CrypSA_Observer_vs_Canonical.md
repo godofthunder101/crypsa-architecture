@@ -13,9 +13,18 @@ It explains how CrypSA separates:
 > from
 > what is real
 
+For the authoritative conceptual flow of the system, see:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
 ---
 
 ## Diagram
+
+> This diagram illustrates the relationship between observer state and canonical state within the CrypSA runtime model.
+> It does not define runtime behavior or event flow.
+> For the authoritative conceptual flow, see:
+> → ../architecture/CrypSA_Runtime_Model.md
 
 ```mermaid
 flowchart LR
@@ -41,7 +50,7 @@ D -->|Rejected| A
 
 E --> F
 F --> A
-```
+````
 
 ---
 
