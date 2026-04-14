@@ -12,7 +12,7 @@ Diagrams are used to:
 
 ---
 
-## 📜 Specification Authority
+## 📜 Authority Model
 
 The `/spec` directory is the **authoritative definition of runtime behavior**.
 
@@ -42,7 +42,7 @@ For authoritative definitions, refer to:
 
 ## 📍 Diagram Context
 
-Diagrams are visual aids and must support specific documents.
+Diagrams are visual aids and must support specific documents without redefining them.
 
 ---
 
@@ -77,11 +77,12 @@ All diagrams must align with the core CrypSA architecture:
 
 And must reflect these core principles:
 
-* **validation determines canonical truth**
-* **canonical event history is the source of truth**
-* **the validator is the authority over canonical events**
-* **the invariant boundary defines where candidate events are evaluated before becoming canonical**
-* **derived canonical state is not a source of truth and must be shown as reconstructed from canonical event history**
+* the validator defines what becomes canonical
+* canonical event history is the source of truth
+* If accepted, an event becomes canonical and is appended to canonical event history
+* the invariant boundary defines where candidate events are evaluated before becoming canonical
+* derived canonical state is reconstructed via replay of canonical event history
+* derived canonical state is not a source of truth
 
 Diagrams must not introduce alternative models or terminology.
 
@@ -151,4 +152,4 @@ Diagrams should reflect the architecture and spec, not reinterpret them.
 
 ## One Sentence Summary
 
-Diagrams visualize CrypSA concepts to aid understanding, but authoritative definitions and behavior are defined only in the architecture and spec layers, where validation defines what becomes canonical truth and canonical event history is the sole source of that truth.
+Diagrams visualize CrypSA concepts to aid understanding, but authoritative definitions and behavior are defined only in the architecture and spec layers, where the validator defines what becomes canonical and canonical event history is the sole source of truth.
