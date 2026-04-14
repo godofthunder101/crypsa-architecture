@@ -326,7 +326,3 @@ CrypSA is a structured architecture model with:
 * implementation (how it is built)
 
 👉 Canonical event history is the source of truth.
-
----
-
-If you want next step, we can now **align the root README with this doc**, which is where this really compounds in clarity.
