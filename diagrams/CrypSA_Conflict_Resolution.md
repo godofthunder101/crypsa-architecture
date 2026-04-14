@@ -15,9 +15,18 @@ In CrypSA v0.1:
 
 > the first valid event within the conflict scope is accepted
 
+For the authoritative conceptual flow of the system, see:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
 ---
 
 ## Diagram
+
+> This diagram illustrates conflict resolution within the CrypSA runtime model.
+> It does not define runtime behavior or event flow.
+> For the authoritative conceptual flow, see:
+> → ../architecture/CrypSA_Runtime_Model.md
 
 ```mermaid
 flowchart TD
@@ -40,7 +49,7 @@ J --> K[Observers reconcile]
 
 R1 --> L[Return rejection result]
 L --> K
-```
+````
 
 ---
 
