@@ -57,8 +57,8 @@ Every canonical object must have:
 Example:
 
 ```text
-Object Identity: sword_1001
-Genome: sword_type_A
+Object Identity: sword_1001  
+Genome: sword_type_A  
 ```
 
 The Mint (or equivalent system) defines:
@@ -125,7 +125,7 @@ Avoid:
 
 ---
 
-## Step 4 — Maintain Derived Canonical State
+## Step 4 — Maintain Derived Canonical State (via Replay)
 
 The validator maintains a derived canonical state (typically cached) for:
 
@@ -144,7 +144,7 @@ Important:
 
 > derived canonical state is a computed view, not the source of truth
 
-It is updated by applying accepted events in canonical_sequence order.
+It is reconstructed via replay of canonical event history, typically applied incrementally in canonical_sequence order.
 
 ---
 
@@ -164,6 +164,8 @@ Observers:
 * gather user input
 * track pending candidate events
 
+👉 Observers do not define canonical truth
+
 ---
 
 ## Step 6 — Implement the Invariant Boundary
@@ -172,7 +174,7 @@ Every interaction must answer:
 
 > Does this affect canonical event history?
 
-All canonical changes must pass through the invariant boundary.
+All changes that affect canonical event history must pass through the invariant boundary.
 
 Example:
 
@@ -258,9 +260,10 @@ def validate_event(event):
 
 If validation succeeds:
 
+* If accepted, an event becomes canonical and is appended to canonical event history
 * assign canonical metadata (including `canonical_sequence`)
 * append to canonical event history
-* update derived canonical state
+* update derived canonical state via replay
 * notify observers
 
 Example:
@@ -288,14 +291,25 @@ This may involve:
 
 Because reconstruction is deterministic:
 
-> all observers converge on the same derived canonical state reconstructed from canonical event history
+> all observers converge on equivalent derived canonical state reconstructed from canonical event history
+
+---
+
+## Determinism Guarantee
+
+Given the same:
+
+* canonical event history
+* interpretation logic
+
+replay must produce equivalent derived canonical state
 
 ---
 
 ## Minimal CrypSA Loop
 
 ```text
-Reconstruct world
+Reconstruct world via replay
 → Simulate locally
 → Interaction occurs
 → Invariant boundary check
@@ -303,7 +317,7 @@ Reconstruct world
 → Validator validation
 → Assign canonical_sequence
 → Canonical event history updated
-→ Derived canonical state updated
+→ Derived canonical state reconstructed via replay
 → Observer reconciliation
 ```
 
@@ -377,10 +391,10 @@ A minimal CrypSA system typically includes:
 * invariant boundary checks
 * validator-side validation
 
-With these, a persistent event-driven universe can be built.
+With these, a persistent event-driven system can be built.
 
 ---
 
 ## One Sentence Summary
 
-A minimal CrypSA system allows observers to simulate locally while a validator validates candidate events, records accepted events as canonical event history ordered via canonical_sequence, and distributes that shared history back to all observers.
+A minimal CrypSA system allows observers to simulate locally while a validator validates candidate events; if accepted, an event becomes canonical and is appended to canonical event history, which is then used to reconstruct derived canonical state via deterministic replay across all observers.
