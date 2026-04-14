@@ -33,7 +33,7 @@ These documents provide:
 
 These define the system’s behavior and structure:
 
-* `spec/` — runtime behavior (**highest authority**)
+* `spec/` — runtime behavior and validation rules (**highest authority for behavior**)
 * `architecture/` — system structure and responsibilities
 
 These documents define:
@@ -42,6 +42,12 @@ These documents define:
 * canonical event model
 * system responsibilities
 * invariant enforcement
+
+Core truths:
+
+* canonical event history is the source of truth
+* the validator defines what becomes canonical
+* derived canonical state is reconstructed via replay of canonical event history
 
 ---
 
@@ -55,7 +61,7 @@ These documents:
 
 * guide system construction
 * describe practical approaches
-* do not redefine system behavior
+* must not redefine system behavior defined in the spec
 
 ---
 
@@ -88,7 +94,7 @@ These documents:
 
 * support understanding
 * must align with authoritative sources
-* must not introduce new behavior
+* must not introduce or reinterpret system behavior
 
 ---
 
@@ -110,13 +116,13 @@ These documents:
 
 If multiple documents appear to describe the same concept, the following precedence applies:
 
-1. `spec/` — runtime behavior (highest authority)
+1. `spec/` — runtime behavior
 2. `architecture/` — system structure
 3. `implementation/` — build direction
 4. `teaching/` — examples and explanation
 5. supporting and exploratory content
 
-> In case of conflict, higher-authority documents override lower-authority ones.
+> In case of conflict, higher-authority documents override lower-authority ones and define the correct interpretation.
 
 Supporting and exploratory documents must not be treated as authoritative definitions of CrypSA behavior.
 
@@ -149,4 +155,4 @@ This prevents:
 
 ## One Sentence Summary
 
-CrypSA documentation is structured so that authoritative definitions live in `spec/` and `architecture/`, while all other documents support understanding without redefining behavior.
+CrypSA documentation is structured so that authoritative definitions live in `spec/` and `architecture/`, canonical event history is the source of truth, and all other documents support understanding without redefining behavior.
