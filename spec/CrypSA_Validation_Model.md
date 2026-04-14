@@ -8,6 +8,10 @@ Validation is the mechanism that:
 * enforces invariants
 * determines what becomes canonical
 
+For a conceptual overview of how validation fits into the system runtime, see:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
 ---
 
 ## Core Principle
@@ -42,6 +46,10 @@ Validation must not depend on:
 
 ## Validation Flow
 
+This flow is part of the runtime model described in:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
 The validation pipeline follows this sequence:
 
 1. **Observer Action**
@@ -54,7 +62,7 @@ The validation pipeline follows this sequence:
    Event is sent to the validator
 
 4. **Validation**
-   The validator evaluates the candidate event
+   The validator evaluates the candidate event against invariants and rules
 
 5. **Decision**
 
@@ -62,7 +70,7 @@ The validation pipeline follows this sequence:
    * If rejected, the event does not become canonical and does not enter canonical event history
 
 6. **Observer Reconciliation**
-   Observers update local state based on canonical events
+   Observers update local state based on canonical events as part of the runtime model
 
 ---
 
