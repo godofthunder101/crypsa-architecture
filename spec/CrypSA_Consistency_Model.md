@@ -8,6 +8,10 @@ Consistency determines:
 * how conflicts are resolved
 * how observers converge on shared truth
 
+For a conceptual overview of how consistency emerges within the system runtime, see:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
 ---
 
 ## Core Principle
@@ -50,6 +54,10 @@ CrypSA does **not guarantee**:
 ---
 
 ## Consistency Model
+
+This model operates within the runtime described in:
+
+→ ../architecture/CrypSA_Runtime_Model.md
 
 CrypSA uses validator-defined canonical consistency with observer-local flexibility.
 
@@ -204,7 +212,7 @@ These are implementation strategies, not core consistency requirements.
 
 ## Observer Reconciliation
 
-Observers reconcile by:
+Observers reconcile as part of the runtime model by:
 
 * applying canonical events from canonical event history in `canonical_sequence` order
 * updating derived canonical state via replay
