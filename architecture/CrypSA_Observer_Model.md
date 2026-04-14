@@ -34,16 +34,19 @@ The validator validates events and maintains canonical event history.
 
 This document defines system structure and responsibilities.  
 It does not define runtime behavior.  
+
 The `/spec` directory is the **authoritative definition of runtime behavior**.
 
-If there is any conflict, **the spec takes precedence**.
+If there is any conflict:
+
+* spec takes precedence over architecture
 
 ---
 
 ## Related Documents
 
 - `spec/CrypSA_Validation_Model.md` — authoritative runtime validation behavior
-- `architecture/CrypSA_Invariant_Boundary.md` — the invariant boundary the observer interacts with
+- `architecture/CrypSA_Boundary_Definitions.md` — system responsibility boundaries
 - `architecture/CrypSA_Invariants_and_Design_Space.md` — CrypSA invariants and design space
 - `architecture/CrypSA_Adapter_Model.md` — adapter responsibilities
 - `architecture/CrypSA_Lens_Model.md` — lens responsibilities
@@ -67,6 +70,10 @@ Observers:
 
 Observers do not define truth.
 
+For formal responsibility boundaries, see:
+
+→ `CrypSA_Boundary_Definitions.md`
+
 ---
 
 ## Architectural Position
@@ -86,6 +93,10 @@ Observers operate across:
 
 They do not operate in the truth layer.
 
+For strict separation of these responsibilities, see:
+
+→ `CrypSA_Boundary_Definitions.md`
+
 ---
 
 ## Observer-Side Flow
@@ -93,6 +104,8 @@ They do not operate in the truth layer.
 This flow operates within the runtime model described in:
 
 → CrypSA_Runtime_Model.md
+
+This is a conceptual flow, not a strict execution order.
 
 A CrypSA observer operates in the following sequence:
 
@@ -149,11 +162,14 @@ Observers use adapters to shape runtime and canonical data into stable, consumab
 
 Adapters:
 
-* reshape data  
-* preserve meaning  
+* reshape data structure  
 * isolate internal structures  
 
-Adapters do not define truth or interpretation.
+Adapters do not define meaning, truth, or interpretation.
+
+For strict responsibility boundaries between adapters and lenses, see:
+
+→ `CrypSA_Boundary_Definitions.md`
 
 ---
 
@@ -165,6 +181,10 @@ Lenses assign meaning to translated data.
 
 Different observers may apply different lenses to the same canonical event history.
 
+For strict responsibility boundaries between lenses and adapters, see:
+
+→ `CrypSA_Boundary_Definitions.md`
+
 ---
 
 ### 5. Event Proposal
@@ -174,6 +194,8 @@ Observers generate candidate events from player intent.
 These are sent to the validator for validation.
 
 They are not canonical until accepted.
+
+If accepted, an event becomes canonical and is appended to canonical event history.
 
 ---
 
@@ -220,6 +242,8 @@ State reconstructed from canonical event history.
 
 * must remain consistent with canonical history  
 * forms the authoritative local baseline  
+
+Derived canonical state is not a source of truth.
 
 ---
 
