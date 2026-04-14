@@ -31,13 +31,19 @@ If there is any conflict, the `/spec` takes precedence.
 
 CrypSA operates through a continuous event-driven loop:
 
-1. An observer creates a candidate event  
-2. The candidate event is submitted to the validator  
-3. The validator evaluates the event against invariants  
-4. If accepted, the event becomes canonical and is appended to canonical event history  
-5. The canonical event is distributed  
-6. Observers receive the canonical event  
-7. Observers reconcile their local state with canonical event history, yielding to canonical outcomes where differences exist  
+1. An observer performs an action  
+2. The invariant boundary determines whether the action affects canonical event history  
+   - If no, the result remains local  
+   - If yes, a candidate event is created  
+3. The candidate event is submitted to the validator  
+4. The validator evaluates the event against invariants  
+   - If rejected, canonical event history does not change and the observer corrects local state  
+5. If accepted, an event becomes canonical and is appended to canonical event history  
+6. The canonical event is distributed  
+   - events may be delayed or arrive out of order  
+   - ordering is resolved using `canonical_sequence`  
+7. Observers apply canonical events via deterministic replay  
+8. Observers reconcile their local state against canonical event history, yielding to canonical outcomes where differences exist  
 
 This loop repeats continuously.
 
@@ -93,17 +99,11 @@ Observers converge toward canonical truth as canonical events are received and a
 
 ---
 
-## Event Lifecycle (Conceptual)
+## Canonical Authority Constraint
 
-An event moves through the following stages:
+Canonical event history can only be extended through events accepted by the validator.
 
-- Created as a candidate by an observer  
-- Submitted to the validator  
-- Evaluated against invariants  
-- If accepted, becomes canonical  
-- Appended to canonical event history  
-- Distributed to observers  
-- Applied by observers to reconcile local state with canonical event history  
+No other mechanism can modify canonical truth.
 
 ---
 
@@ -114,7 +114,7 @@ The validator is responsible for:
 1. Receiving candidate events  
 2. Evaluating events against invariants  
 3. Determining acceptance or rejection  
-4. Assigning canonical sequence (establishing order within canonical event history)  
+4. Assigning `canonical_sequence` (establishing authoritative ordering)  
 5. Appending accepted events to canonical event history  
 6. Distributing canonical events to observers  
 
@@ -126,11 +126,11 @@ The validator defines what becomes canonical.
 
 Observers are responsible for:
 
-- Local simulation and experience  
-- Generating candidate events  
+- Local simulation, prediction, and experience  
+- Generating candidate events (when crossing the invariant boundary)  
 - Maintaining predicted state  
 - Receiving canonical events  
-- Reconciling local state with canonical event history  
+- Reconciling local state against canonical event history
 
 Observers do not define truth.
 
@@ -143,7 +143,7 @@ Replay is the process of applying canonical event history to derive state.
 This means:
 
 - state is not authoritative  
-- canonical history is authoritative  
+- canonical event history is authoritative  
 - replay ensures deterministic reconstruction of state  
 
 Snapshots and optimizations may be used, but they do not replace canonical history.
@@ -180,10 +180,11 @@ This does not change the runtime model.
 
 CrypSA is a system where:
 
-- events are proposed by observers  
-- validated by a validator  
-- recorded as canonical history  
-- replayed to deterministically produce state  
+- observers simulate locally  
+- the invariant boundary determines what becomes a candidate event  
+- candidate events are validated by a validator  
+- accepted events are appended to canonical event history  
+- canonical event history is replayed to deterministically produce state  
 
 👉 Truth is not synchronized.  
 👉 Truth is established through validated events and observed through deterministic replay.
