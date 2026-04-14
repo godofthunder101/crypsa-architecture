@@ -17,11 +17,20 @@ into a single lifecycle model.
 
 This is an **illustrative system view**, not an authoritative specification.
 
+For the authoritative conceptual flow of the system, see:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
 ---
 
 ## Diagram
 
-```mermaid id="7k1mzp"
+> This diagram illustrates the CrypSA runtime model.
+> It does not define runtime behavior.
+> For the authoritative conceptual flow, see:
+> → ../architecture/CrypSA_Runtime_Model.md
+
+```mermaid
 flowchart LR
 
 subgraph Observer
@@ -67,7 +76,7 @@ H --> I
 I --> J
 J --> K
 K --> A
-```
+````
 
 ---
 
@@ -212,7 +221,7 @@ They:
 
 ## Full Lifecycle Summary
 
-```text id="lifecycle_summary"
+```text
 Reconstruct → Simulate → Act → Check Boundary → Validate → Append to Canonical Event History → Distribute → Replay → Reconcile → Repeat
 ```
 
