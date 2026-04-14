@@ -150,9 +150,13 @@ Defines:
 * canonical event history
 * validator authority
 * invariant boundary
-* If accepted, an event becomes canonical and is appended to canonical event history
+* the canonical event lifecycle (see spec for exact behavior)
 
 Important:
+
+👉 The runtime model defines the authoritative conceptual flow of the system.
+
+👉 This model connects observers, the invariant boundary, validation, and canonical event history.
 
 👉 This is the foundation of all CrypSA systems and defines canonical event history as the source of truth.
 
@@ -185,11 +189,14 @@ Defines:
 
 Important:
 
-👉 Architecture explains how the system is organized.
+👉 Architecture defines structure and responsibility boundaries.
 
-👉 It defines structure, not runtime behavior.
+👉 It does not define runtime behavior.
 
-👉 The spec defines behavior within that structure.
+👉 The spec defines exact runtime behavior within that structure.
+
+👉 For strict separation of responsibilities, see:
+`architecture/CrypSA_Boundary_Definitions.md`
 
 ---
 
@@ -243,7 +250,7 @@ Important:
 
 ## 1. Do not treat architecture docs as spec
 
-Architecture explains structure.
+Architecture defines structure.
 Spec defines behavior.
 
 ---
@@ -265,7 +272,7 @@ If there is any ambiguity:
 
 ## 4. Use the design space intentionally
 
-CrypSA is not all-or-nothing.
+CrypSA is not an all-or-nothing architecture.
 
 You are expected to:
 
@@ -319,3 +326,7 @@ CrypSA is a structured architecture model with:
 * implementation (how it is built)
 
 👉 Canonical event history is the source of truth.
+
+---
+
+If you want next step, we can now **align the root README with this doc**, which is where this really compounds in clarity.
