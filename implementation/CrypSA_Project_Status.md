@@ -62,6 +62,8 @@ CrypSA separates responsibilities into four layers:
 
 The validator controls truth.
 
+👉 The validator defines what becomes canonical and therefore controls canonical truth.
+
 Observers simulate locally.
 
 * canonical event history is ordered via canonical_sequence
