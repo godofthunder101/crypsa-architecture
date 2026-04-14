@@ -9,9 +9,18 @@ It represents the layered validation model used to determine whether an event is
 * accepted
 * rejected
 
+For the authoritative conceptual flow of how validation fits into the system, see:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
 ---
 
 ## Diagram
+
+> This diagram illustrates the validation pipeline within the CrypSA runtime model.
+> It does not define validation rules beyond those specified in the specification.
+> For authoritative validation behavior, refer to:
+> → spec/CrypSA_Validation_Model.md
 
 ```mermaid
 flowchart TD
@@ -35,7 +44,7 @@ F -->|Pass| G["Accept and Assign canonical_sequence"]
 
 G --> H["Append to Canonical Event History"]
 H --> I["Canonical Events Available to Observers"]
-```
+````
 
 ---
 
