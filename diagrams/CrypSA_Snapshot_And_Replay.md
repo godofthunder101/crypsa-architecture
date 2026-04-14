@@ -9,11 +9,20 @@ This diagram shows how CrypSA reconstructs current derived canonical state using
 
 It illustrates how CrypSA avoids replaying from genesis while keeping canonical event history as the source of truth.
 
+For the authoritative conceptual flow of the system, see:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
 ---
 
 ## Diagram
 
-```mermaid id="snapshot_replay"
+> This diagram illustrates snapshot and replay within the CrypSA runtime model.
+> It does not define runtime behavior or event flow.
+> For the authoritative conceptual flow, see:
+> → ../architecture/CrypSA_Runtime_Model.md
+
+```mermaid
 flowchart LR
 
 A[Canonical Event History] --> B[Create Snapshot at canonical_sequence N]
@@ -30,7 +39,7 @@ F -->|Base State| H[Reconstructed Derived Canonical State]
 G -->|Apply Events| H
 
 H --> I[Observer Continues Local Simulation]
-```
+````
 
 ---
 
