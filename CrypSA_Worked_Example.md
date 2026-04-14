@@ -1,20 +1,24 @@
 # CrypSA Worked Example
 
-> Illustrative note: This document is illustrative.
+> Illustrative note: This document is illustrative.  
 > For authoritative behavior, see `spec/`.
 
 ---
 
-This example uses concepts from:
+This example demonstrates the runtime model described in:
 
-→ CrypSA_In_5_Minutes.md
-→ CrypSA_Terminology_Primer.md
+→ architecture/CrypSA_Runtime_Model.md
+
+This example also uses concepts from:
+
+→ CrypSA_In_5_Minutes.md  
+→ CrypSA_Terminology_Primer.md  
 
 You should be familiar with:
 
-* validator
-* canonical event history
-* observer
+* validator  
+* canonical event history  
+* observer  
 
 ---
 
@@ -22,7 +26,7 @@ You should be familiar with:
 
 The `/spec` directory is the **authoritative definition of runtime behavior**.
 
-This document shows how the system behaves.
+This document demonstrates how the system behaves using the runtime model.  
 The spec defines how it must behave.
 
 If there is any conflict, **the spec takes precedence**.
@@ -31,14 +35,17 @@ If there is any conflict, **the spec takes precedence**.
 
 ## What This Example Shows
 
-This walkthrough follows a complete event lifecycle:
+This walkthrough demonstrates the runtime model in action:
 
-* a local action
-* becomes a candidate event
-* crosses the invariant boundary
-* becomes canonical (or is rejected)
-* updates canonical event history
-* and is reconciled by observers
+* a local action  
+* becomes a candidate event  
+* crosses the invariant boundary  
+* if accepted, becomes canonical and is appended to canonical event history  
+* is applied through replay to derive state 
+* and is reconciled by observers  
+
+👉 For the full runtime flow, see:  
+→ architecture/CrypSA_Runtime_Model.md
 
 ---
 
@@ -58,11 +65,15 @@ E -->|Rejected| G[Rejection Result]
 
 F --> H[Replay]
 H --> I[Derived Canonical State]
-I --> J[Broadcast]
+I --> J[Distribution]
 
 J --> K[Observer Reconciliation]
 G --> K
-```
+````
+
+> This diagram illustrates the runtime model.
+> For the authoritative conceptual flow, see:
+> → architecture/CrypSA_Runtime_Model.md
 
 ---
 
@@ -145,27 +156,10 @@ State at this moment:
 
 The event crosses the **invariant boundary**.
 
-The validator evaluates the candidate event through validation layers:
+The validator evaluates the candidate event through validation layers.
 
-### Schema Validation
-
-✅ pass
-
-### Identity Validation
-
-✅ pass
-
-### Precondition Validation
-
-✅ pass
-
-### Invariant Validation
-
-✅ pass
-
-### Rule Validation
-
-✅ pass
+👉 For how validation fits into the full runtime model, see:
+→ architecture/CrypSA_Runtime_Model.md
 
 ---
 
@@ -200,9 +194,9 @@ Derived canonical state updates:
 
 ---
 
-# Phase 7 — Broadcast
+# Phase 7 — Distribution
 
-The canonical event is propagated to observers.
+The canonical event is distributed to observers.
 
 ---
 
@@ -211,7 +205,7 @@ The canonical event is propagated to observers.
 Each observer compares:
 
 * local predicted state
-* canonical update
+* canonical event
 
 ---
 
@@ -239,7 +233,7 @@ After reconciliation:
 * UI renders the result
 
 ```text
-Canonical Update → Adapter → Lens → UI
+Canonical Event → Adapter → Lens → UI
 ```
 
 ---
