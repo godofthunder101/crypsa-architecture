@@ -25,6 +25,10 @@ For the authoritative conceptual flow of the system, refer to:
 
 * `../architecture/CrypSA_Runtime_Model.md`
 
+For how this runtime design affects infrastructure, see:
+
+→ `../architecture/CrypSA_Infrastructure_Implications.md`
+
 ---
 
 ## 📜 Authority Level
@@ -101,7 +105,7 @@ D -->|Rejected| G["Reconciliation"]
 E --> F["Replay"]
 F --> G["Reconciliation"]
 G --> A
-````
+```
 
 This loop repeats continuously.
 
@@ -121,7 +125,7 @@ Instead:
 
 * validation defines canonical truth
 * canonical event history replaces synchronized state
-* observers perform simulation locally
+* observers perform local prediction
 
 ---
 
@@ -145,7 +149,7 @@ No direct state synchronization is required.
 The observer is the local runtime instance responsible for:
 
 * receiving input
-* performing local simulation
+* performing local prediction
 * creating candidate events when the invariant boundary is crossed
 * maintaining predicted state
 * replaying canonical events
@@ -386,7 +390,7 @@ All observers converge.
 ```text
 Observer
   ├── Input Handling
-  ├── Local Simulation
+  ├── Local Prediction
   ├── Invariant Boundary Check
   ├── Candidate Event Creation
   ├── Replay Engine
