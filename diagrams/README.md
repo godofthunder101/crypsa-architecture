@@ -12,15 +12,18 @@ Diagrams are used to:
 
 ---
 
-## 📜 Authority Model
+## 📜 Authority Level
 
-The CrypSA documentation is structured across three layers:
+This folder contains visual representations only.  
+It does not define runtime behavior or system structure.
+
+CrypSA documentation is structured across three layers:
 
 * `/spec` — **authoritative definition of runtime behavior**
 * `/architecture` — **system structure and conceptual models**
 * `/diagrams` — **visual representations of those models**
 
-The runtime model (`architecture/CrypSA_Runtime_Model.md`) defines the authoritative conceptual flow of the system.
+The runtime model (`architecture/CrypSA_Runtime_Model.md`) describes the conceptual flow of the system.
 
 If there is any conflict:
 
@@ -38,7 +41,7 @@ They:
 * do not define authoritative behavior
 * do not introduce new rules
 * do not override architecture or specification
-* must align with the runtime model
+* must align with architecture and the runtime model
 
 For authoritative definitions, refer to:
 
@@ -51,15 +54,19 @@ For authoritative definitions, refer to:
 
 Diagrams are visual aids and must support specific documents without redefining them.
 
+For formal responsibility boundaries, see:
+
+→ `../architecture/CrypSA_Boundary_Definitions.md`
+
 ---
 
 ### Primary References
 
 Most diagrams support:
 
-* `../architecture/CrypSA_Runtime_Model.md` — authoritative conceptual flow
-* `../CrypSA_Worked_Example.md` — step-by-step system walkthrough
-* `../CrypSA_Architecture_Overview.md` — system structure
+* `../architecture/CrypSA_Runtime_Model.md` — conceptual flow
+* `../architecture/CrypSA_Worked_Example.md` — step-by-step system walkthrough
+* `../architecture/CrypSA_Architecture_Overview.md` — system structure
 
 ---
 
@@ -102,13 +109,25 @@ Diagrams must use consistent CrypSA terminology:
 
 * use **validator**, not “server”, unless explicitly describing deployment
 * “server” must never be used as a synonym for authority
-* use **candidate event**, not generic “action” when crossing the invariant boundary
+* use **candidate event** for events crossing the invariant boundary, not generic “action”
 * use **canonical event history**, not “state” as a source of truth
 * use **canonical_sequence** for ordering, not server_sequence or other alternatives
 
 If “server” is used, it must be clear that:
 
 > a server is a deployment of a validator, not the definition of the role
+
+---
+
+## Terminology Source
+
+All terminology used in diagrams must align with:
+
+→ `../architecture/CrypSA_Terminology_Primer.md`
+
+Terms must not be redefined within diagrams.
+
+If clarification is needed, refer to the Terminology Primer rather than introducing new definitions.
 
 ---
 
@@ -160,4 +179,4 @@ Diagrams should reflect the architecture and spec, not reinterpret them.
 
 ## One Sentence Summary
 
-Diagrams visualize CrypSA concepts to aid understanding, but authoritative definitions and behavior are defined in the runtime model and spec, where the validator defines what becomes canonical and canonical event history is the sole source of truth.
+Diagrams visualize CrypSA concepts to aid understanding, but authoritative definitions and behavior are defined in the architecture and spec, where the validator defines what becomes canonical and canonical event history is the source of truth.
