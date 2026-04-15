@@ -8,6 +8,10 @@ It explains how events move through the system and how canonical truth is establ
 
 For authoritative behavior, refer to the `/spec` directory.
 
+For implications of this runtime model on infrastructure design, see:
+
+→ `CrypSA_Infrastructure_Implications.md`
+
 ---
 
 ## Authority Level
@@ -75,7 +79,7 @@ G --> H["Apply Canonical Events via Deterministic Replay"]
 H --> I["Observer Reconciliation"]
 
 I --> A
-````
+```
 
 ---
 
@@ -83,7 +87,7 @@ I --> A
 
 ### Observers Do Not Define Truth
 
-Observers may simulate and predict, but they do not determine canonical outcomes.
+Observers may perform local prediction, but they do not determine canonical outcomes.
 
 ---
 
@@ -156,7 +160,7 @@ The validator defines what becomes canonical.
 
 Observers are responsible for:
 
-* Local simulation, prediction, and experience
+* Local prediction and experience
 * Generating candidate events (when crossing the invariant boundary)
 * Maintaining predicted state
 * Receiving canonical events
@@ -210,7 +214,7 @@ This does not change the runtime model.
 
 CrypSA is a system where:
 
-* observers simulate locally
+* observers perform local prediction
 * the invariant boundary determines what becomes a candidate event
 * candidate events are validated by a validator
 * accepted events are appended to canonical event history
