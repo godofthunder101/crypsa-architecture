@@ -6,18 +6,23 @@ This document defines the role of **lenses** in CrypSA.
 
 Lenses are responsible for **interpretation**.
 
-They transform data derived from canonical event history into observer-specific experience without altering truth.
+They transform data derived from canonical event history into observer-specific interpretation without altering truth.
 
 ---
 
 ## 📜 Authority Level
 
-The `/spec` directory is the **authoritative definition of runtime behavior**.
+This document defines system structure and responsibilities.  
+It does not define runtime behavior.
 
-Architecture documents explain the system.
-The spec defines how it must behave.
+CrypSA documentation is structured across layers:
 
-If there is any conflict, **the spec takes precedence**.
+* `/spec` — authoritative definition of runtime behavior
+* `/architecture` — system structure and conceptual models
+
+If there is any conflict:
+
+* spec takes precedence over architecture
 
 ---
 
@@ -25,11 +30,15 @@ If there is any conflict, **the spec takes precedence**.
 
 In CrypSA:
 
-> Canonical event history defines what is real
-> Lenses define how that reality is interpreted
+> Canonical event history defines what is real  
+> Lenses define how that reality is interpreted  
 
-Lenses do not create or modify canonical event history.
+Lenses do not create or modify canonical event history.  
 They interpret it.
+
+For formal responsibility boundaries, see:
+
+→ `CrypSA_Boundary_Definitions.md`
 
 ---
 
@@ -50,6 +59,10 @@ They:
 * produce observer-specific meaning and context
 * do not influence truth or validation
 
+For strict separation of these responsibilities, see:
+
+→ `CrypSA_Boundary_Definitions.md`
+
 ---
 
 ## Why Lenses Exist
@@ -57,7 +70,7 @@ They:
 CrypSA separates:
 
 * **what happened**
-* **how it is experienced**
+* **how it is interpreted and experienced**
 
 This allows:
 
@@ -71,6 +84,8 @@ Lenses make this separation explicit.
 ---
 
 ## What a Lens Is
+
+This is a conceptual model, not a strict execution definition.
 
 A lens is an interpretation layer that transforms input data into observer-usable meaning.
 
@@ -112,9 +127,8 @@ Lenses and adapters are distinct and must not overlap in responsibility.
 
 Adapters:
 
-* reshape data
-* preserve meaning
-* do not interpret
+* reshape data structure
+* do not define or interpret meaning
 
 Lenses:
 
@@ -126,8 +140,12 @@ Lenses:
 
 ### ⚠️ Hard Constraints
 
-* Adapters do not decide meaning
-* Lenses do not modify canonical data
+* Adapters do not decide meaning  
+* Lenses do not modify canonical data  
+
+For formal boundary definitions between translation and interpretation, see:
+
+→ `CrypSA_Boundary_Definitions.md`
 
 ---
 
@@ -135,7 +153,7 @@ Lenses:
 
 Given canonical-derived data:
 
-```json id="0n7b31"
+```json
 { "health": 25 }
 ```
 
@@ -265,7 +283,7 @@ These categories may overlap.
 
 ## Minimal Lens Model (v0.1)
 
-```text id="9m17ls"
+```
 Derived State + Observer Context → Interpreted View
 ```
 
