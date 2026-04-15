@@ -105,7 +105,7 @@ The validator:
 
 * evaluates candidate events
 * enforces invariants
-* determines whether an event becomes canonical
+* If accepted, an event becomes canonical and is appended to canonical event history.
 
 It may run:
 
