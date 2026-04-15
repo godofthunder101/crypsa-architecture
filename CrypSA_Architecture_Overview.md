@@ -10,14 +10,22 @@ For a worked example, see:
 
 ---
 
-## 📜 Specification Authority
+## 📜 Authority Level
 
-The `/spec` directory is the **authoritative definition of runtime behavior**.
+CrypSA documentation is structured across layers:
 
-Architecture documents explain the system.
-The spec defines how it must behave.
+* `/spec` — authoritative definition of runtime behavior
+* `/architecture` — system structure and conceptual models
 
-If there is any conflict, **the spec takes precedence**.
+This document provides a high-level structural overview.
+
+For strict separation of responsibilities, see:
+
+→ `CrypSA_Boundary_Definitions.md`
+
+If there is any conflict:
+
+* spec takes precedence over architecture
 
 ---
 
@@ -57,6 +65,10 @@ They are responsible for local simulation and experience.
 
 Observers do **not define truth**.
 
+For the boundary between observers and the validator, see:
+
+→ `CrypSA_Boundary_Definitions.md`
+
 ---
 
 ### Validator
@@ -68,11 +80,13 @@ The validator:
 * accepts or rejects them
 * assigns canonical ordering (`canonical_sequence`)
 
-Accepted events become canonical and are appended to canonical event history, which defines what is true.
+If accepted, an event becomes canonical and is appended to canonical event history.
 
 > Canonical event history is the source of truth.
 
 The validator is a **logical role**, not a specific machine.
+
+It is the only component that defines what becomes canonical.
 
 It may run:
 
@@ -97,13 +111,16 @@ Not all validators are servers, but all servers host a validator.
 
 Adapters:
 
-* reshape canonical and observer data
+* reshape canonical data and observer-local data
 * prepare structured outputs for interpretation and UI
 
 Adapters are the **translation layer**.
 
-They change structure, not meaning.
-They do not define truth.
+They reshape data for downstream systems.
+
+For strict responsibility boundaries between adapters and lenses, see:
+
+→ `CrypSA_Boundary_Definitions.md`
 
 ---
 
@@ -117,7 +134,11 @@ Lenses:
 
 Lenses are the **interpretation layer**.
 
-They do not define truth or mutate canonical data.
+They interpret data for observer experience.
+
+For strict responsibility boundaries between lenses and adapters, see:
+
+→ `CrypSA_Boundary_Definitions.md`
 
 ---
 
@@ -152,6 +173,22 @@ This separation prevents:
 
 ---
 
+## Responsibility Boundaries
+
+CrypSA enforces strict boundaries between system responsibilities.
+
+These boundaries prevent:
+
+* responsibility overlap
+* architectural drift
+* ambiguity in system design
+
+For formal definitions of these boundaries, see:
+
+→ `CrypSA_Boundary_Definitions.md`
+
+---
+
 ## Why This Structure Exists
 
 Traditional architectures often combine:
@@ -169,30 +206,36 @@ CrypSA separates them to:
 * support multiple observer perspectives
 * allow independent evolution of layers
 
+For how this architecture affects infrastructure design, see:
+
+→ `CrypSA_Infrastructure_Implications.md`
+
 ---
 
 ## Data Flow (Simplified)
 
-```mermaid id="e9z2gk"
+```mermaid
 flowchart LR
 
-A[Canonical Event History] --> B[Derived Canonical State]
-B --> C[Adapters]
-C --> D[Lenses]
-D --> E[UI / Experience]
+A["Canonical Event History"] --> B["Derived Canonical State"]
+B --> C["Adapters"]
+C --> D["Lenses"]
+D --> E["UI / Experience"]
 ```
 
 ---
 
 ## Intent Flow (Simplified)
 
-```mermaid id="n3b6rq"
+```mermaid
 flowchart LR
 
-A[User Action] --> B[Candidate Event]
-B --> C[Validator]
-C -->|Accepted| D[Canonical Event History]
-C -->|Rejected| E[Rejection]
+A["User Action"] --> B["Invariant Boundary"]
+B -->|Remains Local| C["Local Result"]
+B -->|Crosses Boundary| D["Candidate Event"]
+D --> E["Validator"]
+E -->|Accepted| F["Canonical Event History"]
+E -->|Rejected| G["Reconciliation"]
 ```
 
 ---
@@ -209,7 +252,9 @@ Truth is established through validation and recorded in canonical event history.
 
 Derived canonical state is reconstructed via replay.
 
-> Derived canonical state is a projection of canonical event history. It is not the source of truth.
+Derived canonical state is not a source of truth.
+
+> Derived canonical state is a projection of canonical event history.
 
 Everything else builds on that.
 

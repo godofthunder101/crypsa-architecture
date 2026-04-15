@@ -11,7 +11,16 @@ The system continuously decides:
 * should the validator evaluate it?
 * should observers reconstruct?
 
+For the authoritative conceptual flow of the system, see:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
 ---
+
+> This document illustrates control flow within the CrypSA runtime model.
+> It does not define runtime behavior.
+> For the authoritative conceptual flow, see:
+> → ../architecture/CrypSA_Runtime_Model.md
 
 ## High-Level Control Flow
 
@@ -37,7 +46,7 @@ Invariant Boundary Check
                    Append to Canonical Event History
                           ↓
                    Observers reconstruct derived canonical state
-```
+````
 
 ---
 

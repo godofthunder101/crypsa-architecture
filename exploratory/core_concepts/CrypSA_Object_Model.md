@@ -1,5 +1,13 @@
 # CrypSA Object Model
 
+---
+
+“Terminology in this document may not match current CrypSA definitions.
+Refer to the Terminology Primer for authoritative meaning.”
+
+---
+
+
 > Exploratory note: This document reflects conceptual exploration and early modeling.
 >
 > For the current CrypSA model, refer to:

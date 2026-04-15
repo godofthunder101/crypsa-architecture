@@ -10,16 +10,25 @@ This folder is part of the **authoritative architecture layer**.
 
 Other documents must not redefine the concepts described here.
 
+For the authoritative conceptual flow of the system, see:
+
+→ CrypSA_Runtime_Model.md
+
 ---
 
-## 📜 Specification Authority
+## 📜 Authority Level
 
-The `/spec` directory is the **authoritative definition of runtime behavior**.
+The CrypSA documentation is structured as:
 
-Architecture documents explain the system.
-The spec defines how it must behave.
+* `/spec` — authoritative definition of runtime behavior
+* `/architecture` — system structure and conceptual models
 
-If there is any conflict, **the spec takes precedence**.
+The runtime model (`CrypSA_Runtime_Model.md`) defines the authoritative conceptual flow of the system.
+
+If there is any conflict:
+
+* spec takes precedence over architecture
+* architecture takes precedence over all other documents in this repository
 
 ---
 
@@ -43,7 +52,7 @@ At a system level, everything follows this flow:
 1. Observer simulates locally
 2. Observer proposes a **candidate event**
 3. Validator evaluates the event
-4. Accepted events become canonical and are appended to canonical event history
+4. If accepted, an event becomes canonical and is appended to canonical event history
 5. Observers reconcile to canonical truth
 
 This defines the boundary between:
@@ -63,6 +72,10 @@ CrypSA is organized into four responsibilities:
 * **Experience** → UI and local simulation
 
 These responsibilities define the architecture.
+
+For strict separation of these responsibilities, see:
+
+→ CrypSA_Boundary_Definitions.md
 
 ---
 
@@ -172,14 +185,14 @@ It is:
 
 ## Layer Relationship (Simplified)
 
-```mermaid id="z8y4tq"
+```mermaid
 flowchart LR
 
-A[Canonical Event History] --> B[Derived Canonical State]
-B --> C[Adapters]
-C --> D[Lenses]
-D --> E[UI / Experience]
-```
+A["Canonical Event History"] --> B["Derived Canonical State"]
+B --> C["Adapters"]
+C --> D["Lenses"]
+D --> E["UI / Experience"]
+````
 
 ---
 
@@ -202,6 +215,8 @@ This document defines **structure and relationships**.
 For other aspects:
 
 * Runtime behavior → `/spec/`
+* Conceptual flow → `CrypSA_Runtime_Model.md`
+* Responsibility boundaries → `CrypSA_Boundary_Definitions.md`
 * Concepts and definitions → Terminology Primer
 * End-to-end flow → Worked Example
 
@@ -209,7 +224,9 @@ For other aspects:
 
 ## Where to Go Next
 
+* `CrypSA_Runtime_Model.md` — authoritative conceptual flow
 * `CrypSA_Architecture_Overview.md` — system overview
+* `CrypSA_Boundary_Definitions.md` — responsibility boundaries
 * `../spec/CrypSA_Event_Model.md` — event structure
 * `../spec/CrypSA_Validation_Model.md` — invariant enforcement
 * `../spec/CrypSA_Replay_Model.md` — state reconstruction

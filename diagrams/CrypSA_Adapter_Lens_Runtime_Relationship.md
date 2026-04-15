@@ -11,9 +11,18 @@ This diagram shows how CrypSA separates:
 
 It also clarifies how canonical truth is established before it flows into the rest of the system.
 
+For the authoritative conceptual flow of the system, see:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
 ---
 
 ## System Relationship Diagram
+
+> This diagram illustrates the relationship between system layers within the runtime model.
+> It does not define runtime behavior or event flow.
+> For the authoritative conceptual flow, see:
+> → ../architecture/CrypSA_Runtime_Model.md
 
 ```mermaid
 flowchart LR
@@ -46,7 +55,7 @@ B --> D
 C --> D
 D --> E
 E --> F
-```
+````
 
 ---
 

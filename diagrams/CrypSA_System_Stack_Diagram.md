@@ -13,11 +13,20 @@ It shows how CrypSA separates:
 
 This separation allows observers to simulate locally while canonical event history remains consistent.
 
+For the authoritative conceptual flow of the system, see:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
 ---
 
 ## Diagram
 
-```mermaid id="system_stack"
+> This diagram illustrates the layered structure within the CrypSA runtime model.
+> It does not define runtime behavior or event flow.
+> For the authoritative conceptual flow, see:
+> → ../architecture/CrypSA_Runtime_Model.md
+
+```mermaid
 flowchart TB
 
 subgraph "Experience Layer"
@@ -53,7 +62,7 @@ V --> F
 F --> G
 G --> H
 H --> D
-```
+````
 
 ---
 

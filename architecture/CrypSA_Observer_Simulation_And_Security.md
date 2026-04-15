@@ -6,6 +6,10 @@ CrypSA allows observers significantly more simulation freedom than traditional m
 
 This is intentional.
 
+Observer behavior and event flow within the system are defined in the runtime model:
+
+→ CrypSA_Runtime_Model.md
+
 This document explains:
 
 * why CrypSA allows this
@@ -15,7 +19,7 @@ This document explains:
 
 ---
 
-## 📜 Specification Authority
+## 📜 Authority Level
 
 The `/spec` directory is the **authoritative definition of runtime behavior**.
 
@@ -70,6 +74,10 @@ Only validated events affect the shared world.
 ---
 
 ## The Invariant Boundary
+
+The invariant boundary operates within the runtime model described in:
+
+→ CrypSA_Runtime_Model.md
 
 The control point in CrypSA is the **invariant boundary**.
 

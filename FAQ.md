@@ -22,7 +22,9 @@ CrypSA is an event-driven architecture where:
 * observers simulate locally
 * actions are proposed as candidate events
 * a validator evaluates those events
-* accepted events define shared reality through canonical event history
+* If accepted, an event becomes canonical and is appended to canonical event history
+
+👉 Canonical event history is the source of truth.
 
 ---
 
@@ -70,13 +72,14 @@ It depends on how the system is deployed.
 * the observer continues local simulation
 * no new canonical events can be accepted
 * canonical updates stop arriving
-* local state may temporarily diverge
+* local derived state may temporarily diverge
 
 When the connection is restored:
 
 * canonical updates are fetched
-* reconciliation occurs
-* the observer converges to canonical state
+* canonical event history is synchronized
+* reconstruction via replay of canonical event history occurs
+* the observer converges to derived canonical state
 
 ---
 
@@ -94,7 +97,11 @@ Yes — but differently than traditional systems.
 
 The validator does not simulate everything.
 
-Instead, it is authoritative over:
+Instead:
+
+> The validator defines what becomes canonical.
+
+It is authoritative over:
 
 * which events are accepted
 * what becomes canonical event history
@@ -110,7 +117,11 @@ Observers can propose events, but:
 * all canonical changes must be validated
 * invalid or conflicting events are rejected
 
-Observers have freedom to simulate, not authority to define truth.
+Observers simulate freely, but:
+
+> If accepted, an event becomes canonical and is appended to canonical event history.
+
+Observers do not define truth.
 
 ---
 
@@ -127,7 +138,7 @@ This allows:
 * flexibility
 * reduced synchronization overhead
 
-The validator still determines what becomes canonical.
+The validator still defines what becomes canonical.
 
 ---
 
@@ -135,11 +146,16 @@ The validator still determines what becomes canonical.
 
 It is similar, but not identical.
 
+Event sourcing:
+
+* stores a history of events
+
 CrypSA:
 
-* is designed for interactive simulations
-* includes invariant validation as a core system
-* explicitly models observers and reconstruction
+* uses validated events to define canonical event history
+* includes invariant enforcement as a core responsibility
+* explicitly models observers and reconstruction via canonical event replay
+* reconstructs derived canonical state via replay
 
 ---
 
@@ -155,7 +171,7 @@ It can be deployed as:
 * host-based
 * dedicated validator
 
-The architecture defines **how truth is determined**, not how networking must be structured.
+The architecture defines how truth is determined, not how networking must be structured.
 
 ---
 
@@ -166,8 +182,9 @@ The validator:
 * receives candidate events
 * validates them
 * enforces invariants
+* determines whether an event becomes canonical
 * assigns canonical ordering (`canonical_sequence`)
-* records accepted events
+* If accepted, an event becomes canonical and is appended to canonical event history
 
 It does not need to simulate the entire world continuously.
 
@@ -183,7 +200,9 @@ The validator:
 * accepts one valid event
 * rejects the other
 
-The rejected observer reconciles to canonical state.
+If accepted, an event becomes canonical and is appended to canonical event history.
+
+The rejected observer reconciles via canonical event replay.
 
 ---
 
@@ -192,7 +211,7 @@ The rejected observer reconciles to canonical state.
 If an observer predicts incorrectly:
 
 * the validator rejects the event
-* the observer corrects its local state
+* the observer corrects its local state via replay of canonical event history
 
 This is expected and correct behavior.
 
@@ -200,32 +219,30 @@ This is expected and correct behavior.
 
 ## How does CrypSA prevent observer-side logic from breaking the system?
 
-CrypSA relies on strict separation of responsibilities:
+CrypSA enforces strict separation of responsibilities:
 
-* the validator defines truth
-* adapters shape data
-* lenses interpret meaning
-* UI presents the result
+* the validator defines what becomes canonical
+* canonical event history is the source of truth
+* derived state is reconstructed via replay
 
 In addition:
 
-* observers emit requests representing intent
-* canonical changes occur only through validated events
-* adapters prevent UI and lenses from accessing raw runtime structures
+* observers emit candidate events representing intent
+* canonical changes occur only through validation
+* adapters and lenses prevent direct access to runtime internals
 
 ---
 
 ## Is CrypSA deterministic?
 
-Yes, at the canonical level via deterministic replay.
+Yes — at the canonical level.
 
 Given the same:
 
 * canonical event history
-* rules
-* definitions
+* interpretation logic
 
-All observers must derive the same state.
+all observers must derive equivalent derived canonical state via replay of canonical event history.
 
 ---
 
@@ -234,14 +251,14 @@ All observers must derive the same state.
 Not as truth.
 
 * canonical truth = canonical event history
-* derived state = reconstructed via replay
+* derived canonical state = reconstructed via replay
 * snapshots = reconstruction checkpoints
 
 ---
 
 ## What are snapshots?
 
-Snapshots are stored derived state used to:
+Snapshots are stored derived canonical state used to:
 
 * speed up loading
 * reduce replay cost
@@ -257,7 +274,7 @@ Yes — this is a core design goal.
 
 CrypSA supports a **local-first development model**:
 
-```text
+```text id="v42c9u"
 Local Validator → Host-Based → Dedicated Validator
 ```
 
@@ -306,7 +323,7 @@ CrypSA is:
 * supported by specifications
 * backed by a teaching prototype
 
-It is not yet a production system.
+It does not yet include a full reference implementation or minimal validator.
 
 ---
 
@@ -321,4 +338,4 @@ It is not yet a production system.
 
 ## One Sentence Summary
 
-CrypSA is a system where observers simulate locally, a validator evaluates events, and shared reality is defined by canonical event history.
+CrypSA is a system where observers simulate locally, a validator evaluates candidate events, and canonical event history is the source of truth.

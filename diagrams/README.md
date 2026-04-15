@@ -12,14 +12,23 @@ Diagrams are used to:
 
 ---
 
-## 📜 Specification Authority
+## 📜 Authority Level
 
-The `/spec` directory is the **authoritative definition of runtime behavior**.
+This folder contains visual representations only.  
+It does not define runtime behavior or system structure.
 
-Architecture documents explain the system.
-The spec defines how it must behave.
+CrypSA documentation is structured across three layers:
 
-If there is any conflict, **the spec takes precedence**.
+* `/spec` — **authoritative definition of runtime behavior**
+* `/architecture` — **system structure and conceptual models**
+* `/diagrams` — **visual representations of those models**
+
+The runtime model (`architecture/CrypSA_Runtime_Model.md`) describes the conceptual flow of the system.
+
+If there is any conflict:
+
+* spec takes precedence over architecture
+* architecture takes precedence over diagrams
 
 ---
 
@@ -32,6 +41,7 @@ They:
 * do not define authoritative behavior
 * do not introduce new rules
 * do not override architecture or specification
+* must align with architecture and the runtime model
 
 For authoritative definitions, refer to:
 
@@ -42,7 +52,11 @@ For authoritative definitions, refer to:
 
 ## 📍 Diagram Context
 
-Diagrams are visual aids and must support specific documents.
+Diagrams are visual aids and must support specific documents without redefining them.
+
+For formal responsibility boundaries, see:
+
+→ `../architecture/CrypSA_Boundary_Definitions.md`
 
 ---
 
@@ -50,8 +64,9 @@ Diagrams are visual aids and must support specific documents.
 
 Most diagrams support:
 
-* `../CrypSA_Worked_Example.md` — step-by-step system flow
-* `../CrypSA_Architecture_Overview.md` — system structure
+* `../architecture/CrypSA_Runtime_Model.md` — conceptual flow
+* `../architecture/CrypSA_Worked_Example.md` — step-by-step system walkthrough
+* `../architecture/CrypSA_Architecture_Overview.md` — system structure
 
 ---
 
@@ -77,11 +92,12 @@ All diagrams must align with the core CrypSA architecture:
 
 And must reflect these core principles:
 
-* **validation determines canonical truth**
-* **canonical event history is the source of truth**
-* **the validator is the authority over canonical events**
-* **the invariant boundary defines where candidate events are evaluated before becoming canonical**
-* **derived canonical state is not a source of truth and must be shown as reconstructed from canonical event history**
+* the validator defines what becomes canonical
+* canonical event history is the source of truth
+* If accepted, an event becomes canonical and is appended to canonical event history
+* the invariant boundary defines where candidate events are evaluated before becoming canonical
+* derived canonical state is reconstructed via replay of canonical event history
+* derived canonical state is not a source of truth
 
 Diagrams must not introduce alternative models or terminology.
 
@@ -93,13 +109,25 @@ Diagrams must use consistent CrypSA terminology:
 
 * use **validator**, not “server”, unless explicitly describing deployment
 * “server” must never be used as a synonym for authority
-* use **candidate event**, not generic “action” when crossing the invariant boundary
+* use **candidate event** for events crossing the invariant boundary, not generic “action”
 * use **canonical event history**, not “state” as a source of truth
 * use **canonical_sequence** for ordering, not server_sequence or other alternatives
 
 If “server” is used, it must be clear that:
 
 > a server is a deployment of a validator, not the definition of the role
+
+---
+
+## Terminology Source
+
+All terminology used in diagrams must align with:
+
+→ `../architecture/CrypSA_Terminology_Primer.md`
+
+Terms must not be redefined within diagrams.
+
+If clarification is needed, refer to the Terminology Primer rather than introducing new definitions.
 
 ---
 
@@ -151,4 +179,4 @@ Diagrams should reflect the architecture and spec, not reinterpret them.
 
 ## One Sentence Summary
 
-Diagrams visualize CrypSA concepts to aid understanding, but authoritative definitions and behavior are defined only in the architecture and spec layers, where validation defines what becomes canonical truth and canonical event history is the sole source of that truth.
+Diagrams visualize CrypSA concepts to aid understanding, but authoritative definitions and behavior are defined in the architecture and spec, where the validator defines what becomes canonical and canonical event history is the source of truth.

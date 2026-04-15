@@ -8,22 +8,39 @@ If something feels unclear, check here first.
 
 This document defines terms used in:
 
-→ CrypSA_In_One_Diagram.md
-→ CrypSA_In_5_Minutes.md
+→ CrypSA_In_One_Diagram.md  
+→ CrypSA_In_5_Minutes.md  
 
 If something here feels abstract, refer back to those documents.
 
 ---
 
-## 🔒 Terminology Authority
+## 📜 Terminology Authority
 
-This document is the **authoritative source of all core term definitions in CrypSA**.
+This document defines the authoritative terminology used across CrypSA.  
+It does not define runtime behavior.
+
+CrypSA documentation is structured across layers:
+
+* `/spec` — authoritative definition of runtime behavior  
+* `/architecture` — system structure and conceptual models  
+* `/architecture/CrypSA_Terminology_Primer.md` — authoritative terminology definitions  
+
+If there is any conflict:
+
+* spec takes precedence over terminology usage  
 
 All other documents must:
 
-* use these terms consistently
-* avoid redefining terms
-* reference this document when introducing terminology
+* use these terms consistently  
+* avoid redefining terms  
+* reference this document when introducing terminology  
+
+---
+
+## ⚖️ Core Rule
+
+If accepted, an event becomes canonical and is appended to canonical event history.
 
 ---
 
@@ -41,9 +58,9 @@ If a definition is needed outside this document, it must use:
 
 This ensures:
 
-* consistency across the repository
-* no drift in meaning
-* a single source of truth for terminology
+* consistency across the repository  
+* no drift in meaning  
+* a single source of truth for terminology  
 
 ---
 
@@ -51,12 +68,39 @@ This ensures:
 
 CrypSA can be understood as four responsibilities:
 
-* **Truth** → canonical event history and validation
-* **Translation** → adapters shaping data
-* **Interpretation** → lenses defining meaning
-* **Experience** → UI and local interaction
+* **Truth** → canonical event history and validation  
+* **Translation** → adapters shaping data  
+* **Interpretation** → lenses defining meaning  
+* **Experience** → UI and local interaction  
+
+These responsibilities do not overlap.
+
+> Canonical event history is the source of truth.
 
 All terms below map into one of these responsibilities.
+
+---
+
+## 📌 Canonical Scope Rule
+
+The term “canonical” applies only to:
+
+* canonical events  
+* canonical event history  
+
+It does not apply to stored state.
+
+Derived canonical state is a projection of canonical event history. It is not the source of truth.
+
+---
+
+## 🔁 Replay Terminology
+
+Replay refers to reconstruction via canonical event replay.
+
+It means applying canonical events from canonical event history in canonical_sequence order to reconstruct derived canonical state.
+
+Replay is deterministic.
 
 ---
 
@@ -66,17 +110,17 @@ The **validator** is the authority over canonical truth.
 
 It:
 
-* validates candidate events
-* enforces invariants
-* appends accepted events to canonical event history
+* validates candidate events  
+* enforces invariants  
+* If accepted, an event becomes canonical and is appended to canonical event history  
 
 A **server** is a deployment of a validator.
 
 The validator:
 
-* may run locally (same process as an observer)
-* may run remotely (shared system)
-* may run in a host-based configuration
+* may run locally (same process as an observer)  
+* may run remotely (shared system)  
+* may run in a host-based configuration  
 
 > The validator’s responsibilities do not change based on deployment.
 
@@ -86,16 +130,16 @@ The validator:
 
 Use **validator** when referring to:
 
-* validation
-* canonical truth
-* event acceptance/rejection
-* canonical sequencing
+* validation  
+* canonical truth  
+* event acceptance/rejection  
+* canonical sequencing  
 
 Use **server** only when referring to:
 
-* network topology
-* deployment
-* infrastructure
+* network topology  
+* deployment  
+* infrastructure  
 
 ---
 
@@ -112,7 +156,7 @@ Use **server** only when referring to:
 
 ## ⚠️ Important
 
-If a sentence is still correct when the validator is running locally,
+If a sentence is still correct when the validator is running locally,  
 then **“validator” is the correct term**, not “server”.
 
 ---
@@ -127,18 +171,31 @@ The **validator** determines what becomes canonical.
 
 It:
 
-* accepts or rejects candidate events
-* enforces invariants and rules
-* maintains canonical event history
+* accepts or rejects candidate events  
+* enforces invariants and rules  
+* maintains canonical event history  
 
 The validator is a **role**, not a machine.
 
 It may run:
 
-* locally (alongside an observer)
-* remotely (shared across observers)
+* locally (alongside an observer)  
+* remotely (shared across observers)  
 
-> In CrypSA, truth is defined by validation — not by location.
+> The validator defines what becomes canonical.
+
+---
+
+## Invariant Boundary
+
+The invariant boundary is where candidate events are evaluated by the validator.
+
+It separates:
+
+* observer-proposed events  
+* canonical truth  
+
+Only events that pass validation cross this boundary and become canonical.
 
 ---
 
@@ -148,24 +205,24 @@ A **local validator** runs within the observer’s environment.
 
 Examples:
 
-* same process
-* same application
-* same device
+* same process  
+* same application  
+* same device  
 
 Use cases:
 
-* single-player or offline operation
-* development and testing
-* local-first systems
-* resilience during network interruption
+* single-player or offline operation  
+* development and testing  
+* local-first systems  
+* resilience during network interruption  
 
 Even when local, the validator remains a **separate logical role**.
 
 The invariant boundary still exists:
 
-* observer proposes candidate events
-* validator evaluates them
-* canonical event history is updated
+* observer proposes candidate events  
+* validator evaluates them  
+* canonical event history is updated  
 
 ---
 
@@ -177,9 +234,9 @@ Observers communicate with it over a network.
 
 Use cases:
 
-* shared canonical truth
-* persistent multiplayer systems
-* distributed environments
+* shared canonical truth  
+* persistent multiplayer systems  
+* distributed environments  
 
 > Deployment changes location, not responsibility.
 
@@ -191,21 +248,22 @@ A **server** is a remote deployment of a validator.
 
 It is an infrastructure term, not an authority role.
 
-Not all validators are servers.
+Not all validators are servers.  
 All servers host a validator.
 
 ---
 
 ## Canonical Event
 
-A **canonical event** is an event that has been:
+A **canonical event** is an event that has become canonical through validation.
 
-* validated
-* accepted
-* assigned a `canonical_sequence`
-* made immutable
+If accepted, an event becomes canonical and is appended to canonical event history.
 
-Canonical events define **truth**.
+Canonical events:
+
+* are immutable  
+* have a `canonical_sequence`  
+* define truth  
 
 ---
 
@@ -213,45 +271,43 @@ Canonical events define **truth**.
 
 A **candidate event** is:
 
-* proposed by an observer
-* not yet validated
-* subject to rejection
+* proposed by an observer  
+* not yet validated  
+* subject to rejection  
 
-It represents **intent**, not truth.
+It represents **intent**, not truth, and does not affect canonical event history unless accepted.
 
 ---
 
 ## Invariant
 
-An **invariant** is a rule that must always hold.
+An **invariant** is a rule that must always hold for canonical truth.
 
 Examples:
 
-* a player cannot have negative resources
-* two objects cannot occupy the same exclusive space
+* a player cannot have negative resources  
+* two objects cannot occupy the same exclusive space  
 
-Invariants protect **canonical truth**.
+Invariants protect canonical truth.
 
 ---
 
 ## Validation
 
-**Validation** is the process of evaluating a candidate event.
+**Validation** is the process performed by the validator to evaluate a candidate event.
 
 It includes:
 
-* schema validation
-* identity validation
-* precondition checks
-* invariant validation
-* rule validation
+* schema validation  
+* identity validation  
+* precondition checks  
+* invariant validation  
+* rule validation  
 
 Result:
 
-* valid → becomes canonical and is appended to canonical event history
-* invalid → rejected
-
-Validation determines what becomes **truth**.
+* If accepted, an event becomes canonical and is appended to canonical event history  
+* If rejected, the event does not become canonical  
 
 ---
 
@@ -259,8 +315,8 @@ Validation determines what becomes **truth**.
 
 The **canonical event history** is:
 
-* the ordered sequence of canonical events
-* the authoritative record of what has happened
+* the ordered sequence of canonical events  
+* the authoritative record of what has happened  
 
 > Canonical event history is the source of truth.
 
@@ -268,27 +324,18 @@ Everything else is derived from this.
 
 ---
 
-## Replay
-
-**Replay** is the process of:
-
-* applying canonical events in order
-* reconstructing derived canonical state deterministically
-
----
-
 ## Derived Canonical State
 
 The **derived canonical state** is:
 
-* the current world state
-* produced via replay
+* the current world state  
+* produced via replay  
 
 It is:
 
-* not authoritative
-* not stored as truth
-* always reconstructable
+* not authoritative  
+* not stored as truth  
+* always reconstructable  
 
 > Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
@@ -298,11 +345,13 @@ It is:
 
 An **observer**:
 
-* simulates the world locally
-* proposes candidate events
-* reconciles with canonical truth
+* simulates the world locally  
+* proposes candidate events  
+* reconciles with canonical truth  
 
 Observers operate in the **experience layer**.
+
+Observers do not define truth.
 
 ---
 
@@ -310,8 +359,12 @@ Observers operate in the **experience layer**.
 
 **Observer reconciliation** is when:
 
-* local simulation is updated
-* to match canonical outcomes
+* local simulation is updated  
+* to match canonical outcomes  
+
+This occurs via canonical event replay, aligning local derived state with canonical outcomes.
+
+Observers do not modify canonical event history directly.
 
 ---
 
@@ -321,12 +374,12 @@ An **adapter** reshapes data.
 
 It:
 
-* transforms canonical and observer data
-* produces structured outputs
+* transforms canonical and observer data  
+* produces structured outputs  
 
 Adapters belong to the **translation layer**.
 
-They change structure, not meaning.
+Adapters reshape data without affecting truth or interpreting meaning.
 
 ---
 
@@ -336,13 +389,13 @@ A **lens** interprets data.
 
 It determines:
 
-* meaning
-* relevance
-* context for an observer
+* meaning  
+* relevance  
+* context for an observer  
 
 Lenses belong to the **interpretation layer**.
 
-They do not define truth or modify canonical data.
+Lenses interpret data but do not modify canonical data or define truth.
 
 ---
 
@@ -350,15 +403,21 @@ They do not define truth or modify canonical data.
 
 The **experience layer** includes:
 
-* rendering
-* input
-* local feedback
+* rendering  
+* input  
+* local feedback  
 
 It is:
 
-* responsive
-* immediate
-* non-authoritative
+* responsive  
+* immediate  
+* non-authoritative  
+
+---
+
+## Replay
+
+**Replay** reconstructs derived canonical state via canonical event replay.
 
 ---
 
@@ -366,11 +425,11 @@ It is:
 
 CrypSA separates the system into four responsibilities:
 
-* **truth** → canonical event history and validation
-* **translation** → adapters shape data
-* **interpretation** → lenses define meaning
-* **experience** → local interaction
+* **truth** → canonical event history and validation  
+* **translation** → adapters shape data  
+* **interpretation** → lenses define meaning  
+* **experience** → local interaction  
 
 And critically:
 
-> the validator defines what becomes canonical, regardless of deployment
+> The validator defines what becomes canonical, regardless of deployment.

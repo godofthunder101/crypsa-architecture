@@ -1,14 +1,30 @@
 # CrypSA Worked Example
 
-> Illustrative note: This document is illustrative.
+> Illustrative note: This document is illustrative.  
 > For authoritative behavior, see `spec/`.
 
 ---
 
-This example uses concepts from:
+This example demonstrates the runtime model described in:
 
-→ CrypSA_In_5_Minutes.md
-→ CrypSA_Terminology_Primer.md
+→ ../architecture/CrypSA_Runtime_Model.md
+
+This example also uses concepts from:
+
+→ ../architecture/CrypSA_In_5_Minutes.md  
+→ ../architecture/CrypSA_Terminology_Primer.md  
+
+For formal responsibility boundaries, see:
+
+→ ../architecture/CrypSA_Boundary_Definitions.md
+
+For a minimal executable version of this example, see:
+
+→ ../implementation/CrypSA_Minimal_Runtime_Walkthrough.md
+
+For how this example translates to infrastructure design, see:
+
+→ ../architecture/CrypSA_Infrastructure_Implications.md
 
 You should be familiar with:
 
@@ -18,11 +34,11 @@ You should be familiar with:
 
 ---
 
-## 📜 Specification Authority
+## 📜 Authority Level
 
 The `/spec` directory is the **authoritative definition of runtime behavior**.
 
-This document shows how the system behaves.
+This document demonstrates how the system behaves using the runtime model.  
 The spec defines how it must behave.
 
 If there is any conflict, **the spec takes precedence**.
@@ -31,38 +47,45 @@ If there is any conflict, **the spec takes precedence**.
 
 ## What This Example Shows
 
-This walkthrough follows a complete event lifecycle:
+This walkthrough demonstrates the runtime model in action:
 
-* a local action
-* becomes a candidate event
-* crosses the invariant boundary
-* becomes canonical (or is rejected)
-* updates canonical event history
-* and is reconciled by observers
+* a local action  
+* becomes a candidate event  
+* crosses the invariant boundary  
+* if accepted, becomes canonical and is appended to canonical event history  
+* is applied through replay to derive state  
+* and is reconciled by observers  
+
+👉 For the full runtime flow, see:  
+→ ../architecture/CrypSA_Runtime_Model.md
 
 ---
 
 ## 📊 Runtime Flow Overview
 
-```mermaid id="c3w1n8"
+```mermaid
 flowchart LR
 
-A[Player Action] --> B[Local Simulation]
-B --> C[Create Candidate Event]
+A[Observer Action] --> B[Local Prediction]
+B --> C[Observer Creates Candidate Event]
 C --> D[Submit to Validator]
 
-D --> E[Validation Pipeline]
+D --> E[Validation]
 
 E -->|Accepted| F[Canonical Event History]
 E -->|Rejected| G[Rejection Result]
 
 F --> H[Replay]
 H --> I[Derived Canonical State]
-I --> J[Broadcast]
+I --> J[Distribution]
 
 J --> K[Observer Reconciliation]
 G --> K
 ```
+
+> This diagram illustrates the runtime model.
+> For the authoritative conceptual flow, see:
+> → ../architecture/CrypSA_Runtime_Model.md
 
 ---
 
@@ -104,9 +127,9 @@ At this point:
 
 # Phase 2 — Candidate Event Creation
 
-The observer creates a **candidate event**:
+The observer creates a **candidate event** (not yet canonical):
 
-```id="v4dq6z"
+```text
 event_type = place_structure
 actor_id = player_A
 target_ids = [tile_42]
@@ -130,7 +153,7 @@ This event represents **intent**, not reality.
 
 # Phase 3 — Submission
 
-The observer submits the event to the validator.
+The observer submits the candidate event to the validator.
 
 State at this moment:
 
@@ -141,55 +164,38 @@ State at this moment:
 
 ---
 
-# Phase 4 — Validation Pipeline (Validator)
+# Phase 4 — Validation (Validator)
 
 The event crosses the **invariant boundary**.
 
-The validator evaluates:
+The validator evaluates the candidate event through validation.
 
-### Schema Validation
-
-✅ pass
-
-### Identity Validation
-
-✅ pass
-
-### Precondition Validation
-
-✅ pass
-
-### Invariant Validation
-
-✅ pass
-
-### Rule Validation
-
-✅ pass
+👉 For how validation fits into the full runtime model, see:
+→ ../architecture/CrypSA_Runtime_Model.md
 
 ---
 
-# Phase 5 — Acceptance
+# Phase 5 — Validation Outcome (Accepted)
 
 The validator accepts the event.
 
+If accepted, an event becomes canonical and is appended to canonical event history.
+
 Canonical metadata is assigned:
 
-```id="f0w3px"
+```text
 canonical_event_id = canon_1203
 canonical_sequence = 1203
 accepted_at = timestamp
 ```
 
-The event becomes canonical and is appended to **canonical event history**.
-
-> This is the moment the action becomes canonical.
+This event is now **canonical**.
 
 ---
 
 # Phase 6 — Replay and Derived State
 
-Replay applies canonical events in `canonical_sequence` order.
+Replay applies canonical events from canonical event history in `canonical_sequence` order.
 
 Derived canonical state updates:
 
@@ -200,9 +206,9 @@ Derived canonical state updates:
 
 ---
 
-# Phase 7 — Broadcast
+# Phase 7 — Distribution
 
-The canonical event is propagated to observers.
+The canonical event is distributed to observers.
 
 ---
 
@@ -211,7 +217,7 @@ The canonical event is propagated to observers.
 Each observer compares:
 
 * local predicted state
-* canonical update
+* canonical event
 
 ---
 
@@ -238,8 +244,8 @@ After reconciliation:
 * lenses interpret meaning
 * UI renders the result
 
-```text id="9tb7mq"
-Canonical Update → Adapter → Lens → UI
+```text
+Canonical Event → Adapter → Lens → UI
 ```
 
 ---
@@ -254,13 +260,13 @@ Two players attempt to place on tile_42.
 
 * evaluates both candidate events
 * accepts the first valid event
-* rejects the second
+* the second event does not become canonical and does not enter canonical event history
 
 ---
 
 ## Rejection Result
 
-```id="sx9k2u"
+```text
 result = rejected
 reason = precondition_failed
 ```
@@ -272,7 +278,7 @@ reason = precondition_failed
 Rejected observer:
 
 * removes predicted structure
-* updates to canonical state
+* updates to canonical state via replay
 
 ---
 
@@ -300,4 +306,4 @@ This example corresponds to:
 
 # One Sentence Summary
 
-A local action becomes a candidate event, the validator evaluates it, accepted events become canonical and are appended to canonical event history, and observers reconcile their local simulation to that shared history.
+A local action becomes a candidate event, the validator evaluates it, if accepted, an event becomes canonical and is appended to canonical event history, and observers reconcile their local prediction to that shared history

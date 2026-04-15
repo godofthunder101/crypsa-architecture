@@ -1,5 +1,21 @@
 # Local-First CrypSA Design Pattern
 
+---
+
+## ⚠️ Implementation Guidance (Non-Authoritative)
+
+This document provides example implementation approaches for CrypSA.
+
+👉 These patterns are not required, but are recommended to maintain clear architectural boundaries.
+
+👉 CrypSA defines invariants and behavior through the `/spec` directory.
+
+👉 Implementation details may vary based on product requirements.
+
+This document illustrates one possible way to structure a system that conforms to CrypSA.
+
+---
+
 ## Purpose
 
 This document describes a practical design pattern for building CrypSA systems **local-first**.
@@ -87,7 +103,7 @@ In the first implementation:
 * candidate events still flow through validation
 * canonical event history is still distinct from local simulation
 
-This is not a shortcut or fake mode.
+This is not a shortcut or reduced mode.
 
 It is a valid CrypSA deployment.
 
@@ -176,9 +192,13 @@ These are deployment concerns, not architectural changes.
 
 ### 1. Never bypass validation just because everything is local
 
+Even in local mode, all candidate events must pass through the invariant boundary.
+
 ---
 
 ### 2. Keep candidate events explicit
+
+All changes to shared or canonical state must be represented as candidate events, not implicit mutations.
 
 ---
 
@@ -196,19 +216,53 @@ The candidate event contract and validation behavior must remain identical acros
 
 ### 5. Treat local validator as a first-class deployment
 
+Local validation is not a temporary shortcut. It is a valid CrypSA deployment that should follow the same architectural rules as remote systems.
+
 ---
 
 ## Common Failure Modes
 
 ### Hidden Direct State Mutation
 
+Problem:
+
+* local systems mutate runtime or canonical state directly
+* changes bypass candidate events and validation
+
+Result:
+
+* breaks invariant boundary
+* introduces hidden state changes
+* prevents reliable replay
+
 ---
 
 ### Local and Remote Modes Behave Differently
 
+Problem:
+
+* local mode bypasses validation or uses different logic
+* remote mode enforces full validation
+
+Result:
+
+* inconsistent behavior between environments
+* bugs that only appear after deployment
+* loss of architectural continuity
+
 ---
 
 ### Replay Is Skipped in Local Mode
+
+Problem:
+
+* local systems rely on live state instead of reconstructing from canonical event history
+
+Result:
+
+* replay becomes unreliable or impossible
+* derived canonical state diverges
+* debugging becomes difficult
 
 ---
 
@@ -229,6 +283,29 @@ Result:
 
 ## Relationship to Validator Deployment Model
 
+The local-first design pattern aligns directly with the CrypSA validator deployment model.
+
+The validator is a role, not a location.
+
+In a local-first system:
+
+* the validator may run in the same process as the observer
+* the invariant boundary remains explicit
+* canonical event history is still produced through validation
+
+As the system evolves:
+
+* the validator may move to a host process
+* or to a dedicated remote system
+
+This transition does not change:
+
+* the validation model
+* the event lifecycle
+* the role of the invariant boundary
+
+Only the deployment changes. The architecture remains the same.
+
 ---
 
 ## Key Insight
@@ -239,6 +316,17 @@ Result:
 ---
 
 ## Summary
+
+The local-first CrypSA pattern allows systems to be built and tested without introducing architectural shortcuts.
+
+By preserving:
+
+* the invariant boundary
+* canonical event history
+* deterministic replay
+* validator authority
+
+from the beginning, the system can scale from local execution to distributed deployment without requiring structural changes.
 
 ---
 

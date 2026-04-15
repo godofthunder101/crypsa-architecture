@@ -8,11 +8,20 @@ It represents the runtime loop:
 
 > local simulation → validation → canonical event history → observer reconciliation
 
+For the authoritative conceptual flow of the system, see:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
 ---
 
 ## Diagram
 
-```mermaid id="r7p2m1"
+> This diagram illustrates event flow within the CrypSA runtime model.
+> It does not define runtime behavior.
+> For the authoritative conceptual flow, see:
+> → ../architecture/CrypSA_Runtime_Model.md
+
+```mermaid
 flowchart LR
 
 A[Observer Action] --> B[Local Simulation]
@@ -28,7 +37,7 @@ F --> H[Observers receive canonical events]
 H --> J[Observer Reconciliation]
 G --> J
 J --> K[Derived Canonical State Updated]
-```
+````
 
 ---
 

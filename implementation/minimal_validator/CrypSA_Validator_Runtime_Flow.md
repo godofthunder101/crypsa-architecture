@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document defines the **runtime execution flow** of a CrypSA validator.
+This document describes the runtime execution flow.
 
 It shows how a candidate event moves through the system:
 
@@ -23,7 +23,7 @@ This is an implementation-oriented document that connects:
 
 > The validator is the only authority that may modify canonical event history.
 
-All canonical changes must:
+In CrypSA, canonical changes follow this pattern:
 
 * originate from a candidate event
 * cross the invariant boundary
@@ -45,7 +45,7 @@ Candidate Event Submitted
     ├── No → Rejection Result → Observer Correction
     └── Yes
          → Assign canonical_sequence
-         → Append to Canonical Event History
+         → Append to canonical event history
          → Apply to Derived Canonical State
          → Broadcast Canonical Event
          → Observers Reconcile
@@ -144,7 +144,7 @@ Schema → Identity → Preconditions → Invariants → Rules
 
 ### Validation Requirements
 
-Validation must be:
+Validation should be:
 
 * deterministic
 * based on canonical context
@@ -206,7 +206,7 @@ Steps:
 
 The canonical event is appended to the canonical event history.
 
-Requirements:
+Expected characteristics:
 
 * append-only
 * strictly ordered by canonical_sequence
@@ -277,7 +277,7 @@ Observers must:
 
 ## Idempotency Guarantee
 
-The validator must ensure:
+The validator is expected to ensure:
 
 > the same event_id never produces multiple canonical events
 
@@ -291,7 +291,7 @@ This prevents:
 
 ## Determinism Guarantee
 
-The system must ensure:
+The system is expected to ensure:
 
 ```text
 same canonical event history → same derived canonical state

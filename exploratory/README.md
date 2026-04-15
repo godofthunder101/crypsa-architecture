@@ -1,5 +1,12 @@
 # CrypSA Exploratory
 
+---
+
+“Terminology in this document may not match current CrypSA definitions.
+Refer to the Terminology Primer for authoritative meaning.”
+
+---
+
 ## Purpose
 
 This section contains experimental and forward-looking ideas related to CrypSA.

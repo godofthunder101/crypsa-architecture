@@ -4,7 +4,11 @@ This document defines the structure, behavior, and lifecycle of events in CrypSA
 
 Events are the foundation of the system.
 
-> Canonical event history is the source of truth.  
+For a conceptual overview of how events flow through the system, see:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
+> Canonical event history is the source of truth.
 > Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
 ---
@@ -15,12 +19,9 @@ CrypSA is event-driven.
 
 * the world is not the source of truth
 * **canonical event history is the source of truth**
-* derived canonical state is a projection of canonical event history. It is not the source of truth.
+* derived canonical state is a projection of canonical event history. It is not the source of truth
 
----
-
-> Canonical event history is the source of truth.  
-> Derived canonical state is a projection of canonical event history. It is not the source of truth.
+Canonical state is not stored. Only canonical event history is authoritative.
 
 ---
 
@@ -39,41 +40,65 @@ CrypSA defines two primary event types:
 
 ### 2. Canonical Events
 
-* accepted by the validator
+* If accepted, an event becomes canonical and is appended to canonical event history
 * immutable
-* part of canonical event history
-* used for replay and reconstruction
+* assigned validator-defined canonical metadata
+
+---
+
+## Event State Model
+
+An event may exist in one of the following states:
+
+### Candidate
+
+* proposed by an observer
+* not yet validated
+* not canonical
+
+---
+
+### Rejected
+
+* evaluated by the validator
+* does not become canonical
+* does not enter canonical event history
+
+---
+
+### Canonical
+
+* If accepted, an event becomes canonical and is appended to canonical event history
 
 ---
 
 ## Event Lifecycle
 
+This lifecycle is part of the runtime model described in:
+
+→ ../architecture/CrypSA_Runtime_Model.md
+
 Every event follows this lifecycle:
 
 1. **Creation**
-   Observer creates a candidate event
+   An observer creates a candidate event
 
 2. **Submission**
-   Event is submitted to the validator
+   The candidate event is submitted to the validator
 
 3. **Validation**
-   The validator evaluates the event
+   The validator evaluates the candidate event
 
 4. **Decision**
 
-   * accepted → proceeds to canonicalization
-   * rejected → does not become canonical and does not enter canonical event history
-
-5. **Canonicalization**
-
-   * canonical metadata assigned
    * If accepted, an event becomes canonical and is appended to canonical event history
+   * If rejected, the event does not become canonical and does not enter canonical event history
 
-6. **Propagation**
-   Observers receive the canonical event
+5. **Propagation**
+   Observers receive the canonical event as part of the runtime model
 
-7. **Replay**
-   Observers update state via replay
+6. **Replay**
+   Observers reconstruct derived canonical state via canonical event replay in canonical_sequence order
 
 ---
 
@@ -125,7 +150,7 @@ Examples:
 
 * event-specific data
 * must be deterministic
-* must contain all data required for deterministic replay
+* must contain all data required to produce equivalent derived canonical state via replay
 
 Example:
 
@@ -134,7 +159,7 @@ Example:
   "position": [10, 5],
   "object_kind": "house"
 }
-```
+````
 
 ---
 
@@ -170,15 +195,17 @@ When an event is accepted, the validator assigns:
 #### `canonical_event_id`
 
 * unique identifier for the canonical event
+* identifies the canonical event record after acceptance
 
 ---
 
 #### `canonical_sequence`
 
 * authoritative ordering index
+* assigned by the validator
 * defines replay order
 
-> `canonical_sequence` is assigned by the validator and defines canonical ordering.
+> `canonical_sequence` defines a total canonical order across canonical events.
 
 ---
 
@@ -190,12 +217,9 @@ When an event is accepted, the validator assigns:
 
 ## Canonical Event Definition
 
-A canonical event is an accepted candidate event that:
+A **canonical event** is an event that has become canonical through validation.
 
-* has passed validation
-* has been assigned `canonical_sequence`
-* has been appended to canonical event history by the validator
-* is immutable
+If accepted, an event becomes canonical and is appended to canonical event history.
 
 ---
 
@@ -210,7 +234,7 @@ Canonical events must satisfy:
   canonical event history is never rewritten
 
 * **deterministic replay**
-  same history → same state
+  given the same canonical event history and interpretation logic, replay produces equivalent derived canonical state
 
 ---
 
@@ -254,6 +278,8 @@ This ensures:
 
 Candidate events only become canonical through validation.
 
+> If accepted, an event becomes canonical and is appended to canonical event history.
+
 Validation ensures:
 
 * invariants are preserved
@@ -276,6 +302,8 @@ The invariant boundary defines:
 * the transition from local simulation
 * to canonical validation
 
+Only events that pass validation cross this boundary and become canonical.
+
 Actions that do not cross this boundary:
 
 * remain local
@@ -289,7 +317,7 @@ CrypSA events:
 
 * represent all canonical changes
 * are validated before acceptance
-* are appended to canonical event history
+* If accepted, an event becomes canonical and is appended to canonical event history
 * canonical event history is the source of truth
 * are replayed to reconstruct state
 
