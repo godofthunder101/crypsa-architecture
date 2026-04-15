@@ -3,24 +3,26 @@
 
 # CrypSA — Cryptid Server Architecture
 
-CrypSA defines how systems establish canonical truth through validated canonical events and deterministic replay.
+CrypSA defines how systems establish canonical truth through validated events and deterministic replay.
 
 In CrypSA:
 
-* the validator defines what becomes canonical
-* canonical event history is the source of truth
-* derived canonical state is reconstructed via replay
+* the validator defines what becomes canonical  
+* canonical event history is the source of truth  
+* derived canonical state is reconstructed via replay  
 
 It is an event-driven architecture for building persistent digital worlds.
-
-Rather than synchronizing world state, CrypSA synchronizes validated canonical events governed by invariants.
-
-All canonical changes must cross the invariant boundary, where invariants are enforced before events can become canonical. Observers perform local simulation and predictive behavior.
 
 > Reality is not synchronized — it is agreed upon through validated events.  
 > Canonical event history is the source of truth.
 
-The validator may run locally or remotely, but its role as the authority of canonical truth does not change.
+---
+
+## 🧠 Overview
+
+For a full conceptual explanation of CrypSA:
+
+👉 `./CrypSA_Overview.md`
 
 ---
 
@@ -93,71 +95,9 @@ Go to:
 
 ---
 
-## 🏗 Infrastructure Implications
-
-CrypSA changes how systems distribute:
-
-* computation
-* state
-* synchronization
-
-Instead of relying on continuous server-side simulation and state synchronization:
-
-* observers perform local prediction  
-* canonical truth is defined by validated events  
-* state is reconstructed via replay  
-
-This results in a different distribution of infrastructure responsibilities.
-
-For a neutral breakdown of these changes, see:
-
-👉 `architecture/CrypSA_Infrastructure_Implications.md`
-
----
-
-## ⚙️ Canonical Event Lifecycle (At a Glance)
-
-The canonical event lifecycle is defined by the CrypSA runtime model:
-
-👉 `architecture/CrypSA_Runtime_Model.md`
-
-At a high level:
-
-1. Observers create candidate events  
-2. Events are validated by the validator  
-3. If accepted, an event becomes canonical and is appended to canonical event history  
-4. Observers derive state through replay and reconciliation  
-
-This defines the boundary between:
-
-* local simulation (non-authoritative)  
-* canonical reality (validator-defined)  
-
-Canonical event history is an append-only log.  
-It is never mutated, only extended through accepted events.
-
-All derived state must be consistent with this history.
-
-Canonical event history is the source of truth.
-
----
-
-## 🛠 Build CrypSA
-
-Start with the smallest working system:
-
-👉 `implementation/CrypSA_Minimal_Runtime_Walkthrough.md`
-
-Then explore:
-
-👉 `implementation/minimal_validator/CrypSA_Minimal_Validator_v0.1.md`  
-👉 `implementation/CrypSA_Local_First_Development_Approach.md`
-
----
-
 ## 🧠 What CrypSA Is (and Is Not)
 
-CrypSA defines how systems establish and maintain canonical truth through validated canonical events.
+CrypSA defines how systems establish and maintain canonical truth through validated events.
 
 It provides a model where:
 
@@ -178,14 +118,6 @@ CrypSA is:
 * a set of invariants around truth, validation, and canonical event history  
 * a framework for building replayable and consistent systems  
 
-It defines:
-
-👉 what must be true for a system to maintain canonical agreement  
-
-CrypSA is typically integrated alongside existing systems such as game engines, simulation layers, and networking stacks.
-
-Systems built with CrypSA are inherently replayable from canonical event history.
-
 ---
 
 ### ❌ CrypSA Is NOT
@@ -205,46 +137,33 @@ CrypSA is not:
 
 ---
 
-### 🧭 What CrypSA Defines vs Leaves Open
+## 🛠 Build CrypSA
 
-CrypSA defines:
+Start with the smallest working system:
 
-* how events become canonical  
-* how truth is established  
-* how state is derived from canonical event history  
+👉 `implementation/CrypSA_Minimal_Runtime_Walkthrough.md`
 
-CrypSA intentionally leaves open:
+Then explore:
 
-* how systems are structured at runtime  
-* how networking is implemented  
-* how reconciliation and prediction are handled  
-* how systems are shaped to meet product goals  
-
-👉 CrypSA defines invariants and structure, not a single implementation.  
-
-👉 CrypSA provides a structured design space for making these decisions.  
-
-👉 Implementers are expected to choose these based on product requirements.  
-
-This flexibility is intentional.
-
-CrypSA is designed to support multiple valid implementations that all preserve canonical truth through validation and canonical event history.
+👉 `implementation/minimal_validator/CrypSA_Minimal_Validator_v0.1.md`  
+👉 `implementation/CrypSA_Local_First_Development_Approach.md`
 
 ---
 
 ## 📘 Learn More
 
-For a full breakdown of invariants and product-dependent design:
+For deeper architectural breakdowns and design space:
 
-👉 `architecture/CrypSA_Invariants_and_Design_Space.md`
-
-For strict separation of responsibilities:
-
+👉 `architecture/CrypSA_Invariants_and_Design_Space.md`  
 👉 `architecture/CrypSA_Boundary_Definitions.md`
+
+For system structure:
+
+👉 `architecture/`
 
 ---
 
-## ⚙️ How CrypSA Works
+## ⚙️ How CrypSA Works (High-Level)
 
 ```mermaid
 flowchart LR  
@@ -265,8 +184,6 @@ I --> J[Broadcast]
 J --> K[Observer Reconciliation]
 G --> K
 ```
-
-> If accepted, an event becomes canonical and is appended to canonical event history.
 
 For the full runtime flow, see:
 
