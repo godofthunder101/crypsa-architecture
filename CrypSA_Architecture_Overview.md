@@ -206,6 +206,10 @@ CrypSA separates them to:
 * support multiple observer perspectives
 * allow independent evolution of layers
 
+For how this architecture affects infrastructure design, see:
+
+→ `CrypSA_Infrastructure_Implications.md`
+
 ---
 
 ## Data Flow (Simplified)
