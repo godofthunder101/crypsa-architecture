@@ -16,7 +16,7 @@ CrypSA is **architecture-first**.
 This means:
 
 * the **spec defines runtime behavior**
-* the **architecture defines structure and boundaries**
+* the **architecture defines system structure and conceptual models**
 * implementation follows these definitions
 
 > Contributions must preserve clarity and consistency of the model.
@@ -27,13 +27,13 @@ This means:
 
 The repository is structured by document authority:
 
-| Layer             | Purpose                        | Authority         |
-| ----------------- | ------------------------------ | ----------------- |
-| `spec/`           | Runtime behavior               | **Highest**       |
-| `architecture/`   | Structure and responsibilities | High              |
-| `implementation/` | How to build                   | Support           |
-| `diagrams/`       | Visualization                  | Non-authoritative |
-| `exploratory/`    | Ideas                          | Non-authoritative |
+| Layer             | Purpose                                   | Authority         |
+| ----------------- | ----------------------------------------- | ----------------- |
+| `spec/`           | Authoritative runtime behavior            | **Highest**       |
+| `architecture/`   | System structure and responsibilities     | High              |
+| `implementation/` | How to build                              | Support           |
+| `diagrams/`       | Visualization                             | Non-authoritative |
+| `exploratory/`    | Ideas                                     | Non-authoritative |
 
 ### Rules
 
@@ -75,13 +75,13 @@ All contributors must follow the terminology defined in:
 
 ✔ Correct:
 
-``` id="tr8wq5"
+```
 validator validates events
-````
+```
 
 ❌ Incorrect:
 
-```id="83nmq2"
+```
 server validates events
 ```
 
@@ -125,8 +125,10 @@ The following phrases are **canonical** and must be used exactly as written.
 
 Do not rephrase, simplify, substitute, or partially restate these phrases.
 
-If a sentence expresses one of these concepts, it must use the canonical phrasing exactly.
+If a sentence expresses one of these concepts, it must use the canonical phrasing exactly.  
 Near matches are not acceptable.
+
+These phrases are enforced by documentation linting and must not be altered.
 
 ---
 
@@ -169,11 +171,11 @@ CrypSA enforces strict separation:
 | Truth          | Validation + canonical event history |
 | Translation    | Adapters                             |
 | Interpretation | Lenses                               |
-| Experience     | UI / simulation                      |
+| Experience     | UI and local simulation              |
 
 ### Rules
 
-* Adapters **change structure, not meaning**
+* Adapters **change structure without interpreting meaning**
 * Lenses **define meaning, not structure**
 * UI **does not define truth**
 * Observers **never define canonical truth**
@@ -200,7 +202,7 @@ Do not blur these boundaries in contributions.
 
 2. Reference it elsewhere:
 
-```id="f6o525"
+```
 See: Terminology Primer → [Term]
 ```
 
@@ -234,9 +236,9 @@ When contributing documentation:
 
 Examples:
 
-❌ Spec logic inside architecture docs
-❌ Implementation details inside spec
-❌ New concepts defined inside diagrams
+❌ Spec logic inside architecture docs  
+❌ Implementation details inside spec  
+❌ New concepts defined inside diagrams  
 
 ---
 
