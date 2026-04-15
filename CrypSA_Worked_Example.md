@@ -22,6 +22,10 @@ For a minimal executable version of this example, see:
 
 → ../implementation/CrypSA_Minimal_Runtime_Walkthrough.md
 
+For how this example translates to infrastructure design, see:
+
+→ ../architecture/CrypSA_Infrastructure_Implications.md
+
 You should be familiar with:
 
 * validator
