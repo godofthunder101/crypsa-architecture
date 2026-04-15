@@ -66,7 +66,7 @@ The validator is responsible for:
 
 * accepting or rejecting candidate events
 * enforcing invariants
-* determining whether an event becomes canonical
+* If accepted, an event becomes canonical and is appended to canonical event history
 * maintaining canonical event history
 
 > The validator defines what becomes canonical.
