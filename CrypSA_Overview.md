@@ -34,13 +34,13 @@ This document exists to:
 
 ## What CrypSA Is
 
-CrypSA is an **architecture model** for building systems where:
+CrypSA is an **architecture model** for systems where:
 
 👉 **truth is established through validated events**
 
 Instead of synchronizing state across systems:
 
-👉 CrypSA synchronizes **validated canonical events**
+👉 CrypSA synchronizes **validated events that become canonical**
 
 ---
 
@@ -49,7 +49,7 @@ Instead of synchronizing state across systems:
 In traditional systems:
 
 * state is updated directly  
-* systems try to stay in sync  
+* systems attempt to keep state in sync
 
 In CrypSA:
 
@@ -61,6 +61,10 @@ In CrypSA:
 ---
 
 ## Core Principles
+
+These principles define how CrypSA establishes and maintains canonical truth.
+
+---
 
 ### 1. The Validator Defines Canonical Truth
 
@@ -86,7 +90,7 @@ This sequence is:
 
 * append-only  
 * immutable  
-* authoritative  
+* authoritative within the system context    
 
 ---
 
@@ -96,7 +100,9 @@ All state in CrypSA is:
 
 * derived from canonical event history  
 * reconstructable through replay  
-* non-authoritative  
+* non-authoritative
+
+State does not define truth under any circumstance.
 
 👉 State is a **projection of truth**, not truth itself
 
@@ -138,7 +144,7 @@ All events must pass through:
 
 Where:
 
-* rules are enforced  
+* invariants are enforced  
 * invalid events are rejected  
 * canonical history is protected  
 
@@ -215,7 +221,7 @@ CrypSA defines:
 * how events become canonical  
 * how truth is established  
 * how state is derived  
-* how systems remain consistent  
+* how systems remain consistent through replay and validation
 
 ---
 
