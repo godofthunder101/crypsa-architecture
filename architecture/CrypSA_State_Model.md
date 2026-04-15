@@ -4,7 +4,7 @@ This document defines the different forms of **state** in CrypSA.
 
 It clarifies:
 
-* what counts as **truth**
+* what is **truth**
 * what is **derived**
 * what is **local to observers**
 * what is **interpretation or experience**
@@ -15,12 +15,12 @@ Understanding these distinctions is critical to implementing CrypSA correctly.
 
 ## 📜 Authority Level
 
-The `/spec` directory is the **authoritative definition of runtime behavior**.
+This document is part of `/spec` and defines **state structure and behavior**.
 
-Architecture documents explain the system.
-The spec defines how it must behave.
+👉 For the authoritative definition of truth vs state, see:
+`CrypSA_Truth_vs_State.md`
 
-If there is any conflict, **the spec takes precedence**.
+If there is any conflict, **`CrypSA_Truth_vs_State.md` takes precedence**.
 
 ---
 
@@ -30,6 +30,7 @@ CrypSA separates **canonical truth** from all other forms of state.
 
 This document exists to:
 
+* define categories of state
 * prevent confusion between state types
 * protect the integrity of canonical truth
 * guide implementation decisions
@@ -37,10 +38,37 @@ This document exists to:
 
 ---
 
+## Defines
+
+* categories of state
+* authority of each state type
+* relationship between truth and state
+
+---
+
+## Does Not Define
+
+* validation rules
+* invariant definitions
+* replay implementation details
+* observer implementation strategies
+
+---
+
 ## Core Principle
 
-> In CrypSA, **canonical event history is the only source of truth**.
-> All other state is derived, local, or interpretive.
+> Canonical event history is the source of truth.  
+> All state, including derived canonical state, is a product of replay and is not itself authoritative.
+
+---
+
+## Non-Negotiable Rule
+
+State is never truth.
+
+No form of state in CrypSA is authoritative.
+
+Only canonical event history defines truth.
 
 ---
 
@@ -48,7 +76,7 @@ This document exists to:
 
 CrypSA defines five primary categories of state:
 
-1. Canonical Event History
+1. Canonical Event History (Truth)
 2. Derived Canonical State
 3. Observer Local State
 4. Predicted (Speculative) State
@@ -69,7 +97,7 @@ It is:
 
 * append-only
 * immutable
-* globally authoritative
+* authoritative within the system context
 
 It is controlled exclusively by:
 
@@ -92,13 +120,14 @@ Canonical event history defines:
 
 Derived canonical state is:
 
-* the current world state
+* a reconstructed representation of the system
 * produced by replaying canonical event history
 
 It is:
 
-* deterministic
+* deterministic when replayed against canonical event history under the same validation context
 * reconstructable
+* discardable
 * not authoritative
 
 ---
@@ -113,7 +142,7 @@ It is:
 
 ### Role
 
-Derived canonical state is used for:
+Derived canonical state is used as:
 
 * validation context
 * simulation reference
@@ -142,8 +171,8 @@ It includes:
 ### Properties
 
 * not authoritative
-* may diverge from canonical truth
-* may be incomplete or approximate
+* may temporarily diverge from derived canonical state during reconciliation
+* may be incomplete or approximate representations
 
 ---
 
@@ -161,7 +190,7 @@ Observer local state enables:
 
 Observers may simulate freely, but:
 
-> local state does not define truth.
+> Local state does not define truth.
 
 ---
 
@@ -237,13 +266,15 @@ This state determines:
 
 > Interpretation does not change truth — it changes perception.
 
+Lenses do not influence validation or canonical outcomes.
+
 ---
 
 ## State Flow
 
-The relationship between state types can be visualized as:
+The relationship between state types:
 
-```text id="5qk2zp"
+```text
 Canonical Event History (Truth)
         ↓ (Replay)
 Derived Canonical State
@@ -251,29 +282,30 @@ Derived Canonical State
 Observer Local State (includes predicted state)
         ↓ (Adapters + Lenses)
 Interpreted / Experience State
-```
+````
 
 ---
 
 ## Authority Boundaries
 
-| State Type              | Authority       | Can Modify Truth? |
-| ----------------------- | --------------- | ----------------- |
-| Canonical Event History | Validator       | Yes               |
-| Derived Canonical State | System (Replay) | No                |
-| Observer Local State    | Observer        | No                |
-| Predicted State         | Observer        | No                |
-| Interpreted State       | Observer        | No                |
+| State Type              | Authority      | Can Modify Truth? |
+| ----------------------- | -------------- | ----------------- |
+| Canonical Event History | Validator      | Yes               |
+| Derived Canonical State | Replay Process | No                |
+| Observer Local State    | Observer       | No                |
+| Predicted State         | Observer       | No                |
+| Interpreted State       | Observer       | No                |
 
 ---
 
 ## Key Rules
 
 1. **Only canonical event history is truth**
-2. **All canonical state must be derivable from canonical events**
-3. **Observers may simulate, but not define truth**
-4. **Predicted state must reconcile with canonical outcomes**
-5. **Interpretation must not mutate canonical data**
+2. **All state must be derivable from canonical event history**
+3. **State is always non-authoritative**
+4. **Observers may simulate, but not define truth**
+5. **Predicted state must reconcile with canonical outcomes**
+6. **Interpretation must not mutate canonical data**
 
 ---
 
@@ -289,10 +321,10 @@ It is the only mechanism by which:
 
 * canonical event history may change
 
-All other state types:
+All state:
 
-* depend on this process
-* do not influence truth directly
+* depends on this process
+* does not influence truth directly
 
 ---
 
@@ -305,8 +337,8 @@ Replay:
 
 Replay is:
 
-* deterministic
-* foundational to reconstruction
+* deterministic when applied to canonical event history under the same validation context
+* the foundation of reconstruction
 
 ---
 
@@ -318,12 +350,12 @@ Adapters:
 
 Lenses:
 
-* determine meaning and visibility
+* interpret canonical and local data into meaning and experience
 
 Neither:
 
 * define truth
-* modify canonical state
+* modify canonical event history
 
 ---
 
@@ -337,8 +369,8 @@ Implementations may:
 
 However:
 
-* canonical event history must remain the source of truth
-* all derived state must remain consistent with replay
+* canonical event history remains the source of truth
+* all state must remain consistent with replay
 
 ---
 
@@ -346,8 +378,8 @@ However:
 
 CrypSA defines multiple forms of state, but only one form of truth:
 
-* **canonical event history** is authoritative
-* all other state is derived, local, or interpretive
+* **canonical event history is authoritative**
+* all state is derived, local, or interpretive
 
 This separation ensures:
 
