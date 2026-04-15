@@ -15,6 +15,10 @@ For a complete end-to-end explanation of how CrypSA operates at runtime, see:
 
 → architecture/CrypSA_Runtime_Model.md
 
+For how CrypSA affects infrastructure and scaling, see:
+
+→ CrypSA_Infrastructure_Implications.md
+
 ---
 
 ## The Core Idea
@@ -102,14 +106,14 @@ end
 
 subgraph Experience
 E[UI and Observer Experience]
-F[Local Simulation]
+F[Local Prediction]
 end
 
 A --> B
 B --> C
 C --> D
 D --> E
-````
+```
 
 ---
 
