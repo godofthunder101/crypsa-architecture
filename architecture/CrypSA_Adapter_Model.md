@@ -6,24 +6,29 @@ This document defines the role of **adapters** in CrypSA.
 
 Adapters are responsible for **translation**.
 
-They convert runtime data into forms usable by other layers without altering meaning, truth, or intent.
+They reshape data into forms usable by other layers without affecting truth, meaning, or intent.
 
 ---
 
 ## 📜 Authority Level
 
-The `/spec` directory is the **authoritative definition of runtime behavior**.
+This document defines system structure and responsibilities.  
+It does not define runtime behavior.
 
-Architecture documents explain the system.
-The spec defines how it must behave.
+CrypSA documentation is structured across layers:
 
-If there is any conflict, **the spec takes precedence**.
+* `/spec` — authoritative definition of runtime behavior
+* `/architecture` — system structure and conceptual models
+
+If there is any conflict:
+
+* spec takes precedence over architecture
 
 ---
 
 ## Core Principle
 
-Adapters **translate data without changing its meaning**.
+Adapters translate data without affecting meaning.
 
 They do not:
 
@@ -37,6 +42,10 @@ They exist to ensure:
 * systems remain decoupled
 * data remains consistent
 * boundaries remain explicit
+
+For formal responsibility boundaries, see:
+
+→ `CrypSA_Boundary_Definitions.md`
 
 ---
 
@@ -57,9 +66,15 @@ They:
 * reshape it for other systems
 * do not influence truth or interpretation
 
+For strict separation of these responsibilities, see:
+
+→ `CrypSA_Boundary_Definitions.md`
+
 ---
 
 ## What Adapters Do
+
+This is a conceptual model, not a strict execution definition.
 
 Adapters perform **pure data transformation**.
 
@@ -94,7 +109,7 @@ Adapters must never:
 * execute gameplay or domain logic
 * act as controllers or coordinators
 * interpret meaning (this is the role of lenses)
-* assign canonical ordering or authority (e.g. canonical_sequence)
+* assign canonical ordering or authority (e.g. `canonical_sequence`)
 
 If an adapter begins making decisions about meaning or rules, it is no longer an adapter.
 
@@ -115,9 +130,8 @@ Adapters and lenses are distinct and must not overlap in responsibility.
 
 Adapters:
 
-* reshape data
-* preserve meaning
-* do not interpret
+* reshape data structure
+* do not define or interpret meaning
 
 Lenses:
 
@@ -131,6 +145,10 @@ Lenses:
 
 * Adapters do not decide meaning
 * Lenses do not modify canonical data
+
+For formal boundary definitions between translation and interpretation, see:
+
+→ `CrypSA_Boundary_Definitions.md`
 
 ---
 
@@ -234,7 +252,6 @@ Adapters are the **translation layer** of CrypSA.
 They:
 
 * reshape data
-* preserve meaning
 * enforce separation between systems
 
 They do not:
@@ -247,4 +264,4 @@ They do not:
 
 ## One Sentence Summary
 
-Adapters convert data between systems without changing its meaning, ensuring that truth, interpretation, and experience remain cleanly separated.
+Adapters reshape data between systems without affecting truth or meaning, ensuring that truth, interpretation, and experience remain cleanly separated.
