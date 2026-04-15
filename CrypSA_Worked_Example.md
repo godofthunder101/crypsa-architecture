@@ -7,18 +7,26 @@
 
 This example demonstrates the runtime model described in:
 
-→ architecture/CrypSA_Runtime_Model.md
+→ ../architecture/CrypSA_Runtime_Model.md
 
 This example also uses concepts from:
 
-→ CrypSA_In_5_Minutes.md  
-→ CrypSA_Terminology_Primer.md  
+→ ../architecture/CrypSA_In_5_Minutes.md  
+→ ../architecture/CrypSA_Terminology_Primer.md  
+
+For formal responsibility boundaries, see:
+
+→ ../architecture/CrypSA_Boundary_Definitions.md
+
+For a minimal executable version of this example, see:
+
+→ ../implementation/CrypSA_Minimal_Runtime_Walkthrough.md
 
 You should be familiar with:
 
-* validator  
-* canonical event history  
-* observer  
+* validator
+* canonical event history
+* observer
 
 ---
 
@@ -41,11 +49,11 @@ This walkthrough demonstrates the runtime model in action:
 * becomes a candidate event  
 * crosses the invariant boundary  
 * if accepted, becomes canonical and is appended to canonical event history  
-* is applied through replay to derive state 
+* is applied through replay to derive state  
 * and is reconciled by observers  
 
 👉 For the full runtime flow, see:  
-→ architecture/CrypSA_Runtime_Model.md
+→ ../architecture/CrypSA_Runtime_Model.md
 
 ---
 
@@ -54,11 +62,11 @@ This walkthrough demonstrates the runtime model in action:
 ```mermaid
 flowchart LR
 
-A[Player Action] --> B[Local Simulation]
+A[Observer Action] --> B[Local Prediction]
 B --> C[Observer Creates Candidate Event]
 C --> D[Submit to Validator]
 
-D --> E[Validation Pipeline]
+D --> E[Validation]
 
 E -->|Accepted| F[Canonical Event History]
 E -->|Rejected| G[Rejection Result]
@@ -69,11 +77,11 @@ I --> J[Distribution]
 
 J --> K[Observer Reconciliation]
 G --> K
-````
+```
 
 > This diagram illustrates the runtime model.
 > For the authoritative conceptual flow, see:
-> → architecture/CrypSA_Runtime_Model.md
+> → ../architecture/CrypSA_Runtime_Model.md
 
 ---
 
@@ -152,20 +160,20 @@ State at this moment:
 
 ---
 
-# Phase 4 — Validation Pipeline (Validator)
+# Phase 4 — Validation (Validator)
 
 The event crosses the **invariant boundary**.
 
-The validator evaluates the candidate event through validation layers.
+The validator evaluates the candidate event through validation.
 
 👉 For how validation fits into the full runtime model, see:
-→ architecture/CrypSA_Runtime_Model.md
+→ ../architecture/CrypSA_Runtime_Model.md
 
 ---
 
 # Phase 5 — Validation Outcome (Accepted)
 
-The validator accepts the event after all validation layers pass.
+The validator accepts the event.
 
 If accepted, an event becomes canonical and is appended to canonical event history.
 
@@ -294,4 +302,4 @@ This example corresponds to:
 
 # One Sentence Summary
 
-A local action becomes a candidate event, the validator evaluates it, if accepted, an event becomes canonical and is appended to canonical event history, and observers reconcile their local simulation to that shared history.
+A local action becomes a candidate event, the validator evaluates it, if accepted, an event becomes canonical and is appended to canonical event history, and observers reconcile their local prediction to that shared history
