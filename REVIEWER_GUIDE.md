@@ -13,7 +13,7 @@ CrypSA is an **architecture model**, not a framework, library, or complete produ
 It defines:
 
 * how truth is established
-* how events become canonical
+* how events become canonical through validation
 * how state is derived
 * how systems remain replayable and consistent
 
@@ -123,7 +123,7 @@ Replay is a required mechanism.
 
 Observers:
 
-* simulate locally
+* perform local prediction
 * propose candidate events
 * reconcile to canonical state
 
