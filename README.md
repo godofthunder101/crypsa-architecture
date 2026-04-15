@@ -24,28 +24,72 @@ The validator may run locally or remotely, but its role as the authority of cano
 
 ---
 
-## 📘 How to Navigate This Repo
+## 🚀 Start Here (Required Path)
 
-If you want to understand how to navigate CrypSA based on your goal and role:
+If this is your first time reading CrypSA, follow this path:
 
-👉 How_To_Read_CrypSA.md  
-
-For core terminology:
-
-👉 CrypSA_Terminology_Primer.md
+1. 🧭 `CrypSA_In_One_Diagram.md` — see the system at a glance  
+2. 📘 `CrypSA_In_5_Minutes.md` — understand the core idea  
+3. 📖 `CrypSA_Terminology_Primer.md` — learn the language  
+4. 📖 `CrypSA_Worked_Example.md` — see it in action  
 
 ---
 
-## 🚀 Start Here
+👉 **Only after completing the above:**
 
-If you're new to CrypSA, follow this path in order:
+**These documents assume familiarity with the core model.**
 
-1. 🧭 CrypSA_In_One_Diagram.md — see the system at a glance  
-2. 📘 CrypSA_In_5_Minutes.md — understand the core idea  
-3. ⚙️ architecture/CrypSA_Runtime_Model.md — understand how the system operates end-to-end  
-4. 📖 CrypSA_Terminology_Primer.md — learn the language  
-5. 📖 CrypSA_Worked_Example.md — see it in action  
-6. 🛠 implementation/CrypSA_Minimal_Runtime_Walkthrough.md — see the smallest working system  
+5. 🏗 `architecture/` — understand system structure  
+6. 📜 `/spec` — understand authoritative runtime behavior  
+
+---
+
+⚠️ **Do not start with `/spec` on your first pass.**  
+CrypSA is concept-driven and requires the mental model first.
+
+---
+
+## 📘 Additional Navigation
+
+For a deeper walkthrough of how to read CrypSA:
+
+👉 `How_To_Read_CrypSA.md`
+
+For core terminology:
+
+👉 `CrypSA_Terminology_Primer.md`
+
+---
+
+## 🧭 Reading Modes
+
+Choose your path based on your goal:
+
+---
+
+### First-time reader  
+Follow the **Start Here (Required Path)** above.
+
+---
+
+### Architecture deep dive  
+Go to:
+
+👉 `architecture/`
+
+---
+
+### Formal behavior (authoritative)  
+Go to:
+
+👉 `/spec`
+
+---
+
+### Implementation / building  
+Go to:
+
+👉 `implementation/`
 
 ---
 
@@ -67,15 +111,15 @@ This results in a different distribution of infrastructure responsibilities.
 
 For a neutral breakdown of these changes, see:
 
-👉 architecture/CrypSA_Infrastructure_Implications.md
+👉 `architecture/CrypSA_Infrastructure_Implications.md`
 
 ---
 
 ## ⚙️ Canonical Event Lifecycle (At a Glance)
 
-The canonical event lifecycle is defined by the CrypSA runtime model, which is the authoritative conceptual flow of the system:
+The canonical event lifecycle is defined by the CrypSA runtime model:
 
-👉 architecture/CrypSA_Runtime_Model.md
+👉 `architecture/CrypSA_Runtime_Model.md`
 
 At a high level:
 
@@ -89,7 +133,7 @@ This defines the boundary between:
 * local simulation (non-authoritative)  
 * canonical reality (validator-defined)  
 
-Canonical event history is an append-only log.
+Canonical event history is an append-only log.  
 It is never mutated, only extended through accepted events.
 
 All derived state must be consistent with this history.
@@ -102,12 +146,12 @@ Canonical event history is the source of truth.
 
 Start with the smallest working system:
 
-👉 implementation/CrypSA_Minimal_Runtime_Walkthrough.md
+👉 `implementation/CrypSA_Minimal_Runtime_Walkthrough.md`
 
 Then explore:
 
-👉 implementation/minimal_validator/CrypSA_Minimal_Validator_v0.1.md  
-👉 implementation/CrypSA_Local_First_Development_Approach.md
+👉 `implementation/minimal_validator/CrypSA_Minimal_Validator_v0.1.md`  
+👉 `implementation/CrypSA_Local_First_Development_Approach.md`
 
 ---
 
@@ -192,11 +236,11 @@ CrypSA is designed to support multiple valid implementations that all preserve c
 
 For a full breakdown of invariants and product-dependent design:
 
-👉 architecture/CrypSA_Invariants_and_Design_Space.md  
+👉 `architecture/CrypSA_Invariants_and_Design_Space.md`
 
 For strict separation of responsibilities:
 
-👉 architecture/CrypSA_Boundary_Definitions.md
+👉 `architecture/CrypSA_Boundary_Definitions.md`
 
 ---
 
@@ -205,20 +249,20 @@ For strict separation of responsibilities:
 ```mermaid
 flowchart LR  
 
-A[Player Action] --> B[Local Prediction]  
-B --> C[Observer Creates Candidate Event]  
-C --> D[Submit to Validator]  
+A[Player Action] --> B[Local Prediction]
+B --> C[Observer Creates Candidate Event]
+C --> D[Submit to Validator]
 
-D --> E[Validation Pipeline]  
+D --> E[Validation Pipeline]
 
-E -->|Accepted| F[Canonical Event History]  
-E -->|Rejected| G[Rejection Result]  
+E -->|Accepted| F[Canonical Event History]
+E -->|Rejected| G[Rejection Result]
 
-F --> H[Replay]  
-H --> I[Derived Canonical State]  
-I --> J[Broadcast]  
+F --> H[Replay]
+H --> I[Derived Canonical State]
+I --> J[Broadcast]
 
-J --> K[Observer Reconciliation]  
+J --> K[Observer Reconciliation]
 G --> K
 ```
 
@@ -226,4 +270,4 @@ G --> K
 
 For the full runtime flow, see:
 
-👉 architecture/CrypSA_Runtime_Model.md
+👉 `architecture/CrypSA_Runtime_Model.md`
