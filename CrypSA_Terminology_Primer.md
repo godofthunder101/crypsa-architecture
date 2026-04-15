@@ -1,175 +1,435 @@
-# Diagrams
+# CrypSA Terminology Primer
 
-## Purpose
+This document defines the core terms used throughout CrypSA.
 
-This folder contains visual representations of CrypSA concepts.
-
-Diagrams are used to:
-
-* illustrate architectural ideas
-* clarify system relationships
-* provide intuitive understanding of concepts
+If something feels unclear, check here first.
 
 ---
 
-## 📜 Authority Model
+This document defines terms used in:
 
-The CrypSA documentation is structured across three layers:
+→ CrypSA_In_One_Diagram.md  
+→ CrypSA_In_5_Minutes.md  
 
-* `/spec` — **authoritative definition of runtime behavior**
-* `/architecture` — **system structure and conceptual models**
-* `/diagrams` — **visual representations of those models**
+If something here feels abstract, refer back to those documents.
 
-The runtime model (`architecture/CrypSA_Runtime_Model.md`) defines the authoritative conceptual flow of the system.
+---
+
+## 📜 Terminology Authority
+
+This document defines the authoritative terminology used across CrypSA.  
+It does not define runtime behavior.
+
+CrypSA documentation is structured across layers:
+
+* `/spec` — authoritative definition of runtime behavior  
+* `/architecture` — system structure and conceptual models  
+* `/architecture/CrypSA_Terminology_Primer.md` — authoritative terminology definitions  
 
 If there is any conflict:
 
-* spec takes precedence over architecture
-* architecture takes precedence over diagrams
+* spec takes precedence over terminology usage  
+
+All other documents must:
+
+* use these terms consistently  
+* avoid redefining terms  
+* reference this document when introducing terminology  
 
 ---
 
-## Important
+## ⚖️ Core Rule
 
-Diagrams in this folder are **illustrative only**.
-
-They:
-
-* do not define authoritative behavior
-* do not introduce new rules
-* do not override architecture or specification
-* must align with the runtime model
-
-For authoritative definitions, refer to:
-
-* `../architecture/`
-* `../spec/`
+If accepted, an event becomes canonical and is appended to canonical event history.
 
 ---
 
-## 📍 Diagram Context
+### Rule
 
-Diagrams are visual aids and must support specific documents without redefining them.
+Terms are defined once, and used everywhere else.
 
----
+If a definition is needed outside this document, it must use:
 
-### Primary References
-
-Most diagrams support:
-
-* `../architecture/CrypSA_Runtime_Model.md` — authoritative conceptual flow
-* `../CrypSA_Worked_Example.md` — step-by-step system walkthrough
-* `../CrypSA_Architecture_Overview.md` — system structure
+→ See: Terminology Primer → [Term]
 
 ---
 
-### Authority Reminder
+### Purpose
 
-If a diagram conflicts with:
+This ensures:
 
-* architecture → follow architecture
-* spec → follow spec
-
-Diagrams must always align with the core documentation.
-
----
-
-## Consistency Requirements
-
-All diagrams must align with the core CrypSA architecture:
-
-* **Truth** — validation and canonical event history
-* **Translation** — adapters
-* **Interpretation** — lenses
-* **Experience** — UI and local simulation
-
-And must reflect these core principles:
-
-* the validator defines what becomes canonical
-* canonical event history is the source of truth
-* If accepted, an event becomes canonical and is appended to canonical event history
-* the invariant boundary defines where candidate events are evaluated before becoming canonical
-* derived canonical state is reconstructed via replay of canonical event history
-* derived canonical state is not a source of truth
-
-Diagrams must not introduce alternative models or terminology.
+* consistency across the repository  
+* no drift in meaning  
+* a single source of truth for terminology  
 
 ---
 
-## Terminology Requirements
+## 🧠 Mental Model (Quick Anchor)
 
-Diagrams must use consistent CrypSA terminology:
+CrypSA can be understood as four responsibilities:
 
-* use **validator**, not “server”, unless explicitly describing deployment
-* “server” must never be used as a synonym for authority
-* use **candidate event**, not generic “action” when crossing the invariant boundary
-* use **canonical event history**, not “state” as a source of truth
-* use **canonical_sequence** for ordering, not server_sequence or other alternatives
+* **Truth** → canonical event history and validation  
+* **Translation** → adapters shaping data  
+* **Interpretation** → lenses defining meaning  
+* **Experience** → UI and local interaction  
 
-If “server” is used, it must be clear that:
+These responsibilities do not overlap.
 
-> a server is a deployment of a validator, not the definition of the role
+> Canonical event history is the source of truth.
 
----
-
-## Terminology Source
-
-All terminology used in diagrams must align with:
-
-→ ../CrypSA_Terminology_Primer.md
-
-Terms must not be redefined within diagrams.
-
-If clarification is needed, refer to the Terminology Primer rather than introducing new definitions.
+All terms below map into one of these responsibilities.
 
 ---
 
-## Scope
+## 📌 Canonical Scope Rule
 
-Diagrams may:
+The term “canonical” applies only to:
 
-* simplify concepts for clarity
-* omit implementation details
-* present high-level flows
+* canonical events  
+* canonical event history  
 
-Diagrams may represent either:
+It does not apply to stored state.
 
-* flow (event flow, control flow)
-* structure (layer relationships, system stack)
-
-Diagrams must not:
-
-* redefine architecture
-* introduce new system behavior
-* introduce new concepts not defined in architecture or spec
-* specify implementation details that belong in `spec/` or `implementation/`
+Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
 ---
 
-## Mermaid Guidelines
+## 🔁 Replay Terminology
 
-All diagrams should be compatible with GitHub’s Mermaid renderer.
+Replay refers to reconstruction via canonical event replay.
 
-Recommended practices:
+It means applying canonical events from canonical event history in canonical_sequence order to reconstruct derived canonical state.
 
-* always wrap node labels in quotes
-* use quoted subgraph names
-* avoid parentheses in node labels
-* keep labels simple and readable
-* avoid complex or ambiguous syntax
+Replay is deterministic.
 
 ---
 
-## Relationship to Other Docs
+# 🔐 Validator vs Server (Critical Distinction)
 
-* **architecture/** → defines structure and responsibilities
-* **spec/** → defines behavior and rules
-* **diagrams/** → visualizes those concepts
+The **validator** is the authority over canonical truth.
 
-Diagrams should reflect the architecture and spec, not reinterpret them.
+It:
+
+* validates candidate events  
+* enforces invariants  
+* If accepted, an event becomes canonical and is appended to canonical event history  
+
+A **server** is a deployment of a validator.
+
+The validator:
+
+* may run locally (same process as an observer)  
+* may run remotely (shared system)  
+* may run in a host-based configuration  
+
+> The validator’s responsibilities do not change based on deployment.
 
 ---
 
-## One Sentence Summary
+## 🔒 Architectural Rule
 
-Diagrams visualize CrypSA concepts to aid understanding, but authoritative definitions and behavior are defined in the runtime model and spec, where the validator defines what becomes canonical and canonical event history is the sole source of truth.
+Use **validator** when referring to:
+
+* validation  
+* canonical truth  
+* event acceptance/rejection  
+* canonical sequencing  
+
+Use **server** only when referring to:
+
+* network topology  
+* deployment  
+* infrastructure  
+
+---
+
+## ✅ Examples
+
+| Incorrect                     | Correct                              |
+| ----------------------------- | ------------------------------------ |
+| server validates events       | validator validates events           |
+| server accepts the event      | validator accepts the event          |
+| server assigns sequence       | validator assigns canonical sequence |
+| server is the source of truth | validator is the source of truth     |
+
+---
+
+## ⚠️ Important
+
+If a sentence is still correct when the validator is running locally,  
+then **“validator” is the correct term**, not “server”.
+
+---
+
+# Core Terms
+
+---
+
+## Validator
+
+The **validator** determines what becomes canonical.
+
+It:
+
+* accepts or rejects candidate events  
+* enforces invariants and rules  
+* maintains canonical event history  
+
+The validator is a **role**, not a machine.
+
+It may run:
+
+* locally (alongside an observer)  
+* remotely (shared across observers)  
+
+> The validator defines what becomes canonical.
+
+---
+
+## Invariant Boundary
+
+The invariant boundary is where candidate events are evaluated by the validator.
+
+It separates:
+
+* observer-proposed events  
+* canonical truth  
+
+Only events that pass validation cross this boundary and become canonical.
+
+---
+
+## Local Validator
+
+A **local validator** runs within the observer’s environment.
+
+Examples:
+
+* same process  
+* same application  
+* same device  
+
+Use cases:
+
+* single-player or offline operation  
+* development and testing  
+* local-first systems  
+* resilience during network interruption  
+
+Even when local, the validator remains a **separate logical role**.
+
+The invariant boundary still exists:
+
+* observer proposes candidate events  
+* validator evaluates them  
+* canonical event history is updated  
+
+---
+
+## Remote Validator
+
+A **remote validator** runs on a separate system.
+
+Observers communicate with it over a network.
+
+Use cases:
+
+* shared canonical truth  
+* persistent multiplayer systems  
+* distributed environments  
+
+> Deployment changes location, not responsibility.
+
+---
+
+## Server (CrypSA Context)
+
+A **server** is a remote deployment of a validator.
+
+It is an infrastructure term, not an authority role.
+
+Not all validators are servers.  
+All servers host a validator.
+
+---
+
+## Canonical Event
+
+A **canonical event** is an event that has become canonical through validation.
+
+If accepted, an event becomes canonical and is appended to canonical event history.
+
+Canonical events:
+
+* are immutable  
+* have a `canonical_sequence`  
+* define truth  
+
+---
+
+## Candidate Event
+
+A **candidate event** is:
+
+* proposed by an observer  
+* not yet validated  
+* subject to rejection  
+
+It represents **intent**, not truth, and does not affect canonical event history unless accepted.
+
+---
+
+## Invariant
+
+An **invariant** is a rule that must always hold for canonical truth.
+
+Examples:
+
+* a player cannot have negative resources  
+* two objects cannot occupy the same exclusive space  
+
+Invariants protect canonical truth.
+
+---
+
+## Validation
+
+**Validation** is the process performed by the validator to evaluate a candidate event.
+
+It includes:
+
+* schema validation  
+* identity validation  
+* precondition checks  
+* invariant validation  
+* rule validation  
+
+Result:
+
+* If accepted, an event becomes canonical and is appended to canonical event history  
+* If rejected, the event does not become canonical  
+
+---
+
+## Canonical Event History
+
+The **canonical event history** is:
+
+* the ordered sequence of canonical events  
+* the authoritative record of what has happened  
+
+> Canonical event history is the source of truth.
+
+Everything else is derived from this.
+
+---
+
+## Derived Canonical State
+
+The **derived canonical state** is:
+
+* the current world state  
+* produced via replay  
+
+It is:
+
+* not authoritative  
+* not stored as truth  
+* always reconstructable  
+
+> Derived canonical state is a projection of canonical event history. It is not the source of truth.
+
+---
+
+## Observer
+
+An **observer**:
+
+* simulates the world locally  
+* proposes candidate events  
+* reconciles with canonical truth  
+
+Observers operate in the **experience layer**.
+
+Observers do not define truth.
+
+---
+
+## Observer Reconciliation
+
+**Observer reconciliation** is when:
+
+* local simulation is updated  
+* to match canonical outcomes  
+
+This occurs via canonical event replay, aligning local derived state with canonical outcomes.
+
+Observers do not modify canonical event history directly.
+
+---
+
+## Adapter
+
+An **adapter** reshapes data.
+
+It:
+
+* transforms canonical and observer data  
+* produces structured outputs  
+
+Adapters belong to the **translation layer**.
+
+Adapters reshape data without affecting truth or interpreting meaning.
+
+---
+
+## Lens
+
+A **lens** interprets data.
+
+It determines:
+
+* meaning  
+* relevance  
+* context for an observer  
+
+Lenses belong to the **interpretation layer**.
+
+Lenses interpret data but do not modify canonical data or define truth.
+
+---
+
+## UI / Experience
+
+The **experience layer** includes:
+
+* rendering  
+* input  
+* local feedback  
+
+It is:
+
+* responsive  
+* immediate  
+* non-authoritative  
+
+---
+
+## Replay
+
+**Replay** reconstructs derived canonical state via canonical event replay.
+
+---
+
+# Summary
+
+CrypSA separates the system into four responsibilities:
+
+* **truth** → canonical event history and validation  
+* **translation** → adapters shape data  
+* **interpretation** → lenses define meaning  
+* **experience** → local interaction  
+
+And critically:
+
+> The validator defines what becomes canonical, regardless of deployment.
