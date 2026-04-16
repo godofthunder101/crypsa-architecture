@@ -111,7 +111,7 @@ The **validator** is the authority over canonical truth.
 It:
 
 * validates candidate events  
-* enforces invariants  
+* enforces validation rules derived from applicable invariants  
 * If accepted, an event becomes canonical and is appended to canonical event history  
 
 A **server** is a deployment of a validator.
@@ -172,7 +172,7 @@ The **validator** determines what becomes canonical.
 It:
 
 * accepts or rejects candidate events  
-* enforces invariants and rules  
+* enforces validation rules derived from applicable invariants  
 * maintains canonical event history  
 
 The validator is a **role**, not a machine.
@@ -195,7 +195,7 @@ It separates:
 * observer-proposed events  
 * canonical truth  
 
-Only events that pass validation cross this boundary and become canonical.
+Only events that satisfy validation rules derived from applicable invariants cross this boundary and become canonical.
 
 ---
 
@@ -288,7 +288,7 @@ Examples:
 * a player cannot have negative resources  
 * two objects cannot occupy the same exclusive space  
 
-Invariants protect canonical truth.
+Invariants define constraints on canonical truth.
 
 ---
 
@@ -301,13 +301,12 @@ It includes:
 * schema validation  
 * identity validation  
 * precondition checks  
-* invariant validation  
-* rule validation  
+* validation rules derived from applicable invariants  
 
 Result:
 
 * If accepted, an event becomes canonical and is appended to canonical event history  
-* If rejected, the event does not become canonical  
+* If rejected, the event does not become canonical and is not appended to canonical event history  
 
 ---
 
@@ -417,7 +416,7 @@ It is:
 
 ## Replay
 
-**Replay** reconstructs derived canonical state via canonical event replay.
+**Replay** reconstructs derived canonical state by applying canonical events from canonical event history in canonical_sequence order.
 
 ---
 
