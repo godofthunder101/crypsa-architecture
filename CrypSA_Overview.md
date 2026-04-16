@@ -49,13 +49,13 @@ Instead of synchronizing state across systems:
 In traditional systems:
 
 * state is updated directly  
-* systems attempt to keep state in sync
+* systems attempt to keep state in sync  
 
 In CrypSA:
 
 * systems propose **candidate events**  
 * a validator determines whether those events are accepted  
-* accepted events become **canonical**  
+* accepted events become **canonical and are appended to canonical event history**  
 * all systems derive state from those canonical events  
 
 ---
@@ -71,7 +71,7 @@ These principles define how CrypSA establishes and maintains canonical truth.
 The validator is responsible for:
 
 * accepting or rejecting events  
-* enforcing invariants  
+* enforcing validation rules derived from applicable invariants  
 * determining what becomes canonical  
 
 👉 Truth is not assumed—it is **validated**
@@ -90,7 +90,7 @@ This sequence is:
 
 * append-only  
 * immutable  
-* authoritative within the system context    
+* authoritative within the system context  
 
 ---
 
@@ -100,11 +100,11 @@ All state in CrypSA is:
 
 * derived from canonical event history  
 * reconstructable through replay  
-* non-authoritative
+* non-authoritative  
 
 State does not define truth under any circumstance.
 
-👉 State is a **projection of truth**, not truth itself
+👉 State is a **projection of truth**, not truth itself  
 
 ---
 
@@ -112,7 +112,7 @@ State does not define truth under any circumstance.
 
 Systems reconstruct state by:
 
-👉 replaying canonical event history
+👉 replaying canonical event history  
 
 This enables:
 
@@ -144,7 +144,7 @@ All events must pass through:
 
 Where:
 
-* invariants are enforced  
+* validation rules derived from applicable invariants are enforced  
 * invalid events are rejected  
 * canonical history is protected  
 
@@ -157,7 +157,7 @@ At a high level, CrypSA operates like this:
 1. An observer performs a local action  
 2. The observer creates a candidate event  
 3. The event is submitted to the validator  
-4. The validator checks invariants  
+4. The validator evaluates the event using validation rules derived from applicable invariants  
 5. If accepted:
    * the event becomes canonical  
    * it is appended to canonical event history  
@@ -169,33 +169,33 @@ At a high level, CrypSA operates like this:
 
 ## Key Concepts
 
-### Validator
+### Validator  
 Defines canonical truth by validating events.
 
 ---
 
-### Observer
+### Observer  
 Simulates locally and proposes candidate events.
 
 ---
 
-### Canonical Event History
+### Canonical Event History  
 The append-only log that defines truth.
 
 ---
 
-### Derived Canonical State
+### Derived Canonical State  
 The reconstructed system state produced by replay.
 
 ---
 
-### Invariants
-Rules that determine whether events are valid.
+### Invariants  
+Rules that define constraints on canonical truth.
 
 ---
 
-### Replay
-The process of reconstructing state from canonical history.
+### Replay  
+The process of reconstructing state from canonical event history.
 
 ---
 
@@ -221,7 +221,7 @@ CrypSA defines:
 * how events become canonical  
 * how truth is established  
 * how state is derived  
-* how systems remain consistent through replay and validation
+* how systems remain consistent through replay and validation  
 
 ---
 
@@ -250,7 +250,7 @@ CrypSA is an architecture where:
 * canonical event history is the source of truth  
 * state is derived through replay  
 * observers simulate locally  
-* invariants protect canonical truth  
+* validation rules derived from applicable invariants protect canonical truth  
 
 And most importantly:
 
