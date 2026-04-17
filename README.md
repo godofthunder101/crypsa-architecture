@@ -1,20 +1,50 @@
-> ⚠️ This repository defines an architecture model.
+> ⚠️ This repository defines an architecture model.  
 > If you are reviewing it, please read REVIEWER_GUIDE.md first.
 
 # CrypSA — Cryptid Server Architecture
 
-CrypSA defines how systems establish canonical truth through validated events and deterministic replay.
+CrypSA is an architecture for systems where:
 
-In CrypSA:
+👉 truth is not synchronized — it is agreed upon through validated events
 
-* the validator defines what becomes canonical  
-* canonical event history is the source of truth  
-* derived canonical state is reconstructed via replay  
+Instead of trying to keep state in sync across systems, CrypSA defines a model where:
 
-It is an event-driven architecture for building persistent digital worlds.
+* events are proposed  
+* a validator determines what becomes canonical  
+* canonical event history becomes the source of truth  
+* all state is reconstructed through deterministic replay  
+
+This enables systems that are:
+
+* consistent without state synchronization  
+* replayable and debuggable  
+* resilient to desync and divergence  
 
 > Reality is not synchronized — it is agreed upon through validated events.  
 > Canonical event history is the source of truth.
+
+---
+
+## ⚠️ Why This Exists
+
+Traditional systems struggle with:
+
+* keeping distributed state in sync  
+* debugging desynchronization  
+* defining authoritative truth  
+* handling conflicting actions  
+
+CrypSA approaches this differently:
+
+👉 it does not synchronize state  
+👉 it synchronizes validated events  
+
+This shifts the problem from:
+
+state consistency  
+→ event validation + replay  
+
+and removes an entire class of synchronization issues.
 
 ---
 
@@ -104,7 +134,7 @@ It provides a model where:
 * truth is validated, not assumed  
 * the validator defines what becomes canonical  
 * state is derived, not synchronized  
-* simulation is local, but canonical authority is enforced by the validator  
+* simulation is local, but canonical authority is enforced by the validator using validation rules derived from applicable invariants  
 
 > Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
@@ -115,7 +145,7 @@ It provides a model where:
 CrypSA is:
 
 * a structured architecture model  
-* a set of invariants around truth, validation, and canonical event history  
+* a set of invariants defining constraints on canonical truth  
 * a framework for building replayable and consistent systems  
 
 ---
@@ -133,7 +163,7 @@ CrypSA is not:
 * an ECS framework  
 * a state synchronization model  
 
-> CrypSA defines truth agreement, not rendering, transport, or simulation.
+> CrypSA defines how systems agree on truth — not how they render, transport, or simulate it.
 
 ---
 
