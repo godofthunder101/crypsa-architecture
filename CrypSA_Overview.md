@@ -104,7 +104,7 @@ All state in CrypSA is:
 
 State does not define truth under any circumstance.
 
-👉 State is a **projection of truth**, not truth itself  
+Derived canonical state is a projection of canonical event history. It is not the source of truth.
 
 ---
 
