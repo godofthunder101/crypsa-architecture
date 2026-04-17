@@ -82,7 +82,7 @@ A minimal CrypSA runtime should prove this sequence works end-to-end:
 2. the invariant boundary determines the action affects canonical truth  
 3. a candidate event is created  
 4. the candidate event is submitted to the validator  
-5. the validator determines whether the candidate event becomes canonical  
+5. the validator evaluates whether the candidate event becomes canonical using validation rules derived from applicable invariants  
 6. if accepted, an event becomes canonical and is appended to canonical event history  
 7. canonical events are made available to observers  
 8. observers replay canonical event history  
@@ -169,7 +169,7 @@ The validator is the authority that determines what becomes canonical.
 It is responsible for:
 
 * receiving candidate events
-* validating them against invariants
+* evaluating them using validation rules derived from applicable invariants
 * determining whether the candidate event becomes canonical
 * assigning `canonical_sequence`
 * appending accepted events to canonical event history
@@ -266,7 +266,7 @@ Observer A performs:
 claim tile (2,3)
 ```
 
-This crosses the invariant boundary.
+This crosses the invariant boundary into validation.
 
 So a candidate event is created:
 
@@ -282,7 +282,7 @@ So a candidate event is created:
 
 ## Validator Evaluation
 
-The validator evaluates the candidate event against invariants:
+The validator evaluates the candidate event using validation rules derived from applicable invariants:
 
 * structure is valid
 * actor exists
@@ -349,7 +349,7 @@ All observers converge.
 2. Invariant boundary determines canonical impact
 3. Candidate event is created
 4. Event is submitted to validator
-5. Validator determines whether the candidate event becomes canonical
+5. Validator evaluates using validation rules derived from applicable invariants
 6. Canonical event is appended
 7. Canonical event is made available
 8. Replay derives canonical state

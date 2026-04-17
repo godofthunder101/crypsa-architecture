@@ -4,9 +4,9 @@ This document defines the **invariant boundary** in CrypSA.
 
 It formalizes the point at which:
 
-* observer-proposed events
-* are evaluated against canonical truth
-* and either accepted or rejected
+* observer-proposed events  
+* are evaluated against canonical truth  
+* and either accepted or rejected  
 
 This is the **only place where canonical truth may change**.
 
@@ -26,9 +26,9 @@ If there is any conflict, **the spec takes precedence**.
 
 The invariant boundary exists to:
 
-* protect canonical truth
-* enforce system correctness
-* separate observer simulation from authoritative validation
+* protect canonical truth  
+* enforce system correctness  
+* separate observer simulation from authoritative validation  
 
 All changes to canonical event history must pass through this boundary.
 
@@ -36,25 +36,26 @@ All changes to canonical event history must pass through this boundary.
 
 ## Defines
 
-- The **invariant boundary** as the structural interface between observer-proposed events and validator authority
-- The rules, inputs, outputs, and guarantees of boundary validation
-- The authority constraint that only the validator may change canonical event history
+- The **invariant boundary** as the structural interface between observer-proposed events and validator authority  
+- The rules, inputs, outputs, and guarantees of boundary validation  
+- The authority constraint that only the validator may change canonical event history  
 
 ---
 
 ## Does Not Define
 
-- Authoritative runtime behavior (defined in `/spec`)
-- Implementation strategies for the validator or boundary
-- Observer-side simulation behavior beyond event proposal
+- Authoritative runtime behavior (defined in `/spec`)  
+- Implementation strategies for the validator or boundary  
+- Observer-side simulation behavior beyond event proposal  
 
 ---
 
 ## Related Documents
 
-- `spec/CrypSA_Validation_Model.md` — authoritative runtime validation behavior
-- `architecture/CrypSA_Observer_Model.md` — observer responsibilities and state model
-- `architecture/CrypSA_Invariants_and_Design_Space.md` — CrypSA invariants and design space
+- `spec/CrypSA_Validation_Model.md` — authoritative runtime validation behavior  
+- `architecture/CrypSA_Observer_Model.md` — observer responsibilities and state model  
+- `architecture/CrypSA_Invariants_and_Design_Space.md` — CrypSA invariants and design space  
+- `architecture/CrypSA_Invariant_Types.md` — invariant categorization and enforcement model  
 
 ---
 
@@ -62,9 +63,9 @@ All changes to canonical event history must pass through this boundary.
 
 The **invariant boundary** is the control and validation interface between:
 
-* **observers** (which propose candidate events)
-  and
-* the **validator** (which determines canonical truth)
+* **observers** (which propose candidate events)  
+  and  
+* the **validator** (which determines canonical truth)  
 
 > The invariant boundary is the only entry point through which canonical event history may change.
 
@@ -79,10 +80,10 @@ It defines:
 
 ## Boundary Rules
 
-1. Observers may **propose**, but never define truth
-2. The validator is the **only authority** over canonical event history
-3. No system component may bypass the invariant boundary
-4. All canonical events must originate from successful validation
+1. Observers may **propose**, but never define truth  
+2. The validator is the **only authority** over canonical event history  
+3. No system component may bypass the invariant boundary  
+4. All canonical events must originate from successful validation  
 
 ---
 
@@ -91,13 +92,13 @@ It defines:
 The invariant boundary guarantees:
 
 * **No observer authority leakage**  
-  Observers cannot directly affect canonical event history.
+  Observers cannot directly affect canonical event history  
 
 * **Deterministic canonicalization**  
-  Given the same candidate event and canonical context, the validator produces the same result.
+  Given the same candidate event and canonical context, the validator produces the same result  
 
 * **Atomic validation within conflict scope**  
-  Each candidate event is evaluated as a single unit of validation and either fully accepted or rejected.
+  Each candidate event is evaluated as a single unit of validation and either fully accepted or rejected  
 
 ---
 
@@ -111,10 +112,10 @@ A candidate event represents an attempted change to the system.
 
 It must include:
 
-* event type
-* required data payload
-* referenced identities (if applicable)
-* any required metadata
+* event type  
+* required data payload  
+* referenced identities (if applicable)  
+* any required metadata  
 
 The exact structure is defined in:
 
@@ -128,11 +129,11 @@ Validation requires access to canonical truth.
 
 This may include:
 
-* current derived canonical state
-* canonical event history (directly or via derived canonical state)
-* identity and ownership information
+* current derived canonical state  
+* canonical event history (directly or via derived canonical state)  
+* identity and ownership information  
 
-This context is used to evaluate invariants and rules.
+This context is used to evaluate **validation rules derived from applicable invariants**.
 
 ---
 
@@ -140,13 +141,12 @@ This context is used to evaluate invariants and rules.
 
 At the invariant boundary, the validator performs:
 
-* schema validation
-* identity validation
-* precondition checks
-* invariant enforcement
-* rule evaluation
+* schema validation  
+* identity validation  
+* precondition checks  
+* validation rules derived from applicable invariants  
 
-These stages may be structured differently depending on the implementation,
+These stages may be structured differently depending on the implementation,  
 but must produce consistent results for the same input and context.
 
 The validator must produce the same outcome given the same input and canonical context.
@@ -163,16 +163,16 @@ The invariant boundary produces exactly one of the following outcomes:
 
 If validation succeeds:
 
-* the event becomes **canonical**
-* it is appended to canonical event history
-* it is assigned a **`canonical_sequence`**
-* it becomes immutable
+* the event becomes **canonical**  
+* it is appended to canonical event history  
+* it is assigned a **`canonical_sequence`**  
+* it becomes immutable  
 
 #### Result
 
 ```text
 Accepted(candidate_event) → canonical_event
-```
+````
 
 ---
 
@@ -298,7 +298,7 @@ However:
 The invariant boundary is the point where:
 
 * candidate events are evaluated
-* invariants are enforced
+* validation rules derived from applicable invariants are enforced
 * canonical truth is determined
 
 It ensures that:

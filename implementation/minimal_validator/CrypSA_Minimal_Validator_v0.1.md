@@ -50,14 +50,16 @@ This document assumes a **local-first development approach**.
 
 You should:
 
-1. run the validator locally
-2. prove validation + replay
-3. then move to remote deployment later
+1. run the validator locally  
+2. prove validation + replay  
+3. then move to remote deployment later  
 
 👉 See:
 
 ```
+
 CrypSA_Local_First_Development_Approach.md
+
 ```
 
 > First prove CrypSA locally. Then move the validator, not the architecture.
@@ -81,14 +83,6 @@ B --> C[canonical event history]
 C --> A
 ```
 
-In this configuration:
-
-* observer and validator run in the same environment
-* canonical event history is maintained locally
-* no network is required
-
-> This is a recommended starting point for implementations
-
 ---
 
 ### Remote Deployment (Later Stage)
@@ -104,12 +98,6 @@ D -->|canonical event| B
 B --> A
 ```
 
-In this configuration:
-
-* observers communicate with a remote validator
-* canonical event history is shared
-* transport and latency must be handled
-
 ---
 
 ## Key Insight
@@ -120,17 +108,9 @@ In this configuration:
 
 ## Quick Start — Local Validator (5 Steps)
 
-This is the **core proof loop**.
-
 ---
 
 ### Step 1 — Start Validator
-
-Create a validator that:
-
-* initializes empty canonical event history
-* initializes derived canonical state
-* listens for candidate events
 
 ```text
 canonical event history = []
@@ -141,17 +121,14 @@ derived canonical state = initial
 
 ### Step 2 — Connect Observer
 
-Create an observer that:
+Observer:
 
 * reconstructs derived canonical state
-* can submit candidate events
-* optionally runs in the same process
+* submits candidate events
 
 ---
 
 ### Step 3 — Submit Candidate Event
-
-Example:
 
 ```json
 {
@@ -172,30 +149,21 @@ Example:
 
 ### Step 4 — Validation and Decision
 
-The validator evaluates the candidate event:
+The validator evaluates the candidate event using **validation rules derived from applicable invariants**:
 
 * schema validation
 * identity validation
 * precondition validation
-* invariant validation
-* rule validation
+* validation rules derived from applicable invariants
 
 Decision:
 
 * If accepted, an event becomes canonical and is appended to canonical event history
-* If rejected, the event does not become canonical and does not enter canonical event history
+* If rejected, the event does not become canonical and is not appended to canonical event history
 
 ---
 
 ### Step 5 — Broadcast and Reconcile
-
-The validator broadcasts the canonical event.
-
-Observers:
-
-* replay canonical events
-* update derived canonical state
-* reconcile local prediction
 
 ```text
 canonical event history = [event_1]
@@ -212,8 +180,6 @@ If this loop works:
 * canonical event history works
 * replay works
 * reconciliation works
-
-> This is a complete CrypSA runtime loop.
 
 ---
 
@@ -239,19 +205,11 @@ The minimal validator should demonstrate:
 
 ## 2. Non-Goals
 
-This validator intentionally excludes:
-
 * scalability
 * anti-cheat
 * distributed shards
-* complex physics
-* combat systems
-* branch merging
-* cryptographic trust
+* complex systems
 * production persistence
-* account systems
-
-> Keep it small and focused.
 
 ---
 
@@ -261,7 +219,7 @@ This validator intentionally excludes:
 Observer Action
 → Candidate Event
 → Invariant Boundary
-→ Validation
+→ Validation (enforcement via validation rules derived from applicable invariants)
 → Decision
 → If accepted, an event becomes canonical and is appended to canonical event history
 → Assign canonical_sequence
@@ -277,16 +235,14 @@ Observer Action
 The validator:
 
 * validates candidate events
-* enforces invariants
+* enforces validation rules derived from applicable invariants
 * maintains canonical event history
 
 The validator does **not**:
 
 * simulate the world
 * predict outcomes
-* manage UI or experience
-
-> The validator controls truth, not simulation. Derived canonical state is reconstructed via replay.
+* manage UI
 
 ---
 
@@ -294,52 +250,21 @@ The validator does **not**:
 
 Start extremely small:
 
-* one tile grid
+* one grid
 * one player
-* structure placement
-* one resource
-* one conflict case
-* one reconnect path
+* one action type
+* one conflict
 
 ---
 
 ## 6. Minimal Components
-
-### Submission and Distribution Layer
-
-Handles:
-
-* receiving candidate events
-* sending validation results
-* broadcasting canonical events
-
-(Local-first: this can be in-process)
-
----
-
-### Event Intake
-
-* parse event
-* validate structure
-* normalize
-
----
 
 ### Validation Pipeline
 
 * schema
 * identity
 * preconditions
-* invariants
-* rules
-
----
-
-### Conflict Resolver
-
-* define conflict scope
-* enforce atomic validation
-* reject losing events
+* validation rules derived from applicable invariants
 
 ---
 
@@ -351,26 +276,10 @@ Handles:
 
 ---
 
-### Derived Canonical State Cache
+### Derived Canonical State
 
-* materialized state
-* updated via replay
-* used for validation + queries
-
----
-
-### Snapshot System
-
-* capture state at sequence
-* support reconnect
-
----
-
-### Session Manager
-
-* track observers
-* track sequence
-* deliver updates
+* reconstructed via replay
+* not authoritative
 
 ---
 
@@ -390,77 +299,46 @@ Handles:
 
 ### Canonical Event
 
-* candidate event fields
+* candidate fields
 * `canonical_event_id`
 * `canonical_sequence`
 * `accepted_at`
 
 ---
 
-### Canonical Event History
+## 8. Idempotency Rule
 
-* append-only ordered sequence of canonical events
-* authoritative source of truth
-
----
-
-### Derived Canonical State
-
-* reconstructed via replay
-* not authoritative
-* used for validation and queries
-
----
-
-### Validation Result
-
-* accepted or rejected
-* optional rejection reason
-* canonical metadata if accepted
-
----
-
-## 8. Idempotency Rule (Critical)
-
-* each `event_id` must be processed exactly once
-* duplicates must not create duplicate canonical events
-
-If a duplicate `event_id` is received:
-
-* return the original result (accepted or rejected)
-* do not create a new canonical event
-* do not modify canonical event history
+* each `event_id` processed once
+* duplicates return original result
+* no duplicate canonical events
 
 ---
 
 ## 9. Atomicity Requirement
 
-Within a conflict scope:
+Within conflict scope:
 
-* validation and decision must be atomic
-* conflicting events must not both become canonical
+* validation must be atomic
+* conflicting events cannot both become canonical
 
 ---
 
 ## 10. Persistence
 
-Minimal approach:
-
 * append-only event log
-* in-memory derived canonical state
-* periodic snapshots
+* in-memory state
+* optional snapshots
 
 ---
 
 ## 11. Success Criteria
 
-The validator can be considered complete when:
+The validator is complete when:
 
 * runs independently
-* supports multiple observers
 * validates correctly
-* appends canonical events in canonical_sequence order
-* updates derived canonical state via replay
+* appends canonical events
+* supports replay
 * supports reconnect
 * enforces idempotency
 
@@ -468,14 +346,13 @@ The validator can be considered complete when:
 
 ## 12. Development Order
 
-1. validator process
-2. event intake
-3. canonical event history
-4. derived canonical state
+1. validator
+2. intake
+3. history
+4. state
 5. validation
 6. broadcast
 7. reconnect
-8. conflict testing
 
 ---
 
@@ -484,9 +361,9 @@ The validator can be considered complete when:
 This validator proves:
 
 * observers do not define truth
-* events must be validated
+* validation determines what becomes canonical
 * canonical event history defines reality
-* observers reconstruct via replay
+* state is reconstructed via replay
 
 ---
 

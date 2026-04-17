@@ -36,16 +36,16 @@ If there is any conflict, the `/spec` takes precedence.
 CrypSA operates through a continuous event-driven loop:
 
 1. An observer performs an action  
-2. The invariant boundary determines whether the action must cross into canonical event history
+2. The invariant boundary determines whether the action must be represented as a candidate event
    - If no, the result remains local  
    - If yes, a candidate event is created  
 3. The candidate event is submitted to the validator  
-4. The validator evaluates the candidate event against invariants to determine whether it becomes canonical
-   - If rejected, canonical event history does not change. Observers reconcile their local state with canonical event history
+4. The validator evaluates the candidate event using **validation rules derived from applicable invariants** to determine whether it becomes canonical  
+   - If rejected, canonical event history does not change. Observers reconcile their local state with canonical event history  
 5. If accepted, an event becomes canonical and is appended to canonical event history  
 6. The canonical event is made available to observers
    - events may be delayed or arrive out of order  
-   - ordering is resolved using `canonical_sequence`, which defines authoritative event order
+   - ordering is resolved using `canonical_sequence`, which defines authoritative event order  
 7. Observers apply canonical events via deterministic replay  
 8. Observers reconcile their local state with canonical event history, yielding to canonical outcomes where differences exist  
 
@@ -66,7 +66,7 @@ B -->|Creates Candidate Event| C["Candidate Event"]
 
 C --> D["Submit to Validator"]
 
-D --> E["Validation and Invariant Evaluation"]
+D --> E["Validation (Enforcement of Invariants)"]
 
 E -->|Rejected| R["Reject → Observers Reconcile Local State with Canonical Event History"]
 
@@ -79,7 +79,7 @@ G --> H["Apply Canonical Events via Deterministic Replay"]
 H --> I["Observer Reconciliation"]
 
 I --> A
-```
+````
 
 ---
 
@@ -146,7 +146,7 @@ No other mechanism can modify canonical truth.
 The validator is responsible for:
 
 1. Receiving candidate events
-2. Evaluating events against invariants
+2. Evaluating events using **validation rules derived from applicable invariants**
 3. Determining acceptance or rejection
 4. Assigning `canonical_sequence` (establishing authoritative ordering)
 5. Appending accepted events to canonical event history
@@ -216,7 +216,7 @@ CrypSA is a system where:
 
 * observers perform local prediction
 * the invariant boundary determines what becomes a candidate event
-* candidate events are validated by a validator
+* candidate events are validated using **validation rules derived from invariants**
 * accepted events are appended to canonical event history
 * canonical event history is replayed to deterministically produce state
 
